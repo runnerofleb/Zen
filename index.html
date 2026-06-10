@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZenBusiness Outbound OS — The Top-1% Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --zb:#00DF82;          /* ZenBusiness signal green */
+  --zb-dark:#00B468;     /* hover / borders */
+  --zb-ink-green:#008A50;/* green that's readable as text on white */
+  --zb-tint:#E5FBF1;     /* soft green wash */
+  --black:#0A0C0B;       /* homepage black strip */
+  --char:#15201B;
+  --paper:#FFFFFF;
+  --mist:#F5F7F6;        /* light gray section bg */
+  --text:#3B4540;
+  --mute:#79857F;
+  --line:#E4E9E6;
+  --amber:#C98A12;
+  --amber-soft:#FCF3DF;
+  --red:#D4484F;
+  --red-soft:#FBE9EA;
+  --disp:'Archivo',sans-serif;
+  --body:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--text);font-size:15.5px;line-height:1.65}
+h1,h2,h3,h4{font-family:var(--disp);color:var(--black);line-height:1.12;letter-spacing:-.01em}
+a{color:var(--zb-ink-green);text-decoration:none}
+strong,b{color:var(--black)}
+
+/* ---------- layout ---------- */
+.shell{display:flex;min-height:100vh}
+nav.rail{position:sticky;top:0;align-self:flex-start;height:100vh;width:256px;flex:0 0 256px;background:#fff;border-right:1px solid var(--line);padding:26px 0;overflow-y:auto}
+.rail .logo{display:flex;align-items:center;gap:10px;padding:0 22px 20px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.rail .zbmark{width:38px;height:38px;border-radius:50%;background:var(--zb);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:900;font-size:15px;color:var(--black)}
+.rail .wordmark .w1{font-family:var(--disp);font-weight:800;font-size:17px;color:var(--black);line-height:1.1}
+.rail .wordmark .w2{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.rail a.navlink{display:flex;align-items:center;gap:10px;margin:2px 12px;padding:8px 12px;border-radius:10px;color:var(--char);font-size:13.5px;font-weight:600;transition:all .15s}
+.rail a.navlink:hover{background:var(--mist)}
+.rail a.navlink.active{background:var(--zb);color:var(--black)}
+.rail a.navlink.active .navnum,.rail a.navlink.active .navmin{color:var(--black)}
+.rail .navnum{font-family:var(--mono);font-size:10.5px;color:var(--zb-ink-green);width:20px;font-weight:600}
+.rail .navmin{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--mute)}
+.rail .grouplabel{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);padding:16px 24px 5px}
+main{flex:1;min-width:0;max-width:1000px;margin:0 auto;padding:0 48px 110px}
+section.block{padding-top:70px}
+
+/* ---------- hero ---------- */
+.hero{padding:74px 0 0}
+.kicker{font-family:var(--disp);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);font-weight:800}
+.kicker .gdot{color:var(--zb-ink-green)}
+.hero h1{font-size:58px;font-weight:900;letter-spacing:-.025em;margin:16px 0 20px}
+.hero h1 .ul{box-shadow:inset 0 -16px 0 var(--zb)}
+.hero p.lede{font-size:18px;max-width:660px;color:var(--text)}
+.cta-row{display:flex;gap:12px;align-items:center;margin-top:26px;flex-wrap:wrap}
+.cta{display:inline-block;font-family:var(--disp);font-weight:700;font-size:15px;background:var(--zb);color:var(--black);border-radius:14px;padding:13px 26px;border:2px solid var(--zb)}
+.cta.ghost{background:#fff;border-color:var(--black);color:var(--black)}
+.trust{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--mute);margin-top:18px}
+.trust .stars{color:var(--zb-ink-green);letter-spacing:2px;font-size:14px}
+
+/* black pillar strip (mirrors homepage) */
+.pillars{background:var(--black);border-radius:20px;margin-top:40px;padding:26px 28px;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.pillar{display:flex;align-items:center;gap:10px;color:#fff;font-size:13px;font-weight:600}
+.pillar .pic{flex:0 0 34px;height:34px;border-radius:50%;border:2px solid var(--zb);display:flex;align-items:center;justify-content:center;font-size:15px}
+.pillar small{display:block;font-weight:400;color:#9DB3A8;font-size:11px;margin-top:1px}
+
+/* ---------- generic components ---------- */
+.sechead{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.sechead .num{font-family:var(--disp);font-weight:800;font-size:13px;color:var(--black);background:var(--zb);border-radius:9px;padding:5px 11px}
+.sechead h2{font-size:31px;font-weight:800}
+.clock{margin-left:auto;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--zb-ink-green);background:var(--zb-tint);border:1px solid #BFEFD9;border-radius:999px;padding:5px 13px;white-space:nowrap}
+.secsub{font-size:15px;color:var(--mute);margin:8px 0 24px;max-width:700px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 26px;margin-bottom:18px}
+.card.tinted{background:var(--mist);border-color:var(--line)}
+.card h3{font-size:18.5px;font-weight:700;margin-bottom:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+/* teleprompter SAY card — signature element */
+.say{position:relative;background:#fff;border:1px solid var(--line);border-left:4px solid var(--zb);border-radius:14px;padding:17px 19px 15px;margin:13px 0;box-shadow:0 1px 2px rgba(10,12,11,.04)}
+.say .tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--black);background:var(--zb);border-radius:6px;padding:3px 9px;margin-bottom:9px}
+.say p{color:var(--char);font-size:15px}
+.say p + p{margin-top:9px}
+.say .cue{font-family:var(--mono);font-size:11.5px;color:var(--amber);background:var(--amber-soft);border-radius:5px;padding:1px 7px;white-space:nowrap}
+.say.ask{border-left-color:var(--black)}
+.say.ask .tag{background:var(--black);color:var(--zb)}
+.why{display:flex;gap:10px;border:1px dashed #C5CFC9;border-radius:12px;padding:12px 15px;margin:12px 0;font-size:13.5px;color:#5C6862;background:#FCFDFC}
+.why .ic{flex:0 0 auto;font-size:14px}
+
+/* pills */
+.pill{display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;border-radius:7px;padding:3px 9px}
+.pill.g{color:var(--black);background:var(--zb)}
+.pill.k{color:var(--zb);background:var(--black)}
+.pill.a{color:#7A5708;background:var(--amber-soft)}
+.pill.r{color:var(--red);background:var(--red-soft)}
+
+/* call timeline (master) */
+.timebar{display:flex;border-radius:16px;overflow:hidden;border:1px solid var(--line);margin:6px 0 18px}
+.tseg{padding:13px 10px 11px;font-size:11px;line-height:1.35;border-right:1px solid var(--line);background:#fff}
+.tseg:last-child{border-right:none}
+.tseg .tt{font-family:var(--mono);font-size:9.5px;font-weight:600;color:var(--zb-ink-green);letter-spacing:.08em}
+.tseg .tn{font-family:var(--disp);font-weight:700;font-size:12.5px;color:var(--black);margin:2px 0 1px}
+.tseg .td{color:var(--mute);font-size:10.5px}
+
+/* flow steps */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;margin:8px 0 6px}
+.fstep{flex:1 1 0;min-width:118px;background:#fff;border:1px solid var(--line);padding:14px 12px;text-align:center}
+.fstep:first-child{border-radius:14px 0 0 14px}
+.fstep:last-child{border-radius:0 14px 14px 0}
+.fstep + .fstep{border-left:none}
+.fstep .fn{font-family:var(--mono);font-size:10px;color:var(--zb-ink-green);font-weight:600;letter-spacing:.1em}
+.fstep .ft{font-family:var(--disp);font-weight:700;font-size:13.5px;color:var(--black);margin-top:3px}
+.fstep .fd{font-size:11px;color:var(--mute);margin-top:3px;line-height:1.4}
+
+/* tables */
+table.zt{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:14px}
+.zt th{font-family:var(--disp);font-size:13px;text-align:left;color:#fff;background:var(--black);padding:11px 14px;font-weight:700}
+.zt th .gw{color:var(--zb)}
+.zt td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+.zt tr:nth-child(even) td{background:#FAFCFB}
+.zt .m{font-family:var(--mono);font-size:13px;color:var(--black);font-weight:500}
+
+/* accordions */
+details.obj{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+details.obj summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;padding:15px 18px;font-family:var(--disp);font-weight:700;font-size:15px;color:var(--black)}
+details.obj summary::-webkit-details-marker{display:none}
+details.obj summary .q{color:var(--red);font-family:var(--mono);font-size:11.5px;font-weight:600;background:var(--red-soft);border-radius:7px;padding:3px 8px;letter-spacing:.06em}
+details.obj summary::after{content:'+';margin-left:auto;font-family:var(--mono);color:var(--zb-ink-green);font-size:19px;font-weight:600}
+details.obj[open] summary::after{content:'–'}
+details.obj .objbody{padding:2px 18px 16px}
+
+/* lists */
+ul.ck{list-style:none}
+ul.ck li{position:relative;padding:5px 0 5px 30px}
+ul.ck li::before{content:'✓';position:absolute;left:0;top:6px;width:18px;height:18px;border-radius:6px;background:var(--zb);color:var(--black);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:var(--mono)}
+ul.dot{list-style:none}
+ul.dot li{position:relative;padding:4px 0 4px 22px}
+ul.dot li::before{content:'';position:absolute;left:4px;top:13px;width:7px;height:7px;border-radius:50%;background:var(--zb-dark)}
+
+/* timeline (ramp) */
+.tl{border-left:2px solid var(--line);margin-left:8px;padding-left:26px}
+.tl .tli{position:relative;padding-bottom:22px}
+.tl .tli::before{content:'';position:absolute;left:-34px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--zb);border:3px solid #fff;box-shadow:0 0 0 1px var(--line)}
+.tl .tli h4{font-size:16px;margin-bottom:5px}
+.tl .tli .when{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--zb-ink-green);font-weight:600}
+
+.callout{border-radius:14px;padding:16px 19px;margin:16px 0;font-size:14.5px}
+.callout.warn{background:var(--amber-soft);border:1px solid #EFD9A8;color:#6E4E12}
+.callout.warn b{color:#6E4E12}
+.callout.win{background:var(--zb-tint);border:1px solid #BFEFD9;color:#0A5E3C}
+.callout.win b{color:#0A5E3C}
+
+/* black banner cards */
+.blackband{background:var(--black);border-radius:20px;padding:26px 28px;margin:18px 0;color:#CFE0D7}
+.blackband h3{color:#fff;font-size:19px;margin-bottom:10px}
+.blackband .gw{color:var(--zb)}
+.blackband .say{background:#111814;border-color:#243029;border-left-color:var(--zb)}
+.blackband .say p{color:#E8F1EC}
+.blackband b{color:#fff}
+
+.footer-note{margin-top:80px;border-top:1px solid var(--line);padding-top:18px;font-size:12.5px;color:var(--mute)}
+
+/* v3 additions */
+.cheatwrap{background:var(--black);border-radius:22px;padding:26px;color:#CFE0D7}
+.cheatgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cheatcell{background:#121A15;border:1px solid #243029;border-radius:14px;padding:14px 15px}
+.cheatcell h4{color:var(--zb);font-size:12px;font-family:var(--mono);font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.cheatcell p,.cheatcell li{font-size:12.5px;color:#DCE9E2;line-height:1.5}
+.cheatcell ul{list-style:none}
+.cheatcell li{padding:2px 0 2px 14px;position:relative}
+.cheatcell li::before{content:'▸';position:absolute;left:0;color:var(--zb);font-size:10px;top:4px}
+.cheatcell .mono{font-family:var(--mono);font-size:11.5px;color:var(--zb)}
+.linecard{display:flex;gap:16px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:12px;align-items:flex-start}
+.linecard .ln{flex:0 0 46px;height:46px;border-radius:14px;background:var(--zb);color:var(--black);font-family:var(--disp);font-weight:900;font-size:19px;display:flex;align-items:center;justify-content:center}
+.linecard .lt{font-family:var(--disp);font-weight:700;font-size:14.5px;color:var(--black);margin-bottom:4px}
+.linecard .lq{font-size:14.5px;color:var(--char);font-style:italic}
+.linecard .lw{font-size:12.5px;color:var(--mute);margin-top:5px}
+.sit{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-bottom:12px}
+.sit .sread{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--red);font-weight:600}
+.sit h4{font-size:16px;margin:4px 0 8px}
+.rubric td .sc{font-family:var(--mono);font-size:11px;color:var(--zb-ink-green)}
+.drillrow td:first-child{font-weight:600;color:var(--black)}
+
+@media (max-width:1040px){
+  nav.rail{display:none}
+  main{padding:0 20px 80px}
+  .hero h1{font-size:38px}
+  .grid2,.grid3,.pillars{grid-template-columns:1fr}
+  .flow,.timebar{flex-direction:column}
+  .fstep{border-radius:0!important}
+  .fstep + .fstep,.tseg{border-left:1px solid var(--line);border-top:none}
+  .tseg{border-right:none;border-bottom:1px solid var(--line)}
+  .fstep:first-child{border-radius:14px 14px 0 0!important}
+  .fstep:last-child{border-radius:0 0 14px 14px!important}
+  .sechead{flex-wrap:wrap}
+  .clock{margin-left:0}
+}
+@media print{nav.rail{display:none}main{max-width:100%;padding:0 10px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<nav class="rail" id="rail">
+  <div class="logo">
+    <div class="zbmark">zb</div>
+    <div class="wordmark"><div class="w1">zenbusiness</div><div class="w2">Outbound Masterclass</div></div>
+  </div>
+  <div class="grouplabel">Start Here</div>
+  <a class="navlink" href="#howto"><span class="navnum">USE</span>How to Use This</a>
+  <a class="navlink" href="#go"><span class="navnum">GO</span>Live-Call Cheat Sheet</a>
+  <a class="navlink" href="#t10"><span class="navnum">T10</span>Top 10 Lines</a>
+  <div class="grouplabel">The System</div>
+  <a class="navlink" href="#map"><span class="navnum">01</span>Call Map &amp; Clock</a>
+  <a class="navlink" href="#ctrl"><span class="navnum">02</span>Call Control</a>
+  <a class="navlink" href="#psy"><span class="navnum">03</span>Sales Psychology</a>
+  <div class="grouplabel">The Call · 0–30 min</div>
+  <a class="navlink" href="#open"><span class="navnum">04</span>Open &amp; Voicemail<span class="navmin">0–3</span></a>
+  <a class="navlink" href="#disc"><span class="navnum">05</span>Discovery Engine<span class="navmin">3–8</span></a>
+  <a class="navlink" href="#order"><span class="navnum">06</span>Order Review<span class="navmin">8–12</span></a>
+  <a class="navlink" href="#ra"><span class="navnum">07</span>Registered Agent<span class="navmin">12–17</span></a>
+  <a class="navlink" href="#wfc"><span class="navnum">08</span>Worry Free Compliance<span class="navmin">17–21</span></a>
+  <a class="navlink" href="#tax"><span class="navnum">09</span>The Tax Track<span class="navmin">21–27</span></a>
+  <a class="navlink" href="#taxsell"><span class="navnum">TX</span>Tax Services System<span class="navmin">$$$</span></a>
+  <a class="navlink" href="#close"><span class="navnum">10</span>Close &amp; Wrap<span class="navmin">27–30</span></a>
+  <div class="grouplabel">Selling Mastery</div>
+  <a class="navlink" href="#pos"><span class="navnum">11</span>Product Positioning</a>
+  <a class="navlink" href="#obj"><span class="navnum">12</span>Objection Matrix</a>
+  <a class="navlink" href="#when"><span class="navnum">13</span>What To Do When…</a>
+  <a class="navlink" href="#drills"><span class="navnum">14</span>Drills &amp; Role-Play</a>
+  <div class="grouplabel">Performance</div>
+  <a class="navlink" href="#cheat"><span class="navnum">15</span>Numbers Cheat Sheet</a>
+  <a class="navlink" href="#habits"><span class="navnum">16</span>Top-Performer Habits</a>
+  <a class="navlink" href="#ramp"><span class="navnum">17</span>Ramp Plans 7·14·30</a>
+  <a class="navlink" href="#coach"><span class="navnum">18</span>Manager Coaching</a>
+  <a class="navlink" href="#mastery"><span class="navnum">19</span>Mastery Checklist</a>
+  <a class="navlink" href="#gloss"><span class="navnum">AZ</span>Plain-English Glossary</a>
+</nav>
+<main>
+
+<div class="hero">
+  <div class="kicker">Business is complicated. <span class="gdot">We make the call easy.</span></div>
+  <h1>Master the<br><span class="ul">30-minute call.</span></h1>
+  <p class="lede">Every customer you call just did something brave — they started a business. In the next 30 minutes, your job is to protect it: keep their liability shield intact, their state filings on time, and their tax money in their pocket. Sell from that conviction and you'll guide them naturally to the best-fit, highest-value products — and become a top-1% rep doing it.</p>
+  <div class="cta-row">
+    <span class="cta">One spine · Seven moves · Two closes minimum</span>
+    <span class="cta ghost">Built for live use — keep it open on every call</span>
+  </div>
+  <div class="trust"><span class="stars">★★★★★</span> Trusted by the customers you're calling — 30,068 reviews on Trustpilot. Borrow that credibility early and often.</div>
+
+  <div class="pillars">
+    <div class="pillar"><span class="pic">🛡️</span><span>Formation &amp; Compliance<small>RA · WFC · filings</small></span></div>
+    <div class="pillar"><span class="pic">🌐</span><span>Website &amp; Domain<small>online tools bundle</small></span></div>
+    <div class="pillar"><span class="pic">🏦</span><span>Banking &amp; Bookkeeping<small>EIN · OA · Money Pro</small></span></div>
+    <div class="pillar"><span class="pic">📊</span><span>Tax Advice &amp; Filing<small>QTP · Advice + Prep</small></span></div>
+    <div class="pillar"><span class="pic">🎧</span><span>Expert Support<small>you — the trusted guide</small></span></div>
+  </div>
+  <div class="why" style="margin-top:14px"><span class="ic">🗺️</span><div><b>This strip is your product map.</b> Every discovery answer points to one of these five pillars. Your job on the call is simply to connect what they told you to the pillar that protects it.</div></div>
+</div>
+
+
+<!-- ================= USE: HOW TO USE ================= -->
+<section class="block" id="howto">
+  <div class="sechead"><span class="num">USE</span><h2>How to Use This Playbook</h2><span class="clock">60-second orientation</span></div>
+  <p class="secsub">This is one document doing three jobs. Find your situation below — you never need to read all of it at once.</p>
+
+  <div class="grid3">
+    <div class="card">
+      <h3>🆕 "I'm new — where do I start?"</h3>
+      <p style="font-size:14px;margin-bottom:8px">Your first week lives in four places, in this order:</p>
+      <ul class="dot">
+        <li><b>01 Call Map</b> — the spine of every call</li>
+        <li><b>T10 Top 10 Lines</b> — memorize these first</li>
+        <li><b>15 Numbers Cheat Sheet</b> — quiz yourself daily</li>
+        <li><b>17 Ramp Plans</b> — follow the 7-day crash course day by day</li>
+      </ul>
+      <p style="font-size:13px;color:var(--mute);margin-top:8px">Ignore everything else until day 5. Depth comes later; the spine comes first.</p>
+    </div>
+    <div class="card">
+      <h3>📞 "I'm dialing right now."</h3>
+      <p style="font-size:14px;margin-bottom:8px">Two tabs, that's it:</p>
+      <ul class="dot">
+        <li><b>GO Cheat Sheet</b> — keep it on screen; everything mid-call lives there</li>
+        <li><b>The Call sections (04–10)</b> — each has a clock badge; jump by sidebar if you need the full script</li>
+        <li>Customer pushes back? <b>12 Objections</b> or <b>13 What To Do When</b> — one click, scannable cards</li>
+        <li>Tax conversation heating up? <b>TX Tax Services System</b> — gaps, plans, close, all in one section</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📊 "I coach the team."</h3>
+      <ul class="dot">
+        <li><b>18 Manager Coaching</b> — the 50-point scorecard, mock rubric, and daily practice structure</li>
+        <li><b>TX §13</b> — the tax-specific scorecard</li>
+        <li><b>14 Drills &amp; Role-Play</b> — your huddle material, pre-built</li>
+        <li><b>19 Mastery Checklist</b> — your promotion / solo-dialing gate</li>
+      </ul>
+      <p style="font-size:13px;color:var(--mute);margin-top:8px">Run the morning huddle from Drills, the midday film from the scorecard, the Friday lab from the objection gauntlet.</p>
+    </div>
+  </div>
+
+  <div class="card tinted">
+    <h3>Where everything from the original training guide lives</h3>
+    <p style="font-size:14px;margin-bottom:10px">Nothing was removed or rewritten away — every script, rebuttal, FAQ, and analogy from the official 2026 Training &amp; Sales Guide is in here, word-for-word where it matters. Map:</p>
+    <details class="obj"><summary><span class="q">MAP</span>Original guide section → playbook location</summary><div class="objbody">
+      <table class="zt" style="font-size:13px">
+        <tr><th>Original guide</th><th>Lives in</th></tr>
+        <tr><td>Pre-Form / Post-Form Introductions</td><td class="m">04 Open &amp; Voicemail</td></tr>
+        <tr><td>Voicemail 1 &amp; 2</td><td class="m">04 Open &amp; Voicemail</td></tr>
+        <tr><td>Initial Discovery + RE / Transportation / Consultants packs</td><td class="m">05 Discovery Engine</td></tr>
+        <tr><td>Review Contact/Filing Info + domain question</td><td class="m">06 Order Review, Step A</td></tr>
+        <tr><td>Starter / Pro / Premium plan reviews + add-on lines</td><td class="m">06 Order Review</td></tr>
+        <tr><td>Filing date, banking, gains→burden transition</td><td class="m">06 Order Review, Step B</td></tr>
+        <tr><td>RA Discovery, What is an RA, Benefits, Close, pre/post framing</td><td class="m">07 Registered Agent</td></tr>
+        <tr><td>RA Rebuttals (later, cost, afford, lawyer, accountant, lunch, no-SOP), junk mail, babysitter, seatbelt examples, FAQs</td><td class="m">12 Objection Matrix</td></tr>
+        <tr><td>WFC Discovery, Benefits, Close, payment auth, tier chart</td><td class="m">08 Worry Free Compliance</td></tr>
+        <tr><td>WFC Rebuttals + car-registration analogy</td><td class="m">12 Objections + 08 WFC</td></tr>
+        <tr><td>Tax Discovery (Money Pro / no Money Pro), Classification, Quarterly, Startup Costs, Vehicle (mileage grid), Ongoing, Qualifying</td><td class="m">09 Tax Track</td></tr>
+        <tr><td>Tax Services plans, pricing, FAQs (from zenbusiness.com/tax-services)</td><td class="m">TX Tax Services System</td></tr>
+      </table>
+    </div></details>
+    <div class="why"><span class="ic">🖨</span><div><b>Need paper?</b> The whole document prints cleanly (sidebar auto-hides). For desk copies, print just the GO section and the TX cheat sheet.</div></div>
+  </div>
+</section>
+
+<!-- ================= GO: LIVE-CALL CHEAT SHEET ================= -->
+<section class="block" id="go">
+  <div class="sechead"><span class="num">GO</span><h2>Live-Call Cheat Sheet</h2><span class="clock">keep open while dialing</span></div>
+  <p class="secsub">One screen. Everything you need mid-call. If you only memorize one page of this playbook, make it this one.</p>
+  <div class="cheatwrap">
+    <div class="cheatgrid">
+      <div class="cheatcell"><h4>⏱ The Clock</h4><ul>
+        <li><span class="mono">0–3</span> Open · agenda · record · congrats</li>
+        <li><span class="mono">3–8</span> Discovery · fears + goals</li>
+        <li><span class="mono">8–12</span> Review · bridge gains→burden</li>
+        <li><span class="mono">12–17</span> RA · educate → fork → close</li>
+        <li><span class="mono">17–21</span> WFC · memory gap → relief</li>
+        <li><span class="mono">21–27</span> Tax · classify · quarterly · deduct</li>
+        <li><span class="mono">27–30</span> Recap · bank list · door open</li>
+      </ul></div>
+      <div class="cheatcell"><h4>💰 Prices</h4><ul>
+        <li>RA <span class="mono">$199/yr</span> ≈ 55¢/day</li>
+        <li>WFC Essential <span class="mono">$199</span> · Advanced <span class="mono">$299</span></li>
+        <li>Essential→Advanced <span class="mono">$99</span></li>
+        <li>Coupon (rebuttal only) <span class="mono">$149/$119</span></li>
+        <li>S-Corp file <span class="mono">free ≤30d · $200 after</span></li>
+      </ul></div>
+      <div class="cheatcell"><h4>🧾 Tax Levers</h4><ul>
+        <li>Election window <span class="mono">75 days</span></li>
+        <li>Quarterly if owing <span class="mono">$1,000+</span></li>
+        <li><span class="mono">Apr 15 · Jun 15 · Sep 15 · Jan 15</span></li>
+        <li>SE tax <span class="mono">15.3%</span></li>
+        <li>Deduct <span class="mono">$5K + $5K</span> yr one</li>
+        <li>Mileage <span class="mono">72¢/mi</span> = $720/1,000 mi</li>
+      </ul></div>
+      <div class="cheatcell"><h4>🔀 Transitions</h4><ul>
+        <li>→ RA: "Going back to your paperwork, I noticed you assigned yourself as the Registered Agent…"</li>
+        <li>→ Tax: "A lot of our customers ask us how to keep the most money…"</li>
+        <li>→ WFC→RA: "Let's quickly touch on another piece of compliance…"</li>
+      </ul></div>
+      <div class="cheatcell"><h4>🎯 Tie-Downs</h4><ul>
+        <li>"Do you see why most people don't list themselves?"</li>
+        <li>"Do you see how that would be valuable for your situation?"</li>
+        <li>"Pretty good deal, right?"</li>
+        <li>"Does that sound good?"</li>
+      </ul></div>
+      <div class="cheatcell"><h4>✅ Closes</h4><ul>
+        <li>"Would you gain some peace of mind if we switched your RA over to ZenBusiness?"</li>
+        <li>"If we could keep you compliant with minimal effort, would that give you peace of mind?"</li>
+        <li><b style="color:#fff">"Do I have your permission to process $___ with the card ending in ___?"</b></li>
+      </ul></div>
+      <div class="cheatcell"><h4>🛡 Rebuttal Stems</h4><ul>
+        <li>Later → "day-one responsibility + state fees + weeks to change"</li>
+        <li>Afford → risk reframe → <i>then</i> coupon $149/$119</li>
+        <li>Accountant → "have they legally agreed, M–F office hours?"</li>
+        <li>Won't get served → seatbelt + their-industry example</li>
+      </ul></div>
+      <div class="cheatcell"><h4>🏦 Every Call</h4><ul>
+        <li>Bank: bring EIN + OA + state paperwork</li>
+        <li>Formation date → watch email</li>
+        <li>Gains→burden bridge, verbatim</li>
+        <li>Break every price into per-day</li>
+        <li>Pause after every question</li>
+      </ul></div>
+      <div class="cheatcell"><h4>💼 Tax Services (april)</h4><ul>
+        <li>Tax Filing <span class="mono">$899/yr</span> (SMLLC: personal return incl. — $300+ value)</li>
+        <li>Quarterly Planning <span class="mono">$89/mo</span> — 4 expert sessions/yr</li>
+        <li>Planning + Filing <span class="mono">$169/mo</span></li>
+        <li>Multi-member/S/C-Corp: filing <span class="mono">$1,399/yr</span> · P+F <span class="mono">$219/mo</span></li>
+        <li>Subscription is <b style="color:#fff">tax deductible</b></li>
+      </ul></div>
+      <div class="cheatcell"><h4>🧠 If Stuck</h4><ul>
+        <li>Summarize: "So what I'm hearing is…"</li>
+        <li>Redirect: "I love that — and it ties right into…"</li>
+        <li>Permission: "Do you have a few more minutes so we finish setting you up right?"</li>
+        <li>Exit: "Not a problem at all…" + callback door</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= T10: TOP 10 LINES ================= -->
+<section class="block" id="t10">
+  <div class="sechead"><span class="num">T10</span><h2>Top 10 Lines to Memorize</h2><span class="clock">word-for-word · week one</span></div>
+  <p class="secsub">These ten lines do 80% of the revenue work. Drill them until they come out of your mouth faster than your own name.</p>
+  <div class="linecard"><div class="ln">1</div><div><div class="lt">The agenda contract</div><div class="lq">"…and make sure you're prepared and set up for success for this first year and beyond. This should only take about 10–15 minutes — does that sound good?"</div><div class="lw">Why: their "yes" is a micro-contract. You now own the structure of the call.</div></div></div>
+  <div class="linecard"><div class="ln">2</div><div><div class="lt">The discovery opener</div><div class="lq">"I see your business name as [Business]… but please tell me — what is this business going to be doing?"</div><div class="lw">Why: flips the call to them talking. Every answer becomes ammunition.</div></div></div>
+  <div class="linecard"><div class="ln">3</div><div><div class="lt">The gains→burden bridge</div><div class="lq">"With your LLC you gain Personal Liability Protection, access to business loans, and a ton of tax advantages… and at the same time you gain the burden of complying with the government at the local, state, and federal level."</div><div class="lw">Why: this single frame justifies every product you sell. The master key.</div></div></div>
+  <div class="linecard"><div class="ln">4</div><div><div class="lt">The RA transition</div><div class="lq">"Going back to your paperwork, something I noticed is that you assigned yourself as the Registered Agent for the LLC…"</div><div class="lw">Why: "something I noticed" sounds like care, not a pitch.</div></div></div>
+  <div class="linecard"><div class="ln">5</div><div><div class="lt">The risk one-liner</div><div class="lq">"It's one of those things that isn't a big deal… until it is."</div><div class="lw">Why: loss aversion in nine words. Let it land in silence.</div></div></div>
+  <div class="linecard"><div class="ln">6</div><div><div class="lt">The fork question</div><div class="lq">"Over these next 12 months, do you anticipate traveling or being away from [address]… or will you physically never leave it?"</div><div class="lw">Why: there is no good answer that keeps them as their own RA. The question closes for you.</div></div></div>
+  <div class="linecard"><div class="ln">7</div><div><div class="lt">The price breakdown close</div><div class="lq">"It's only $199 for the entire year — flexibility, peace of mind, and your legal requirement fulfilled for essentially less than $1 a day. Pretty good deal, right?"</div><div class="lw">Why: reframes the anchor from $199 to pocket change, then tie-down.</div></div></div>
+  <div class="linecard"><div class="ln">8</div><div><div class="lt">The payment authorization</div><div class="lq">"Do I have your permission to process the payment of $___ with the card on file ending in [last 4]?"</div><div class="lw">Why: verbatim, every product, every time. Compliance + confidence in one sentence.</div></div></div>
+  <div class="linecard"><div class="ln">9</div><div><div class="lt">The coupon rescue</div><div class="lq">"So let's do this — let me see if we still have a coupon available to add this for just $149 for your first year. If we can get that applied, would that allow you to get this taken care of?"</div><div class="lw">Why: scarcity + reciprocity — but only after the risk reframe. Never lead with it.</div></div></div>
+  <div class="linecard"><div class="ln">10</div><div><div class="lt">The quarterly hook</div><div class="lq">"Let's talk about something that catches almost every LLC owner off guard… the IRS expects you to pay taxes on your business profit every few months — not just at tax time."</div><div class="lw">Why: a genuine surprise creates the information gap that powers the whole tax track.</div></div></div>
+</section>
+
+<!-- ================= 01 CALL MAP ================= -->
+<section class="block" id="map">
+  <div class="sechead"><span class="num">01</span><h2>The Call Map &amp; Clock</h2><span class="clock">⏱ full call · 25–30 min</span></div>
+  <p class="secsub">Top performers never wonder what comes next. Every call follows the same spine — only the depth changes. Memorize the clock before you memorize any script: it keeps you in control without ever rushing the customer.</p>
+
+  <div class="timebar">
+    <div class="tseg" style="flex:1"><div class="tt">0:00–3:00</div><div class="tn">Open</div><div class="td">Agenda · recording · congratulate</div></div>
+    <div class="tseg" style="flex:1.6"><div class="tt">3:00–8:00</div><div class="tn">Discovery</div><div class="td">Their story, goals, fears</div></div>
+    <div class="tseg" style="flex:1.3"><div class="tt">8:00–12:00</div><div class="tn">Verify &amp; Review</div><div class="td">Info · plan · add-ons · bridge</div></div>
+    <div class="tseg" style="flex:1.6"><div class="tt">12:00–17:00</div><div class="tn">Registered Agent</div><div class="td">Educate → fork → close</div></div>
+    <div class="tseg" style="flex:1.3"><div class="tt">17:00–21:00</div><div class="tn">WFC</div><div class="td">Memory gap → relief → close</div></div>
+    <div class="tseg" style="flex:1.9"><div class="tt">21:00–27:00</div><div class="tn">Tax Track</div><div class="td">Classify · quarterly · deduct · qualify</div></div>
+    <div class="tseg" style="flex:1"><div class="tt">27:00–30:00</div><div class="tn">Close &amp; Wrap</div><div class="td">Recap · next steps · door open</div></div>
+  </div>
+  <div class="why"><span class="ic">⏱</span><div><b>The clock flexes, the order doesn't.</b> If discovery is gold, let it run to minute 10 and trim the tax track. If they bought RA in minute 14, bank the time for tax. You promised 10–15 minutes up front — when you pass it, ask permission: <i>"This is great — do you have a few more minutes so we can finish setting you up right?"</i></div></div>
+
+  <div class="flow">
+    <div class="fstep"><div class="fn">MOVE 1</div><div class="ft">Open</div><div class="fd">Earn the 15 minutes</div></div>
+    <div class="fstep"><div class="fn">MOVE 2</div><div class="ft">Discover</div><div class="fd">Collect fears + goals</div></div>
+    <div class="fstep"><div class="fn">MOVE 3</div><div class="ft">Verify &amp; Review</div><div class="fd">Validate their choices</div></div>
+    <div class="fstep"><div class="fn">MOVE 4</div><div class="ft">Bridge</div><div class="fd">Gains → burden</div></div>
+    <div class="fstep"><div class="fn">MOVE 5</div><div class="ft">RA / WFC</div><div class="fd">Protect the shield</div></div>
+    <div class="fstep"><div class="fn">MOVE 6</div><div class="ft">Tax Track</div><div class="fd">Protect the money</div></div>
+    <div class="fstep"><div class="fn">MOVE 7</div><div class="ft">Close</div><div class="fd">Payment + recap</div></div>
+  </div>
+
+  <div class="blackband">
+    <h3>The master frame — <span class="gw">repeat it on every call</span></h3>
+    <p>The LLC gives the customer <b>gains</b> — personal liability protection, access to business loans, and significant tax advantages — and a <b>burden</b>: complying with the government at the local, state, and federal level. Everything you sell exists to <b>protect the gains and remove the burden</b>. RA protects what arrives. WFC protects what's due. Tax services protect the money. You are a protector, not a peddler.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>The 5 laws of the call</h3>
+      <ul class="dot">
+        <li><b>Pause after every question.</b> The script literally writes in the pauses. Silence is where customers sell themselves.</li>
+        <li><b>Ask, don't tell.</b> "Do you see why most people don't list themselves?" beats a lecture. Tie-downs create micro-agreements that compound into the close.</li>
+        <li><b>Break down every price.</b> $199/year is "less than $1 a day." Never leave a price hanging without a breakdown.</li>
+        <li><b>Always ask for payment permission.</b> "Do I have your permission to process $___ on the card ending in ___?" Verbatim, every time.</li>
+        <li><b>Two closes minimum.</b> Every full call attempts RA and WFC. Tax is the third lane when discovery signals it.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Trust accelerators — first 5 minutes</h3>
+      <p style="font-size:14px;margin-bottom:8px">Trust is built before you pitch anything. Stack these early:</p>
+      <div class="say"><span class="tag">Credit</span><p>"Most people never even get this far… I just want to give you credit for getting started the right way."</p></div>
+      <div class="say"><span class="tag">Credit</span><p>"I know it can feel like a lot upfront — that's exactly why we're on this call."</p></div>
+      <ul class="dot" style="margin-top:8px">
+        <li><b>Use their words.</b> Whatever they say inspired the business — repeat it back later, verbatim.</li>
+        <li><b>Disclose honestly.</b> Recording disclosure delivered confidently <i>builds</i> trust; mumbled, it erodes it.</li>
+        <li><b>Borrow proof.</b> "What most business owners I speak with do…" — social proof is built into the scripts. Use it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= 02 CALL CONTROL ================= -->
+<section class="block" id="ctrl">
+  <div class="sechead"><span class="num">02</span><h2>The Call Control System</h2><span class="clock">lead without pushing</span></div>
+  <p class="secsub">Control isn't dominance — it's structure. The rep who sets the agenda, asks the questions, and summarizes the answers is leading the call, even while talking only 30% of the time.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>The 4 control levers</h3>
+      <ul class="dot">
+        <li><b>1 · The agenda contract.</b> Their "yes" to "10–15 minutes, sound good?" gives you permission to steer all call. When they drift, you're returning to <i>their</i> agreement, not imposing yours.</li>
+        <li><b>2 · Whoever asks the questions, leads.</b> End nearly every statement with a question. If you've made three statements in a row without one, you've lost the wheel.</li>
+        <li><b>3 · Summarize to steer.</b> "So what I'm hearing is [their words]…" proves you listened <i>and</i> hands you the right to choose what comes next.</li>
+        <li><b>4 · Name the time.</b> "Two quick things left and I'll let you go" creates momentum and reduces resistance to the next pitch.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Redirect lines — the steering wheel</h3>
+      <div class="say"><span class="tag">Rambler</span><p>"I love that — and it actually ties right into what I wanted to cover next…" <span class="cue">validate, then pivot</span></p></div>
+      <div class="say"><span class="tag">Tangent</span><p>"That's a great question — let me make a note so we hit it before we hang up. First, while I have you…"</p></div>
+      <div class="say"><span class="tag">Over time</span><p>"I promised you 10–15 minutes and I respect your time — do you have a few more so we can finish setting you up right?"</p></div>
+      <div class="say"><span class="tag">Re-engage</span><p>"[Name], let me pause — out of everything we've covered, what matters most to you so far?"</p></div>
+      <div class="say"><span class="tag">After silence</span><p>Say nothing. Count three seconds. The customer fills silence with truth — and often with the close.</p></div>
+    </div>
+  </div>
+
+  <div class="card tinted">
+    <h3>Talk-ratio targets by phase</h3>
+    <table class="zt">
+      <tr><th>Phase</th><th>You</th><th>Customer</th><th>Your job</th></tr>
+      <tr><td>Open (0–3)</td><td class="m">70%</td><td class="m">30%</td><td>Set frame, earn the yes, hand over the mic</td></tr>
+      <tr><td>Discovery (3–8)</td><td class="m">30%</td><td class="m">70%</td><td>Ask, pause, take notes, follow up once per answer</td></tr>
+      <tr><td>Review + RA/WFC (8–21)</td><td class="m">60%</td><td class="m">40%</td><td>Educate in 30–45 second bursts, then a tie-down</td></tr>
+      <tr><td>Tax track (21–27)</td><td class="m">55%</td><td class="m">45%</td><td>Teach one concept → impact question → next concept</td></tr>
+      <tr><td>Close (27–30)</td><td class="m">50%</td><td class="m">50%</td><td>Recap, confirm, answer, exit warm</td></tr>
+    </table>
+    <div class="why"><span class="ic">🚫</span><div><b>The anti-ramble rule:</b> never explain for more than 45 seconds without asking a question. If you can't remember your last question, ask one now. Education without engagement is a podcast, not a sales call.</div></div>
+  </div>
+
+  <div class="blackband">
+    <h3>Checkpoint questions — <span class="gw">your momentum gauges</span></h3>
+    <p>Drop one at the end of every phase: <b>"Does that sound good?"</b> (open) · <b>"What next steps are your highest priorities?"</b> (discovery) · <b>"Any follow-up questions on what you have so far?"</b> (review) · <b>"Do you see why most people don't list themselves?"</b> (RA) · <b>"Would that give you peace of mind?"</b> (WFC) · <b>"How confident are you about making the right decision on this?"</b> (tax). A "yes" means advance. A hesitation means stay — you just found the real conversation.</p>
+  </div>
+</section>
+
+<!-- ================= 03 PSYCHOLOGY ================= -->
+<section class="block" id="psy">
+  <div class="sechead"><span class="num">03</span><h2>Sales Psychology — Why Every Move Works</h2><span class="clock">know the why</span></div>
+  <p class="secsub">The scripts aren't magic words — they're applied behavioral science. When you understand the mechanism, you can improvise without breaking the machine.</p>
+
+  <table class="zt">
+    <tr><th style="width:22%">The move</th><th style="width:26%">The principle</th><th>Why it works on this call</th></tr>
+    <tr><td class="m">Congratulate + give credit</td><td><b>Positive affect &amp; reciprocity</b></td><td>People in a good mood evaluate offers more favorably. "Most people never get this far" is a gift of status — humans repay gifts, often with attention and openness.</td></tr>
+    <tr><td class="m">Agenda + "sound good?"</td><td><b>Commitment &amp; consistency</b></td><td>A small public "yes" to the structure makes later cooperation feel consistent with who they just agreed to be.</td></tr>
+    <tr><td class="m">Recording disclosure, said confidently</td><td><b>Transparency signaling</b></td><td>Voluntarily disclosing something mildly uncomfortable signals honesty — and honesty transfers to everything you say after.</td></tr>
+    <tr><td class="m">Deep discovery questions</td><td><b>Self-persuasion</b></td><td>People believe their own words far more than yours. When they describe the dream and the fear out loud, they've made the case for protection — you just supply the mechanism.</td></tr>
+    <tr><td class="m">Gains→burden bridge</td><td><b>Loss aversion</b></td><td>Losses feel roughly twice as heavy as equivalent gains. You establish what they now own (protection, advantages) so the threat of losing it does the selling.</td></tr>
+    <tr><td class="m">"Isn't a big deal until it is" + SOP stories</td><td><b>Availability heuristic</b></td><td>Risk feels real when an example is easy to picture. The employee-garnishment or company-truck story makes an abstract legal risk vivid — pick the one that matches their world.</td></tr>
+    <tr><td class="m">"What most business owners I speak with do…"</td><td><b>Social proof</b></td><td>Uncertainty makes people copy similar others. New owners are maximally uncertain — the herd line is your strongest soft close.</td></tr>
+    <tr><td class="m">Tie-downs ("Do you see why…?")</td><td><b>Micro-commitments</b></td><td>Each small agreement raises the psychological cost of a final "no." Three tie-downs before a close roughly stacks the deck in your favor.</td></tr>
+    <tr><td class="m">$199 → "less than $1 a day"</td><td><b>Reframing the anchor</b></td><td>The pain of paying scales with the size of the imagined number. Per-day framing shrinks the number below the threshold of deliberation.</td></tr>
+    <tr><td class="m">Coupon only inside the rebuttal</td><td><b>Scarcity + reciprocity</b></td><td>"Let me see if we still have one" makes the discount scarce and effortful — a favor to repay, not a price everyone gets. Lead with it and it's just a lower price.</td></tr>
+    <tr><td class="m">Fork question (travel vs. never leave)</td><td><b>Choice architecture</b></td><td>Both answers advance the sale: "I travel" proves the need; "I never leave" is visibly untrue to themselves. You closed with a question, not a claim.</td></tr>
+    <tr><td class="m">Quarterly-tax "off guard" reveal</td><td><b>Information-gap curiosity</b></td><td>"Something catches almost every owner off guard…" opens a gap the brain itches to close. They lean in before you've pitched anything.</td></tr>
+    <tr><td class="m">Graceful exit on a "no"</td><td><b>Peak-end rule</b></td><td>People judge an interaction by its peak and its end. A warm "not a problem at all" makes the callback possible — and protects the review score.</td></tr>
+  </table>
+  <div class="why"><span class="ic">⚖️</span><div><b>The ethics line that keeps you top-1% for years, not weeks:</b> every mechanism above amplifies a <i>true</i> message — the risks are real, the deadlines are real, the products genuinely protect. Persuasion on top of truth builds a book of business; persuasion on top of exaggeration builds chargebacks.</div></div>
+</section>
+
+<!-- ================= 04 OPENERS ================= -->
+<section class="block" id="open">
+  <div class="sechead"><span class="num">04</span><h2>Open &amp; Voicemail</h2><span class="clock">⏱ 0:00–3:00</span></div>
+  <p class="secsub">You have ~20 seconds to earn 15 minutes. The opener does four jobs: thank them, set the agenda, disclose recording, and get a "yes" to the time. Then hand them the mic.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3><span class="pill k">Pre-Formation</span>&nbsp; Filing not yet submitted</h3>
+      <div class="say"><span class="tag">Say</span>
+        <p>"Hi [Name], this is [You] with ZenBusiness — thank you for taking my call. How are you doing today? <span class="cue">pause</span></p>
+        <p>First of all, thank you for choosing us to help get your new business started! I see the application you submitted on our website to get your LLC formed — we just want to verify some information and make sure it's all correct <b>before everything gets finalized with the Secretary of State</b>."</p>
+      </div>
+      <div class="say"><span class="tag">Agenda</span>
+        <p>"We'll quickly review your order, the compliance for your LLC, answer any questions you may have, and make sure you're prepared and set up for success for this first year and beyond. This should only take about 10–15 minutes — does that sound good?" <span class="cue">pause</span></p>
+      </div>
+      <div class="say"><span class="tag">Say</span>
+        <p>"Great! I do want to disclose that this call will be recorded for training and quality purposes… but congratulations on taking this first big step to get this business started! Are you excited?" <span class="cue">pause — react authentically</span></p>
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pill g">Post-Formation</span>&nbsp; LLC already approved</h3>
+      <div class="say"><span class="tag">Say</span>
+        <p>"I'm calling to share some good news — now that your LLC formation is <b>complete</b>, we just want to verify that all the information that came back from the Secretary of State was set up the way you wanted."</p>
+      </div>
+      <div class="say"><span class="tag">Agenda</span>
+        <p>"We'll answer any questions you may have, quickly review your order and what you have access to, and make sure you're set up for success this first year and beyond. About 10–15 minutes — sound good?" <span class="cue">pause</span></p>
+      </div>
+      <div class="say"><span class="tag">Say</span>
+        <p>"Great! This call is recorded for training and quality purposes… and you may have already seen the email from us — but now that you're <b>official</b>… congratulations! Are you excited?" <span class="cue">pause</span></p>
+      </div>
+      <div class="why"><span class="ic">💡</span><div><b>Difference that matters:</b> pre-form sells urgency ("before it's finalized"); post-form sells celebration ("you're official"). Match the energy to the moment.</div></div>
+    </div>
+  </div>
+
+  <div class="card tinted">
+    <h3>The universal transition into discovery</h3>
+    <div class="say ask"><span class="tag">Ask</span><p>"I see your business name as [Business Entity Name]… but please tell me — <b>what is this business going to be doing?</b>" <span class="cue">pause — stay curious, listen deeply</span></p></div>
+    <div class="why"><span class="ic">🎯</span><div>This one question flips the call from <i>you talking</i> to <i>them dreaming out loud</i>. Everything they say becomes personalization fuel for RA, WFC, and tax. Open the ZG Business Entity from Salesforce while they talk. Take notes.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Voicemail #1 — First touch</h3>
+      <div class="say"><span class="tag">Say</span><p>"Hi there! This is [Name] with ZenBusiness… congratulations on forming your new LLC! That's a big milestone, and we're excited to support you. I'm reaching out because there are a couple of <b>time-sensitive items</b> we want to walk through with you to make sure everything's set up correctly and you don't miss any important early requirements. Give me a call back today when you can — we're here to help you stay ahead of deadlines and set up for success. You can call me directly at this number, or [direct line]. Again, this is [Name] with ZenBusiness. Talk soon!"</p></div>
+    </div>
+    <div class="card">
+      <h3>Voicemail #2 — Final follow-up</h3>
+      <div class="say"><span class="tag">Say</span><p>"Hey, this is [Name] with ZenBusiness again — just a final follow-up about your new LLC. There are still a couple of next steps we haven't connected on that could impact your <b>compliance or tax setup</b> if not addressed soon. Please give me a call back today or as soon as possible. We want to make sure everything's done right from the start and give you peace of mind going forward. You can call me at this line, or [direct line]. Again, this is [Name] with ZenBusiness — we're excited to be working with you!"</p></div>
+      <div class="why"><span class="ic">💡</span><div>Both voicemails sell <b>one thing</b>: a reason to call back (time-sensitive items, compliance/tax impact). Never pitch products in a voicemail.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 DISCOVERY ================= -->
+<section class="block" id="disc">
+  <div class="sechead"><span class="num">05</span><h2>Discovery Engine</h2><span class="clock">⏱ 3:00–8:00</span></div>
+  <p class="secsub">Discovery isn't small talk — it's intel gathering. Every answer maps to a pillar on the product map. Learn the universal eight, then layer the industry pack that fits. Goal: customer talks 70%, you talk 30%.</p>
+
+  <div class="card">
+    <h3>The universal eight</h3>
+    <table class="zt">
+      <tr><th style="width:55%">Ask</th><th>What it <span class="gw">unlocks</span> later</th></tr>
+      <tr><td>"What inspired you to get [Business] started?"</td><td>Emotional anchor — reuse their exact words at close</td></tr>
+      <tr><td>"Is this your first business / LLC?" <i>(if prior: what was it, how long?)</i></td><td>First-timers → education-heavy; veterans → efficiency pitch</td></tr>
+      <tr><td>"Are you currently operational / open for business?" <i>(if yes: "What was that process like? What's the day-to-day work?")</i></td><td>Urgency for compliance &amp; quarterly taxes</td></tr>
+      <tr><td>"What needs to happen for you to become operational? How quickly do you plan to generate revenue — first customer lined up?"</td><td>Revenue timeline → quarterly tax relevance</td></tr>
+      <tr><td>"Side-hustle, or running [Business] full-time?"</td><td>Full-time = mobile = can't be their own RA</td></tr>
+      <tr><td>"What plan or vision do you have for [Business] by the end of this year — or even 3/6/9/12 months from today?"</td><td>Growth = more compliance events = WFC</td></tr>
+      <tr><td>"Since this is your first LLC… what are you most worried or concerned about?"</td><td>Their fear is your value proposition — write it down verbatim</td></tr>
+      <tr><td>"Handling everything on your own, or do you have anyone mentoring or helping you?"</td><td>Solo owners need ZB as their back office</td></tr>
+    </table>
+    <div class="callout win"><b>Power move:</b> end with "What next steps are your highest priorities?" — they will literally tell you which product to lead with.</div>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <h3>🏠 Real Estate pack</h3>
+      <ul class="dot">
+        <li>Commercial or residential? <i>(Commercial: what are you investing in? Purchase coming up? Investing with others?)</i></li>
+        <li>Buy-and-flip, or buy-and-hold?</li>
+        <li>Holding: renting/leasing? Self-managing or property management company?</li>
+        <li>Flipping: renovating yourself or with contractors? How many flips year one?</li>
+        <li>Agent or broker? Independent, or with a firm like ReMax / Keller Williams?</li>
+        <li>Showing houses in person?</li>
+        <li>"Investment, retirement, or generational wealth?" Experience level? Partner or mentor?</li>
+        <li>"Where do you see this in 3 / 5 / 10 years?"</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🚛 Trucking / Logistics pack</h3>
+      <ul class="dot">
+        <li>Own your truck or lease through a company? <i>(Owning: purchased yet? Financing or cash?)</i></li>
+        <li>Owner/operator under your own authority, or leasing on?</li>
+        <li>Own authority: licenses/permits started? Regional or over-the-road coast to coast? Hotshot?</li>
+        <li>Miles per week? <i>(typical: 3,500–4,000 — huge mileage-deduction hook)</i></li>
+        <li>Only driver, or hiring drivers? Growth over 1–3 years?</li>
+        <li>Logistics: first time, or done this before? Drivers on staff, or loads only? Former driver?</li>
+        <li>Member of transportation boards yet? Home office or physical location?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>💼 Consulting pack</h3>
+      <ul class="dot">
+        <li>Scope of services? Typical client — individuals, large companies, in between?</li>
+        <li>Full-time, part-time, or project-based? Engagement length / sprint length?</li>
+        <li>How do you bill — by the hour? Multiple clients at once, or one at a time?</li>
+        <li>"Coming in with a book of business, or building from the ground up?"</li>
+        <li>With clients: past employer switching you from W-2 to 1099?</li>
+        <li>Without: what do marketing plans look like? When do operations start?</li>
+        <li>In-person, virtual, or mixed?</li>
+        <li>"Three years out — flying solo, or growing into a firm?"</li>
+      </ul>
+    </div>
+  </div>
+  <div class="why"><span class="ic">🎯</span><div><b>Coach's note — never assume.</b> The guide is explicit: part-time/full-time consultants usually bill hourly while project consultants charge per project; truckers either own or lease on. These details change the tax story <i>and</i> the compliance story. Curiosity sounds like expertise.</div></div>
+</section>
+<!-- ================= 04 ORDER REVIEW ================= -->
+<section class="block" id="order">
+  <div class="sechead"><span class="num">06</span><h2>Order Review &amp; The Bridge</h2><span class="clock">⏱ 8:00–12:00</span></div>
+  <p class="secsub">Verify, validate their choices, then bridge. The order review is where you plant the seeds for everything you'll sell in the next fifteen minutes — and where you earn the right to recommend.</p>
+
+  <div class="card">
+    <h3>Step A — Confirm contact &amp; filing info</h3>
+    <ul class="ck">
+      <li>Open ZG Business Entity from Salesforce → Business Entity Information</li>
+      <li>Management structure: "I see the business management structure we have from your application as [structure]…"</li>
+      <li>Contact info: "[Name, number, email] — is all of that correct?"</li>
+      <li>Addresses: physical / principal / mailing — "Is this your primary residence, or will the business be operated out of [address]?"</li>
+      <li>Navigate to Account in ZG → click the date(s) to review the order</li>
+    </ul>
+    <div class="callout win"><b>The domain seed 🌱</b> — if their email is @gmail / @yahoo / @hotmail: <i>"I see your email is ____… Now that you have this LLC and an official business name that is all yours — just curious — have you already created a custom domain, like a www.____.com, for your business?"</i> Make a note; circle back on Web Services later. Don't pitch it now.</div>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <h3><span class="pill a">Starter</span></h3>
+      <p style="font-size:14px"><b>Position:</b> "A great option — it gets your LLC filed in a very cost-effective way, making sure the filing is done right."</p>
+      <ul class="dot">
+        <li>100% accuracy guarantee LLC filing</li>
+        <li>Worry Free Compliance <i>(if selected)</i> — "keep an eye on your email; we reach out when action items are needed"</li>
+        <li>"With this plan, the state fees are the only thing you're paying"</li>
+      </ul>
+      <p style="font-size:13px;color:var(--mute);margin-top:8px">Biggest whitespace: RA, EIN, OA, WFC, tax — almost everything is open. Highest-opportunity call.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pill k">Pro</span></h3>
+      <p style="font-size:14px"><b>Position:</b> "Filed quickly <i>and</i> accurately — as fast as possible."</p>
+      <ul class="dot">
+        <li>Rush filing — to the state within 1–2 business days</li>
+        <li>100% accuracy guarantee + Worry Free Compliance</li>
+        <li>EIN — "the SSN for your business," in your dashboard 24–48 hrs after formation; opens the business bank account</li>
+        <li>Operating Agreement — very common for opening a business bank account quickly</li>
+        <li>Online Tools Bundle <i>(if opted in)</i> — business email, website, private domain. "Even a 'Coming Soon!' site starts building word of mouth."</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="pill g">Premium</span></h3>
+      <p style="font-size:14px"><b>Position:</b> "By far our most inclusive plan — the best for long-term success."</p>
+      <ul class="dot">
+        <li>Everything in Pro: rush filing, accuracy guarantee, WFC, EIN, OA</li>
+        <li>Registered Agent included — "critical legal and state documents delivered straight to your dashboard; peace of mind while you're out running the business"</li>
+        <li>Online Tools Bundle</li>
+        <li>Money Pro <i>(if opted in)</i> — ask: "What stood out to you about it at sign-up?"</li>
+      </ul>
+      <p style="font-size:13px;color:var(--mute);margin-top:8px">Whitespace: Tax Advice / Tax Advice + Prep.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Add-on validation lines <span class="pill g" style="margin-left:6px">praise their choices</span></h3>
+    <table class="zt">
+      <tr><th style="width:22%">Add-on</th><th>Your validation line</th></tr>
+      <tr><td class="m">Registered Agent</td><td>"Great choice here! You've ensured all of your critical legal and state documents will be successfully delivered and uploaded directly to your dashboard — peace of mind that your business is protected while you're out running it."</td></tr>
+      <tr><td class="m">EIN</td><td>"Within 24–48 hours of your formation completing, you'll see it in your dashboard. Your EIN is like the SSN for your business — it lets you easily set up a separate business bank account."</td></tr>
+      <tr><td class="m">Operating Agreement</td><td>"Typically required to open a business bank account. It's the document that proves your business is a separate legal entity — having one strengthens your liability protection and safeguards your personal assets from potential lawsuits. We upload the template to your dashboard; you fill it out once your LLC comes back from the state."</td></tr>
+      <tr><td class="m">Money Pro</td><td>"Bookkeeping designed for businesses like yours — effortlessly track expenses, automatically classify deductions, send invoices, even track mileage for write-offs. Makes taxes much simpler and saves you a ton of money. <b>Then ask:</b> 'What made you choose this at sign-up? What stood out?'"</td></tr>
+      <tr><td class="m">Website</td><td>"You can start building and working on your website directly through your dashboard — starting as soon as today."</td></tr>
+      <tr><td class="m">Tax Advice (QTP)</td><td>"Four quarterly sessions with licensed tax professionals to help you navigate business tax questions year-round." <i>(Pro/Premium: unlimited access framing.)</i></td></tr>
+      <tr><td class="m">Tax Advice + Prep</td><td>"Guidance from licensed pros — plus full federal and state business tax filing handled for you."</td></tr>
+    </table>
+  </div>
+
+  <div class="card tinted">
+    <h3>Step B — Filing date, banking &amp; the bridge</h3>
+    <div class="say ask"><span class="tag">Check-in</span><p>"Do you have any follow-up questions on what you have so far?"</p></div>
+    <div class="say"><span class="tag">Say</span><p>"Alright — with everything you have and your [plan], your estimated formation date is [date]. Around that date you'll get an email that your documents are complete and uploaded to your dashboard. Keep an eye out, because if we run into any snags or questions, our processing team reaches out directly by email. Once you receive them, you're ready for next steps — one of the most common being <b>opening a business bank account</b>. Don't forget to bring your <b>EIN, Operating Agreement, and your LLC paperwork from the state</b> when you go."</p></div>
+    <div class="say"><span class="tag">The bridge — memorize verbatim</span>
+      <p>"Now, with the creation of your LLC you gain a number of different things. You gain <b>Personal Liability Protection</b> — the legal protection of your personal assets from your business's debts and liabilities. You also gain access to <b>business loans</b> and a ton of <b>tax advantages</b>, which are quite significant."</p>
+    </div>
+    <div class="say ask"><span class="tag">Ask</span><p>"Out of curiosity… are any of those reasons why you started this LLC in the first place?" <span class="cue">if not:</span> "Is it purely to follow your passion?" <span class="cue">confidence-building statement here</span></p></div>
+    <div class="say"><span class="tag">The turn</span><p>"Now, with everything you <b>gain</b> with the creation of an LLC… you also, at the same time, gain the <b>burden</b> of having to comply with the government at the local, state, and federal level. That ensures your business stays in good standing — which allows you to continue legally operating, avoid fines, late fees, and penalties, and keep all the things your new LLC unlocks for you."</p></div>
+    <div class="why"><span class="ic">🔀</span><div><b>Now pick your lane</b> based on what discovery told you matters most: <b>→ RA:</b> "Going back to your paperwork, something I noticed is that you assigned [yourself / someone else] as the Registered Agent for the LLC…" · <b>→ Tax:</b> "A lot of our customers, both new and experienced at running a business, typically ask us how to save or keep the most money, avoid mistakes, and make sure everything for taxes is correct, legal, and done right…"</div></div>
+  </div>
+</section>
+
+<!-- ================= 05 RA ================= -->
+<section class="block" id="ra">
+  <div class="sechead"><span class="num">07</span><h2>Registered Agent — $199/yr</h2><span class="clock">⏱ 12:00–17:00</span></div>
+  <p class="secsub">The biggest form of compliance — "it basically holds your business together." Education-first: they must feel the risk of being their own RA before the price means anything. Sequence: discover → teach → personalize → fork → stack → close.</p>
+
+  <div class="card">
+    <h3>1 · Open with the discovery question</h3>
+    <div class="say ask"><span class="tag">Ask</span><p>"I see here that you have selected [yourself / someone else] as the Registered Agent for [Business]. That isn't something we see that often… Can you share with me your understanding of the <b>state requirements</b> when it comes to your Registered Agent?" <span class="cue">pause — let them reveal the gap</span></p></div>
+    <div class="say"><span class="tag">Frame</span><p>"OK, let's get into this a little — because the Registered Agent is the biggest form of compliance, and it basically holds your business together…"</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>2 · Teach the law</h3>
+      <p style="font-size:14px;margin-bottom:8px">A Registered Agent…</p>
+      <ul class="dot">
+        <li>Is <b>required by law</b></li>
+        <li>Must be in the <b>same state</b> your business is registered in</li>
+        <li>Must have a <b>physical address</b> — no PO Boxes</li>
+        <li><b>Office address:</b> the listed RA must be available Mon–Fri during office hours</li>
+        <li><b>Home address:</b> expected to be <i>generally available at any time</i> a party might serve process — or there could be legal consequences</li>
+      </ul>
+      <div class="callout warn"><b>Escalation (only if needed):</b> missed state notices → missed compliance obligations → state standing at risk. Missed lawsuit notice → judge approves service by mail → suit proceeds without your knowledge or participation → <b>"Default Judgment"</b> imposing liability or damages without your input.</div>
+    </div>
+    <div class="card">
+      <h3>3 · Make the risk personal</h3>
+      <div class="say"><span class="tag">Say</span><p>"Why we don't typically see owners list themselves — or friends, or family — is because the RA can <b>impact the liability protection</b> for your business. The RA goes on <b>public record</b> as the point of contact between your business and government entities, receiving Service of Process and state notices. And it doesn't always go to your mailbox: hand-delivered, certified mail, FedEx, USPS."</p></div>
+      <div class="say"><span class="tag">Say</span><p>"So if you list yourself, you're committing to physically be at [home: during all office hours / office: all business hours, Mon–Fri] — someone might try to serve you. They might not give any update… might not make a second attempt. So let's say you're not there because you're out… you know, <i>running your business</i>. Now you may miss notices or legal documents — which puts your liability protection at risk. Without it, you're worried about your <b>personal assets</b>: default judgments, warrants, lawsuits."</p></div>
+      <div class="say ask"><span class="tag">Tie-down</span><p>"Since the RA is a legal requirement and plays a key role in protecting your liability protection… do you see why most people don't list themselves for that responsibility?"</p></div>
+    </div>
+  </div>
+
+  <div class="card tinted">
+    <h3>4 · The fork question</h3>
+    <div class="say ask"><span class="tag">Ask</span><p>"I'm sure you'd agree we want your business always in compliance and protected. So let me ask you this — over these next 12 months, do you anticipate [yourself / the listed person] traveling or being away from [RA address]… or will [you/they] physically <i>never</i> leave it?"</p></div>
+    <div class="grid2" style="margin-top:14px">
+      <div>
+        <span class="pill r">"Always there"</span>
+        <div class="say"><span class="tag">Say</span><p>"As our customer, we owe it to you to make sure you fully understand the implications and the risks you can avoid with a dedicated RA provider. By selecting [yourself], please know [you're] open to receiving Service of Process <b>at any time</b> at that location. Is this a responsibility [you're] comfortable and confident taking on?" <span class="cue">if truly yes → continue review or move to taxes gracefully</span></p></div>
+      </div>
+      <div>
+        <span class="pill g">"I'll be out" — most people</span>
+        <div class="say"><span class="tag">Say</span><p>"Our solution here — and what most business owners I speak with do — is have ZenBusiness take care of this for them. We have offices in <b>all 50 states</b> for exactly this reason. Any correspondence comes to our office, we upload it to your dashboard, we call you, we email you. That gives you the flexibility to actually leave that address — or your home."</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>5 · Stack the benefits</h3>
+      <ul class="dot">
+        <li><b>Never miss</b> an SOP or state notice — and gain the flexibility to move around freely to run and grow the business</li>
+        <li><b>Avoid</b> warrants and default judgments from unsuccessful deliveries — peace of mind that every SOP and legal notice is received</li>
+        <li><b>Privacy</b> (home-address customers): "Since the RA address is the <i>first</i> address associated with your business on the Secretary of State website, assigning us gives you an official address — the first place process servers look, and the first point of contact for state correspondence. Keeps solicitations out of your private mailbox."</li>
+      </ul>
+      <div class="say ask"><span class="tag">Tie-down</span><p>"Do you see how all of that would be valuable for your specific situation?"</p></div>
+    </div>
+    <div class="card">
+      <h3>6 · Close</h3>
+      <div class="say"><span class="tag">Say</span><p>"The main reason most people even get an LLC is the protection of your personal assets — so the last thing you want is to put that protection at risk. It's one of those things that isn't a big deal… <b>until it is</b>."</p></div>
+      <div class="say ask"><span class="tag">Trial close</span><p>"Would you gain some peace of mind and more freedom to move freely as you please if we got your Registered Agent switched over to ZenBusiness?"</p></div>
+      <div class="say"><span class="tag">Price</span><p>"Great. It's only <b>$199 for the entire year</b>; after your first year it's $199/year to continue our award-winning service. If you break it down — flexibility, peace of mind, and your legal requirement to the state fulfilled — for essentially <b>less than $1 a day</b>. Pretty good deal, right?"</p></div>
+      <div class="say"><span class="tag">Payment</span><p>"Do I have your permission to process the payment of $199 with the card on file ending in [last 4]?"</p></div>
+      <p style="font-size:13px;margin-top:10px;color:var(--mute)"><b>Bonus ask (optional):</b> "Before I add this — do you have any other businesses formed outside ZenBusiness that you'd like us to serve as Registered Agent for?"</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Timing framing — know which call you're on</h3>
+    <div class="grid2">
+      <div>
+        <span class="pill k">Pre-formation</span>
+        <p style="font-size:14px;margin-top:8px">"Since your business hasn't been formed yet — by taking care of this <b>before</b> everything is submitted to the state, you avoid the Change of Registered Agent state fee, the need to submit paperwork yourself, and the additional processing time, which can take <b>weeks</b>."</p>
+      </div>
+      <div>
+        <span class="pill a">Post-formation</span>
+        <p style="font-size:14px;margin-top:8px">"Since your business is already formed, you'll pay just the state fee [look up CORA fee — search "Change of Registered Agent" + state] to make the change — and <b>our team takes care of filing it with the state for you</b>."</p>
+      </div>
+    </div>
+    <div class="say" style="margin-top:12px"><span class="tag">Wrap</span><p>"You'll be covered from today through this date next year, and we'll take care of all of these responsibilities. You won't have to worry about this at all — your business gets the protection it needs. I'm happy to get this updated and unlocked for you today so staying compliant is that much easier. Does that sound good?"</p></div>
+  </div>
+</section>
+<!-- ================= 06 WFC ================= -->
+<section class="block" id="wfc">
+  <div class="sechead"><span class="num">08</span><h2>Worry Free Compliance</h2><span class="clock">⏱ 17:00–21:00</span></div>
+  <p class="secsub">RA protects them from what arrives in the mail; WFC protects them from what they forget to file. Open by exposing the memory problem, then sell the relief.</p>
+
+  <div class="card">
+    <h3>1 · Discovery — expose the gap</h3>
+    <div class="say"><span class="tag">Frame</span><p>"Forming an LLC is a huge accomplishment and the first major step toward making a business official in the eyes of the state — and gaining all the benefits that come with it. After that, to keep the business in good standing and compliant, you need to file the <b>right documents, at the right time</b>, to avoid fines… or even losing the liability protection you paid for and worked so hard to get with your new LLC."</p></div>
+    <div class="say ask"><span class="tag">Ask</span><p>"This might be a silly question… but how good are you with remembering important dates — like deadlines, or even birthdays?" <span class="cue">😄 keep it light</span></p>
+    <p>"How comfortable and confident are you with the different reports and due dates <b>your state</b> requires for your LLC to stay compliant?"</p>
+    <p>"What would it mean for you to know all of your state compliance deadlines were almost automatically taken care of?"</p></div>
+    <div class="why"><span class="ic">🔎</span><div>Need their actual deadlines? Check <b>Agency Services in Salesforce</b> for annual-report dates, fines and fees (or the Annual Reports FAQ / Amendments FAQ). Specifics make the risk real.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>2 · Benefits — Essential ($199/yr)</h3>
+      <ul class="dot">
+        <li>Prevents falling out of good standing — right documents, right time, doors stay open</li>
+        <li>Outreach <b>60 and 30 days</b> before due dates — "relentlessly making sure you get everything in on time… basically, we'll keep bugging you until it's done 😄" + email alerts for compliance and filing events</li>
+        <li>ZB service fees <b>waived</b> to file Annual / Bi-Annual reports (and Initial Reports for CA, IL, MO, NV, NM, WA)</li>
+        <li><b>2 free amendment credits per year</b> — management structure, addresses, business name (you just pay state fees; we handle the paperwork)</li>
+        <li>Full protection if you ever fall out of compliance: detailed action plan back to good standing — and <b>if it's our fault, ZenBusiness covers the cost</b></li>
+        <li>Compliance Overview dashboard: calendar of events (incl. formation anniversary), easy ordering of amendments / annual reports / meeting minutes, and a <b>compliance score</b> — "like a Credit Karma score, but for compliance" — across six categories, showing exactly what needs attention and how to earn more points</li>
+      </ul>
+      <div class="say ask"><span class="tag">Tie-down</span><p>"How would it feel to have more time to focus on growing your business instead of worrying about paperwork?"</p></div>
+    </div>
+    <div class="card">
+      <h3>2b · Upsell — Advanced ($299/yr)</h3>
+      <p style="font-size:14px">Pitch Advanced when they anticipate <b>more than a couple of changes</b>, need a Certificate of Good Standing for loans or licenses, or want premium support.</p>
+      <ul class="dot">
+        <li>Everything in Essential</li>
+        <li><b>Unlimited</b> amendment credits</li>
+        <li><b>1 Certificate of Good Standing per year</b> — "issued by a state official as conclusive evidence your LLC is in existence, so you can get loans or obtain licenses"</li>
+        <li>Premium Compliance Support</li>
+      </ul>
+      <div class="callout win"><b>Already on Essential?</b> Add Advanced for just <b>$99/yr</b>.</div>
+      <p style="font-size:13px;color:var(--mute)">Feature ladder: Basic → Essential adds amendments (2/yr); Advanced adds unlimited amendments + CoGS + premium support. All tiers: webinar, email reminders, notifications, business calendar, meeting minutes, scorecard, annual report filings (ZB fees waived; state fees still apply).</p>
+    </div>
+  </div>
+
+  <div class="card tinted">
+    <h3>3 · Close</h3>
+    <div class="say ask"><span class="tag">Trial close</span><p>"If we could ensure your business stays compliant with minimal effort on your part, would that give you peace of mind?"</p></div>
+    <div class="say"><span class="tag">Price</span><p>"Essential is only <b>$199 for the entire year</b> — break it down and it's about <b>55 cents a day</b>. Advanced — everything in Essential plus unlimited amendment credits, one Certificate of Good Standing per year, and premium compliance support — is only <b>$299 for the entire year</b>. You'll always be reminded of important due dates in your Compliance Calendar and by email, and your required reports and amendments get filed with the state by experts — all for less than $1 a day. Pretty good deal, right?"</p></div>
+    <div class="say"><span class="tag">Payment</span><p>"I'm happy to add Worry Free Compliance [Essential / Advanced] so we can take the weight of state compliance off your shoulders — does that sound good? … Do I have your permission to process the payment of [$99/$199/$299] with the card on file ending in [last 4]?"</p></div>
+    <p style="font-size:13.5px;color:var(--mute);margin-top:10px">Then: <i>"Ok, great! Let's quickly touch on another piece of compliance…"</i> → transition to Registered Agent if not yet covered.</p>
+  </div>
+
+  <div class="card">
+    <h3>The car-registration analogy <span class="pill a" style="margin-left:6px">use when they don't feel the risk</span></h3>
+    <p style="font-size:14.5px">"Just as you'd get an annual checkup on your car and renew your registration every year to legally drive… you file your LLC's annual report to maintain its legal status and your liability protection. Driving without a valid license or registration, you might think you're saving money — until you're pulled over: fines, impound, maybe your license. Same with the LLC: skip the annual report and you're driving your business without valid registration. You risk penalties, loss of business opportunities, <b>loss of the entity</b>, legal problems — and losing the liability protection, meaning <b>you're personally liable</b> for business debts and lawsuits. It's a small investment that saves a lot of headaches and heartache. Filing the annual report isn't just a formality — it's a vital part of maintaining a successful business."</p>
+  </div>
+</section>
+
+<!-- ================= 07 TAX TRACK ================= -->
+<section class="block" id="tax">
+  <div class="sechead"><span class="num">09</span><h2>The Tax Track</h2><span class="clock">⏱ 21:00–27:00</span></div>
+  <p class="secsub">An education-led sale: open → classification → quarterlies → deductions → qualify. You're not the expert — you're the one who shows them how much there is to get wrong, then connects them to the pros. Always: "Now, I'm not a lawyer or an accountant, but…" <b>Once the customer is educated and qualified, run the Tax Services Selling System (next section) to convert.</b></p>
+
+  <div class="card">
+    <h3>0 · Open the tax conversation</h3>
+    <div class="grid2">
+      <div>
+        <span class="pill k">No Money Pro</span>
+        <p style="font-size:14px;margin-top:8px">"Earlier we talked about the many things you gain as an LLC, and how tax advantages are one of them… A lot of our customers, both new and experienced, ask us how to save or keep the most money, avoid mistakes, and make sure everything for taxes is correct, legal, and done right…"</p>
+      </div>
+      <div>
+        <span class="pill g">Has Money Pro</span>
+        <p style="font-size:14px;margin-top:8px">"Earlier we talked about how significant the tax advantages are. I see you already have Money Pro — that was a great decision by you. Since you have it, I'm sure you've already thought about this, but…"</p>
+      </div>
+    </div>
+    <div class="say" style="margin-top:12px"><span class="tag">Frame</span><p>"Since it's a new business, your taxes don't start with income — they start with <b>expenses</b>. You'll want to know where every single penny goes: money in, money out, profit, loss, cash flow… right from the beginning. The biggest financial wins — and losses — show up during tax time, which means they're tied to what happens <b>all throughout the year</b>. With an LLC, taxes aren't just a box to check: you gain deductions, write-offs, quarterly estimates — and there are actions to consider taking <b>right away</b>. Business taxes have more moving parts, ongoing responsibilities, and higher risk — way more strategy and planning than personal taxes. Being proactive is what lets you keep more of your hard-earned money and avoid giving more than you need to."</p></div>
+    <div class="say ask"><span class="tag">Discovery</span>
+      <p>"Have you thought about how [Business] will affect your taxes for this year? How do you typically file your personal taxes?"</p>
+      <p>"Do you have a tax advisor or accountant who <b>specializes in business taxes</b>?" <span class="cue">if yes → qualify the pro:</span> "Have you already spoken to them about [Business] — like what classification would be best for you? Do they have experience with business taxes in your industry? What's their availability when you have pressing tax questions or decisions mid-year?" <span class="cue">if no:</span> "Do you have anyone in mind, or has anyone been recommended to you?"</p>
+      <p>"How familiar are you with all the tax benefits you gain with this LLC? Do you already know what classification is best, how you'll pay yourself, and whether you'll need to pay quarterly taxes?"</p>
+      <p>"Were you planning on applying all the state fees and services you purchased with us toward your <b>start-up and organizational cost deductions</b> for this year's taxes?"</p>
+      <p>"Since you've already made purchases on your personal card — how have you been documenting those, and what's your plan for tracking income, mileage, and purchases going forward?"</p>
+      <p>"Did you know you could potentially lower your tax liability by immediately deducting up to <b>$10,000</b> in startup and organizational costs in your first year? Would you find it helpful if I went a bit deeper on deductions and tax opportunities relevant to you today?"</p>
+    </div>
+    <div class="callout win"><b>Strong candidate signals:</b> unsure, planning to self-file, hasn't fully committed to a tax pro, or says "I haven't thought about it yet."</div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>⚖️ 1 · Tax classification election</h3>
+      <p style="font-size:14px">"At a high level, the very first thing to consider is notifying the IRS how you want [Business] taxed — your <b>tax classification election</b>: C-Corp, S-Corp, accept the IRS default, or change between partnership and disregarded-entity status. Once your EIN is issued, if you don't proactively choose, <b>the IRS assigns a default</b> — which may or may not be in your best interest, because there's no one-size-fits-all in taxes."</p>
+      <ul class="dot">
+        <li>To change: Form 8832 and/or Form 2553 — the IRS requires receipt within <b>75 days</b> of when you want it effective</li>
+        <li>"Your classification determines <b>how you'll be paying yourself</b> — not a choice to leave to the IRS, right [Name]? You might ask a tax expert: 'what election would lower my self-employment taxes?'"</li>
+        <li><b>Headline:</b> "This decision impacts what happens with your money — it should be tailored to your situation, and speaking with a tax professional is highly recommended."</li>
+        <li>ZB files the S-Corp election (Form 2553) <b>free within the first 30 days</b> after your formation purchase; <b>$200 after 30 days</b>; after 75 days it's a late filing — still nothing beyond the $200</li>
+      </ul>
+      <div class="say ask"><span class="tag">Tie-down</span><p>"How confident do you feel about making the right decision on this?" / "Do you think this is something to talk to a tax professional about before deciding?" / "Do you see why this is important to discuss <i>before</i> the decision is defaulted for you by the IRS?"</p></div>
+      <div class="why"><span class="ic">📚</span><div><b>Only if they ask for detail:</b> Single-member default = disregarded entity (income/expenses on Form 1040, Schedule C). Multi-member default = partnership (Form 1065 + Schedule K-1 to each member, reported on personal returns). C-Corp = corporate income tax rates, elected via Form 8832 within 75 days. S-Corp = pass-through of profits/losses/deductions/credits avoiding double taxation, via Form 2553 — requires ≤100 shareholders, all U.S. citizens or residents.</div></div>
+    </div>
+    <div class="card">
+      <h3>📆 2 · Quarterly estimated taxes</h3>
+      <div class="say"><span class="tag">Hook</span><p>"I agree — now let's talk about something that catches <b>almost every LLC owner</b> off guard… Unlike a regular job, the IRS expects you to pay taxes on your business profit every few months — not just at annual tax time. The IRS — and most states — expect you to pay as you earn it, and state rules can vary wildly depending on where [Business] is based."</p></div>
+      <ul class="dot">
+        <li>Expect to owe <b>$1,000+</b> for the year (after withholding)? You pay as you go — usually four installments: <b>Apr 15, Jun 15, Sep 15, Jan 15</b></li>
+        <li>Miss or underpay → <b>penalties and interest</b>, even if you're profitable and file on time annually</li>
+        <li><b>Single-member LLC / S-Corp:</b> "You're personally responsible for federal income tax <i>plus</i> self-employment tax — that's <b>15.3%</b> for Social Security and Medicare — on your net profit, all paid quarterly. The IRS sees business profit as your personal income right away."</li>
+        <li><b>Multi-member (partnership):</b> "The business itself pays no income tax — it's a pass-through — but you and the other members each owe estimated payments on your individual share, detailed on a Schedule K-1 and reported on your personal return."</li>
+      </ul>
+      <div class="say ask"><span class="tag">Impact Qs</span><p>"[Name], when money starts coming in over the next few months and it's actually <i>yours to keep</i> for the first time… how would it feel to get to your annual filing and suddenly find out a big chunk of it belonged to the IRS all along?"</p><p>"Pretty much every new LLC owner we work with says the quarterly thing was the one piece they wish someone had walked them through from day one. Does that surprise you, or does that feel about right?"</p><p>"Most of our clients want to know exactly how much to set aside every time money hits the account — and when to send it in. How confident are you right now that you know (1) whether you're required to pay quarterly, (2) how much each quarter, and (3) the exact due dates so you never get penalized?"</p><p>"How important do you feel it is to be on top of potential quarterly taxes for your business specifically?"</p></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>🚀 3 · Startup &amp; organizational costs</h3>
+      <p style="font-size:14px">"Now for some of the fun stuff… The IRS allows new LLCs to immediately deduct up to <b>$5,000 in startup costs</b> in year one (if total startup costs don't exceed $50,000), and <b>another $5,000 in organizational costs</b> (same $50,000 cap) to reduce your taxable income."</p>
+      <ul class="dot">
+        <li><b>Startup costs</b> (before operations begin): market research, advertising the opening, employee training wages, travel to secure suppliers, distributors, or customers</li>
+        <li><b>Organizational costs</b> (creating the LLC): state filing fees, accounting setup — <i>"like the plan and products you purchased with us"</i></li>
+      </ul>
+      <div class="say ask"><span class="tag">Ask</span><p>"[Name], in addition to filing your LLC and everything you've already purchased from us — the plan, Registered Agent, Worry Free Compliance, EIN, website — what <b>other</b> purchases have you made toward getting this business started and operational?" <span class="cue">pause</span></p></div>
+      <p style="font-size:13.5px;color:var(--mute)">"It definitely sounds like you may have some write-offs to consider — we'll talk about how we can connect you with a tax pro to take advantage of these."</p>
+    </div>
+    <div class="card">
+      <h3>🚗 4 · Vehicle deductions</h3>
+      <ul class="dot">
+        <li><b>Actual Expense Method:</b> gas, oil changes, tires, insurance…</li>
+        <li><b>Standard Mileage Method:</b> for 2026 the IRS allows <b>72¢ per business mile</b> — "another way to look at it: $72 per 100 miles, $720 per 1,000, $7,200 per 10,000"</li>
+      </ul>
+      <div class="say ask"><span class="tag">Ask</span><p>"How many miles do you think you'll be driving every month for business activities — going to the bank, meeting clients, vendors?" <span class="cue">do the math live: monthly × 12 × $0.72</span></p><p>"Using that estimate, you might be able to deduct around <b>[$Y]</b> on your taxes — and that's just from tracking mileage. If you could deduct that every single year, or even just this year, what sort of impact would that make on the finances for you and this business?"</p></div>
+      <table class="zt" style="margin-top:10px;font-size:12.5px">
+        <tr><th>Miles/mo</th><th>Miles/yr</th><th>2026 @ 72¢</th></tr>
+        <tr><td class="m">300</td><td class="m">3,600</td><td class="m">$2,592</td></tr>
+        <tr><td class="m">500</td><td class="m">6,000</td><td class="m">$4,320</td></tr>
+        <tr><td class="m">1,000</td><td class="m">12,000</td><td class="m">$8,640</td></tr>
+        <tr><td class="m">1,500</td><td class="m">18,000</td><td class="m">$12,960</td></tr>
+        <tr><td class="m">2,000</td><td class="m">24,000</td><td class="m">$17,280</td></tr>
+      </table>
+      <p style="font-size:13px;color:var(--mute);margin-top:8px">"Track all vehicle expenses and which year you're logging mileage for, so a tax expert can advise which method benefits you most."</p>
+    </div>
+  </div>
+
+  <div class="card tinted">
+    <h3>⚒️ 5 · Ongoing deductions → 6 · Qualify</h3>
+    <p style="font-size:14px">"And the one you're probably most aware of — <b>general ongoing business expenses</b>. The IRS allows deductions for expenses that are both <i>ordinary and necessary</i>: storage… cost of products or raw materials, including shipping… professional services — fees to tax professionals, lawyers, consultants… assets like land, buildings, machinery, furniture, trucks, patents, franchise rights… even improvements you make for the business, like replumbing, replacing a roof, equipment enhancements… [if home office] and home-office expenses — rent or mortgage interest, utilities, office supplies, phone and internet, software and subscriptions, and more."</p>
+    <div class="say ask"><span class="tag">Ask</span><p>"Do you plan on making any big purchases — land, vehicles, equipment? Being in [industry], what purchases do you expect to make for [Business] for the rest of this year?"</p></div>
+    <p style="font-size:14px;margin:10px 0">"So as you can see, there's a lot to figure out — which purchases you've made and will make are eligible as business expenses, and what you could gain by effectively writing them off…"</p>
+    <div class="say"><span class="tag">The qualify — pattern</span>
+      <p>"Here's what we've seen happen over and over again with a lot of business owners: they <b>miss deductions and overpay</b> on taxes… they <b>wait until tax season and scramble for receipts</b>… they get <b>surprised by quarterly taxes or IRS letters</b> they didn't expect and don't know what to do… or they think their 'tax person' or TurboTax or H&amp;R Block will 'figure it out' — but without clean books or a strategy over the course of the year, they <b>lose money</b>. And that's not because they're doing anything wrong — this tax stuff just gets complex fast if you don't have someone to help you navigate it."</p>
+    </div>
+    <div class="say ask"><span class="tag">Qualify Qs</span>
+      <p>"Does any of that sound like something you've been concerned about or want to avoid altogether?" <span class="cue">Yes → "Exactly why I brought it up." · No → "Even better reason to talk about it before it becomes a problem."</span></p>
+      <p>"Can you see how that might become a problem — or how you'd miss out on everything you could gain — if you don't get ahead of it now?"</p>
+      <p>"Are you opposed to exploring better options?"</p>
+      <p>"I have an idea… but I want to make sure it's a good fit for you first. Earlier you shared that you were going to be [doing your business taxes on your own / …]"</p>
+    </div>
+    <div class="why"><span class="ic">🎯</span><div><b>Then position the fit:</b> Tax Advice (quarterly sessions with licensed pros) for the owner who wants guidance; Tax Advice + Prep (guidance + full federal and state business filing) for the owner who wants it handled; Money Pro for the books that make both work.</div></div>
+  </div>
+</section>
+
+
+<!-- ================= TX: TAX SERVICES SELLING SYSTEM ================= -->
+<section class="block" id="taxsell">
+  <div class="sechead"><span class="num">TX</span><h2>The Tax Services Selling System</h2><span class="clock">highest-value close on the call</span></div>
+  <p class="secsub">The Tax Track (Section 09) educates. This system converts. Tax Services — powered by the credentialed experts at april — is the highest-value product you can close on the phone, and the one customers thank you for most. Everything below is built from the official ZenBusiness Tax Services offering.</p>
+
+  <!-- 1: THE OFFERS -->
+  <div class="card">
+    <h3>1 · The three offers — know them cold</h3>
+    <table class="zt">
+      <tr><th style="width:21%">Plan</th><th style="width:14%">Price</th><th style="width:33%">What the customer gets</th><th>Sell it as…</th></tr>
+      <tr><td class="m"><b>Tax Filing</b><br>"Get taxes filed for you"</td><td class="m">$899/yr<br>billed once<br>+ state fees</td><td>Expert preparation, review, and filing of federal + state business taxes by april's tax pros. Self-employment income (Schedule C). <b>Single-member LLCs: personal tax return included — a $300+ value.</b> Tax docs imported automatically when available; records live in their Tax dashboard.</td><td>"Tax season handled. You hand it off; credentialed experts prepare, review, and file — business <i>and</i> personal in one if you're a single-member LLC."</td></tr>
+      <tr><td class="m"><b>Quarterly Tax Planning</b><br>"Expert help"</td><td class="m">$89/mo<br>yearly contract<br>+ state fees</td><td>Four consultations per year — one each quarter — each a <b>30-minute video call with a credentialed tax expert</b>: personalized guidance, review of documents uploaded beforehand, and a <b>written summary with key takeaways and action steps</b>. Covers quarterly estimates, deadline reminders, maximizing deductions, entity structuring, IRS compliance, growth planning. Extra sessions bookable for a fee.</td><td>"A licensed tax pro in your corner before every deadline — quarterly estimates, deductions, structure — so there are never surprises."</td></tr>
+      <tr><td class="m"><b>Quarterly Planning + Filing</b><br>"Filing with expert help"</td><td class="m">$169/mo<br>yearly contract<br>+ state fees</td><td><b>Everything in both plans:</b> the four quarterly expert sessions <i>plus</i> full prep and filing. Syncs with <b>Money Pro in real time</b>; documents imported automatically; prepared and reviewed by a tax expert; federal + state filing; SMLLC personal return included.</td><td>"The complete system: strategy all year, filing handled at the end. The plan most owners we talk to actually need."</td></tr>
+    </table>
+    <div class="callout warn"><b>Multi-member / Partnership / S-Corp / C-Corp pricing:</b> business tax filing is <b>$1,399/yr</b> (includes K-1 income; personal return not included — available from april at additional cost). Quarterly Planning + Filing is <b>$219/mo</b>. Quote the right number the first time — credibility lives here.</div>
+    <div class="callout win"><b>Bonus closers built into the product:</b> (1) "Your subscription is <b>tax deductible</b> — you can claim the full amount paid this year as a business expense." (2) "It's available in your dashboard and we can add it to your existing package today." (3) "Each business needs its own service — so if you have a second LLC, we'll set that up separately."</div>
+  </div>
+
+  <!-- 2+3: POSITIONING TALK TRACK + BUSINESS VS PERSONAL -->
+  <div class="grid2">
+    <div class="card">
+      <h3>2 · The master positioning talk track</h3>
+      <div class="say"><span class="tag">Position</span><p>"[Name], here's the honest picture. You now own a business — which means the IRS treats your money completely differently than it did when you had a paycheck. There are four things every new owner has to get right: <b>knowing what you owe</b>, <b>paying on time</b>, <b>staying compliant</b>, and <b>capturing every deduction</b>. Get them right and the LLC becomes a money-saving machine. Get them wrong and it becomes penalties, interest, and overpaying the IRS. Our tax service exists so you never have to guess on any of the four — credentialed tax experts, on your calendar, all year."</p></div>
+      <div class="why"><span class="ic">🎯</span><div>This maps exactly to the four published benefit pillars: <b>stay compliant · expert support · no tax surprises · maximize deductions</b>. Four fingers, four pillars — count them on your hand as you say them.</div></div>
+    </div>
+    <div class="card">
+      <h3>3 · Business vs. personal taxes — the 30-second explainer</h3>
+      <div class="say"><span class="tag">Explain</span><p>"Think about your old paycheck: taxes came out automatically, your employer did the math, and once a year you filed and maybe got a refund. <b>Nobody does that for you anymore.</b> Now <i>you're</i> the employer: you calculate what you owe, you send it in four times a year, you track every deductible dollar, and you choose how the IRS even classifies you. Personal taxes are a once-a-year event. Business taxes are a <b>year-round job</b> — and the question is just whether you do that job alone or with a credentialed expert."</p></div>
+      <div class="say ask"><span class="tag">Tie-down</span><p>"Does that distinction make sense — why this isn't just 'TurboTax with extra steps'?"</p></div>
+    </div>
+  </div>
+
+  <!-- 4: DISCOVERY -->
+  <div class="card">
+    <h3>4 · Tax discovery — questions that uncover the six gaps</h3>
+    <table class="zt">
+      <tr><th style="width:20%">Gap to uncover</th><th style="width:50%">Ask</th><th>Buying signal sounds like…</th></tr>
+      <tr><td class="m">Confusion</td><td>"On a scale of 1–10, how clear are you on exactly what [Business] will owe in taxes this year — and to whom?"</td><td>Anything under 7. "Honestly? No idea."</td></tr>
+      <tr><td class="m">Fear</td><td>"What worries you more — paying too much, or getting a letter from the IRS saying you paid too little?"</td><td>Either answer — both are the product.</td></tr>
+      <tr><td class="m">Missed deductions</td><td>"Of everything you've spent so far — filing fees, equipment, mileage, this call — how much of it do you know, for certain, you'll get credit for at tax time?"</td><td>"I haven't really tracked it…"</td></tr>
+      <tr><td class="m">Quarterly risk</td><td>"Who's calculating your quarterly estimates — and do you know your first due date?"</td><td>"Wait, quarterly?"</td></tr>
+      <tr><td class="m">Bookkeeping gap</td><td>"If I asked you for your profit-and-loss for last month, how long would it take you to produce it?"</td><td>Laughter. A sigh. "Define 'produce.'"</td></tr>
+      <tr><td class="m">No strategy</td><td>"Has anyone sat down with you to plan your tax year — classification, how you'll pay yourself, what to set aside — or has it all been reactive so far?"</td><td>"Nobody's walked me through any of this."</td></tr>
+    </table>
+    <div class="why"><span class="ic">📝</span><div><b>Scoring rule:</b> two or more gaps = pitch Quarterly Planning minimum. Four or more, or "I was going to do it myself" = pitch Planning + Filing. Tally as you go; you'll quote the right plan without thinking.</div></div>
+  </div>
+
+  <!-- 5: SALES FLOW -->
+  <div class="card tinted">
+    <h3>5 · The Tax Services sales flow — minutes 21–27 (or the whole call when tax-led)</h3>
+    <div class="flow">
+      <div class="fstep"><div class="fn">21:00</div><div class="ft">Frame</div><div class="fd">"Taxes start with expenses" + 4-pillar position</div></div>
+      <div class="fstep"><div class="fn">22:00</div><div class="ft">Gap discovery</div><div class="fd">Run the six-gap questions, tally</div></div>
+      <div class="fstep"><div class="fn">23:30</div><div class="ft">Educate</div><div class="fd">75-day election · quarterlies · $10K + mileage math</div></div>
+      <div class="fstep"><div class="fn">25:00</div><div class="ft">Qualify</div><div class="fd">"Seen over and over…" pattern + "opposed to better options?"</div></div>
+      <div class="fstep"><div class="fn">25:30</div><div class="ft">Prescribe</div><div class="fd">Match plan to gaps, one recommendation</div></div>
+      <div class="fstep"><div class="fn">26:00</div><div class="ft">Close</div><div class="fd">Deductible-subscription frame + payment ask</div></div>
+    </div>
+    <div class="why"><span class="ic">⚕️</span><div><b>The consultative rule — diagnose before you prescribe.</b> The customer must say at least two gaps out loud before you name a plan. A prescription without a diagnosis is a pitch; a prescription after a diagnosis is advice.</div></div>
+  </div>
+
+  <!-- 6: PERFECT FIT -->
+  <div class="grid3">
+    <div class="card">
+      <h3><span class="pill a">Tax Filing — $899/yr</span> perfect fit</h3>
+      <ul class="dot">
+        <li>Confident operator who just wants tax season <b>off their plate</b></li>
+        <li>Single-member LLC — the included personal return ($300+ value) makes the math irresistible</li>
+        <li>Has books in order (or Money Pro) but dreads the filing itself</li>
+        <li>Says: "I just don't want to deal with it in April."</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="pill k">Quarterly Planning — $89/mo</span> perfect fit</h3>
+      <ul class="dot">
+        <li>First-time owner with <b>questions all year</b>: classification, paying themselves, what to set aside</li>
+        <li>Facing the 75-day election and quarterly due dates with no advisor</li>
+        <li>Wants an expert but plans to file themselves (or with their own preparer)</li>
+        <li>Says: "I don't even know what I don't know."</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="pill g">Planning + Filing — $169/mo</span> perfect fit</h3>
+      <ul class="dot">
+        <li>Two-plus gaps in discovery — strategy <b>and</b> execution missing</li>
+        <li>Money Pro owner (real-time sync makes this seamless)</li>
+        <li>Was "going to use TurboTax" or has no preparer at all</li>
+        <li>Revenue starting soon — needs estimates <i>now</i> and filing <i>later</i></li>
+        <li>The default recommendation when in doubt: it's the only plan with every feature</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7: TRANSITIONS -->
+  <div class="card">
+    <h3>7 · Transitions into Tax Services — from anywhere on the call</h3>
+    <table class="zt">
+      <tr><th style="width:20%">Coming from…</th><th>The bridge line</th></tr>
+      <tr><td class="m">LLC formation</td><td>"The reason most people form an LLC is protection and tax advantages. The protection is done — let's make sure you actually <i>collect</i> the tax advantages."</td></tr>
+      <tr><td class="m">Registered Agent</td><td>"We just protected you from legal surprises. There's one more kind of surprise that hits new owners harder — tax surprises. Can I show you what catches almost everyone?"</td></tr>
+      <tr><td class="m">Worry Free Compliance</td><td>"WFC keeps you compliant with the <i>state</i>. The IRS is a whole separate calendar — quarterly payments, elections, filings. Want me to walk you through who's keeping you compliant with <i>them</i>?"</td></tr>
+      <tr><td class="m">Money Pro</td><td>"Money Pro is tracking every dollar — which is half the job. The other half is a credentialed expert turning those clean books into strategy and a filed return. The two literally sync in real time."</td></tr>
+      <tr><td class="m">EIN</td><td>"The moment that EIN is issued, the IRS clock starts — including your 75-day classification window. Has anyone walked you through what to do in those 75 days?"</td></tr>
+      <tr><td class="m">Operating Agreement</td><td>"The OA proves the business is separate from you. The IRS sees it that way too — separate income, separate deductions, separate deadlines. Who's managing that side for you?"</td></tr>
+      <tr><td class="m">Website / Domain</td><td>"Everything you're spending to launch — the domain, the site, all of it — is potentially deductible. The question is whether anyone's making sure you capture it."</td></tr>
+      <tr><td class="m">Bank account talk</td><td>"Once money starts flowing through that business account, every deposit has a tax consequence. Quarterly estimates start mattering the very first profitable month."</td></tr>
+    </table>
+  </div>
+
+  <!-- 8: OBJECTIONS -->
+  <h3 style="margin:24px 0 10px;font-size:17px">8 · Tax Services objection matrix</h3>
+
+  <details class="obj"><summary><span class="q">TAX</span>"I already have an accountant."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"That's great — and worth keeping. Quick questions, because there's a real difference between a tax preparer and a tax <i>strategist</i>: Does your accountant specialize in <b>business</b> taxes — and in your industry? Have they already talked to you about your classification election — you've got 75 days on that? And when you have a pressing question in July, what's their availability look like?" <span class="cue">pause — most accountants are April-only</span></p>
+    <p>"Here's how our customers use this: april's experts handle the <b>year-round strategy</b> — quarterly estimates, deductions, structure — and your accountant gets cleaner everything. With Money Pro you can even share Schedule C, Form 1065, and Tax Details reports straight to them. It makes your accountant <i>better</i>, not redundant."</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">TAX</span>"I'll just use TurboTax."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"TurboTax is honestly fine for a W-2 and a refund. But here's the thing — software only answers the questions <i>you know to ask</i>. It won't tell you your classification election could lower your self-employment tax, it won't calculate your quarterly estimates before the penalty hits, and it won't sit with you for 30 minutes each quarter planning the year. The guide we've seen over and over: owners who self-file without a strategy don't get caught — they just quietly <b>overpay</b>, every single year. Would you rather guess at the IRS's questions, or have a credentialed expert who already knows them?"</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">TAX</span>"I'll deal with taxes later."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"I get it — tax season feels far away. But two clocks are already running: your <b>75-day classification window</b> started ticking with your EIN, and your first <b>quarterly payment</b> is due [next: Apr 15 / Jun 15 / Sep 15 / Jan 15]. Miss those and 'later' comes with penalties and interest attached — even if you're profitable. And every untracked receipt between now and 'later' is a deduction you'll never get back. Later is exactly when this gets expensive. Does it make sense to have the expert in place <i>before</i> the deadlines, not after?"</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">TAX</span>"I don't have revenue yet."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Perfect — that's actually the <b>best</b> time. Remember: your taxes don't start with income, they start with <b>expenses</b> — and you're spending right now. Everything you've bought to launch, up to $5,000 in startup costs and $5,000 in organizational costs, is potentially deductible in year one… but only if it's documented from day one. Pre-revenue is when the strategy gets built: classification, what to set aside, how to track. By the time the money shows up, the system's already working. And the subscription itself? Tax deductible as a business expense."</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">TAX</span>"It's too expensive."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Let's actually do the math together. Quarterly Planning is $89 a month — under <b>$3 a day</b>. One missed quarterly payment means penalties <i>plus</i> interest. One missed deduction bucket — say the mileage you told me about, [their number] miles a month — that's <b>[$X]</b> a year you'd hand the IRS for free. And the subscription is itself a deductible business expense, so the real cost is even lower. This is one of the few things you can buy that's designed to <b>pay for itself</b>. Pricing aside — is having an expert on your side something you want?"</p></div>
+    <div class="why"><span class="ic">💡</span><div>Use <i>their</i> discovery numbers in the math — their mileage, their startup spend. Generic math is a pitch; their math is a mirror.</div></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">TAX</span>"I'm not worried about taxes."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Honestly? That might be the answer that worries me most — because the owners who <i>should</i> be unworried are the ones with a pro watching their quarter. Quick gut check, three questions: Do you know whether you're required to pay quarterly? Do you know your classification deadline? Do you know your deductible total so far this year?" <span class="cue">pause after each</span> "If any of those is a no, you're not unworried — you're uninformed. And that's not a criticism; it's just new. The fix takes one phone call."</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">TAX</span>"I need to think about it."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Of course — it's your money. Help me point you at the right thing to think about: is it the monthly cost, or whether you actually need the help?" <span class="cue">pause — isolate</span></p>
+    <p><b>Cost</b> → re-run the per-day + deductible-subscription + their-numbers math. <b>Need</b> → "Fair. Then let's let a deadline decide instead of me: your next quarterly date is [date] and your election window closes [date]. If you're fully confident on both, you don't need this. If you're not — that's exactly what the first session fixes. Which is it?" <b>Still thinking</b> → book a specific callback <i>before</i> the nearest deadline and log the trigger.</p></div>
+  </div></details>
+
+  <!-- 9: THE CLOSE -->
+  <div class="card" style="margin-top:18px">
+    <h3>9 · The consultative close — prescribe, don't push</h3>
+    <div class="say"><span class="tag">Step 1 · Mirror the diagnosis</span><p>"[Name], based on what you told me — [gap 1, their words] and [gap 2, their words] — here's what I'd genuinely recommend, and I'll tell you why."</p></div>
+    <div class="say"><span class="tag">Step 2 · Prescribe ONE plan</span><p>"For you, that's [plan]. [Planning: 'Four 30-minute sessions a year with a credentialed expert — one each quarter — covering your estimates, your deductions, your structure, with written action steps after every call.' / Planning + Filing: 'Same expert sessions all year, and at the end they prepare and file your federal and state return — synced straight from Money Pro.' / Filing: 'You hand it off; experts prepare, review, and file — and as a single-member LLC your personal return is included, a $300+ value.']"</p></div>
+    <div class="say"><span class="tag">Step 3 · Shrink the number</span><p>"It's [$89 / $169] a month on a yearly plan — [under $3 / about $5.50] a day — and the subscription itself is a deductible business expense. Compare that to one missed quarterly penalty or one season of missed deductions, and this is built to pay for itself."</p></div>
+    <div class="say ask"><span class="tag">Step 4 · Soft tie-down</span><p>"Would having a credentialed tax expert in your corner before your first deadline give you some real peace of mind?"</p></div>
+    <div class="say"><span class="tag">Step 5 · Payment</span><p>"Great — do I have your permission to process [$89/$169/$899] with the card on file ending in [last 4]? You'll schedule your first consultation right from your ZenBusiness dashboard."</p></div>
+    <div class="why"><span class="ic">⚖️</span><div><b>One plan, not a menu.</b> Offering all three at the close reintroduces deliberation. You diagnosed; now prescribe one, with the reason tied to their words. If they balk at $169, step down to $89 as the alternative — never up-sell at the moment of hesitation.</div></div>
+  </div>
+
+  <!-- 10: CHEAT SHEET -->
+  <div class="card">
+    <h3>10 · Tax Services live-call cheat sheet</h3>
+    <div class="cheatwrap">
+      <div class="cheatgrid">
+        <div class="cheatcell"><h4>💰 Plans</h4><ul>
+          <li>Filing <span class="mono">$899/yr</span> once + state fees</li>
+          <li>Quarterly Planning <span class="mono">$89/mo</span> yearly contract</li>
+          <li>Planning + Filing <span class="mono">$169/mo</span> yearly contract</li>
+          <li>MM/Pship/S/C-Corp: <span class="mono">$1,399/yr · $219/mo</span></li>
+        </ul></div>
+        <div class="cheatcell"><h4>🎁 Built-in closers</h4><ul>
+          <li>SMLLC personal return incl. <span class="mono">$300+ value</span></li>
+          <li>Subscription is tax deductible</li>
+          <li>Money Pro syncs real-time</li>
+          <li>Docs imported automatically</li>
+          <li>Add to any package, today</li>
+        </ul></div>
+        <div class="cheatcell"><h4>🧭 4 Pillars</h4><ul>
+          <li>Stay compliant</li>
+          <li>Expert support — what, when, how</li>
+          <li>No tax surprises — estimates + reminders</li>
+          <li>Maximize deductions</li>
+        </ul></div>
+        <div class="cheatcell"><h4>🔍 6 Gap Questions</h4><ul>
+          <li>Clarity 1–10? · Overpay or IRS letter?</li>
+          <li>Deductions tracked? · Who does quarterlies?</li>
+          <li>P&amp;L in how long? · Anyone planned your year?</li>
+          <li><span class="mono">2+ gaps = $89 · 4+ = $169</span></li>
+        </ul></div>
+        <div class="cheatcell"><h4>📋 Session = what they buy</h4><ul>
+          <li>30-min video call, credentialed expert</li>
+          <li>Docs reviewed beforehand</li>
+          <li>Written summary + action steps</li>
+          <li>4×/year; extra sessions for a fee</li>
+        </ul></div>
+        <div class="cheatcell"><h4>⚡ Urgency levers</h4><ul>
+          <li>75-day election window (EIN starts it)</li>
+          <li>Quarterlies: <span class="mono">Apr·Jun·Sep·Jan 15</span></li>
+          <li>$5K + $5K year-one deductions</li>
+          <li>Mileage <span class="mono">72¢/mi</span> — do their math</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11: TOP 10 LINES -->
+  <div class="card">
+    <h3>11 · Top 10 Tax Services lines to memorize</h3>
+    <div class="linecard"><div class="ln">1</div><div><div class="lt">The reframe</div><div class="lq">"Your taxes don't start with income — they start with expenses. You're already in tax season; you just haven't filed yet."</div></div></div>
+    <div class="linecard"><div class="ln">2</div><div><div class="lt">The paycheck contrast</div><div class="lq">"Nobody withholds for you anymore. You're the employer now — the math, the deadlines, the strategy are all yours."</div></div></div>
+    <div class="linecard"><div class="ln">3</div><div><div class="lt">The four pillars</div><div class="lq">"Know what you owe, pay on time, stay compliant, capture every deduction — get those four right and the LLC pays you back."</div></div></div>
+    <div class="linecard"><div class="ln">4</div><div><div class="lt">The surprise hook</div><div class="lq">"Something catches almost every LLC owner off guard — the IRS expects to be paid every few months, not once in April."</div></div></div>
+    <div class="linecard"><div class="ln">5</div><div><div class="lt">The strategist vs. preparer line</div><div class="lq">"A preparer sees you once a year, after every decision is already made. A strategist talks to you every quarter, while the decisions can still save you money."</div></div></div>
+    <div class="linecard"><div class="ln">6</div><div><div class="lt">The TurboTax line</div><div class="lq">"Software only answers the questions you know to ask. Owners who guess don't get caught — they just quietly overpay, every year."</div></div></div>
+    <div class="linecard"><div class="ln">7</div><div><div class="lt">The pre-revenue flip</div><div class="lq">"No revenue yet is the best time — the strategy gets built before the money shows up, and every launch dollar gets captured."</div></div></div>
+    <div class="linecard"><div class="ln">8</div><div><div class="lt">The deductible-subscription kicker</div><div class="lq">"And the service itself is a deductible business expense — you can claim the full amount you pay this year."</div></div></div>
+    <div class="linecard"><div class="ln">9</div><div><div class="lt">The SMLLC value bomb</div><div class="lq">"As a single-member LLC, your personal return is included with business filing — that's a three-hundred-dollar-plus value, in the box."</div></div></div>
+    <div class="linecard"><div class="ln">10</div><div><div class="lt">The consultative close</div><div class="lq">"Based on what you told me — [their gaps] — here's what I'd genuinely recommend, and I'll tell you why…"</div></div></div>
+  </div>
+
+  <!-- 12: ROLE PLAYS & DRILLS -->
+  <div class="grid2">
+    <div class="card">
+      <h3>12a · Tax role-play scenarios</h3>
+      <p style="font-size:13.5px;margin-bottom:8px"><b>Scenario A — "The TurboTax DIYer":</b> SMLLC e-commerce seller, revenue starting next month, "I've always done my own taxes," no books. <i>Goal:</i> six-gap discovery → Planning + Filing prescription. <i>Twist:</i> "It's too expensive." <i>Pass:</i> rep does the math with the customer's own numbers and lands the deductible-subscription kicker.</p>
+      <p style="font-size:13.5px;margin-bottom:8px"><b>Scenario B — "The Accountant Loyalist":</b> Multi-member LLC contractor, "my cousin's a CPA." <i>Goal:</i> qualify the CPA (business focus? quarterly availability? election discussed?) → position Planning as strategy layer. <i>Pass:</i> quotes $219/mo multi-member pricing correctly, never disparages the cousin.</p>
+      <p style="font-size:13.5px;margin-bottom:8px"><b>Scenario C — "The Unworried Optimist":</b> Post-formation trucker, 4,000 mi/week, "taxes aren't a big deal." <i>Goal:</i> three-question gut check → live mileage math (~$17K/yr) → Quarterly Planning close. <i>Pass:</i> mileage figure within $200; close delivered as a question.</p>
+      <p style="font-size:13.5px"><b>Scenario D — "The Frozen First-Timer":</b> Pre-revenue consultant, terrified, "I'll deal with it later." <i>Goal:</i> two-clocks urgency (75-day + quarterly date) → $89 close. <i>Pass:</i> names both real dates; customer reports feeling relieved, not pressured.</p>
+    </div>
+    <div class="card">
+      <h3>12b · Daily tax drills</h3>
+      <table class="zt" style="font-size:13px">
+        <tr><th>Drill</th><th>Reps</th><th>Pass bar</th></tr>
+        <tr><td>Plan recall: price, billing, who-it's-for, all three plans + MM pricing</td><td class="m">2 min/day</td><td>Zero errors, no notes</td></tr>
+        <tr><td>Four-pillar positioning on one breath each</td><td class="m">3×</td><td>All four, in order, under 30 sec</td></tr>
+        <tr><td>Six-gap discovery on a partner persona</td><td class="m">1 run</td><td>All six asked; tally kept; right plan prescribed</td></tr>
+        <tr><td>Business-vs-personal explainer, improvised</td><td class="m">2×</td><td>Paycheck contrast lands; ends in a tie-down</td></tr>
+        <tr><td>Objection rapid-fire: all 7 tax objections, random order</td><td class="m">1 round</td><td>≤2-second starts; their-numbers math used on price</td></tr>
+        <tr><td>Consultative close, steps 1–5, prescribing each plan</td><td class="m">3× (one per plan)</td><td>One plan only; payment line verbatim</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 13: MANAGER SCORECARD -->
+  <div class="card">
+    <h3>13 · Manager scorecard — Tax Services (10 criteria × 5 pts)</h3>
+    <table class="zt rubric">
+      <tr><th style="width:34%">Criterion</th><th>5 = elite looks like…</th></tr>
+      <tr><td><b>1 · Tax framing</b></td><td>"Starts with expenses" + four pillars delivered before any product mention</td></tr>
+      <tr><td><b>2 · Business-vs-personal explainer</b></td><td>Paycheck contrast lands in under 45 seconds; customer confirms understanding</td></tr>
+      <tr><td><b>3 · Gap discovery</b></td><td>≥4 of the 6 gap questions asked; answers tallied; customer states gaps in own words</td></tr>
+      <tr><td><b>4 · Education accuracy</b></td><td>75 days, quarterly dates, 15.3%, $5K+$5K, 72¢ — all exact; live math with their numbers</td></tr>
+      <tr><td><b>5 · Plan knowledge</b></td><td>Correct price, billing structure, and entity-type pricing first time, including $1,399/$219 multi-member</td></tr>
+      <tr><td><b>6 · Fit-based prescription</b></td><td>ONE plan recommended, explicitly tied to two-plus stated gaps</td></tr>
+      <tr><td><b>7 · Value stacking</b></td><td>Deductible subscription + SMLLC personal return + Money Pro sync deployed where relevant</td></tr>
+      <tr><td><b>8 · Objection handling</b></td><td>Acknowledge → reframe → re-close; accountant qualified, never attacked</td></tr>
+      <tr><td><b>9 · Consultative close</b></td><td>Five steps in order; per-day breakdown; payment line verbatim; silence held</td></tr>
+      <tr><td><b>10 · Ecosystem integrity</b></td><td>RA + WFC still attempted; tax positioned as the third pillar, not a replacement</td></tr>
+    </table>
+    <div class="callout win"><b>Bands:</b> 45–50 — clone for the library · 38–44 — one fix · 30–37 — tax drills daily for a week · &lt;30 — re-run Tax Track training + 2 mock calls before next tax pitch. <b>Auto-fail:</b> invented pricing, promised a specific refund/savings outcome, or gave tax advice instead of positioning the experts who give it.</div>
+  </div>
+
+  <!-- 14: TAX-LED CALL STRATEGY -->
+  <div class="blackband">
+    <h3>14 · The Tax-First Call Architecture — <span class="gw">making tax the headline without losing RA &amp; WFC</span></h3>
+    <p style="margin-bottom:10px">When discovery screams tax (self-filer, no CPA, revenue imminent, high mileage, big startup spend), restructure the middle of the call — same skeleton, new emphasis:</p>
+    <p><b>Open + Discovery (0–8) unchanged</b> — but listen for the six gaps from minute three. · <b>Bridge (8–12):</b> deliver gains→burden, then take the <b>tax transition</b> instead of RA: <i>"A lot of our customers ask us how to keep the most money…"</i> · <b>Tax block (12–22):</b> run the full system above — frame, gaps, educate, qualify, prescribe, close. Your highest-value close lands while energy is highest. · <b>Compliance block (22–27):</b> now bridge backward: <i>"That covers the IRS. There are two more pieces that protect everything we just set up — who receives your legal notices, and who tracks your state deadlines."</i> RA and WFC become the <b>protection wrapper around their new tax strategy</b> — often an easier yes after a big yes. · <b>Wrap (27–30) unchanged.</b></p>
+    <p style="margin-top:10px"><b>The rule of the anchor:</b> closing the $89–$219/mo product first makes $199/yr feel small — price anchoring working <i>for</i> you. Closing two $199 products first can make the monthly plan feel like "one more thing." Read the discovery, choose the architecture, and commit by minute eight.</p>
+  </div>
+</section>
+
+<!-- ================= 08 CLOSE & WRAP ================= -->
+<section class="block" id="close">
+  <div class="sechead"><span class="num">10</span><h2>Close &amp; Wrap</h2><span class="clock">⏱ 27:00–30:00</span></div>
+  <p class="secsub">The last three minutes decide whether today's "no" becomes next month's "yes" — and whether today's "yes" sticks. Recap, confirm, and leave them feeling protected, not sold.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>The payment close — always a question</h3>
+      <div class="say"><span class="tag">Payment</span><p>"Do I have your permission to process the payment of [$ amount] with the card on file ending in [last 4]?" <span class="cue">verbatim · every product · every time</span></p></div>
+      <div class="say"><span class="tag">If they bought</span><p>"Perfect — you're all set. You'll see [service] live in your dashboard, and we take it from here. You officially have one less thing to worry about."</p></div>
+      <div class="say"><span class="tag">If they declined</span><p>"Not a problem at all. If anything changes with your business, or you end up wanting to move forward, please give me a call so we can get this taken care of for you." <span class="cue">graceful exits become callbacks</span></p></div>
+    </div>
+    <div class="card">
+      <h3>The 60-second recap</h3>
+      <div class="say"><span class="tag">Recap</span><p>"So [Name], quick recap before I let you go: your formation date is around [date] — watch your email. When your documents land, take your <b>EIN, Operating Agreement, and state paperwork</b> to open the business bank account. [We're now your Registered Agent / Worry Free Compliance is active], so [protection summary]. And on taxes — remember the <b>75-day window</b> on your classification and the quarterly due dates we talked about."</p></div>
+      <div class="say ask"><span class="tag">Last check</span><p>"What other questions can I answer while I have you? … Congratulations again on [their inspiration — use their words]. You're getting started the right way."</p></div>
+    </div>
+  </div>
+  <div class="blackband">
+    <h3>Top-1% habit: <span class="gw">log the call in 90 seconds</span></h3>
+    <p>Before the next dial: note their fear, their goal, what they bought, what they declined and <b>why</b>, and the follow-up trigger ("call back after formation docs land," "revisit tax before Sep 15 quarterly"). Your future self closes deals on the notes your present self takes.</p>
+  </div>
+</section>
+
+<!-- ================= 11 PRODUCT POSITIONING ================= -->
+<section class="block" id="pos">
+  <div class="sechead"><span class="num">11</span><h2>Product Positioning Map</h2><span class="clock">one-liners that sell</span></div>
+  <p class="secsub">Every product in one scannable system: what it is, the pain it kills, the line that sells it, and when to bring it up. If you can't explain a product in one breath, you can't sell it in one call.</p>
+
+  <table class="zt">
+    <tr><th style="width:15%">Product</th><th style="width:20%">What it is (one breath)</th><th style="width:22%">Pain it kills</th><th style="width:28%">The money line</th><th>Best moment</th></tr>
+    <tr><td class="m">Registered Agent<br>$199/yr</td><td>ZB becomes the legal point of contact in all 50 states for lawsuits and state notices</td><td>Being legally chained to one address M–F; missed SOP = default judgments</td><td>"Peace of mind and the freedom to actually leave — for less than $1 a day."</td><td>Right after the bridge, off the paperwork: "something I noticed…"</td></tr>
+    <tr><td class="m">WFC Essential<br>$199/yr</td><td>ZB tracks every state deadline, reminds relentlessly, files reports (fees waived), 2 amendments/yr</td><td>Forgetting a filing → fines, lost good standing, lost liability protection</td><td>"We'll keep bugging you until it's done — like a Credit Karma score, but for compliance."</td><td>After RA, or as the compliance opener: "how good are you with dates?"</td></tr>
+    <tr><td class="m">WFC Advanced<br>$299/yr</td><td>Essential + unlimited amendments + Certificate of Good Standing + premium support</td><td>Frequent changes; banks/licensors demanding proof of good standing</td><td>"Conclusive evidence your LLC exists — what lenders ask for before they say yes."</td><td>When discovery reveals growth plans, loans, licenses, or multiple changes</td></tr>
+    <tr><td class="m">EIN</td><td>The SSN for the business, in their dashboard 24–48 hrs post-formation</td><td>Can't open a business bank account; mixing personal and business funds</td><td>"It's like the SSN for your business — the key to your business bank account."</td><td>Order review; banking checklist at the close</td></tr>
+    <tr><td class="m">Operating Agreement</td><td>The document proving the business is a separate legal entity</td><td>Banks turning them away; weak liability shield in a lawsuit</td><td>"It proves your business is separate from you — which is the whole point of the LLC."</td><td>Order review, paired with EIN and banking</td></tr>
+    <tr><td class="m">Money Pro</td><td>Bookkeeping built for new owners: expenses, auto-classified deductions, invoices, mileage</td><td>Shoebox receipts; missed deductions; tax-season scramble</td><td>"Every deduction we talked about today only counts if it's tracked — this tracks it automatically."</td><td>Tax track, right after startup-cost and mileage math</td></tr>
+    <tr><td class="m">Quarterly Tax Planning<br>$89/mo</td><td>Four 30-min video consultations/yr with a credentialed expert at april — plus written action steps after each</td><td>No one to ask before the 75-day election or a quarterly payment</td><td>"A licensed pro in your corner before every deadline we just talked about."</td><td>After the qualify: "I have an idea… want to make sure it's a fit first."</td></tr>
+    <tr><td class="m">Quarterly Planning + Filing<br>$169/mo</td><td>The planning sessions + full federal and state prep &amp; filing by tax experts, synced with Money Pro</td><td>DIY filing fear; TurboTax guesswork on a business return</td><td>"The guidance all year — and the actual filing handled for you."</td><td>When they say "I was going to do my own taxes" or have no CPA</td></tr>
+    <tr><td class="m">Website / Online Tools / Domain</td><td>Business email, website builder, private domain — live from the dashboard today</td><td>@gmail address undermining credibility; no web presence</td><td>"Even a 'Coming Soon' page starts building word of mouth — and your name is finally yours."</td><td>The domain seed from order review — circle back after the core closes</td></tr>
+    <tr><td class="m">S-Corp Election</td><td>ZB files Form 2553 — free in the first 30 days, $200 after</td><td>Overpaying self-employment tax; missing the 75-day window</td><td>"If we know in the first 30 days, we file it free — after that it's $200, so timing matters."</td><td>Tax classification segment, with a tax pro's guidance</td></tr>
+  </table>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <h3>The bundle logic — sell the system, not the SKU</h3>
+      <ul class="dot">
+        <li><b>The Protection Stack:</b> RA (what arrives) + WFC (what's due) = the complete compliance shield. "They're partners — one catches, one files."</li>
+        <li><b>The Money Stack:</b> Money Pro (tracks it) + Tax Advice (plans it) + Prep (files it). Each makes the others more valuable.</li>
+        <li><b>The Launch Stack:</b> EIN + OA + bank account + domain = open for business, credibly.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Discovery answer → product map</h3>
+      <table class="zt" style="font-size:13px">
+        <tr><th>They said…</th><th>Lead with…</th></tr>
+        <tr><td>"I travel / I'm on the road / full-time hustle"</td><td class="m">RA</td></tr>
+        <tr><td>"I'm bad with dates / doing this alone"</td><td class="m">WFC</td></tr>
+        <tr><td>"Growing fast / loans / licenses"</td><td class="m">WFC Advanced</td></tr>
+        <tr><td>"Doing my own taxes / no CPA yet"</td><td class="m">Tax Advice + Prep</td></tr>
+        <tr><td>"Lots of driving / equipment buys"</td><td class="m">Money Pro + Tax Advice</td></tr>
+        <tr><td>"@gmail email / no website yet"</td><td class="m">Online Tools (after core closes)</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 12 OBJECTIONS ================= -->
+<section class="block" id="obj">
+  <div class="sechead"><span class="num">12</span><h2>Objection Matrix</h2><span class="clock">drill daily</span></div>
+  <p class="secsub">Objections are buying questions in disguise. Pattern: <b>acknowledge → reframe with risk/benefit → re-close with a question</b>. Drill these out loud until they're reflexes.</p>
+
+  <h3 style="margin:18px 0 10px;font-size:17px">Registered Agent objections</h3>
+
+  <details class="obj"><summary><span class="q">RA</span>"I can just get that later, right?"</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"It's not that you <i>can't</i> wait — it's that it's more beneficial to do it now, and I'm going to tell you why. First: the RA is on your initial documents filed with the state, so once they're submitted, if you leave it as yourself, all that responsibility is yours from <b>day one</b> of the formation being active. Then if you want to change it after filing, we run into the state fees that could apply <i>plus</i> the timeline for the state to honor the change. It's not immediate — they need to process it — which means you'd personally fulfill the responsibilities until the change is finalized, and that can sometimes take <b>weeks</b>. Do you see how it would be beneficial to get this going today and set you up on the right foot?"</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA</span>"How much does it cost for you to do it?"</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"It's only $199 a year — which breaks down to <b>55 cents a day</b>. Most of our business owners think it's worth it."</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA / WFC</span>"I can't afford that."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond — RA</span><p>"If you think about the potential risk, you almost can't afford <i>not</i> to do this. Pricing aside — is this something you'd like us to take on for you?"</p></div>
+    <div class="say"><span class="tag">Respond — WFC</span><p>"If you think about the potential risk, the ramifications of simply missing an Annual Report, and what it could cost in legal and state fees to get changes made later, we believe the value more than pays for itself — it's something we strongly recommend having."</p></div>
+    <div class="say"><span class="tag">The coupon — only here</span><p>"So let's do this: let me see if we still have a coupon available to add the service for just <b>[$149 / $119]</b> for your first year. If we can get that discount applied, would that allow you to get this taken care of?" <span class="cue">if yes</span> "Ok, great — give me one second while I look this up… [pause] I got the discount applied: it's [$149/$119] today, and $199/year after your first year to continue. Do I have your permission to process the payment with the card on file?"</p></div>
+    <div class="why"><span class="ic">⚠️</span><div><b>If still no:</b> "Not a problem at all. If anything changes with your business or you end up wanting to move forward, please give me a call so we can get this taken care of for you [and keep you in good standing]." Leave the door open; never burn the relationship. <b>Coupons are earned, not offered — never lead with the discount.</b></div></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA</span>"My lawyer handles this for me."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Understood! Thank you for letting us know — we're glad to see you have this handled by a professional." <span class="cue">accept and move on</span></p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA</span>"My accountant handles this."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Ok, thank you for sharing that with me… Since a Registered Agent must <b>legally know</b> they're a business's RA — have you already confirmed with them that they're willing and able to take on the responsibilities, including being present during their office hours, every Monday through Friday?" <span class="cue">most haven't — the gap re-opens the sale</span></p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA</span>"So I can't leave my address — even for lunch or groceries?"</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"The state isn't saying you can't do those things — you absolutely can, and you deserve to. It's just that any time the government delivers Service of Process or legal notices — tax notices, filing papers, permits, litigation notices — in some cases an actual person needs to physically receive it for it to count as delivered. Neither the government nor process servers are required to give advance notice — they simply show up. And when in-person delivery is required, the process server may begin <b>observing your location at random hours</b> to try to serve you. After multiple failed attempts, the judge handling your matter may approve alternate types of service — meaning legal action can proceed <b>without your full knowledge</b>: default judgments, embarrassing public displays of the documents, or your business's standing in the state at risk."</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA</span>"I don't think I'll ever get served."</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"When you open a business like yours, getting served probably isn't something you anticipate — but unfortunately, you just never know. A reliable RA is like wearing your seatbelt or having insurance: the cost of <i>not</i> being protected when something happens far outweighs the cost of the protection itself. For example, we've seen…"</p></div>
+    <ul class="dot" style="font-size:14px">
+      <li><b>Employees:</b> if an employee goes through a divorce and their spouse files for spousal or child support, the state serves <i>the employer (you)</i> to garnish wages — you may receive SOP for actions involving employees, in and outside the scope of work</li>
+      <li><b>Company vehicle:</b> a driver's accident or lawsuit involving a company truck comes to the employer's RA — including direct action against you as employer for the actions of anyone you trust with company resources</li>
+      <li><b>Leased space:</b> missed lease payments → the property owner's legal action to claim overdue rent goes to your RA — SOP from vendors and contract relationships</li>
+      <li><b>Property managers:</b> tenants violating city code → that notice comes to the RA — SOP from regulatory bodies about your operations and your clients'/tenants'/employees'</li>
+      <li><b>In general:</b> legal action against the company can relate not just to you as owner, but to employees and incidents involving its property and premises</li>
+    </ul>
+    <p style="font-size:13.5px;color:var(--mute);margin-top:8px">Pick the example that matches what discovery told you about <i>their</i> business.</p>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA</span>The babysitter analogy — when they trivialize the role</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Imagine you're hiring a babysitter for your child. You want someone trustworthy, reliable, and <i>always available</i> — you wouldn't just leave your child with anyone, would you? Electing a Registered Agent is the same: you're hiring someone to be responsible for receiving and handling important legal documents on behalf of your business — lawsuits, tax notices, government filings. If you elect yourself, you're saying you're always available, without fail. But what if you're out of town on business? What if you're sick? What if you simply forget about an important document? A reliable RA ensures your business <b>always</b> has someone available — avoiding default judgments, missed deadlines, jeopardized standing, and even legal penalties."</p></div>
+  </div></details>
+
+  <details class="obj"><summary><span class="q">RA</span>"Half my mail looks like a scam anyway." — the junk-mail angle</summary><div class="objbody">
+    <div class="say"><span class="tag">Respond</span><p>"Mail scams are a real problem — new businesses get lots of mail, and some of it looks official and claims to be from the state, trying to sell you expensive things you don't really need. It can be genuinely confusing to figure out which mail is junk and which is important and actually from the state — and if you get it wrong, you might miss something the state really wants you to do or know. With us as your RA, <b>you're only notified of official documents</b> — we filter the noise."</p></div>
+  </div></details>
+
+  <h3 style="margin:24px 0 10px;font-size:17px">WFC objections &amp; quick FAQs</h3>
+
+  <details class="obj"><summary><span class="q">FAQ</span>"Can I use a PO Box for my RA?"</summary><div class="objbody"><p>No — the state requires a <b>physical street address</b> for the Registered Agent.</p></div></details>
+
+  <details class="obj"><summary><span class="q">FAQ</span>"What if I move?"</summary><div class="objbody"><p>If you're your own RA (or using a friend), you must update the RA address with the state every time. With us taking this on, you have stability and less hassle — nothing changes when you move.</p></div></details>
+
+  <details class="obj"><summary><span class="q">FAQ</span>"What documents will you receive?"</summary><div class="objbody"><p>SOP (legal delivery) and official state/government correspondence that goes to the RA address — and potentially solicitations/junk, which we filter. <b>You're only notified of official documents.</b></p></div></details>
+
+  <details class="obj"><summary><span class="q">FAQ</span>"What's the difference between RA and Worry Free Compliance?"</summary><div class="objbody"><p><b>RA</b> = ZenBusiness is the official recipient for SOPs and state notices. <b>WFC</b> = staying on track with state requirements and filings. They're partners: one catches what arrives, the other handles what's due. Most customers need both.</p></div></details>
+</section>
+
+
+<!-- ================= 13 WHAT TO DO WHEN ================= -->
+<section class="block" id="when">
+  <div class="sechead"><span class="num">13</span><h2>What To Do When…</h2><span class="clock">live-call situations</span></div>
+  <p class="secsub">Read the situation, run the play. Each card: the tell, the line, the move.</p>
+
+  <div class="grid2">
+    <div class="sit"><div class="sread">Read: short answers · "I only have a minute" · background noise</div><h4>…the customer is rushed</h4>
+      <div class="say"><span class="tag">Line</span><p>"Totally understand — let's do this: give me three minutes for the two most time-sensitive items, and I'll schedule a quick follow-up for the rest. Fair?"</p></div>
+      <p style="font-size:13.5px"><b>Move:</b> shrink the ask, hit RA risk + formation date only, book the callback before hanging up. A scheduled 15 minutes beats a rushed 30.</p></div>
+    <div class="sit"><div class="sread">Read: "wait, what's a registered agent?" · long pauses · repeating your words</div><h4>…the customer is confused</h4>
+      <div class="say"><span class="tag">Line</span><p>"Let me put it a simpler way…" <span class="cue">then one analogy: babysitter (RA) or car registration (WFC)</span> "Does that make more sense?"</p></div>
+      <p style="font-size:13.5px"><b>Move:</b> drop the jargon, one concept at a time, confirm understanding before advancing. Confused customers don't buy — they stall.</p></div>
+    <div class="sit"><div class="sread">Read: "is this a sales call?" · "I've heard that before" · interrogating tone</div><h4>…the customer is skeptical</h4>
+      <div class="say"><span class="tag">Line</span><p>"Fair question — and honestly, part of this call is making sure you don't buy anything you don't need. You already paid for liability protection; my job is making sure nothing undoes it. Can I show you the one thing on your paperwork I'd flag?"</p></div>
+      <p style="font-size:13.5px"><b>Move:</b> agree with the skepticism, cite facts from <i>their</i> file (RA listing, state deadlines), let tie-downs do the convincing. Never out-argue a skeptic — out-evidence them.</p></div>
+    <div class="sit"><div class="sread">Read: "how much?" early · sighs at numbers · "money's tight right now"</div><h4>…the customer is price-sensitive</h4>
+      <div class="say"><span class="tag">Line</span><p>"I hear you — cash is the whole game in year one. That's exactly why I'd rather you know the costs of getting this wrong now: a missed report or a default judgment costs a lot more than 55 cents a day."</p></div>
+      <p style="font-size:13.5px"><b>Move:</b> per-day framing first, risk-cost comparison second, coupon ($149/$119) only inside the rebuttal. If still no — graceful exit, door open, note for callback.</p></div>
+    <div class="sit"><div class="sread">Read: "my lawyer/accountant handles that"</div><h4>…they already have a professional</h4>
+      <div class="say"><span class="tag">Line</span><p>Lawyer: "Understood — glad you have a professional on it." · Accountant: "Since an RA must legally know they're your RA — have you confirmed they've agreed to be present during office hours, every Monday through Friday?"</p></div>
+      <p style="font-size:13.5px"><b>Move:</b> lawyer = accept and pivot to the next product. Accountant = verify the commitment; the gap usually re-opens the sale. Either way, qualify their tax pro's business-tax experience and mid-year availability.</p></div>
+    <div class="sit"><div class="sread">Read: "let me think about it" · "send me something" · "I'll call back"</div><h4>…they want to think about it</h4>
+      <div class="say"><span class="tag">Line</span><p>"Of course — it's your business. Just so I point you at the right thing to think about: is it the price, or whether you actually need it?" <span class="cue">pause — the answer tells you which rebuttal to run</span></p></div>
+      <p style="font-size:13.5px"><b>Move:</b> isolate the real objection. Price → coupon path. Need → one more risk story matched to their industry. Still thinking → set a specific callback date/time and log the trigger.</p></div>
+    <div class="sit"><div class="sread">Read: "I formed the LLC, isn't that it?" · silence at "annual report"</div><h4>…they don't understand compliance</h4>
+      <div class="say"><span class="tag">Line</span><p>"Forming the LLC made it official — keeping it official is the part nobody tells you about. The state expects the right documents at the right time every year, or the protection you just paid for starts to unravel."</p></div>
+      <p style="font-size:13.5px"><b>Move:</b> car-registration analogy, then their state's actual deadline from Agency Services. Specific dates turn abstract compliance into a calendar problem — which WFC solves.</p></div>
+    <div class="sit"><div class="sread">Read: "I'll just do it myself" · "doesn't seem necessary"</div><h4>…they don't see the value</h4>
+      <div class="say"><span class="tag">Line</span><p>"You absolutely can do it yourself — plenty do. The question is whether you want your time going there. You told me you started [Business] to [their words]. Every hour on state paperwork is an hour not doing that."</p></div>
+      <p style="font-size:13.5px"><b>Move:</b> reflect their own dream back (self-persuasion), then the seatbelt frame, then one industry-matched SOP story. If no — warm exit; value objections often soften after their first state notice arrives.</p></div>
+  </div>
+</section>
+
+<!-- ================= 14 DRILLS & ROLE-PLAY ================= -->
+<section class="block" id="drills">
+  <div class="sechead"><span class="num">14</span><h2>Daily Drills &amp; Role-Play Lab</h2><span class="clock">15 min/day · out loud</span></div>
+  <p class="secsub">Reading scripts builds knowledge. Saying them out loud under pressure builds reps. Fifteen minutes a day, every day — these drills are the difference between knowing the playbook and running it.</p>
+
+  <div class="card">
+    <h3>The daily drill menu — pick by weakness</h3>
+    <table class="zt">
+      <tr><th style="width:18%">Skill</th><th style="width:42%">Drill</th><th style="width:20%">Reps</th><th>Pass bar</th></tr>
+      <tr class="drillrow"><td>Openers</td><td>Deliver pre-form AND post-form opener to a wall, phone recording. Agenda + disclosure + congrats, no notes.</td><td class="m">5× each</td><td>Zero filler words; "sound good?" lands as a real question</td></tr>
+      <tr class="drillrow"><td>Discovery</td><td>Partner plays an owner (pick an industry pack). Run the universal eight; follow up once per answer.</td><td class="m">2 personas/day</td><td>Partner talks 70%+; you captured one fear + one goal verbatim</td></tr>
+      <tr class="drillrow"><td>The bridge</td><td>Recite gains→burden verbatim, then improvise it in your own words without losing the structure.</td><td class="m">3× verbatim + 3× improvised</td><td>All three gains, the burden, the standing payoff — every time</td></tr>
+      <tr class="drillrow"><td>RA sequence</td><td>Run discovery Q → law → personalization → fork → benefits → close, partner answering naturally.</td><td class="m">2 full runs</td><td>≥3 tie-downs used; price delivered with per-day breakdown</td></tr>
+      <tr class="drillrow"><td>WFC sequence</td><td>Memory-gap open → benefits → trial close → price → payment ask. Partner picks Essential or Advanced signals.</td><td class="m">2 full runs</td><td>Correct tier pitched for the signals given</td></tr>
+      <tr class="drillrow"><td>Tax track</td><td>Teach one segment/day on rotation: classification → quarterlies → startup costs → mileage (do live math) → qualify.</td><td class="m">1 segment, 2×</td><td>Numbers exact; ends with the segment's impact question</td></tr>
+      <tr class="drillrow"><td>Objections</td><td>Partner fires 2 random objections mid-pitch. Acknowledge → reframe → re-close with a question.</td><td class="m">2/day</td><td>No pause longer than 2 seconds before the rebuttal starts</td></tr>
+      <tr class="drillrow"><td>Payment close</td><td>Say the authorization line for RA, WFC-E, WFC-A, coupon variants — exact amounts, no hedging.</td><td class="m">5×</td><td>Verbatim, calm, then silence held for 3 seconds</td></tr>
+      <tr class="drillrow"><td>Call control</td><td>Partner plays a rambler. Practice the validate-and-pivot redirect 3 ways without sounding rude.</td><td class="m">3 redirects</td><td>Partner reports feeling heard, not cut off</td></tr>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Role-play scenario 1 — "The Trucker"</h3>
+      <p style="font-size:13.5px"><b>Persona:</b> Post-formation owner/operator, own authority, 3,800 mi/week, listed himself as RA at home, no CPA, money tight.</p>
+      <ul class="dot">
+        <li><b>Rep goal:</b> RA close (he's never home) + mileage math live + tax qualify</li>
+        <li><b>Twist (coach injects):</b> "I can't afford that" at the RA price</li>
+        <li><b>Success:</b> fork question used; coupon only after risk reframe; mileage deduction quoted within $100</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Role-play scenario 2 — "The Consultant"</h3>
+      <p style="font-size:13.5px"><b>Persona:</b> Pre-formation IT consultant leaving W-2, one anchor client, has "a tax guy" (personal returns only), Pro plan.</p>
+      <ul class="dot">
+        <li><b>Rep goal:</b> qualify the tax guy's business-tax depth + 75-day urgency + Tax Advice + Prep positioning</li>
+        <li><b>Twist:</b> "My accountant handles all of this."</li>
+        <li><b>Success:</b> rep asks the M–F availability question AND the classification-discussion question without sounding combative</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Role-play scenario 3 — "The Skeptic"</h3>
+      <p style="font-size:13.5px"><b>Persona:</b> Post-formation real-estate flipper, second LLC, interrupts with "is this a sales call?", Starter plan, nothing added.</p>
+      <ul class="dot">
+        <li><b>Rep goal:</b> earn trust via their paperwork, land one close (RA or WFC)</li>
+        <li><b>Twist:</b> "I was my own RA on my first LLC and nothing happened."</li>
+        <li><b>Success:</b> rep agrees, then uses the seatbelt frame + a property-manager SOP story; no defensiveness</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Role-play scenario 4 — "The Rushed First-Timer"</h3>
+      <p style="font-size:13.5px"><b>Persona:</b> Pre-formation home-bakery side hustle, terrified of "doing something illegal," 5 minutes between shifts, @gmail email.</p>
+      <ul class="dot">
+        <li><b>Rep goal:</b> compress to the 3-minute version, book the callback, plant the domain seed</li>
+        <li><b>Twist:</b> customer tries to hang up at minute 2</li>
+        <li><b>Success:</b> callback booked with a specific day/time; customer feels reassured, not pressured</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout win"><b>Drill rule:</b> always out loud, always recorded when solo, always scored against the pass bar. Silent reading is rehearsal theater — the mouth has to learn the words, not just the brain.</div>
+</section>
+
+<!-- ================= 15 NUMBERS ================= -->
+<section class="block" id="cheat">
+  <div class="sechead"><span class="num">15</span><h2>Numbers Cheat Sheet</h2><span class="clock">tape to monitor</span></div>
+  <p class="secsub">Hesitating on a number kills credibility. Know these cold.</p>
+
+  <div class="grid2">
+    <div>
+      <table class="zt">
+        <tr><th colspan="2">Pricing <span class="gw">— always break it down</span></th></tr>
+        <tr><td>Registered Agent</td><td class="m">$199/yr (≈55¢/day) · renews $199</td></tr>
+        <tr><td>RA / WFC coupon (rebuttal only)</td><td class="m">$149 or $119 first year</td></tr>
+        <tr><td>WFC Essential</td><td class="m">$199/yr (≈55¢/day)</td></tr>
+        <tr><td>WFC Advanced</td><td class="m">$299/yr</td></tr>
+        <tr><td>Essential → Advanced upgrade</td><td class="m">$99/yr</td></tr>
+        <tr><td>Tax Filing (april)</td><td class="m">$899/yr once · SMLLC personal return incl. ($300+ value)</td></tr>
+        <tr><td>Quarterly Tax Planning</td><td class="m">$89/mo (yearly contract)</td></tr>
+        <tr><td>Quarterly Planning + Filing</td><td class="m">$169/mo (yearly contract)</td></tr>
+        <tr><td>Multi-member / S-Corp / C-Corp</td><td class="m">Filing $1,399/yr · P+F $219/mo</td></tr>
+        <tr><td>S-Corp election (Form 2553)</td><td class="m">Free ≤30 days · $200 after (incl. late)</td></tr>
+        <tr><td>Change of RA (post-formation)</td><td class="m">State CORA fee — look up per state</td></tr>
+      </table>
+    </div>
+    <div>
+      <table class="zt">
+        <tr><th colspan="2">Tax facts <span class="gw">— urgency levers</span></th></tr>
+        <tr><td>IRS classification window</td><td class="m">75 days (Forms 8832 / 2553)</td></tr>
+        <tr><td>Quarterly threshold</td><td class="m">Owe $1,000+/yr → pay quarterly</td></tr>
+        <tr><td>Quarterly due dates</td><td class="m">Apr 15 · Jun 15 · Sep 15 · Jan 15</td></tr>
+        <tr><td>Self-employment tax</td><td class="m">15.3% (Social Security + Medicare)</td></tr>
+        <tr><td>Year-one deductions</td><td class="m">$5,000 startup + $5,000 organizational (caps: $50K each)</td></tr>
+        <tr><td>2026 standard mileage</td><td class="m">$0.72/mile ($720 per 1,000 mi)</td></tr>
+        <tr><td>EIN delivery</td><td class="m">24–48 hrs after formation</td></tr>
+        <tr><td>Rush filing (Pro/Premium)</td><td class="m">To the state in 1–2 business days</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>Transition lines — memorize verbatim</h3>
+    <table class="zt">
+      <tr><th style="width:24%">Into</th><th>Line</th></tr>
+      <tr><td class="m">Registered Agent</td><td>"Going back to your paperwork, something I noticed is that you assigned [yourself / someone else] as the Registered Agent for the LLC…"</td></tr>
+      <tr><td class="m">Tax</td><td>"A lot of our customers, both new and experienced at running a business, typically ask us how to save or keep the most money, avoid mistakes, and in general just make sure everything for taxes is correct, legal, and done right…"</td></tr>
+      <tr><td class="m">WFC → RA</td><td>"Ok, great! Let's quickly touch on another piece of compliance…"</td></tr>
+      <tr><td class="m">Tax → services</td><td>"I have an idea… but I want to make sure it's a good fit for you first."</td></tr>
+      <tr><td class="m">Bank account (every call)</td><td>"Bring your EIN, Operating Agreement, and your LLC paperwork from the state when you go to the bank."</td></tr>
+    </table>
+  </div>
+</section>
+
+
+<!-- ================= 16 TOP-PERFORMER HABITS ================= -->
+<section class="block" id="habits">
+  <div class="sechead"><span class="num">16</span><h2>Top-Performer Habits</h2><span class="clock">before · during · after</span></div>
+  <p class="secsub">Top-1% reps don't have better days — they have better routines. The call is the performance; these habits are the training, warm-up, and film review around it.</p>
+
+  <div class="grid3">
+    <div class="card">
+      <h3>🌅 Before every call</h3>
+      <ul class="ck">
+        <li><b>60-second file review:</b> plan, add-ons, RA listing, formation status, state, email domain — know your whitespace before you dial</li>
+        <li><b>Pick your lane:</b> RA-first or tax-first, decided before the ring</li>
+        <li><b>One intention:</b> "On this call I will [pause longer / use the fork question / hold silence after the close]"</li>
+        <li>Cheat sheet open, ZG/Salesforce loaded, notes template ready</li>
+        <li>Stand up or sit tall — posture is audible</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📞 During every call</h3>
+      <ul class="ck">
+        <li>Smile before "Hi" — it changes your tone in the first 3 seconds</li>
+        <li>Write their fear + goal the moment you hear it</li>
+        <li>Pause discipline: every question gets its silence</li>
+        <li>One 45-second education burst → one question, repeat</li>
+        <li>Two close attempts minimum (RA + WFC); tax when signaled</li>
+        <li>Every price → per-day; every close → a question</li>
+        <li>Recap + bank checklist + door open, every single time</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🌙 After every call</h3>
+      <ul class="ck">
+        <li><b>90-second log:</b> fear, goal, bought, declined + why, follow-up trigger</li>
+        <li>Self-score the 10-point scorecard on 3 calls/day</li>
+        <li>Flag one clip for review: best moment + worst moment</li>
+        <li>Book the callback NOW, not "later"</li>
+        <li>Reset: two breaths, next file, next dial — no carrying a bad call into a good one</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="blackband">
+    <h3>The weekly rhythm of the top 1%</h3>
+    <p><b>Monday:</b> drill the weakest skill from last week's scores first. · <b>Daily:</b> 15-minute drill block before the first dial, never after. · <b>Wednesday:</b> trade one recorded call with a peer — you hear in others what you're deaf to in yourself. · <b>Friday:</b> review your numbers like a CFO: dials → connects → full maps → closes per product. Find the one leak. · <b>Always:</b> celebrate graceful "no"s that protect callbacks — the pipeline you're building is bigger than today's board.</p>
+  </div>
+</section>
+
+<!-- ================= 17 RAMP ================= -->
+<section class="block" id="ramp">
+  <div class="sechead"><span class="num">17</span><h2>Ramp Plans — 7 · 14 · 30 Days</h2><span class="clock">top 1% by day 30</span></div>
+  <p class="secsub">Top performers aren't born — they drill. Here's how to compress six months of ramp into thirty days.</p>
+
+  <div class="card">
+    <h3>🚀 The 7-day crash course — "safe on the phones"</h3>
+    <table class="zt">
+      <tr><th style="width:14%">Day</th><th>Focus</th><th>Pass bar by end of day</th></tr>
+      <tr><td class="m">Day 1</td><td>Call Map + clock + gains→burden bridge + both openers</td><td>Recite the 7 moves and the bridge from memory; deliver either opener cold</td></tr>
+      <tr><td class="m">Day 2</td><td>Numbers Cheat Sheet + Top 10 Lines</td><td>100% on a numbers quiz; lines 1–5 verbatim</td></tr>
+      <tr><td class="m">Day 3</td><td>Discovery: universal eight + one industry pack + shadowing</td><td>Run discovery on a partner; capture fear + goal</td></tr>
+      <tr><td class="m">Day 4</td><td>RA sequence end-to-end + top 3 RA objections</td><td>Full RA run with 3 tie-downs and the payment line</td></tr>
+      <tr><td class="m">Day 5</td><td>WFC sequence + Essential vs. Advanced signals + live calls (supervised)</td><td>One supervised call reaching a real close attempt</td></tr>
+      <tr><td class="m">Day 6</td><td>Tax track: classification + quarterlies only + drills</td><td>Teach both segments to a peer with exact numbers</td></tr>
+      <tr><td class="m">Day 7</td><td>Mock call gauntlet: full 30-min call with 2 injected objections</td><td>Score 35+/50 on the mock rubric → cleared for solo dialing</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>📈 The 14-day sprint — "dangerous on the phones"</h3>
+    <table class="zt">
+      <tr><th style="width:18%">Days 8–10</th><td><b>Volume + RA mastery.</b> Full call map on every dial. RA close attempted on 100% of eligible calls. Coupon path drilled until automatic. Evening: score 3 recordings/day on the scorecard.</td></tr>
+      <tr><th>Days 11–12</th><td><b>WFC + bundling.</b> Two-close calls become the norm. Practice the WFC→RA and RA→WFC transitions both directions. Add the Advanced upsell read (growth, loans, licenses signals).</td></tr>
+      <tr><th>Days 13–14</th><td><b>Tax track live + objection gauntlet.</b> Full tax education arc on 3+ calls/day with live mileage math. Daily 10-objection rapid-fire drill — any product, random order, 2-second start rule. End of day 14: full mock call scored 42+/50.</td></tr>
+    </table>
+  </div>
+
+  <h3 style="margin:22px 0 10px;font-size:18px">🏆 The 30-day climb — "top-1% trajectory"</h3>
+
+  <div class="tl">
+    <div class="tli">
+      <div class="when">Days 1–5 · Foundation</div>
+      <h4>Own the spine, not the scripts</h4>
+      <p style="font-size:14.5px">Memorize the 7-move Call Map, the clock, and the gains→burden bridge cold. Read both openers aloud 10× a day until the recording disclosure and agenda-set are automatic. Learn the Numbers Cheat Sheet — quiz yourself every morning. Shadow top reps and tally which transition (RA-first vs. tax-first) they choose and why.</p>
+    </div>
+    <div class="tli">
+      <div class="when">Days 6–12 · Discovery mastery</div>
+      <h4>Become genuinely curious</h4>
+      <p style="font-size:14.5px">Drill the universal eight until you never read them. Pick one industry pack per day (RE → trucking → consulting) and role-play it. Goal on live calls: the customer talks for 2+ minutes before any product mention, and you capture one fear + one goal in your notes on every call. Those become your closing language.</p>
+    </div>
+    <div class="tli">
+      <div class="when">Days 13–20 · The RA &amp; WFC engine</div>
+      <h4>Educate → fork → stack → close</h4>
+      <p style="font-size:14.5px">Run the full RA sequence on every eligible call: discovery question → legal requirements → fork question → benefits → "isn't a big deal until it is" → $199 with per-day breakdown → payment authorization. Same for WFC. Record yourself; verify every price came with a breakdown and every close ended in a question. Drill 2 objections per day out loud until the rebuttal beats your hesitation.</p>
+    </div>
+    <div class="tli">
+      <div class="when">Days 21–30 · Tax track &amp; full-stack calls</div>
+      <h4>String it all together</h4>
+      <p style="font-size:14.5px">Add the tax education arc: classification (75-day urgency) → quarterlies (the "off guard" reveal) → deductions (do mileage math live) → qualify ("does any of that sound like something you want to avoid?"). Aim for full-map 25–30-minute calls: open, discover, review, RA, WFC, tax, recap — with a payment ask or a graceful door-open on every one.</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Daily scorecard — self-audit 3 calls/day</h3>
+      <ul class="ck">
+        <li>Set the 10–15 min agenda and got a "yes"?</li>
+        <li>Asked "what will this business be doing?" and paused?</li>
+        <li>Captured one fear + one goal in notes?</li>
+        <li>Delivered the gains→burden bridge verbatim?</li>
+        <li>Used at least 2 tie-down questions ("Do you see why…?")</li>
+        <li>Broke every price into per-day terms?</li>
+        <li>Asked for payment permission verbatim?</li>
+        <li>Handled an objection without conceding on the first "no"?</li>
+        <li>Recapped next steps + bank checklist before hanging up?</li>
+        <li>Left the door open gracefully on every decline?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The mindset that wins</h3>
+      <ul class="dot">
+        <li><b>You're a protector, not a peddler.</b> The customer paid for liability protection; every product keeps it intact. Sell from that conviction.</li>
+        <li><b>Coupons are earned, not offered.</b> The discount only exists inside the "can't afford it" rebuttal — never lead with it.</li>
+        <li><b>"Not a problem at all"</b> is a sales skill. Graceful exits become callbacks.</li>
+        <li><b>Tonality beats vocabulary.</b> The scripts have pauses written in — honor them. Curiosity in discovery, certainty in the close.</li>
+        <li><b>The clock is your friend.</b> Knowing where you are in the 30 minutes is what lets you sound unhurried.</li>
+        <li><b>One more rep.</b> The rep who drills objections out loud at 8am wins the 4pm call.</li>
+      </ul>
+    </div>
+  </div>
+
+  
+<!-- ================= 18 MANAGER COACHING ================= -->
+<section class="block" id="coach">
+  <div class="sechead"><span class="num">18</span><h2>Manager &amp; Team Coaching System</h2><span class="clock">for leads &amp; peer coaches</span></div>
+  <p class="secsub">A team gets what it inspects, not what it expects. This is the operating rhythm: a shared scorecard, a mock-call rubric, and a daily practice structure that compounds.</p>
+
+  <div class="card">
+    <h3>Call review scorecard — 10 criteria × 5 points (50 max)</h3>
+    <table class="zt rubric">
+      <tr><th style="width:32%">Criterion</th><th>5 = elite looks like…</th><th style="width:24%">1 = needs work looks like…</th></tr>
+      <tr><td><b>1 · Opening &amp; agenda</b> <span class="sc">0–3 min</span></td><td>Warm, confident disclosure; agenda set; explicit "yes" earned; congratulations landed authentically</td><td>Rushed mumble; no agenda; pitch starts cold</td></tr>
+      <tr><td><b>2 · Discovery depth</b></td><td>Customer talks 70%; fear + goal captured verbatim; industry pack deployed; one follow-up per answer</td><td>Checklist interrogation; no notes; assumptions made</td></tr>
+      <tr><td><b>3 · The bridge</b></td><td>Gains→burden delivered verbatim; tied to their stated reason for forming</td><td>Skipped, or products appear with no frame</td></tr>
+      <tr><td><b>4 · RA execution</b></td><td>Full sequence: discovery Q → law → fork → benefits → close; ≥3 tie-downs</td><td>Feature dump; fork question missing</td></tr>
+      <tr><td><b>5 · WFC execution</b></td><td>Memory-gap open; correct tier for signals; state-specific deadline referenced</td><td>Generic pitch; wrong tier; no deadline specifics</td></tr>
+      <tr><td><b>6 · Tax track</b></td><td>Concept → impact question rhythm; numbers exact; live mileage math; clean qualify</td><td>Lecture mode; vague numbers; no qualify</td></tr>
+      <tr><td><b>7 · Objection handling</b></td><td>Acknowledge → reframe → re-close; coupon only post-reframe; ≤2-second starts</td><td>Concedes on first no, or argues; leads with discount</td></tr>
+      <tr><td><b>8 · Call control</b></td><td>Redirects ramblers warmly; names the time; never &gt;45s without a question</td><td>Customer drives; monologues; call sprawls</td></tr>
+      <tr><td><b>9 · Closing discipline</b></td><td>Two close attempts minimum; per-day breakdowns; payment line verbatim; silence held</td><td>Zero or hedged closes ("if you maybe wanted…")</td></tr>
+      <tr><td><b>10 · Wrap &amp; notes</b></td><td>Recap + bank checklist + door open; 90-second log with follow-up trigger</td><td>Abrupt end; no recap; no log</td></tr>
+    </table>
+    <div class="callout win"><b>Score bands:</b> 45–50 elite — clone this call for the team library · 38–44 strong — one focused fix · 30–37 developing — daily drills on the two lowest lines · &lt;30 — return to the 7-day crash course with a buddy.</div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Mock-call rubric — gate to solo dialing</h3>
+      <ul class="dot">
+        <li><b>Format:</b> 25–30 min, coach plays a persona from the Role-Play Lab, injects exactly 2 objections + 1 control challenge (rambler or rushed)</li>
+        <li><b>Pass:</b> 35+/50 to dial solo · 42+/50 to mentor others</li>
+        <li><b>Non-negotiables (auto-fail regardless of score):</b> skipped recording disclosure · invented a price or fact · skipped payment authorization wording · promised a legal/tax outcome</li>
+        <li><b>Debrief order:</b> rep self-scores first → coach scores → gap discussion → one drill assigned, due tomorrow</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Daily &amp; weekly practice structure</h3>
+      <ul class="dot">
+        <li><b>8:45 huddle (15 min):</b> one drill from the menu, whole team, out loud; rotate who leads</li>
+        <li><b>Midday film (15 min):</b> one rep's recorded call, team scores it live on the scorecard, rep speaks last</li>
+        <li><b>EOD scoreboard (5 min):</b> dials → connects → full maps → closes by product; celebrate one graceful no</li>
+        <li><b>Weekly 1:1 (30 min):</b> two scored calls reviewed, one skill focus set, one mock scheduled</li>
+        <li><b>Friday lab (45 min):</b> objection gauntlet tournament — random objections, 2-second rule, bracket style. Make practice the fun part.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 19 MASTERY CHECKLIST ================= -->
+<section class="block" id="mastery">
+  <div class="sechead"><span class="num">19</span><h2>The Top-1% Mastery Checklist</h2><span class="clock">when every box is true, you're there</span></div>
+  <p class="secsub">Not a feeling — a standard. Check honestly. Every unchecked box is tomorrow's drill.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Knowledge — cold, no notes</h3>
+      <ul class="ck">
+        <li>Recite the 7-move map, the clock, and the gains→burden bridge verbatim</li>
+        <li>All Top 10 Lines word-for-word, under pressure</li>
+        <li>Every price, fee, deadline, and rate on the Numbers sheet — 100% quiz score</li>
+        <li>Explain every product in one breath + its pain + its money line</li>
+        <li>All three industry packs and when each question matters</li>
+        <li>RA vs. WFC difference explained in one sentence</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Execution — verified on recordings</h3>
+      <ul class="ck">
+        <li>Agenda "yes" earned on 95%+ of connects</li>
+        <li>Customer talks 70%+ of discovery on 5 straight scored calls</li>
+        <li>Two close attempts on every full-map call, payment line verbatim</li>
+        <li>Every objection in the matrix answered within 2 seconds, out loud, on demand</li>
+        <li>Live mileage math delivered accurately mid-call</li>
+        <li>Coupon never offered before the risk reframe — zero exceptions on film</li>
+        <li>3 consecutive calls scored 42+/50 by someone other than you</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Control &amp; craft</h3>
+      <ul class="ck">
+        <li>Redirected a rambler without the customer feeling cut off (peer-confirmed)</li>
+        <li>Held 3 seconds of silence after a close — and let them speak first</li>
+        <li>Compressed the call to 3 minutes for a rushed customer and booked the callback</li>
+        <li>Named which psychological principle you're using at any moment, on request</li>
+        <li>Passed the mock gauntlet at 42+ with two injected objections</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Habits &amp; character</h3>
+      <ul class="ck">
+        <li>90-second log on 100% of calls for two straight weeks</li>
+        <li>15-minute drill block before first dial, 10 working days running</li>
+        <li>Every decline ended with a warm door-open — confirmed on film</li>
+        <li>One peer call reviewed and one of yours shared, weekly</li>
+        <li>Never quoted a number you weren't sure of — you checked, out loud, like a pro</li>
+        <li>You can honestly say every product you closed protected the customer</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="blackband">
+    <h3>The final word</h3>
+    <p>The customer on the other end of your next dial just bet on themselves — chalkboard sign, grand opening, the whole dream. Top-1% isn't a quota number. It's being the person who made sure <b>nothing undoes that bet</b>: the agent who catches what arrives, the calendar that never forgets, the tax strategy that keeps their money theirs. Master this playbook and the board takes care of itself. <span class="gw">Now go make the next dial.</span></p>
+  </div>
+</section>
+
+
+<!-- ================= AZ: GLOSSARY ================= -->
+<section class="block" id="gloss">
+  <div class="sechead"><span class="num">AZ</span><h2>Plain-English Glossary</h2><span class="clock">jargon → human</span></div>
+  <p class="secsub">If you can't say it simply, you can't sell it on the phone. The customer-safe translation for every term in this playbook.</p>
+  <table class="zt">
+    <tr><th style="width:24%">Term</th><th>Say it like this on a call</th></tr>
+    <tr><td class="m">LLC</td><td>"A legal wrapper that separates your business from you personally — so business problems can't take your personal stuff."</td></tr>
+    <tr><td class="m">Liability protection</td><td>"If the business gets sued or owes money, your house, car, and savings stay out of it."</td></tr>
+    <tr><td class="m">Registered Agent (RA)</td><td>"The official person on public record who receives legal papers and state mail for your business."</td></tr>
+    <tr><td class="m">Service of Process (SOP)</td><td>"Legal delivery — like lawsuit papers — that someone may have to physically hand to a person."</td></tr>
+    <tr><td class="m">Default judgment</td><td>"A court deciding against you because you never showed up — usually because you never knew."</td></tr>
+    <tr><td class="m">Good standing</td><td>"The state's way of saying your business is current on its paperwork and allowed to operate."</td></tr>
+    <tr><td class="m">Annual report</td><td>"A yearly check-in filing the state requires to keep your LLC active — like renewing your registration."</td></tr>
+    <tr><td class="m">Amendment</td><td>"The official form you file when something changes — your name, address, or who runs the business."</td></tr>
+    <tr><td class="m">Certificate of Good Standing</td><td>"A state-issued document proving your LLC exists and is current — banks ask for it before loans."</td></tr>
+    <tr><td class="m">CORA</td><td>"Change of Registered Agent — the state filing (and fee) to swap who your RA is after formation."</td></tr>
+    <tr><td class="m">EIN</td><td>"The Social Security number for your business — you need it for a business bank account."</td></tr>
+    <tr><td class="m">Operating Agreement (OA)</td><td>"The document that proves the business is its own thing, separate from you. Banks usually want to see it."</td></tr>
+    <tr><td class="m">Tax classification election</td><td>"Telling the IRS how you want your business taxed — instead of letting them pick for you."</td></tr>
+    <tr><td class="m">Disregarded entity</td><td>"The IRS default for one-owner LLCs: business income just flows onto your personal return."</td></tr>
+    <tr><td class="m">Schedule C / K-1</td><td>"Schedule C: where a one-owner business reports income on your personal return. K-1: each partner's slice of a multi-owner business."</td></tr>
+    <tr><td class="m">S-Corp / Form 2553</td><td>"A tax status that can lower self-employment tax for some owners — Form 2553 is how you ask for it."</td></tr>
+    <tr><td class="m">Self-employment tax</td><td>"The 15.3% for Social Security and Medicare a paycheck used to handle automatically — now it's on you."</td></tr>
+    <tr><td class="m">Quarterly estimated taxes</td><td>"Paying the IRS as you earn, four times a year, instead of one big bill in April."</td></tr>
+    <tr><td class="m">Deduction / write-off</td><td>"A business expense the IRS lets you subtract from income — so you pay tax on less."</td></tr>
+    <tr><td class="m">Startup vs. organizational costs</td><td>"Startup: what you spent getting ready to open. Organizational: what you spent creating the LLC itself. Up to $5,000 each, deductible year one."</td></tr>
+    <tr><td class="m">april</td><td>"Our tax partner — the credentialed tax experts who run the consultations and do the filing."</td></tr>
+    <tr><td class="m">ZG / SF</td><td>Internal only — ZenGarden and Salesforce, where the customer's file lives. Never said to a customer.</td></tr>
+  </table>
+</section>
+
+<div class="footer-note">ZenBusiness Outbound OS — built from the official Outbound Training &amp; Sales Guide (2026), expanded with call control, psychology, drills, and coaching systems, with design aligned to the ZenBusiness brand. All original scripts, rebuttals, FAQs, and figures are preserved. Prices, fees, rates, and program rules (coupon amounts, S-Corp filing windows, mileage rates, CORA fees) reflect that guide — always confirm current figures in Salesforce/ZenGarden before quoting. Internal coaching material — not legal or tax advice.</div>
+</section>
+</main>
+</div>
+<script>
+const links=[...document.querySelectorAll('.navlink')];
+const ids=links.map(l=>l.getAttribute('href').slice(1));
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id));
+    }
+  });
+},{rootMargin:'-25% 0px -65% 0px'});
+ids.forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});
+</script>
+</body>
+</html>
