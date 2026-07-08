@@ -214,7 +214,7 @@ ul.dot li::before{content:'';position:absolute;left:4px;top:13px;width:7px;heigh
   <div class="grouplabel">Start Here</div>
   <a class="navlink" href="#howto"><span class="navnum">USE</span>How to Use This</a>
   <a class="navlink" href="#go"><span class="navnum">GO</span>Live-Call Cheat Sheet</a>
-  <a class="navlink" href="#callmode"><span class="navnum">CM</span>Call Mode · Live Router<span class="navmin">⏱ live</span></a>
+  <a class="navlink" href="#callmode"><span class="navnum">CM</span>Call Mode · Live GPS<span class="navmin">⏱ live</span></a>
   <a class="navlink" href="#t10"><span class="navnum">T10</span>Top 10 Lines</a>
   <div class="grouplabel">The System</div>
   <a class="navlink" href="#map"><span class="navnum">01</span>Call Map &amp; Clock</a>
@@ -252,7 +252,7 @@ ul.dot li::before{content:'';position:absolute;left:4px;top:13px;width:7px;heigh
   <h1>Master the<br><span class="ul">30-minute call.</span></h1>
   <p class="lede">Every customer you call just did something brave — they started a business. In the next 30 minutes, your job is to protect it: keep their liability shield intact, their state filings on time, and their tax money in their pocket. Sell from that conviction and you'll guide them naturally to the best-fit, highest-value products — and become a top-1% rep doing it.</p>
   <div class="cta-row">
-    <a class="cta" href="#callmode">▶ Enter Call Mode — live router</a>
+    <a class="cta" href="#callmode">▶ Enter Call Mode — live call GPS</a>
     <span class="cta ghost">One spine · Seven moves · Two closes minimum</span>
     <span class="cta ghost">Updated to the June 2026 Training &amp; Sales Guide</span>
   </div>
@@ -2123,307 +2123,189 @@ ul.dot li::before{content:'';position:absolute;left:4px;top:13px;width:7px;heigh
   </table>
 </section>
 
-<!-- ================= CM: CALL MODE — LIVE ORDER REVIEW ROUTER ================= -->
+<!-- ================= CM: CALL MODE — LIVE CALL GPS ================= -->
 <style>
-/* ---------- CM: Call Mode cockpit (scoped) ---------- */
-#callmode .cmwrap{margin-top:4px}
-.cm-timerbar{position:sticky;top:10px;z-index:60;background:var(--black);border-radius:18px;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 10px 28px rgba(10,12,11,.22)}
-.cm-clock{font-family:var(--mono);font-size:27px;font-weight:600;color:#fff;letter-spacing:.03em;min-width:92px;font-variant-numeric:tabular-nums}
-.cm-btn{font-family:var(--disp);font-weight:700;font-size:12.5px;border:none;border-radius:10px;padding:8px 14px;cursor:pointer;background:#1C2621;color:#DCE9E2;transition:all .15s}
-.cm-btn:hover{background:#26332B}
+/* ---------- CM v2: Call Mode GPS (scoped) ---------- */
+.cm-grid{display:grid;grid-template-columns:224px minmax(0,1fr) 264px;gap:15px;margin-top:14px;align-items:start}
+.cm-col{min-width:0}
+.cm-panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:13px}
+.cm-panel h4{font-family:var(--disp);font-size:13px;font-weight:800;color:var(--black);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.cm-panel h4 .dot{width:8px;height:8px;border-radius:50%;background:var(--zb);flex:0 0 auto}
+.cm-lab{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);margin:10px 0 5px}
+.cm-sticky{position:sticky;top:14px}
+.cm-rsticky{position:sticky;top:14px;max-height:calc(100vh - 28px);overflow-y:auto;padding-right:2px}
+
+/* timer */
+.cm-clock{font-family:var(--mono);font-size:30px;font-weight:600;color:var(--black);letter-spacing:.02em;font-variant-numeric:tabular-nums;line-height:1}
+.cm-tbtns{display:flex;gap:6px;margin:10px 0 8px}
+.cm-btn{font-family:var(--disp);font-weight:700;font-size:12px;border:none;border-radius:10px;padding:8px 13px;cursor:pointer;background:var(--mist);color:var(--char);transition:all .15s}
+.cm-btn:hover{background:var(--line)}
 .cm-btn.go{background:var(--zb);color:var(--black)}
 .cm-btn.go:hover{background:var(--zb-dark)}
-.cm-pace{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:6px 12px;white-space:nowrap}
-.cm-pace.on{background:var(--zb);color:var(--black)}
-.cm-pace.long{background:var(--amber-soft);color:#7A5708}
-.cm-pace.comp{background:var(--red);color:#fff}
-.cm-phaserow{display:flex;gap:5px;flex-wrap:wrap;margin-left:auto}
-.cm-ph{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1px solid #2A3630;background:#121A15;color:#9DB3A8;border-radius:999px;padding:6px 11px;cursor:pointer;transition:all .15s}
-.cm-ph:hover{border-color:var(--zb);color:#fff}
-.cm-ph.cur{background:var(--zb);border-color:var(--zb);color:var(--black)}
-.cm-ph.skip{opacity:.35;text-decoration:line-through;pointer-events:auto}
-.cm-phname{font-family:var(--mono);font-size:10.5px;color:var(--zb);letter-spacing:.12em;text-transform:uppercase}
+.cm-coach{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:5px 11px}
+.cm-coach.on{background:var(--zb-tint);color:var(--zb-ink-green);border:1px solid #BFEFD9}
+.cm-coach.long{background:var(--amber-soft);color:#7A5708;border:1px solid #EFD9A8}
+.cm-coach.comp{background:var(--red-soft);color:var(--red);border:1px solid #F0C2C5}
 
-.cm-grid{display:grid;grid-template-columns:158px minmax(0,1fr) 286px;gap:15px;margin-top:16px;align-items:start}
-.cm-col{min-width:0}
-.cm-panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 17px;margin-bottom:14px}
-.cm-panel h4{font-family:var(--disp);font-size:13.5px;font-weight:800;color:var(--black);margin-bottom:9px;display:flex;align-items:center;gap:7px}
-.cm-panel h4 .dot{width:8px;height:8px;border-radius:50%;background:var(--zb)}
-.cm-lab{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--mute);margin:11px 0 5px}
-.cm-lab:first-of-type{margin-top:0}
-
-/* segmented + chips */
-.seg{display:flex;flex-wrap:wrap;gap:5px}
-.seg button,.chips button{font-family:var(--body);font-size:12px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:9px;padding:5px 10px;cursor:pointer;transition:all .12s}
-.seg button:hover,.chips button:hover{border-color:var(--zb-dark)}
-.seg button.on{background:var(--black);border-color:var(--black);color:var(--zb)}
-.chips{display:flex;flex-wrap:wrap;gap:5px}
-.chips button.on{background:var(--zb);border-color:var(--zb);color:var(--black)}
-.chips button.on.gap{background:var(--red-soft);border-color:var(--red);color:var(--red)}
-.chips button.on.inc{background:var(--zb-tint);border-color:var(--zb-dark);color:var(--zb-ink-green)}
-
-/* left rail */
-.cm-steps{list-style:none}
-.cm-steps li{position:relative;padding:7px 8px 7px 26px;font-size:12.5px;font-weight:600;color:var(--char);border-radius:9px;cursor:pointer;line-height:1.3}
+/* phase list */
+.cm-steps{list-style:none;margin-top:4px}
+.cm-steps li{position:relative;padding:7px 8px 7px 27px;font-size:12.5px;font-weight:600;color:var(--char);border-radius:9px;cursor:pointer;line-height:1.3}
 .cm-steps li:hover{background:var(--mist)}
-.cm-steps li::before{content:'';position:absolute;left:8px;top:12px;width:9px;height:9px;border-radius:50%;border:2px solid var(--line);background:#fff}
+.cm-steps li::before{content:'';position:absolute;left:8px;top:11px;width:9px;height:9px;border-radius:50%;border:2px solid var(--line);background:#fff}
 .cm-steps li.cur{background:var(--zb-tint)}
 .cm-steps li.cur::before{background:var(--zb);border-color:var(--zb)}
 .cm-steps li.done::before{background:var(--black);border-color:var(--black)}
-.cm-steps li.skip{opacity:.4;text-decoration:line-through}
-.cm-steps li small{display:block;font-weight:400;font-size:10.5px;color:var(--mute)}
+.cm-steps li.lock{opacity:.45}
+.cm-steps li.lock .lk{float:right;font-size:11px}
+.cm-steps li small{display:block;font-weight:400;font-size:10px;color:var(--mute);font-family:var(--mono)}
+.cm-hintline{font-size:11px;color:var(--red);margin-top:6px;display:none}
+
+/* progress */
+.cm-prog{list-style:none}
+.cm-prog li{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;color:var(--mute)}
+.cm-prog li .pk{flex:0 0 16px;height:16px;border-radius:6px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--mono);color:#fff}
+.cm-prog li.ok{color:var(--char);font-weight:600}
+.cm-prog li.ok .pk{background:var(--zb);border-color:var(--zb);color:var(--black)}
+
+/* center */
+.cm-phasehead{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.cm-phasehead .pnum{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--zb-ink-green)}
+.cm-phasehead h3{font-family:var(--disp);font-size:21px;font-weight:800;color:var(--black)}
+.cm-listen{border:1px dashed #C5CFC9;border-radius:10px;padding:9px 12px;background:#FCFDFC;font-size:12.5px;color:#5C6862;margin:10px 0}
+.cm-listen b{color:var(--black)}
+.cm-note textarea,.cm-note input{width:100%;font-family:var(--body);font-size:13px;border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;margin-top:4px;background:#fff;color:var(--char)}
+.cm-note textarea{min-height:56px;resize:vertical}
+.cm-note textarea:focus,.cm-note input:focus{outline:none;border-color:var(--zb-dark)}
+.cm-next{display:block;width:100%;font-family:var(--disp);font-weight:800;font-size:15px;background:var(--zb);color:var(--black);border:none;border-radius:14px;padding:14px;cursor:pointer;margin-top:14px;transition:all .15s}
+.cm-next:hover{background:var(--zb-dark)}
+.cm-next.dark{background:var(--black);color:var(--zb)}
+.cm-copy{float:right;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:var(--mist);color:var(--mute);border-radius:7px;padding:3px 8px;cursor:pointer;margin-left:8px}
+.cm-copy:hover{border-color:var(--zb-dark);color:var(--zb-ink-green)}
+.cm-ckl{list-style:none;margin:8px 0}
+.cm-ckl li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13px;color:var(--char);cursor:pointer;user-select:none}
+.cm-ckl li .bx{flex:0 0 17px;height:17px;border-radius:6px;border:1.5px solid var(--line);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--mono);font-weight:700;color:#fff;background:#fff}
+.cm-ckl li.on{font-weight:600}
+.cm-ckl li.on .bx{background:var(--zb);border-color:var(--zb);color:var(--black)}
+.cm-u8bar{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.cm-u8bar .ud{width:9px;height:9px;border-radius:50%;background:var(--line);cursor:pointer}
+.cm-u8bar .ud.on{background:var(--zb)}
+.cm-u8bar .ud.seen{background:var(--zb-dark);opacity:.45}
+.cm-u8bar .ut{font-family:var(--mono);font-size:10.5px;color:var(--mute);margin-left:auto}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips button,.seg button{font-family:var(--body);font-size:12px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:9px;padding:5px 10px;cursor:pointer;transition:all .12s}
+.chips button:hover,.seg button:hover{border-color:var(--zb-dark)}
+.seg{display:flex;flex-wrap:wrap;gap:5px}
+.seg button.on{background:var(--black);border-color:var(--black);color:var(--zb)}
+.chips button.on{background:var(--zb);border-color:var(--zb);color:var(--black)}
+.chips button.gap.on{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.chips button.inc.on{background:var(--zb-tint);border-color:var(--zb-dark);color:var(--zb-ink-green)}
+.chips button.sm{font-size:11px;padding:3px 8px}
+
+/* route card */
+.cm-reco{background:var(--black);border-radius:18px;padding:19px 21px;color:#CFE0D7;margin-bottom:13px}
+.cm-reco .rk{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--zb);font-weight:600}
+.cm-reco h3{color:#fff;font-size:23px;margin:4px 0 8px;font-weight:800}
+.cm-reco .why{border:1px dashed #2A3630;background:#121A15;color:#C4D6CC;border-radius:12px;padding:11px 14px;margin:10px 0;font-size:13px;display:flex;gap:9px}
+.cm-reco .why b{color:#fff}
+.cm-reco .say{background:#111814;border-color:#243029;border-left-color:var(--zb)}
+.cm-reco .say p{color:#E8F1EC}
+.cm-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.cm-badges .bd{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border-radius:7px;padding:4px 9px;background:#1C2621;color:#9DB3A8;border:1px solid #2A3630}
+.cm-badges .bd.sec{background:var(--zb);color:var(--black);border-color:var(--zb)}
+.cm-badges .bd.skipbd{text-decoration:line-through}
+.cm-ckps{margin-top:10px;font-size:12.5px;list-style:none}
+.cm-ckps li{padding:3px 0 3px 20px;position:relative;color:#DCE9E2}
+.cm-ckps li::before{content:'▸';position:absolute;left:2px;color:var(--zb)}
+
+/* right column */
+.trk{list-style:none}
+.trk li{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:12px;font-weight:600;color:var(--char);flex-wrap:wrap}
+.trk li:last-child{border-bottom:none}
+.trk .tspacer{flex:1}
+.tck{display:inline-flex;align-items:center;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mute);cursor:pointer;border:1.5px solid var(--line);border-radius:7px;padding:3px 7px;background:#fff;user-select:none}
+.tck.on{background:var(--zb);border-color:var(--zb);color:var(--black)}
+.tck.on.sold{background:var(--black);border-color:var(--black);color:var(--zb)}
 .stuckgrid{display:flex;flex-direction:column;gap:5px}
 .stuckgrid button{text-align:left;font-family:var(--body);font-size:12px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:9px;padding:6px 10px;cursor:pointer;transition:all .12s}
 .stuckgrid button:hover{border-color:var(--red);color:var(--red)}
-.stuckgrid button.hot{background:var(--red-soft);border-color:var(--red);color:var(--red)}
 .stuckgrid button.yes{border-color:var(--zb-dark);color:var(--zb-ink-green)}
 .stuckgrid button.yes:hover{background:var(--zb-tint)}
+.cm-actionrow{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.cm-actionrow button{flex:1;min-width:110px}
+.cm-mini{font-size:11.5px;color:var(--mute)}
+.cm-mini b{color:var(--char)}
 
-/* recommendation card */
-.cm-reco{background:var(--black);border-radius:18px;padding:20px 22px;color:#CFE0D7;margin-bottom:14px}
-.cm-reco .rk{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--zb);font-weight:600}
-.cm-reco h3{color:#fff;font-size:24px;margin:4px 0 8px;font-weight:800}
-.cm-reco .why{border-color:#2A3630;background:#121A15;color:#C4D6CC;margin:10px 0}
-.cm-reco .why b{color:#fff}
-.cm-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.cm-badges .bd{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:7px;padding:4px 9px;background:#1C2621;color:#9DB3A8;border:1px solid #2A3630}
-.cm-badges .bd.sec{background:var(--zb);color:var(--black);border-color:var(--zb)}
-.cm-badges .bd.skipbd{text-decoration:line-through}
-.cm-ckps{margin-top:10px;font-size:12.5px}
-.cm-ckps li{padding:3px 0 3px 22px;position:relative;color:#DCE9E2}
-.cm-ckps li::before{content:'▸';position:absolute;left:4px;color:var(--zb)}
-
-/* script panel */
-.cm-tabs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-.cm-tabs button{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:999px;padding:5px 12px;cursor:pointer}
-.cm-tabs button.on{background:var(--black);border-color:var(--black);color:var(--zb)}
-.cm-tabs button.auto.on{background:var(--zb);border-color:var(--zb);color:var(--black)}
-.cm-script .say{margin:10px 0}
-.cm-copy{float:right;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:var(--mist);color:var(--mute);border-radius:7px;padding:3px 8px;cursor:pointer;margin-left:8px}
-.cm-copy:hover{border-color:var(--zb-dark);color:var(--zb-ink-green)}
-.cm-obj{font-size:12.5px;color:var(--mute);border:1px dashed #C5CFC9;border-radius:10px;padding:9px 12px;background:#FCFDFC}
-.cm-obj b{color:var(--black)}
-.cm-deep{font-family:var(--mono);font-size:11px}
-
-/* tracker */
-.trk{list-style:none}
-.trk li{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:12.5px;font-weight:600;color:var(--char)}
-.trk li:last-child{border-bottom:none}
-.trk .tspacer{flex:1}
-.tck{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);cursor:pointer;border:1.5px solid var(--line);border-radius:7px;padding:3px 7px;background:#fff;user-select:none}
-.tck.on{background:var(--zb);border-color:var(--zb);color:var(--black)}
-.tck.on.sold{background:var(--black);border-color:var(--black);color:var(--zb)}
-.cm-right .cm-panel.sticky{position:sticky;top:96px;max-height:calc(100vh - 116px);overflow-y:auto}
-
-/* stuck reveal + yes path + recap */
+/* stuck reveal + close phase */
 .cm-stuckcard{border-left-color:var(--red)!important}
 .cm-stuckcard .tag{background:var(--red)!important;color:#fff!important}
-.cm-yes{border:2px solid var(--zb);border-radius:16px;padding:16px 17px;margin-bottom:14px;background:var(--zb-tint)}
-.cm-yes h4{font-family:var(--disp);font-size:14px;font-weight:800;color:var(--black);margin-bottom:8px}
+.cm-verdict{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border-radius:7px;padding:3px 9px;background:var(--black);color:var(--zb);display:inline-block;margin-left:8px}
+.cm-bigrow{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:6px 0 14px}
+.cm-bigrow button{font-family:var(--disp);font-weight:800;font-size:13.5px;border:2px solid var(--line);background:#fff;color:var(--char);border-radius:13px;padding:13px 8px;cursor:pointer;transition:all .15s}
+.cm-bigrow button:hover{border-color:var(--zb-dark)}
+.cm-bigrow button.on{background:var(--zb);border-color:var(--zb);color:var(--black)}
 .cm-amt{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
 .cm-amt button{font-family:var(--mono);font-size:10.5px;font-weight:600;border:1.5px solid #BFEFD9;background:#fff;border-radius:8px;padding:4px 9px;cursor:pointer;color:var(--zb-ink-green)}
 .cm-amt button:hover{border-color:var(--zb-dark)}
-.cm-amt input{font-family:var(--mono);font-size:12px;border:1.5px solid var(--line);border-radius:8px;padding:4px 9px;width:90px}
-.cm-recap textarea{width:100%;min-height:190px;font-family:var(--mono);font-size:11.5px;line-height:1.55;border:1px solid #2A3630;border-radius:12px;background:#0F1512;color:#DCE9E2;padding:12px;resize:vertical}
-.cm-note input{width:100%;font-family:var(--body);font-size:12.5px;border:1.5px solid var(--line);border-radius:9px;padding:7px 10px;margin-top:4px}
-.cm-hint{font-size:11.5px;color:var(--mute);margin-top:7px}
+.cm-amt button.on{background:var(--zb);border-color:var(--zb);color:var(--black)}
+.cm-amt input{font-family:var(--mono);font-size:12px;border:1.5px solid var(--line);border-radius:8px;padding:4px 9px;width:86px}
+.cm-recap textarea{width:100%;min-height:200px;font-family:var(--mono);font-size:11.5px;line-height:1.55;border:1px solid #2A3630;border-radius:12px;background:#0F1512;color:#DCE9E2;padding:12px;resize:vertical}
+.cm-lanechips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
 
 @media (max-width:1240px){
-  .cm-grid{grid-template-columns:minmax(0,1fr) 286px}
-  .cm-left{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .cm-grid{grid-template-columns:minmax(0,1fr) 264px}
+  .cm-left{grid-column:1/-1}
+  .cm-left .cm-sticky{position:static;display:grid;grid-template-columns:1fr 1fr;gap:13px;align-items:start}
+  .cm-left .cm-panel{margin-bottom:0}
 }
 @media (max-width:900px){
   .cm-grid{grid-template-columns:1fr}
-  .cm-left{grid-template-columns:1fr}
-  .cm-right .cm-panel.sticky{position:static;max-height:none}
-  .cm-timerbar{top:6px}
-  .cm-phaserow{margin-left:0}
+  .cm-left .cm-sticky{grid-template-columns:1fr}
+  .cm-rsticky{position:static;max-height:none}
+  .cm-bigrow{grid-template-columns:1fr}
+  .cm-clock{font-size:26px}
 }
 </style>
 
 <section class="block" id="callmode">
-  <div class="sechead"><span class="num">CM</span><h2>Call Mode — Live Order Review Router</h2><span class="clock">cockpit · not a script page</span></div>
-  <p class="secsub">Open → Discovery → <b>Order Review Router</b> → Recommended Lane → Secondary Lane → Tax / SNE → Wrap. There is no fixed universal sequence: mark what the customer already bought, and the router picks the lane, the transition, and the checkpoints. Your route, tracker, and timer auto-save on this device.</p>
+  <div class="sechead"><span class="num">CM</span><h2>Call Mode</h2><span class="clock">live call GPS</span></div>
+  <p class="secsub" style="margin-bottom:4px"><b style="color:var(--black)">Fixed opening. Fixed discovery. Smart route after order review.</b></p>
+  <p class="secsub">Run the call step by step, capture what matters, then let the order review tell you what to close next. Everything auto-saves on this device.</p>
 
-  <div class="cmwrap">
-
-    <!-- ===== sticky timer bar ===== -->
-    <div class="cm-timerbar" id="cmTimerbar">
-      <span class="cm-clock" id="cmClock">00:00</span>
-      <button class="cm-btn go" id="cmStart">▶ Start</button>
-      <button class="cm-btn" id="cmReset" title="Reset timer only">↺</button>
-      <span class="cm-pace on" id="cmPace">On pace</span>
-      <span class="cm-phname" id="cmPhName">Phase · Open</span>
-      <div class="cm-phaserow" id="cmPhRow"></div>
-    </div>
-
-    <div class="cm-grid">
-
-      <!-- ===== LEFT: phases · mode · stuck ===== -->
-      <div class="cm-col cm-left">
+  <div class="cm-grid">
+    <!-- LEFT: call control -->
+    <div class="cm-col cm-left">
+      <div class="cm-sticky">
         <div class="cm-panel">
-          <h4><span class="dot"></span>Route</h4>
-          <div class="cm-lab">Call compression</div>
-          <div class="seg" id="cmMode">
-            <button data-m="full">Full</button>
-            <button data-m="standard">Standard</button>
-            <button data-m="rushed">Rushed</button>
-            <button data-m="sne">SNE only</button>
+          <h4><span class="dot"></span>Call control</h4>
+          <div class="cm-clock" id="cmClock">00:00</div>
+          <div class="cm-tbtns">
+            <button class="cm-btn go" id="cmStart">▶ Start</button>
+            <button class="cm-btn" id="cmTReset" title="Reset timer only">↺</button>
           </div>
-          <div class="cm-lab">Phases</div>
+          <span class="cm-coach on" id="cmCoach">On pace</span>
           <ul class="cm-steps" id="cmSteps"></ul>
-          <button class="cm-btn" id="cmNewCall" style="width:100%;margin-top:10px;background:var(--red-soft);color:var(--red)">✕ Reset call</button>
+          <div class="cm-hintline" id="cmLockHint">🔒 Finish Order Review → Build Smart Route first</div>
         </div>
         <div class="cm-panel">
-          <h4><span class="dot" style="background:var(--red)"></span>Stuck? Quick moves</h4>
-          <div class="stuckgrid" id="cmStuck">
-            <button data-s="rushed">⏳ Customer is rushed</button>
-            <button data-s="confused">❓ Customer is confused</button>
-            <button data-s="skeptical">🧐 Customer is skeptical</button>
-            <button data-s="price">💸 Price is too high</button>
-            <button data-s="spouse">👥 Wants spouse / accountant</button>
-            <button data-s="send">📧 “Send me something”</button>
-            <button data-s="ramble">🌀 Customer is rambling</button>
-            <button class="yes" data-s="yes">✅ They said YES</button>
-            <button data-s="sne">📅 Need to set SNE</button>
-          </div>
+          <h4><span class="dot" style="background:var(--black)"></span>Progress</h4>
+          <ul class="cm-prog" id="cmProg"></ul>
+          <button class="cm-btn" id="cmNewCall" style="width:100%;margin-top:12px;background:var(--red-soft);color:var(--red)">✕ Reset call</button>
         </div>
       </div>
-
-      <!-- ===== CENTER: recommendation · scripts · yes · recap ===== -->
-      <div class="cm-col cm-center">
-        <div class="cm-reco" id="cmReco"></div>
-
-        <div class="cm-panel" id="cmStuckReveal" style="display:none"></div>
-
-        <div class="cm-yes" id="cmYes" style="display:none">
-          <h4>✅ They said yes — lock it in clean</h4>
-          <ol style="font-size:13px;padding-left:18px;color:var(--char)">
-            <li style="padding:2px 0"><b>Confirm the product:</b> “So that’s the <span id="cmYesProd">[product]</span> — the piece that [their reason].”</li>
-            <li style="padding:2px 0"><b>Confirm the price</b> — say the number, then stop talking.</li>
-            <li style="padding:2px 0"><b>Permission line</b> — verbatim, then silence:</li>
-          </ol>
-          <div class="cm-amt" id="cmAmt">
-            <button data-p="Registered Agent" data-a="$199">RA $199</button>
-            <button data-p="Worry Free Compliance" data-a="$199">WFC $199</button>
-            <button data-p="WFC Advanced" data-a="$299">WFC-A $299</button>
-            <button data-p="WFC (coupon)" data-a="$149">Coupon $149</button>
-            <button data-p="EIN" data-a="$99">EIN $99</button>
-            <button data-p="Operating Agreement" data-a="$99">OA $99</button>
-            <button data-p="Business License Report" data-a="$149">BLR $149</button>
-            <button data-p="Money Pro" data-a="$300">MP $300</button>
-            <button data-p="Quarterly Tax Planning" data-a="$899">QTP $899</button>
-            <button data-p="Business Tax Prep + Filing" data-a="$899">BTP $899</button>
-            <button data-p="Do-It-For-You Tax Plan" data-a="$1,798">QTP+BTP $1,798</button>
-            <button data-p="Complete Tax Bundle" data-a="$2,038">Bundle $2,038</button>
-            <input id="cmAmtIn" placeholder="$ custom">
-          </div>
-          <div class="say"><span class="tag">Permission</span><button class="cm-copy" data-cp="cmPermTxt">Copy</button><div class="saytxt" id="cmPermTxt"><p>“Do I have your permission to process the payment of <b id="cmAmtOut">$___</b> with the card on file ending in ____?”</p></div></div>
-          <div class="say"><span class="tag">After payment</span><button class="cm-copy" data-cp="cmBridgeTxt">Copy</button><div class="saytxt" id="cmBridgeTxt"><p>“Great, that’s taken care of. Let’s quickly touch on one more piece before I let you go.”</p></div></div>
-          <p class="cm-hint">Bought a tax plan or Money Pro? Schedule the first session <b>now</b> — dashboard → menu → Finances → Tax Services → Book your consultation (use the website, not the app; refresh or re-login).</p>
-        </div>
-
-        <div class="cm-panel">
-          <h4><span class="dot"></span>Active script <span style="font-weight:400;font-size:11px;color:var(--mute);margin-left:auto">Auto follows the router — click a lane to pin</span></h4>
-          <div class="cm-tabs" id="cmTabs">
-            <button class="auto on" data-l="auto">⚡ Auto</button>
-            <button data-l="ra">RA</button>
-            <button data-l="wfc">WFC</button>
-            <button data-l="tax">Tax</button>
-            <button data-l="stack">EIN · OA</button>
-            <button data-l="blr">BLR</button>
-            <button data-l="mp">Money Pro</button>
-            <button data-l="sne">SNE</button>
-          </div>
-          <div class="cm-script" id="cmScript"></div>
-        </div>
-
-        <div class="cm-panel cm-recap">
-          <h4><span class="dot" style="background:var(--black)"></span>End of call</h4>
-          <div class="cm-lab">Outcome</div>
-          <div class="seg" id="cmOutcome">
-            <button data-o="sold">Sold</button>
-            <button data-o="sne">SNE set</button>
-            <button data-o="declined">Declined — door open</button>
-          </div>
-          <div class="cm-note"><div class="cm-lab">Coaching flag / note</div><input id="cmCoach" placeholder="e.g. Tax hesitation / timing objection"></div>
-          <div style="display:flex;gap:8px;margin:12px 0 10px">
-            <button class="cm-btn go" id="cmGenRecap">📝 Generate Call Recap</button>
-            <button class="cm-btn" id="cmCopyRecap" style="background:var(--mist);color:var(--char)">Copy recap</button>
-          </div>
-          <textarea id="cmRecapOut" placeholder="Your recap will appear here — paste it straight into Salesforce notes." spellcheck="false"></textarea>
-        </div>
-      </div>
-
-      <!-- ===== RIGHT: router + tracker ===== -->
-      <div class="cm-col cm-right">
-        <div class="cm-panel sticky">
-          <h4><span class="dot"></span>Order Review Router</h4>
-          <div class="cm-lab">Plan</div>
-          <div class="seg" id="cmPlan">
-            <button data-v="starter">Starter</button>
-            <button data-v="pro">Pro</button>
-            <button data-v="premium">Premium</button>
-          </div>
-          <div class="cm-lab">Registered Agent</div>
-          <div class="chips" id="cmRA">
-            <button class="inc" data-v="included">Included / purchased</button>
-            <button class="gap" data-v="missing">Missing</button>
-            <button class="gap" data-v="self">Listed self</button>
-            <button class="gap" data-v="other">Other person</button>
-          </div>
-          <div class="cm-lab">Compliance</div>
-          <div class="chips" id="cmWFC">
-            <button class="inc" data-v="included">WFC included</button>
-            <button class="gap" data-v="missing">WFC missing</button>
-          </div>
-          <div class="cm-lab">Setup</div>
-          <div class="chips" id="cmEIN">
-            <button class="inc" data-v="included">EIN included</button>
-            <button class="gap" data-v="missing">EIN missing</button>
-          </div>
-          <div class="chips" id="cmOA" style="margin-top:5px">
-            <button class="inc" data-v="included">OA included</button>
-            <button class="gap" data-v="missing">OA missing</button>
-          </div>
-          <div class="cm-lab">Money / Tax</div>
-          <div class="chips" id="cmMP">
-            <button class="inc" data-v="included">Money Pro included</button>
-            <button class="gap" data-v="missing">Money Pro missing</button>
-          </div>
-          <div class="chips multi" id="cmTaxSig" style="margin-top:5px">
-            <button class="gap" data-v="qtp">Tax Planning missing</button>
-            <button class="gap" data-v="btp">Tax Prep missing</button>
-            <button data-v="nocpa">No CPA</button>
-            <button data-v="rev">Revenue soon</button>
-            <button data-v="miles">Mileage / deductions</button>
-            <button data-v="books">Bookkeeping pain</button>
-          </div>
-          <div class="cm-lab">Other signals</div>
-          <div class="chips multi" id="cmSig">
-            <button data-v="travel">Travels / not home</button>
-            <button data-v="partner">Partner / co-owner</button>
-            <button data-v="bank">Needs bank account</button>
-            <button data-v="license">License uncertainty</button>
-            <button data-v="physical">Physical location</button>
-            <button data-v="price">Price sensitive</button>
-            <button data-v="rushed">Rushed call</button>
-          </div>
-        </div>
-        <div class="cm-panel">
-          <h4><span class="dot" style="background:var(--black)"></span>Close tracker <span style="font-weight:400;font-size:10.5px;color:var(--mute);margin-left:auto">attempted ≠ sold</span></h4>
-          <ul class="trk" id="cmTrk"></ul>
-        </div>
-      </div>
-
     </div>
+
+    <!-- CENTER: what to say now -->
+    <div class="cm-col cm-center" id="cmCenter"></div>
+
+    <!-- RIGHT: notes / route tools -->
+    <div class="cm-col cm-right"><div class="cm-rsticky" id="cmRight"></div></div>
   </div>
 </section>
 
 <script>
 (function(){
 "use strict";
-/* ============ Call Mode — router, timer, tracker, recap ============ */
+/* ============ Call Mode v2 — live call GPS ============ */
 
 /* ---- storage (localStorage with in-memory fallback) ---- */
 var store=(function(){
@@ -2435,17 +2317,19 @@ var store=(function(){
     del:function(k){if(ok){try{localStorage.removeItem(k);return;}catch(e){}}delete mem[k];}
   };
 })();
-var KEY="zbcm_v1";
+var KEY="zbcm_v2";
 
 /* ---- state ---- */
-var DEF={mode:"full",phase:"open",plan:null,ra:null,wfc:null,ein:null,oa:null,mp:null,
-  taxsig:[],sig:[],pin:"auto",checks:{},outcome:null,coach:"",flags:[],
-  elapsed:0,running:false,stamp:null,yesOpen:false,yesProd:null,yesAmt:null,stuck:null};
+var DEF={elapsed:0,running:false,stamp:null,phase:"open",u8i:0,u8max:0,
+  plan:null,ra:null,wfc:null,ein:null,oa:null,mp:null,qtp:null,btp:null,blr:null,web:null,
+  sig:[],biz:"",fear:"",priority:"",notes:"",u8n:{},checks:{},persEmail:false,
+  routeBuilt:false,lanePin:null,stuck:null,compress:false,
+  closeTab:null,yesProd:null,yesAmt:null,outcome:null,coach:""};
 var S=load();
 function load(){
-  try{var raw=store.get(KEY);if(raw){var o=JSON.parse(raw);var s=JSON.parse(JSON.stringify(DEF));
-    for(var k in o){s[k]=o[k];}
-    if(s.running&&s.stamp){s.elapsed+=Math.max(0,(Date.now()-s.stamp)/1000);s.stamp=Date.now();}
+  try{var raw=store.get(KEY);if(raw){var o=JSON.parse(raw),s=JSON.parse(JSON.stringify(DEF));
+    for(var k in o)s[k]=o[k];
+    if(s.running&&s.stamp)s.elapsed+=Math.max(0,(Date.now()-s.stamp)/1000);
     return s;}}catch(e){}
   return JSON.parse(JSON.stringify(DEF));
 }
@@ -2453,450 +2337,554 @@ function save(){S.stamp=S.running?Date.now():null;try{store.set(KEY,JSON.stringi
 
 /* ---- helpers ---- */
 function $(id){return document.getElementById(id);}
-function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
-function has(arr,v){return arr.indexOf(v)>=0;}
-function toggleArr(arr,v){var i=arr.indexOf(v);if(i>=0)arr.splice(i,1);else arr.push(v);}
+function esc(t){return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+function has(a,v){return S[a].indexOf(v)>=0;}
 function fmt(sec){sec=Math.floor(sec);var m=Math.floor(sec/60),s=sec%60;return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;}
 function copyText(txt,btn){
-  function done(){if(btn){var old=btn.textContent;btn.textContent="✓ Copied";setTimeout(function(){btn.textContent=old;},1200);}}
-  function fallback(){var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fallback);}else{fallback();}
+  function done(){if(btn){var o=btn.textContent;btn.textContent="✓ Copied";setTimeout(function(){btn.textContent=o;},1200);}}
+  function fb(){var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fb);}else{fb();}
+}
+function say(tag,txt,opts){opts=opts||{};
+  return '<div class="say'+(opts.ask?" ask":"")+(opts.red?" cm-stuckcard":"")+'"><span class="tag">'+tag+'</span><button class="cm-copy">Copy</button><div class="saytxt"><p>'+txt+"</p></div></div>";}
+function noteBox(label,bind,val,ph){return '<div class="cm-note"><div class="cm-lab">'+label+'</div><textarea data-bind="'+bind+'" placeholder="'+(ph||"…")+'">'+esc(val)+"</textarea></div>";}
+
+/* ---- phases ---- */
+var PH=[["open","Open","0–3"],["disc","Discovery","3–5"],["u8","Universal Eight","5–8"],["info","Contact Info","8–10"],["order","Order Review","10–12"],["route","Smart Route","12"],["pitch","Product Pitch","12–25"],["close","Close / SNE","25–30"]];
+function phIdx(id){for(var i=0;i<PH.length;i++)if(PH[i][0]===id)return i;return 0;}
+function locked(id){return (id==="route"||id==="pitch")&&!S.routeBuilt;}
+
+/* ---- signals ---- */
+var SIGS=[["first","First-time owner"],["exp","Experienced owner"],["opnow","Operational now"],["opnot","Not operational yet"],["revsoon","Revenue soon"],["firstcust","Has first customer"],["side","Side hustle"],["fulltime","Full-time"],["mobile","Mobile / not always home"],["growth","Growth plans"],["funding","Wants funding"],["wcomp","Worried: compliance"],["wtax","Worried: taxes"],["wwrong","Worried: doing it wrong"],["solo","Solo owner"],["mentor","Has mentor"],["accountant","Has accountant"],["partner","Has partner"],["pcompliance","Priority: compliance"],["pbanking","Priority: banking"],["ptaxes","Priority: taxes"],["plicense","Priority: license"],["pweb","Priority: website/domain"],["rushed","Rushed call"]];
+function sigLabel(v){for(var i=0;i<SIGS.length;i++)if(SIGS[i][0]===v)return SIGS[i][1];return v;}
+function tagChip(v,sm){return '<button class="'+(has("sig",v)?"on ":"")+(sm?"sm":"")+'" data-tag="'+v+'">'+sigLabel(v)+"</button>";}
+
+/* ---- Universal Eight ---- */
+var U8=[
+ {q:"“What inspired you to get [Business] started?”",why:"Emotional anchor. Reuse their exact words at close.",tags:[]},
+ {q:"“Is this your first business or LLC?”",sub:"If prior: “What was it, and how long did you have it?”",why:"First-timers need education. Experienced owners value speed and efficiency.",tags:["first","exp"]},
+ {q:"“Are you currently operational or open for business?”",sub:"Yes → “What was that process like? What’s the day-to-day work?” · No → “What needs to happen for you to become operational?”",why:"Creates urgency for compliance and taxes.",tags:["opnow","opnot"]},
+ {q:"“How quickly do you plan to generate revenue — do you already have your first customer lined up?”",why:"Revenue timeline connects to quarterly taxes.",tags:["revsoon","firstcust"]},
+ {q:"“Is this more of a side hustle, or are you running [Business] full-time?”",why:"Full-time or mobile owners may not want to be their own Registered Agent.",tags:["side","fulltime","mobile"]},
+ {q:"“What vision do you have for [Business] by the end of this year — or even 3, 6, 9, or 12 months from today?”",why:"Growth connects to compliance, funding, banking, tax, and long-term support.",tags:["growth","funding"]},
+ {q:"“Since this is your first LLC, what are you most worried or concerned about?”",why:"Their fear becomes your value proposition. Write it down <b>verbatim</b>.",tags:["wcomp","wtax","wwrong"],fear:true},
+ {q:"“Are you handling everything on your own, or do you have anyone mentoring or helping you?”",why:"Solo owners need ZenBusiness as their back office.",tags:["solo","mentor","accountant","partner"]},
+ {q:"“What next steps are your highest priorities?”",why:"They will usually tell you what to sell first.",tags:["pcompliance","pbanking","ptaxes","plicense","pweb"],power:true}
+];
+
+/* ---- open & info checklists ---- */
+var OPEN_CK=[["op_greet","Greeted customer"],["op_thank","Thanked them"],["op_why","Explained why I’m calling"],["op_agenda","Set agenda"],["op_perm","Got permission (“sound good?”)"],["op_rec","Disclosed recording"],["op_congrats","Congratulated them"],["op_excited","Asked if they’re excited"]];
+var INFO_CK=[["in_struct","Confirm management structure"],["in_name","Confirm name"],["in_phone","Confirm phone"],["in_email","Confirm email"],["in_phys","Confirm physical address"],["in_prin","Confirm principal address"],["in_mail","Confirm mailing address"],["in_res","Ask: primary residence?"],["in_ops","Ask: business operated from that address?"]];
+function allChecked(list){for(var i=0;i<list.length;i++)if(!S.checks[list[i][0]])return false;return true;}
+
+/* ---- routing ---- */
+function raGap(){return S.ra==="missing"||S.ra==="self"||S.ra==="other";}
+function taxSignal(){return has("sig","revsoon")||has("sig","opnow")||has("sig","ptaxes")||has("sig","wtax")||S.qtp==="missing"||S.btp==="missing";}
+function route(){
+  var r={primary:null,secondary:[],why:[],transition:null,pre:null,ckps:[],skip:[],gapName:"your setup"};
+  if(!S.plan)return r;
+  var g=raGap();
+  if(S.plan==="starter"){
+    if(g){r.primary="ra";
+      r.why=["RA is "+(S.ra==="self"?"self-listed":S.ra==="other"?"assigned to another person":"missing")+" — tied directly to the state paperwork.","Pre-formation is the cleanest time to fix it."];
+      if(has("sig","fulltime")||has("sig","mobile"))r.why.push("Stronger: they’re "+(has("sig","fulltime")?"full-time":"")+(has("sig","fulltime")&&has("sig","mobile")?" and ":"")+(has("sig","mobile")?"mobile / not always home":"")+".");
+      r.transition="“Going back to your paperwork, something I noticed is that you assigned [yourself / someone else] as the Registered Agent…”";
+      r.ckps=["Intent question before any pitch","Availability fork — let THEM say it","$199 · less than $1/day","Payment line verbatim + silence"];
+    }else if(S.wfc==="missing"){r.primary="wfc";
+      r.why=["RA is handled — nobody is tracking what the state expects after formation."];
+      r.transition="“Great choice having Registered Agent handled upfront. That protects who receives important state and legal notices. The next thing I want to make sure we cover is what the state expects from the LLC after formation…”";
+      r.ckps=["Validate the RA choice out loud first","Deadline risk → peace-of-mind close","Coupon stays holstered until the rebuttal"];
+    }else{r.primary="tax";
+      r.why=["Compliance is handled — route to the money side."];
+      r.transition="“A lot of our customers, both new and experienced business owners, ask us how to save or keep the most money, avoid mistakes, and make sure taxes are correct, legal, and done right.”";
+      r.ckps=["Quarterly hook","Qualify with the 4 questions","ONE recommendation — no menu-dump","Schedule the consultation before hang-up"];
+    }
+  }else if(S.plan==="pro"){
+    if(g){r.primary="ra";
+      r.why=["Pro covered WFC, EIN, and OA — the RA is the one open protection gap.","Validate the Pro purchase first."];
+      r.transition="“You actually picked a strong setup with Pro — rush filing, Worry Free Compliance, your EIN, and Operating Agreement. The one thing I want to slow down on is the Registered Agent piece, because right now that responsibility is still assigned to [you / the person listed].”";
+      r.ckps=["Validate Pro FIRST","Intent question → availability fork","Then bridge to taxes"];
+    }else{r.primary="tax";
+      r.why=["The full protection stack is covered — taxes are the whitespace."];
+      r.transition="“Honestly, you’ve already handled a lot of the setup pieces most new owners miss — your filing, compliance, EIN, Operating Agreement, and Registered Agent. So the next thing I’d want to make sure you’re prepared for is the money side, especially taxes.”";
+      r.ckps=["Validate Pro + RA out loud (don’t re-pitch)","Qualify → ONE plan → step-down if needed","Consultation scheduled before hang-up"];
+    }
+  }else{ /* premium */
+    r.primary="tax";
+    r.why=["Premium buyers are invest-ready — the money side is the one area Premium doesn’t cover."];
+    r.transition="“You chose the most complete setup, which is great. Since those legal and compliance pieces are already handled, the main area I’d want to make sure doesn’t get overlooked is the money side — taxes, deductions, and making sure you’re prepared before revenue starts coming in.”";
+    if(S.mp==="included")r.pre="“Smart choice — what stood out to you about Money Pro when you signed up?” → then: “That’s exactly why I want to talk about taxes for a second, because tracking is step one. Planning and filing correctly is the next step.”";
+    r.ckps=["Validate Premium first"].concat(S.mp==="included"?["Money Pro reason question, then the bridge"]:[]).concat(["Tax gap discovery → QTP/BTP — ONE plan","Consultation scheduled before hang-up"]);
+    if(g)r.ckps.push("RA gap flagged — handle after the tax close");
+  }
+  /* secondary lanes */
+  function addSec(l){if(l!==r.primary&&r.secondary.indexOf(l)<0)r.secondary.push(l);}
+  if(S.plan==="starter"){
+    if(S.wfc==="missing")addSec("wfc");
+    if(taxSignal())addSec("tax");
+    if(has("sig","pbanking")&&(S.ein==="missing"||S.oa==="missing"))addSec("stack");
+  }else{addSec("tax");if(S.mp==="missing"&&(has("sig","ptaxes")||has("sig","wtax")||has("sig","revsoon")))addSec("mp");}
+  if(has("sig","plicense")&&S.blr!=="purchased")addSec("blr");
+  if((S.persEmail||has("sig","pweb"))&&S.web!=="purchased")addSec("web");
+  if(S.compress)r.secondary=[];
+  /* skip list */
+  if(S.ra==="included")r.skip.push("RA");
+  if(S.wfc==="included")r.skip.push("WFC");
+  if(S.ein==="included")r.skip.push("EIN");
+  if(S.oa==="included")r.skip.push("OA");
+  if(S.mp==="included")r.skip.push("Money Pro");
+  if(S.qtp==="purchased")r.skip.push("Tax Planning");
+  if(S.btp==="purchased")r.skip.push("Tax Prep");
+  if(S.blr==="purchased")r.skip.push("BLR");
+  if(S.web==="purchased")r.skip.push("Website/domain");
+  r.gapName=({ra:"the Registered Agent piece",wfc:"Worry Free Compliance",tax:"your tax plan",stack:"your EIN and Operating Agreement",blr:"your licensing",mp:"your bookkeeping",web:"your domain"})[r.primary]||"your setup";
+  return r;
 }
 
-/* ---- phases & pace ---- */
-var PHASES=[["open","Open"],["disc","Discovery"],["order","Order Review"],["reco","Recommended Lane"],["sec","Secondary Lane"],["taxsne","Tax / SNE"],["wrap","Wrap"]];
-var BUDGET={ /* cumulative minutes at end of phase */
-  full:{open:3,disc:8,order:12,reco:18,sec:22,taxsne:27,wrap:30},
-  standard:{open:2,disc:6,order:9,reco:14,sec:17,taxsne:19,wrap:21},
-  rushed:{open:1,disc:2.5,order:4,reco:6.5,sec:6.5,taxsne:8,wrap:9},
-  sne:{open:1,disc:2,order:3,reco:3.5,sec:3.5,taxsne:5,wrap:5.5}
-};
-function phaseSkipped(ph){return ph==="sec"&&(S.mode==="rushed"||S.mode==="sne");}
-
-/* ---- lane library ---- */
+/* ---- lane library (compact, live-usable) ---- */
 var LANES={
-  ra:{name:"Registered Agent",deep:"#ra",obj:"Move the RA responsibility off the customer. $199/yr, renews $199 — close with the payment question.",
-    blocks:[
-      ["Transition","“Going back to your paperwork, something I noticed is that you assigned [yourself / someone else] as the Registered Agent for the LLC…”"],
-      ["Intent question","“Did you choose that intentionally, or was that more of a default setup during the filing?”"],
-      ["Commitment check","“Are you planning to physically be available at [address] during all normal business hours, each weekday?”"],
-      ["Value — 20 seconds","“Your Registered Agent is the business’s official legal point of contact — legally required, a physical address in the state, physically available to receive lawsuits and state notices. Process servers don’t call ahead, and they’re not required to come back. Miss those deliveries and you risk losing your liability protection — or a default judgment you never saw coming.”"],
-      ["The availability fork","“Over the next 12 months — do you see yourself always available at that address, or is there a chance you’re away, traveling, working, or focused on running the business?”"],
-      ["Close","“It’s only $199 a year — that’s 55 cents a day, and still just $199 after the first year. We’re always there, so you never have to be. Would you gain some peace of mind and more freedom to move freely if we got your RA switched over to ZenBusiness?”"],
-      ["Payment","“Do I have your permission to process the payment of $199 with the card on file ending in [last 4]?”"]
-    ],
-    rebut:["Price objection — isolate, no coupon on RA","“It’s not that you can’t wait — it’s that the responsibility is on you from day 1, and changing it later means state fees and weeks of processing. So let me ask: is this something you see the value in and want to get started — or is it a cost thing? Where’s your head at on this?”"]},
-  wfc:{name:"Worry Free Compliance",deep:"#wfc",obj:"Essential $199/yr (Advanced $299 on growth / loan / license signals). Deadline risk → benefits → close.",
-    blocks:[
-      ["Transition from order review","“One thing I don’t see on your account is Worry Free Compliance — so let me ask: how are you planning to keep track of everything the state needs from you each year… annual reports, deadlines, changes?”"],
-      ["Deadline risk","“Miss one filing and the state can hit you with late fees, pull your good standing, even administratively dissolve the LLC — which unravels the liability protection you just paid for. It’s like your car registration: the car still runs unregistered, but the day you get pulled over, it gets expensive.”"],
-      ["Benefits — 20 seconds","“We track every state deadline for you, remind you relentlessly until it’s done, file your annual report — with state fee waivers where they apply — include two amendment credits a year, and give you a compliance score, like Credit Karma but for compliance.”"],
-      ["Close","“It’s $199 a year — 55 cents a day — and we keep bugging you until it’s done. Do I have your permission to process the payment of $199 with the card on file ending in [last 4]?”"]
-    ],
-    rebut:["Coupon — REBUTTAL-ONLY RESCUE, never the first pitch","“If you think about the risk and what it costs to fix a missed report, this more than pays for itself. So let’s do this — let me see if we still have a coupon available for your first year at just $149 [/ $119]. If we can get that discount applied, would that allow you to get this taken care of? …It’s [$149/$119] today, and $199/year after your first year.”"]},
-  tax:{name:"Tax Solutions",deep:"#taxsell",obj:"Diagnose gaps → April positioning → question cascade → recommend ONE plan → payment → schedule the first session before hang-up.",
-    blocks:[
-      ["Transition","“A lot of our customers — new and experienced — ask us how to keep the most money, avoid mistakes, and make sure everything for taxes is correct, legal, and done right…”"],
-      ["April positioning","“The good news is you don’t have to figure any of this out alone. We partnered with April Tax Solutions — licensed tax professionals who specialize in small business taxes in all 50 states. You schedule your first quarterly consultation right from your dashboard — so it’s no guessing, no scrambling, no surprise bills.”"],
-      ["The cascade — ask all 4, pause after each","“We’ve covered a lot! What questions do you have?” … “Is there anything you think would absolutely NOT benefit you?” … “What aspects would you find most beneficial?” … “Do you see this type of help being important to get right away?”"],
-      ["Recommend ONE","“Based on what you’ve shared with me — [their gaps, their business] — I strongly recommend the [ONE plan].”  ·  Menu: QTP $899 · BTP $899 (SMLLC personal return incl.) · QTP+BTP $1,798 · Bundle $2,038 · DIY (QTP+MP) $1,139 · Multi-member: filing $1,399 · QTP+BTP $2,298 · Bundle $2,538"],
-      ["Step-down if hesitation — never up","“Let’s have you start with just the [smaller plan] — that way you’re still putting yourself in a position to win, and we can revisit the rest down the road. Does that feel better for you?”"],
-      ["Payment + schedule","“Your 12-month service starts today and renews annually. Do I have your permission to process the payment of $____ with the card on file ending in ____?” → “Are you able to log into your dashboard so I can help you schedule your first session?” (website, not the app — refresh or re-login)"]
-    ],
-    rebut:["Affordability — monthly installments, REBUTTAL ONLY","“Let’s put pricing aside — are these the services you believe will put you in a position to win come tax time? …So the only thing preventing you is cost, correct? We recently released a monthly installment plan: Bundle $199/mo · QTP+BTP $169/mo (MM $249 / $219) · QTP $89/mo · MP $30/mo. Still a 1-year commitment, and a potential write-off. Annual savings, or monthly installments?”"]},
-  stack:{name:"EIN + OA Quick Stack",deep:"#growth",obj:"Two $99 closes, two minutes each. EIN unlocks the bank account; OA is a must the moment they say “partner.”",
-    blocks:[
-      ["EIN — direct choice close","“You can get it yourself on irs.gov — usually free — but you’ll need your SSN/ITIN and the business details. Would you prefer to obtain the EIN on your own, or — just like we filed your LLC — do you want us to get it for you? Most of our customers have us knock it out. It’s $99, and we upload it right to your dashboard.”"],
-      ["OA — the partner pitch","“Since you have [partners / banking needs / growth plans], I highly recommend an Operating Agreement. It locks in everyone’s rights, responsibilities, and ownership from day one — without one, courts often have to guess. It’s just $99, and you can review and tweak it before it’s finalized.”"],
-      ["Payment","“Do I have your permission to process the payment of $99 with the card on file ending in [last 4]?”"]
-    ],
-    rebut:["“We trust each other — no paperwork needed”","“That’s great to hear! The best time to put things in writing is when everyone’s on the same page — it avoids misunderstandings later, especially if money or roles ever change.”"]},
-  blr:{name:"Business License Report",deep:"#growth",obj:"$149 one-time. Avalara researches every required license — city to federal — and emails a step-by-step report.",
-    blocks:[
-      ["Transition","“Since we’re talking about compliance… how familiar are you with the licensing and permits you’ll need at the county, state, and federal level to operate?”"],
-      ["Value","“It can be really hard to figure out from a quick search — and applying for the wrong licenses can hold up your operations. Our partner Avalara does the in-depth research at every level for your exact business and location, and emails you a comprehensive report with clear instructions for each one.”"],
-      ["Close","“To get all that research and a custom report, it’s a one-time $149 — and since it takes a few days to generate, I’m happy to unlock it now so you have it sooner. Do I have your permission to process the payment of $149 with the card on file ending in [last 4]?”"]
-    ],rebut:null},
-  mp:{name:"Money Pro",deep:"#moneypro",obj:"$300/yr or $30/mo. The books that make every tax product work — personalize, only pitch relevant features.",
-    blocks:[
-      ["Frame","“Most tax experts recommend a bookkeeping software to save you money, time, and stress. Money Pro lives right in your dashboard — link any personal or business accounts and it tracks income, expenses, mileage, and invoices automatically. Tax write-offs, saving money, and getting paid — all in one place.”"],
-      ["The line","“It’s like if QuickBooks and TurboTax had a baby — and it’s super easy to use. Your tax pro will probably thank you for having it.”"],
-      ["Close","“It’s only $300 for the year, or $30 a month. Do I have your permission to process the payment of [$300/$30] with the card on file ending in [last 4]?”"]
-    ],
-    rebut:["“I don’t have a business bank account yet”","“That’s not a problem — you don’t need one. By not having a business account separating things yet, it’s even MORE important to track and categorize each transaction on your personal account now. Add the business account later — there’s no limit on accounts. Let’s get your finances in order!”"]},
-  sne:{name:"SNE — Earn the Next Conversation",deep:"#followup",obj:"Objective: earn the next conversation. Exact day + exact time, calendar invite, the “is that fair?” contract.",
-    blocks:[
-      ["Flag the gap","“Since you’re short on time, I don’t want to rush through everything. The one thing I’d flag from your order is that [GAP] is still open. That’s worth reviewing properly. Let’s lock in 15 minutes so I can walk you through it and make sure your setup is protected.”"],
-      ["Book it","“What time works best for you to connect — later today or tomorrow? …OK great, let me put this on the calendar for [exact day and time]. Would it be helpful if I sent you a calendar invite?”"],
-      ["The fairness contract","“All I ask is if for whatever reason you’re NOT able to make that call at [day and time], please give me a call or email as a heads up and reschedule, so I don’t leave the time blocked. Is that fair?”"]
-    ],rebut:null}
+ ra:{name:"Registered Agent",deep:"#ra",obj:"Protect the customer before the state filing is finalized. $199/yr.",
+  blocks:[
+   ["Transition","“Going back to your paperwork, something I noticed is that you assigned [yourself / someone else] as the Registered Agent…”"],
+   ["Key question",'“I’m curious — did you choose that intentionally, or was that more of a default setup when you filled out the application?”',{ask:1}],
+   ["Value — 15 seconds","“The Registered Agent is the person or company responsible for receiving important state and legal documents for the LLC. Since this is pre-formation, this is the cleanest time to get it set correctly before the state finalizes the paperwork.”"],
+   ["Availability question","“Over the next 12 months, do you expect [yourself / the person listed] to always be available at that address — or is there a chance [you’re / they’re] away, traveling, working, moving around, or focused on running the business?”",{ask:1}],
+   ["Tie-down","“Do you see why most owners don’t list themselves here?”",{ask:1}],
+   ["Close","“Would you gain some peace of mind and more freedom to move freely if we got your Registered Agent switched over to ZenBusiness?”",{ask:1}],
+   ["Price","“It’s $199 for the full year, and when you break that down, it’s less than $1 a day.”"],
+   ["Payment","“Do I have your permission to process the payment of $199 with the card on file ending in [last 4]?”"]],
+  rescue:["Price objection — isolate (no coupon on RA)","“Is this something you see the value in and want to get started — or is it a cost thing? Where’s your head at on this? …Waiting means the responsibility is yours from day 1, and changing it later means state fees and weeks of processing.”"]},
+ wfc:{name:"Worry Free Compliance",deep:"#wfc",obj:"Protect the customer from missing state compliance events after formation. $199/yr (Advanced $299).",
+  blocks:[
+   ["Transition","“Now that we reviewed who receives important notices, the next piece is what the state expects from the LLC after formation.”"],
+   ["Frame","“Forming the LLC is the first major step. After that, to keep the business in good standing, you have to file the right documents at the right time.”"],
+   ["Value — 15 seconds","“We track every state deadline, remind you until it’s done, file your annual report — with state fee waivers where they apply — and include two amendment credits a year.”"],
+   ["Close","“If we could keep you compliant with minimal effort and make sure those deadlines don’t sneak up on you, would that give you peace of mind?”",{ask:1}],
+   ["Payment","“It’s $199 for the year — 55 cents a day. Do I have your permission to process the payment of $199 with the card on file ending in [last 4]?”"]],
+  rescue:["Coupon — REBUTTAL-ONLY rescue, never the first pitch","“Let’s do this — let me see if we still have a coupon available for your first year at just $149 [/ $119]. If we can get that discount applied, would that allow you to get this taken care of? It’s [$149/$119] today, and $199/year after your first year.”"]},
+ tax:{name:"Tax Lane",deep:"#taxsell",obj:"Protect the customer from tax surprises, missed quarterlies, and a poor first-year setup. Recommend ONE option.",
+  blocks:[
+   ["Transition","“A lot of our customers, both new and experienced business owners, ask us how to save or keep the most money, avoid mistakes, and make sure taxes are correct, legal, and done right.”"],
+   ["Quarterly hook","“Let’s talk about something that catches almost every LLC owner off guard… the IRS expects you to pay taxes on your business profit every few months — not just at tax time.”"],
+   ["Qualify — 4 questions","“Do you already have a CPA or tax professional who works with businesses?” · “Are you expecting to generate revenue soon?” · “Do you know how you’ll track expenses, deductions, mileage, and income?” · “Are you planning to do this yourself, or would you rather have experts guide you?”",{ask:1}],
+   ["Recommend ONE — no menu-dump","“Based on what you’ve shared with me — [their gaps] — I strongly recommend the [ONE plan].” · Menu for YOU (don’t read it out): Bundle $2,038 · QTP+BTP $1,798 · DIY (QTP+MP) $1,139 · QTP $899 · BTP $899 (SMLLC personal incl.) · MM: $1,399 / $2,298 / $2,538"],
+   ["Step-down if hesitant","Full bundle → QTP+BTP → QTP only → Money Pro / SNE. “Let’s have you start with just the [smaller plan] — does that feel better for you?”"],
+   ["Payment + schedule","“Your 12-month service starts today and renews annually. Do I have your permission to process the payment of $____ with the card on file ending in ____?” → SOLD? “Are you able to log into your dashboard so I can help you schedule your first session?” (website, not the app)"]],
+  rescue:["Affordability — installments, REBUTTAL ONLY","“Let’s put pricing aside — are these the services you believe will put you in a position to win come tax time? …So the only thing preventing you is cost, correct? We recently released a monthly installment plan: Bundle $199/mo · QTP+BTP $169/mo (MM $249/$219) · QTP $89/mo · MP $30/mo. Still a 1-year commitment, and a potential write-off. Annual savings, or monthly installments?”"]},
+ stack:{name:"EIN + OA Quick Stack",deep:"#growth",obj:"Two $99 closes, two minutes each — the bank account unlock.",
+  blocks:[
+   ["EIN — direct choice","“You can get it yourself on irs.gov — usually free — but you’ll need your SSN/ITIN and the business details. Would you prefer to obtain the EIN on your own, or — just like we filed your LLC — do you want us to get it for you? Most of our customers have us knock it out. It’s $99.”",{ask:1}],
+   ["OA — the partner pitch","“Since you have [partners / banking needs / growth plans], I highly recommend an Operating Agreement. It locks in everyone’s rights, responsibilities, and ownership from day one — without one, courts often have to guess. It’s just $99.”"],
+   ["Payment","“Do I have your permission to process the payment of $99 with the card on file ending in [last 4]?”"]],
+  rescue:["“We trust each other”","“That’s great to hear! The best time to put things in writing is when everyone’s on the same page — it avoids misunderstandings later, especially if money or roles ever change.”"]},
+ blr:{name:"Business License Report",deep:"#growth",obj:"$149 one-time — Avalara researches every required license, city to federal.",
+  blocks:[
+   ["Transition","“Since we’re talking about compliance… how familiar are you with the licensing and permits you’ll need at the county, state, and federal level to operate?”",{ask:1}],
+   ["Value","“Applying for the wrong licenses can hold up your operations. Our partner Avalara does the in-depth research at every level for your exact business and location, and emails you a report with clear instructions for each one.”"],
+   ["Close","“It’s a one-time $149 — and since it takes a few days to generate, I’m happy to unlock it now so you have it sooner. Do I have your permission to process the payment of $149 with the card on file ending in [last 4]?”"]],rescue:null},
+ mp:{name:"Money Pro",deep:"#moneypro",obj:"$300/yr or $30/mo — the books that make every tax product work.",
+  blocks:[
+   ["Frame","“Most tax experts recommend a bookkeeping software. Money Pro lives right in your dashboard — link any accounts and it tracks income, expenses, mileage, and invoices automatically.”"],
+   ["The line","“It’s like if QuickBooks and TurboTax had a baby — and it’s super easy to use. Your tax pro will probably thank you for having it.”"],
+   ["Close","“It’s only $300 for the year, or $30 a month. Do I have your permission to process the payment of [$300/$30] with the card on file ending in [last 4]?”"]],
+  rescue:["“No business bank account yet”","“You don’t need one — track your personal accounts and cards now, add the business account later. There’s no limit on accounts. That’s exactly why we’d start now.”"]},
+ web:{name:"Website / Domain — circle back",deep:"#pos",obj:"Seeded during Contact Info. Circle back only after the core closes.",
+  blocks:[
+   ["Circle back","“Earlier you mentioned you hadn’t grabbed a custom domain yet. Now that the LLC is official, your business name can finally be yours online — even a ‘Coming Soon’ page starts building word of mouth. Want me to show you what’s available in your dashboard?”",{ask:1}]],rescue:null},
+ sne:{name:"SNE — Earn the Next Conversation",deep:"#followup",obj:"Objective: earn the next conversation. Exact day + time, calendar invite, the fairness contract.",
+  blocks:[
+   ["Flag the gap","“Since you’re short on time, I don’t want to rush through everything. The one thing I’d flag from your order is that [GAP] is still open. That’s worth reviewing properly. Let’s lock in 15 minutes so I can walk you through it and make sure your setup is protected.”"],
+   ["Book it","“What time works best for you to connect — later today or tomorrow? …OK great, let me put this on the calendar for [exact day and time]. Would it be helpful if I sent you a calendar invite?”",{ask:1}],
+   ["Fairness contract","“All I ask is if you’re NOT able to make that call at [day and time], please give me a call or email as a heads up and reschedule, so I don’t leave the time blocked. Is that fair?”",{ask:1}]],rescue:null}
 };
 
 /* ---- stuck library ---- */
+var STUCK_PRE=["rushed","about","filled","skeptical","ramble","nodisc","gosne"];
+var STUCK_POST=["price","spouse","send","saidyes","switch","compress"];
 var STUCK={
-  rushed:{t:"Customer is rushed",move:"Compress the route: validate the order, name the ONE biggest gap, then book the SNE. Switch mode to Rushed.",
-    line:"“OK, no problem — I know you weren’t expecting my call. Let’s set up a time when you have 15 minutes where you can be focused or in front of a computer. I know it’ll be worth your time.”",act:["mode:rushed","lane:sne"]},
-  confused:{t:"Customer is confused",move:"Drop the jargon. One concept, one analogy, then confirm before advancing. Confused customers stall, they don’t buy.",
-    line:"“Let me put it a simpler way… [RA = a babysitter for your legal mail · WFC = your car registration · EIN = an SSN for the business]. Does that make more sense?”",act:[]},
-  skeptical:{t:"Customer is skeptical",move:"Agree with the skepticism, then out-evidence it with facts from THEIR file — never out-argue it.",
-    line:"“Fair question — part of this call is making sure you don’t buy anything you don’t need. You already paid for liability protection; my job is making sure nothing undoes it. Can I show you the one thing on your paperwork I’d flag?”",act:[]},
-  price:{t:"Price is too high",move:"Isolate first: value thing or cost thing? Then per-day framing + risk cost. Concessions are EARNED: WFC coupon or tax installments only inside the rebuttal — never on RA, never first.",
-    line:"“Is this something you see the value in and want to get started — or is it a cost thing? Where’s your head at on this?”",act:[]},
-  spouse:{t:"Wants spouse / accountant",move:"Partner: two projection questions → lock in + partner joins the first consultation. Accountant: verify the commitment (RA: M–F availability) or complement (tax: April is business-tax only). Never attack the professional.",
-    line:"“I love that you want your partner involved. What do you think they’ll have to say about it? …Is there anything you think they won’t like? …Does it make sense to lock this in, and have your partner join you on the first consultation this week?”",act:[]},
-  send:{t:"“Send me something”",move:"Agree — then convert it into an SNE. An email without a booked follow-up is a polite goodbye.",
-    line:"“Happy to — I’ll send you a recap of the key features so you can look it over. You’ll come up with questions, so let’s pencil in 15 minutes — later today or tomorrow — and I’ll answer them all. Which works better?”",act:["lane:sne"]},
-  ramble:{t:"Customer is rambling",move:"Validate-and-pivot: honor the story, name the time, redirect with a question. Never more than 45 seconds without one.",
-    line:"“That’s exactly why this next piece matters — and I want to be respectful of your time, so let me show you the one thing on your account I’d flag…”",act:[]},
-  yes:{t:"They said YES",move:"Confirm product → confirm price → permission line verbatim → silence. Then the after-payment bridge into one more piece.",
-    line:"“Do I have your permission to process the payment of $___ with the card on file ending in ____?”",act:["yes"]},
-  sne:{t:"Need to set SNE",move:"Exact day + exact time (today or tomorrow only), offer the calendar invite, close the fairness contract.",
-    line:"“What time works best for you to connect — later today or tomorrow?”",act:["lane:sne","phase:taxsne"]}
+ rushed:{t:"Customer is rushed",v:"Set SNE",say:"“OK, no problem — I know you weren’t expecting my call. Let’s set up a time when you have 15 minutes where you can be focused or in front of a computer. I know it’ll be worth your time.”",ask:"“What time works best — later today or tomorrow?”",acts:["close:sne"]},
+ about:{t:"“What is this about?”",v:"Continue",say:"“Great question — you submitted an application on our website to form your LLC, and before everything gets finalized with the Secretary of State, we verify the information and make sure you’re set up correctly for this first year. It only takes about 10–15 minutes.”",ask:"“Does that sound good?”",acts:[]},
+ filled:{t:"“I already filled everything out”",v:"Continue",say:"“You did — and that’s exactly why I’m calling. Before the state finalizes it, we double-check the details, because some of what’s on this paperwork — like who’s listed as your Registered Agent — carries real responsibility.”",ask:"“Can I quickly confirm a couple of items with you?”",acts:[]},
+ skeptical:{t:"Customer is skeptical",v:"Continue",say:"“Fair — part of this call is making sure you don’t buy anything you don’t need. You already paid for liability protection; my job is making sure nothing undoes it.”",ask:"“Can I show you the one thing on your paperwork I’d flag?”",acts:[]},
+ ramble:{t:"Customer is rambling",v:"Continue",say:"“That’s exactly why this next piece matters — and I want to be respectful of your time, so let me show you the one thing I’d flag…”",ask:"Redirect with a question — never more than 45 seconds without one.",acts:[]},
+ nodisc:{t:"Doesn’t want discovery",v:"Continue",say:"“Totally fair — let me keep it short. The reason I ask is that what the business does changes what the state and IRS expect from you.”",ask:"“Just give me the one-liner — what will [Business] be doing?”",acts:[]},
+ gosne:{t:"Need to set SNE",v:"Set SNE",say:"Exact day + exact time — today or tomorrow only. Offer the calendar invite.",ask:"“What time works best for you to connect — later today or tomorrow?”",acts:["close:sne"]},
+ price:{t:"Price is too high",v:"Continue",say:"“Is this something you see the value in and want to get started — or is it a cost thing? Where’s your head at on this?” Then: per-day framing + risk cost. WFC → coupon rescue. Tax → installments. RA → no concession.",ask:"Isolate first — concessions are EARNED, never offered upfront.",acts:[]},
+ spouse:{t:"Wants spouse / accountant",v:"Continue",say:"“I love that you want your partner involved. What do you think they’ll have to say about it? Is there anything you think they won’t like?”",ask:"“Does it make sense to lock this in, and have them join you on the first consultation this week?” If no → recap email + SNE with both present.",acts:[]},
+ send:{t:"“Send me something”",v:"Set SNE",say:"“Happy to — I’ll send a recap of the key features. You’ll come up with questions, so let’s pencil in 15 minutes and I’ll answer them all.”",ask:"“Later today or tomorrow — which works better?”",acts:["close:sne"]},
+ saidyes:{t:"They said YES",v:"Close",say:"Confirm the product → confirm the price → permission line verbatim → silence.",ask:"“Do I have your permission to process the payment of $___ with the card on file ending in ____?”",acts:["close:yes"]},
+ switch:{t:"Need to switch lanes",v:"Continue",say:"Bridge out honestly: “Let me come back to that — there’s actually a more important piece I want to make sure we cover first.”",ask:"Pick the new lane below in Product Pitch.",acts:["phase:pitch"]},
+ compress:{t:"Need to compress route",v:"Close",say:"Drop the secondary lane. One biggest gap → close or SNE. Validate everything else in one sentence.",ask:"“The one thing I’d flag from your order is [gap] — can we take 2 minutes on it?”",acts:["compress"]}
 };
 
-/* ---- routing engine ---- */
-function gaps(){
-  return{
-    ra:(S.ra==="missing"||S.ra==="self"||S.ra==="other"),
-    wfc:S.wfc==="missing",ein:S.ein==="missing",oa:S.oa==="missing",
-    mpMiss:S.mp==="missing",mpInc:S.mp==="included",
-    taxAny:S.taxsig.length>0,
-    partner:has(S.sig,"partner"),bank:has(S.sig,"bank"),license:has(S.sig,"license"),
-    travel:has(S.sig,"travel"),price:has(S.sig,"price"),rushed:has(S.sig,"rushed")||S.mode==="rushed",
-    books:has(S.taxsig,"books"),miles:has(S.taxsig,"miles")
-  };
+/* ================= RENDER: CENTER ================= */
+function phaseHead(n,title,sub){return '<div class="cm-phasehead"><span class="pnum">Phase '+n+" of 8</span><h3>"+title+"</h3></div>"+(sub?'<p class="cm-mini" style="margin-bottom:10px">'+sub+"</p>":"");}
+function ckList(list){var h='<ul class="cm-ckl">';list.forEach(function(it){h+='<li class="'+(S.checks[it[0]]?"on":"")+'" data-ck="'+it[0]+'"><span class="bx">'+(S.checks[it[0]]?"✓":"")+"</span><span>"+it[1]+"</span></li>";});return h+"</ul>";}
+function nextBtn(label,id){return '<button class="cm-next" id="'+(id||"cmNext")+'">'+label+"</button>";}
+
+function fOpen(){
+  return phaseHead(1,"Open","Every call starts the same. Warm, credit, permission.")+
+  say("Say","“Hi [Name], this is [You] with ZenBusiness — thank you for taking my call. How are you doing today?” <span class='cue'>pause</span>")+
+  say("Then","“First of all, thank you for choosing us to help get your new business started! I see the application you submitted on our website to get your LLC formed — we just want to verify some information and make sure it’s all correct before everything gets finalized with the Secretary of State.”")+
+  say("Agenda","“We’ll quickly review your order, the compliance for your LLC, answer any questions you may have, and make sure you’re prepared and set up for success for this first year and beyond. This should only take about 10–15 minutes — does that sound good?” <span class='cue'>pause — earn the yes</span>",{ask:1})+
+  say("Disclose + congratulate","“Great! I do want to disclose that this call will be recorded for training and quality purposes… but congratulations on taking this first big step to get this business started! Are you excited?” <span class='cue'>pause — react authentically</span>")+
+  say("The credit line","“I know it can feel like a lot upfront, but most people never even get this far… so I just want to give you credit for getting started the right way.”")+
+  '<div class="cm-listen"><b>Listen for:</b> tone, energy, background noise (rushed?), and how they react to “are you excited?” — mirror it.</div>'+
+  '<div class="cm-lab">Tick as you go</div>'+ckList(OPEN_CK)+
+  nextBtn("Next Phase → Business Discovery");
 }
-function route(){
-  var g=gaps(),r={primary:null,secondary:null,why:"",transition:null,ckps:[],skip:[],flagsTxt:[],gapName:"your setup"};
-  if(S.mode==="sne"){r.primary="sne";r.why="<b>SNE-only mode.</b> The goal of this call is one thing: earn the next conversation with an exact day and time.";
-    r.ckps=["Flag the single biggest gap by name","Exact day + exact time — today or tomorrow","Offer the calendar invite","Close the “is that fair?” contract","Log the callback trigger"];r.gapName=biggestGapName(g);return r;}
-  if(!S.plan){r.primary=null;return r;}
-
-  var q=[];
-  if(S.plan==="starter"){
-    if(g.ra)q.push("ra");
-    if(g.wfc)q.push("wfc");
-    if(g.oa&&g.partner)q.push("stack");
-    q.push("tax");
-  }else if(S.plan==="pro"){
-    if(g.ra)q.push("ra");
-    q.push("tax");
-  }else{ /* premium */
-    q.push("tax");
-    if(g.ra)q.push("ra");
-  }
-  /* opportunity flags */
-  if(g.ein&&g.bank&&q.indexOf("stack")<0)q.push("stack");
-  if(g.license)q.push("blr");
-  if((g.books||g.miles)&&!g.mpInc&&q.indexOf("tax")>=0)q.push("mp");
-
-  r.primary=q[0];
-  r.gapName=laneGapName(r.primary,g);
-
-  /* secondary by mode */
-  if(g.rushed){r.secondary="sne";}
-  else if(S.mode==="standard"){r.secondary=(r.primary!=="tax")?"tax":(q[1]||null);}
-  else{r.secondary=q[1]||null;}
-  if(r.secondary===r.primary)r.secondary=q[1]&&q[1]!==r.primary?q[1]:null;
-
-  /* why + transition + checkpoints */
-  if(S.plan==="starter"){
-    if(r.primary==="ra"){
-      r.why=(S.ra==="self")?"Customer <b>listed themselves</b> as RA — they’re legally chained to that address every weekday. The availability fork is your close.":
-            (S.ra==="other")?"<b>Another person</b> is listed — run the seatbelt frame: dashboard access, alerts, and it keeps their address off the public state site.":
-            "<b>No RA handled</b> — that responsibility is on the customer from day 1, and changing it later means state fees and weeks.";
-      r.transition=LANES.ra.blocks[0][1];
-      r.ckps=["Intent question before any pitch","Permission to educate","Availability fork — let THEM say it","$199 with the 55¢/day breakdown","Payment line verbatim + silence"];
-    }else if(r.primary==="wfc"){
-      r.why="RA is handled — but <b>nobody is tracking state deadlines</b>. A missed report unravels the protection they just paid for.";
-      r.transition=LANES.wfc.blocks[0][1];
-      r.ckps=["Memory-gap opener","Their state’s actual deadline if known","Essential vs Advanced read (growth / loans / licenses)","Coupon stays holstered until the rebuttal","Payment line verbatim"];
-    }else if(r.primary==="stack"){
-      r.why="<b>Partner mentioned + no Operating Agreement</b> — must-pitch. Without one, courts have to guess. $99, two minutes.";
-      r.transition="“Since you mentioned a partner — have you two put anything in writing yet about ownership, responsibilities, or exit plans?”";
-      r.ckps=["OA partner pitch → $99 close","EIN direct-choice if bank account is coming","Then bridge to the money side"];
-    }else{
-      r.why="Compliance is handled — route to the <b>money side</b>. Diagnose gaps before naming a plan.";
-      r.transition=LANES.tax.blocks[0][1];
-      r.ckps=["Two+ gaps stated out loud before any plan","April positioning verbatim","Cascade — all 4 questions with pauses","ONE plan, step-down on hesitation","Schedule the first session before hang-up"];
-    }
-  }else if(S.plan==="pro"){
-    r.ckps=["Validate the Pro purchase FIRST — rush filing, WFC, EIN, OA"];
-    if(r.primary==="ra"){
-      r.why="Pro already covered WFC, EIN, and OA — the <b>Registered Agent is the one open protection gap</b>. Validate the smart buy, then slow down on RA.";
-      r.transition="“You actually picked a strong setup with Pro — rush filing, Worry Free Compliance, your EIN, and Operating Agreement. The one thing I want to slow down on is the Registered Agent piece, because right now that responsibility is still assigned to you.”";
-      r.ckps=r.ckps.concat(["Intent question → availability fork","$199 · 55¢/day · renews $199","Then bridge to taxes as the secondary"]);
-    }else{
-      r.why="RA and the full compliance stack are covered — <b>taxes are the whitespace</b>. Validate everything they did right, then open the money conversation.";
-      r.transition="“Honestly, you’ve already handled a lot of the setup pieces most new owners miss — your filing, compliance, EIN, Operating Agreement, and Registered Agent. So the next thing I’d want to make sure you’re prepared for is the money side, especially taxes.”";
-      r.ckps=r.ckps.concat(["RA validated out loud (don’t re-pitch)","Gap discovery → cascade → ONE plan","Schedule the first session on this call"]);
-    }
-  }else{ /* premium */
-    r.why="<b>Premium buyers are invest-ready.</b> Validate the purchase, then route straight to the tax whitespace — QTP / Business Tax Prep is the play.";
-    r.transition=g.mpInc?
-      "“Smart choice — what stood out to you about Money Pro when you signed up?” …then: “That’s exactly why I want to talk about taxes for a second, because tracking is step one. Planning and filing correctly is the next step.”":
-      "“You went Premium, which tells me you’re serious about doing this right — so let me make sure the one thing Premium doesn’t cover is handled: the tax side.”";
-    r.ckps=["Validate Premium first","Money Pro reason question (if MP included)","Bridge: tracking is step one — planning + filing is next","QTP / BTP recommendation — ONE plan","Consultation scheduled before hang-up"];
-    if(r.primary==="ra")r.ckps=["RA gap flagged — handle after the tax close (anchor high first)"].concat(r.ckps);
-  }
-
-  /* skip list */
-  if(S.ra==="included")r.skip.push("RA — purchased · validate");
-  if(S.wfc==="included")r.skip.push("WFC — included");
-  if(S.ein==="included")r.skip.push("EIN — included");
-  if(S.oa==="included")r.skip.push("OA — included");
-  if(g.mpInc)r.skip.push("Money Pro — included · ask the reason Q");
-  /* opportunity flags */
-  if(g.ein&&g.bank)r.flagsTxt.push("⚡ EIN/OA quick stack — bank account is coming ($99 each)");
-  if(g.license)r.flagsTxt.push("⚡ BLR — license uncertainty ($149 one-time)");
-  if((g.books||g.miles)&&!g.mpInc)r.flagsTxt.push("⚡ Money Pro — bookkeeping/mileage pain ($300/yr · $30/mo)");
-  if(g.price)r.ckps.push("💸 Price-sensitive: concessions are earned — WFC coupon / tax installments only inside the rebuttal");
-  if(g.rushed)r.why+=" <b>Rushed call:</b> one biggest gap → close or SNE. Skip the secondary lane.";
-  return r;
+function fDisc(){
+  return phaseHead(2,"Business Discovery","This happens every time. Do not pitch yet.")+
+  say("Say","“I see your business name as [Business Entity Name]… but please tell me — what is this business going to be doing?” <span class='cue'>pause — stay curious, listen deeply</span>",{ask:1})+
+  '<div class="cm-listen"><b>Reminders:</b> do not pitch yet · stay curious · write down their <b>exact words</b> · listen for product signals (tag them on the right →).</div>'+
+  noteBox("What does the business do?","biz",S.biz,"Their exact words…")+
+  nextBtn("Next Phase → Universal Eight");
 }
-function biggestGapName(g){
-  if(g.ra)return "the Registered Agent piece";
-  if(g.wfc)return "Worry Free Compliance";
-  if(g.taxAny)return "your tax plan";
-  if(g.ein)return "your EIN";
-  if(g.oa)return "your Operating Agreement";
-  return "part of your setup";
+function fU8(){
+  var i=S.u8i,q=U8[i];
+  var dots="";for(var d=0;d<U8.length;d++)dots+='<span class="ud'+(d===i?" on":(d<=S.u8max?" seen":""))+'" data-u8go="'+d+'"></span>';
+  var h=phaseHead(3,"Universal Eight","One question at a time. Their answers build your route.");
+  h+='<div class="cm-u8bar">'+dots+'<span class="ut">'+(q.power?"Power move":"Question "+(i+1)+" of 8")+"</span></div>";
+  h+=say(q.power?"POWER MOVE":"Ask",q.q+(q.sub?" <span class='cue'>"+q.sub+"</span>":""),{ask:1});
+  h+='<div class="cm-listen"><b>Why it matters:</b> '+q.why+"</div>";
+  if(q.tags.length){h+='<div class="cm-lab">Tag what you hear</div><div class="chips">';q.tags.forEach(function(t){h+=tagChip(t);});h+="</div>";}
+  if(q.fear)h+=noteBox("Their fear — capture verbatim","fear",S.fear,"“I’m most worried about…”");
+  else if(q.power)h+=noteBox("Their priority — this is what to sell first","priority",S.priority,"“The first thing I need is…”");
+  else h+=noteBox("Notes","u8n:"+i,S.u8n[i]||"","");
+  h+='<div style="display:flex;gap:8px;margin-top:12px">'+
+     (i>0?'<button class="cm-btn" data-u8nav="-1" style="flex:1">← Previous</button>':"")+
+     (i<U8.length-1?'<button class="cm-btn go" data-u8nav="1" style="flex:2">Next question →</button>':'<button class="cm-next" id="cmNext" style="flex:2;margin-top:0">Next Phase → Contact Info</button>')+"</div>";
+  return h;
 }
-function laneGapName(l,g){
-  if(l==="ra")return "the Registered Agent piece";
-  if(l==="wfc")return "Worry Free Compliance";
-  if(l==="tax")return "your tax plan";
-  if(l==="stack")return g.oa?"your Operating Agreement":"your EIN";
-  if(l==="blr")return "your licensing";
-  if(l==="mp")return "your bookkeeping";
-  return "your setup";
+function fInfo(){
+  return phaseHead(4,"Confirm Info — Just as a Formality","Verification builds authority. Seed the domain — don’t pitch it.")+
+  say("Frame","“Just as a formality before we review the order, I want to make sure the information we have is correct.”")+
+  say("Lines","“I see the business management structure we have from your application as [structure]…” · “I have [Name, number, email] — is all of that correct?” · “Is this your primary residence, or will the business be operated out of [address]?” · “Perfect — I just like to verify this before anything gets finalized with the state.”")+
+  '<div class="cm-lab">Tick as you confirm</div>'+ckList(INFO_CK)+
+  '<div class="cm-lab">Personal email spotted? (gmail / yahoo / hotmail / outlook…)</div>'+
+  '<div class="chips"><button class="'+(S.persEmail?"on ":"")+'" data-pemail="1">📧 Personal email — seed the domain</button></div>'+
+  (S.persEmail?say("Domain seed — note it, do NOT pitch","“I see your email is [email]… Now that you have this LLC and an official business name that is all yours — just curious — have you already created a custom domain, like a www.[business].com, for your business?” <span class='cue'>note the answer · circle back after the core closes</span>"):"")+
+  nextBtn("Next Phase → Order Review");
 }
-
-/* ---- tracker definitions ---- */
-function trackerRows(){
-  var g=gaps(),r=route(),rows=[];
-  rows.push({id:"ordrev",t:"Order reviewed"});
-  rows.push({id:"bridge",t:"Bridge delivered"});
-  if(S.plan==="pro")rows.push({id:"planvalid",t:"Pro purchase validated"});
-  if(S.plan==="premium")rows.push({id:"planvalid",t:"Premium validated"});
-  if(S.plan==="premium"&&g.mpInc)rows.push({id:"mpreason",t:"Money Pro reason asked"});
-  if(S.ra==="included")rows.push({id:"ravalid",t:"RA validated (skip pitch)"});
-  else if(g.ra)rows.push({id:"ra",t:"Registered Agent",pair:true});
-  if(S.wfc==="included"){/* covered by skip list */}
-  else if(g.wfc)rows.push({id:"wfc",t:"Worry Free Compliance",pair:true});
-  if(g.ein&&g.bank)rows.push({id:"ein",t:"EIN quick close",pair:true});
-  if(g.oa&&g.partner)rows.push({id:"oa",t:"Operating Agreement",pair:true});
-  if(g.license)rows.push({id:"blr",t:"License Report",pair:true});
-  if((g.books||g.miles||g.taxAny)&&!g.mpInc)rows.push({id:"mp",t:"Money Pro",pair:true});
-  rows.push({id:"taxqual",t:S.plan==="premium"?"Tax gap discovered":"Tax opened / qualified"});
-  rows.push({id:"taxrec",t:"ONE tax plan recommended"});
-  rows.push({id:"taxsold",t:"Tax sold",pairB:"Consult scheduled",idB:"consult"});
-  rows.push({id:"snechk",t:"SNE set (if not sold)"});
-  rows.push({id:"pay",t:"Payment permission line used"});
-  return rows;
+function rtGroup(lab,id,opts,cur,multiInc){
+  var h='<div class="cm-lab">'+lab+'</div><div class="chips" data-rt="'+id+'">';
+  opts.forEach(function(o){h+='<button class="'+(cur===o[0]?"on ":"")+(o[2]||"")+'" data-v="'+o[0]+'">'+o[1]+"</button>";});
+  return h+"</div>";
 }
-
-/* ---- renders ---- */
-function segRender(id,val){var el=$(id);if(!el)return;var bs=el.querySelectorAll("button");for(var i=0;i<bs.length;i++){bs[i].classList.toggle("on",bs[i].getAttribute("data-v")===val||bs[i].getAttribute("data-m")===val||bs[i].getAttribute("data-o")===val);}}
-function chipsRender(id,arr){var el=$(id);if(!el)return;var bs=el.querySelectorAll("button");for(var i=0;i<bs.length;i++){bs[i].classList.toggle("on",has(arr,bs[i].getAttribute("data-v")));}}
-
-function renderPhases(){
-  var row=$("cmPhRow"),steps=$("cmSteps");row.innerHTML="";steps.innerHTML="";
-  var curIdx=PHASES.map(function(p){return p[0];}).indexOf(S.phase);
-  PHASES.forEach(function(p,i){
-    var b=document.createElement("button");b.className="cm-ph"+(p[0]===S.phase?" cur":"")+(phaseSkipped(p[0])?" skip":"");
-    b.textContent=p[1];b.onclick=function(){setPhase(p[0]);};row.appendChild(b);
-    var li=document.createElement("li");li.className=(p[0]===S.phase?"cur":(i<curIdx?"done":""))+(phaseSkipped(p[0])?" skip":"");
-    var bud=BUDGET[S.mode][p[0]];
-    li.innerHTML=esc(p[1])+"<small>by "+bud+" min</small>";
-    li.onclick=function(){setPhase(p[0]);};steps.appendChild(li);
-  });
-  $("cmPhName").textContent="Phase · "+PHASES[curIdx>=0?curIdx:0][1];
+function fOrder(){
+  var h=phaseHead(5,"Order Review & Bridge","Validate what they chose, identify what is missing, then route to the strongest close.");
+  h+='<div class="cm-listen"><b>Do this now:</b> open their file. Select their plan and what they already have — the router unlocks the Smart Route.</div>';
+  h+=rtGroup("Plan","plan",[["starter","Starter"],["pro","Pro"],["premium","Premium"]],S.plan);
+  h+=rtGroup("Registered Agent","ra",[["included","Included / purchased","inc"],["missing","Missing","gap"],["self","Listed self","gap"],["other","Other person","gap"]],S.ra);
+  h+=rtGroup("Worry Free Compliance","wfc",[["included","Included","inc"],["missing","Missing","gap"]],S.wfc);
+  h+=rtGroup("EIN","ein",[["included","Included","inc"],["missing","Missing","gap"]],S.ein);
+  h+=rtGroup("Operating Agreement","oa",[["included","Included","inc"],["missing","Missing","gap"]],S.oa);
+  h+=rtGroup("Money Pro","mp",[["included","Included","inc"],["missing","Missing","gap"]],S.mp);
+  h+=rtGroup("Tax Planning (QTP)","qtp",[["purchased","Purchased","inc"],["missing","Missing","gap"]],S.qtp);
+  h+=rtGroup("Tax Prep + Filing (BTP)","btp",[["purchased","Purchased","inc"],["missing","Missing","gap"]],S.btp);
+  h+=rtGroup("Business License Report","blr",[["purchased","Purchased","inc"],["missing","Missing","gap"]],S.blr);
+  h+=rtGroup("Website / domain","web",[["purchased","Purchased","inc"],["missing","Missing","gap"]],S.web);
+  h+='<div style="margin-top:14px"></div>';
+  h+=say("The bridge — deliver verbatim","“With your LLC you gain personal liability protection, access to business loans, and a ton of tax advantages… and at the same time you gain the burden of complying with the government at the local, state, and federal level.”");
+  h+=say("Then","“That’s why I like to slow down here and make sure the setup matches what you’re actually trying to do with the business.”");
+  h+='<ul class="cm-ckl"><li class="'+(S.checks.bridge?"on":"")+'" data-ck="bridge"><span class="bx">'+(S.checks.bridge?"✓":"")+'</span><span>Bridge delivered</span></li></ul>';
+  h+=nextBtn("⚡ Build Smart Route","cmBuild");
+  if(!S.plan)h+='<p class="cm-mini" style="text-align:center;margin-top:8px">Select the plan first — the route builds from it.</p>';
+  return h;
 }
-function setPhase(ph){
-  S.phase=ph;
-  if(!S.running&&S.elapsed===0&&ph!=="open"){S.running=true;} /* auto-start when they begin moving */
-  save();renderPhases();renderPace();renderScript();
-}
-function renderPace(){
-  var el=$("cmPace"),b=BUDGET[S.mode][S.phase],e=S.elapsed/60,tol=(S.mode==="rushed"||S.mode==="sne")?1:2;
-  var cls,txt;
-  if(e<=b){cls="on";txt="On pace";}
-  else if(e<=b+tol){cls="long";txt="Running long";}
-  else{cls="comp";txt="Compress route";}
-  el.className="cm-pace "+cls;el.textContent=txt;
-}
-function renderClock(){$("cmClock").textContent=fmt(S.elapsed);$("cmStart").textContent=S.running?"⏸ Pause":"▶ Start";$("cmStart").className="cm-btn "+(S.running?"":"go");}
-
-function renderReco(){
-  var el=$("cmReco"),r=route();
-  if(!r.primary){
-    el.innerHTML='<span class="rk">Router</span><h3>Select the plan →</h3><div class="why" style="border-color:#2A3630;background:#121A15"><span class="ic">🧭</span><div>Mark the customer’s <b>plan</b> and what’s already on the order (right panel). The router will pick the lane, the transition line, and the checkpoints. Until then, run Open → Discovery → Order Review as normal.</div></div>';
-    return;
-  }
-  var L=LANES[r.primary],h="";
-  h+='<span class="rk">Recommended next lane · '+(S.plan?esc(S.plan.toUpperCase()):"")+'</span><h3>→ '+esc(L.name)+"</h3>";
-  h+='<div class="why"><span class="ic">🧭</span><div>'+r.why+"</div></div>";
-  if(r.transition){h+='<div class="say" style="background:#111814;border-color:#243029;border-left-color:var(--zb)"><span class="tag">Best transition</span><button class="cm-copy" data-cptx="1">Copy</button><div class="saytxt"><p style="color:#E8F1EC">'+esc(r.transition)+"</p></div></div>";}
-  if(r.ckps.length){h+='<ul class="cm-ckps">'+r.ckps.map(function(c){return "<li>"+c+"</li>";}).join("")+"</ul>";}
-  h+='<div class="cm-badges">';
-  if(r.secondary)h+='<span class="bd sec">Secondary → '+esc(LANES[r.secondary].name)+"</span>";
-  r.flagsTxt.forEach(function(f){h+='<span class="bd">'+esc(f)+"</span>";});
-  r.skip.forEach(function(sk){h+='<span class="bd skipbd">SKIP · '+esc(sk)+"</span>";});
-  h+="</div>";
-  el.innerHTML=h;
-  var cp=el.querySelector("[data-cptx]");
-  if(cp){cp.onclick=function(){copyText(r.transition,cp);};}
-}
-
-function activeLane(){
-  if(S.pin!=="auto")return S.pin;
+function fRoute(){
   var r=route();
-  if(S.phase==="sec"&&r.secondary)return r.secondary;
-  if(S.phase==="taxsne")return (S.mode==="sne"||has(S.sig,"rushed"))?"sne":"tax";
-  return r.primary||"ra";
+  var h=phaseHead(6,"Smart Route","The order review just told you what to close. Here’s the route.");
+  h+='<div class="cm-reco"><span class="rk">Recommended lane · '+esc((S.plan||"").toUpperCase())+"</span><h3>→ "+LANES[r.primary].name+"</h3>";
+  h+='<div class="why"><span>🧭</span><div>'+r.why.map(function(w){return w;}).join(" ")+"</div></div>";
+  if(r.pre)h+=say("Ask FIRST (Money Pro included)",r.pre);
+  h+=say("Best transition",r.transition);
+  h+='<ul class="cm-ckps">'+r.ckps.map(function(c){return "<li>"+c+"</li>";}).join("")+"</ul>";
+  h+='<div class="cm-badges">';
+  r.secondary.forEach(function(sl,ix){h+='<span class="bd'+(ix===0?" sec":"")+'">'+(ix===0?"Secondary → ":"Then · ")+LANES[sl].name+"</span>";});
+  r.skip.forEach(function(sk){h+='<span class="bd skipbd">SKIP · '+sk+" — already have it</span>";});
+  if(S.compress)h+='<span class="bd" style="background:var(--red);color:#fff;border-color:var(--red)">COMPRESSED · one gap → close or SNE</span>';
+  h+="</div></div>";
+  h+='<div class="cm-listen"><b>Coach:</b> validate what they already bought <b>out loud</b> before pitching the gap — validation earns the right to recommend.</div>';
+  h+=nextBtn("Start the pitch → "+LANES[r.primary].name);
+  return h;
 }
-function renderScript(){
-  var lane=activeLane(),L=LANES[lane],el=$("cmScript"),r=route();
-  var tabs=$("cmTabs").querySelectorAll("button");
-  for(var i=0;i<tabs.length;i++){var v=tabs[i].getAttribute("data-l");tabs[i].classList.toggle("on",(S.pin==="auto"&&v==="auto")||(S.pin!=="auto"&&v===S.pin));}
-  var h='<div class="cm-obj"><b>Objective:</b> '+esc(L.obj)+' &nbsp;·&nbsp; <a class="cm-deep" href="'+L.deep+'">Full playbook ↓</a></div>';
-  L.blocks.forEach(function(b){
-    var txt=b[1];
-    if(lane==="sne")txt=txt.replace("[GAP]",r.gapName);
-    h+='<div class="say'+(/question|cascade|fork|choice/i.test(b[0])?" ask":"")+'"><span class="tag">'+esc(b[0])+'</span><button class="cm-copy">Copy</button><div class="saytxt"><p>'+esc(txt)+"</p></div></div>";
-  });
-  if(L.rebut){h+='<div class="say cm-stuckcard"><span class="tag">'+esc(L.rebut[0])+'</span><button class="cm-copy">Copy</button><div class="saytxt"><p>'+esc(L.rebut[1])+"</p></div></div>";}
-  el.innerHTML=h;
-  var cps=el.querySelectorAll(".cm-copy");
-  for(var j=0;j<cps.length;j++){(function(btn){btn.onclick=function(){var t=btn.parentNode.querySelector(".saytxt").innerText;copyText(t.trim(),btn);};})(cps[j]);}
+function fPitch(){
+  var r=route(),lane=S.lanePin||r.primary,L=LANES[lane];
+  var h=phaseHead(7,"Product Pitch","One lane at a time. Short lines. Real pauses.");
+  h+='<div class="cm-lanechips">';
+  var order=[r.primary].concat(r.secondary);["ra","wfc","tax","stack","blr","mp","web","sne"].forEach(function(l){if(order.indexOf(l)<0)order.push(l);});
+  order.forEach(function(l,ix){h+='<button class="cm-btn'+(l===lane?" go":"")+'" data-lane="'+l+'" style="font-size:11px;padding:6px 10px">'+(ix===0?"★ ":"")+LANES[l].name+"</button>";});
+  h+="</div>";
+  h+='<div class="cm-listen"><b>Objective:</b> '+L.obj+' · <a href="'+L.deep+'" style="font-family:var(--mono);font-size:11px">Full playbook ↓</a></div>';
+  L.blocks.forEach(function(b){var txt=b[1];if(lane==="sne")txt=txt.replace("[GAP]",r.gapName);h+=say(b[0],txt,b[2]);});
+  if(L.rescue)h+=say(L.rescue[0],L.rescue[1],{red:1});
+  h+=nextBtn("Go to Close / SNE →");
+  return h;
+}
+function fClose(){
+  var r=route(),gap=S.plan?r.gapName:"your setup";
+  var h=phaseHead(8,"Close / SNE / Wrap","Every call ends with one of these three.");
+  h+='<div class="cm-bigrow">'+
+     '<button data-ctab="yes" class="'+(S.closeTab==="yes"?"on":"")+'">✅ They said yes</button>'+
+     '<button data-ctab="sne" class="'+(S.closeTab==="sne"?"on":"")+'">📅 Set SNE</button>'+
+     '<button data-ctab="wrap" class="'+(S.closeTab==="wrap"?"on":"")+'">👋 Wrap call</button></div>';
+  if(S.closeTab==="yes"){
+    h+='<div class="cm-listen"><b>1.</b> Confirm the product · <b>2.</b> Confirm the price · <b>3.</b> Permission line → silence · <b>4.</b> Bridge to the next piece or wrap.</div>';
+    h+='<div class="cm-amt" id="cmAmt">';
+    [["Registered Agent","$199"],["WFC","$199"],["WFC Advanced","$299"],["WFC coupon","$149"],["EIN","$99"],["Operating Agreement","$99"],["BLR","$149"],["Money Pro","$300"],["QTP","$899"],["BTP","$899"],["QTP+BTP","$1,798"],["Complete Bundle","$2,038"]].forEach(function(p){
+      h+='<button data-p="'+p[0]+'" data-a="'+p[1]+'" class="'+(S.yesProd===p[0]?"on":"")+'">'+p[0]+" "+p[1]+"</button>";});
+    h+='<input id="cmAmtIn" placeholder="$ custom" value="'+esc(S.yesAmt&&!S.yesProd?S.yesAmt:"")+'"></div>';
+    h+=say("Payment permission","“Do I have your permission to process the payment of <b id='cmAmtOut'>"+(S.yesAmt||"$___")+"</b> with the card on file ending in ____?”");
+    h+=say("After-payment bridge","“Great, that’s taken care of. Let’s quickly touch on one more piece before I let you go.”");
+    h+='<p class="cm-mini">Tax plan or Money Pro sold? <b>Schedule the consultation before hanging up</b> — dashboard → Finances → Tax Services → Book your consultation (website, not the app).</p>';
+  }else if(S.closeTab==="sne"){
+    h+=say("Flag the gap","“Since you’re short on time, I don’t want to rush through everything. The one thing I’d flag from your order is that <b>"+gap+"</b> is still open. That’s worth reviewing properly. Let’s lock in 15 minutes so I can walk you through it and make sure your setup is protected.”");
+    h+=say("Book it","“What time works best for you to connect — later today or tomorrow? …OK great, let me put this on the calendar for [exact day and time]. Would it be helpful if I sent you a calendar invite?”",{ask:1});
+    h+=say("Fairness contract","“All I ask is if you’re NOT able to make that call at [day and time], please give me a call or email as a heads up and reschedule, so I don’t leave the time blocked. Is that fair?”",{ask:1});
+  }else if(S.closeTab==="wrap"){
+    h+='<div class="cm-lab">Wrap checklist</div>'+ckList([["wr_recap","Recap what they bought"],["wr_next","Confirm what happens next"],["wr_email","Remind them to watch their email"],["wr_bank","Bank reminder — bring EIN, OA, and state paperwork (if EIN/OA applies)"],["wr_consult","Consultation scheduled (if tax was purchased)"],["wr_sne","SNE set (if not closing now)"],["wr_warm","Ended warmly — congratulations + thank you"]]);
+    h+=say("Closing lines","“What question do you have for me?” · “You’re really set up for success now.” · “Thank you for choosing ZenBusiness — and again, congratulations on starting your new business.”");
+  }else{
+    h+='<div class="cm-listen">Pick the path above. Every call ends in a <b>yes</b>, a <b>booked SNE</b>, or a <b>warm wrap</b> — never a fizzle.</div>';
+  }
+  /* outcome + recap */
+  h+='<div class="cm-lab" style="margin-top:16px">Outcome</div><div class="seg" id="cmOutcome">'+
+     [["sold","Sold"],["sne","SNE set"],["declined","Declined — door open"]].map(function(o){return '<button data-o="'+o[0]+'" class="'+(S.outcome===o[0]?"on":"")+'">'+o[1]+"</button>";}).join("")+"</div>";
+  h+='<div class="cm-note"><div class="cm-lab">Coaching flag</div><input data-bind="coach" value="'+esc(S.coach)+'" placeholder="e.g. tax timing hesitation"></div>';
+  h+='<div style="display:flex;gap:8px;margin:12px 0 10px"><button class="cm-btn go" id="cmGen">📝 Generate Call Recap</button><button class="cm-btn" id="cmCopyRecap">Copy recap</button></div>';
+  h+='<div class="cm-recap"><textarea id="cmRecapOut" placeholder="Your recap will appear here — paste it straight into Salesforce notes." spellcheck="false"></textarea></div>';
+  return h;
 }
 
-function renderTracker(){
-  var el=$("cmTrk"),rows=trackerRows();el.innerHTML="";
-  rows.forEach(function(row){
+function renderCenter(){
+  var f={open:fOpen,disc:fDisc,u8:fU8,info:fInfo,order:fOrder,route:fRoute,pitch:fPitch,close:fClose}[S.phase];
+  var html="";
+  if(S.stuck){var st=STUCK[S.stuck];
+    html+='<div class="cm-panel" style="border-color:var(--red)"><h4><span class="dot" style="background:var(--red)"></span>'+st.t+'<span class="cm-verdict">'+st.v+'</span><button class="cm-copy" data-stclose="1" style="float:none;margin-left:auto">✕ close</button></h4>'+
+      say("Say this",st.say,{red:1})+say("Then ask",st.ask,{ask:1})+"</div>";}
+  html+='<div class="cm-panel">'+f()+"</div>";
+  $("cmCenter").innerHTML=html;
+  var rc=$("cmRecapOut");if(rc&&S._recap)rc.value=S._recap;
+}
+
+/* ================= RENDER: LEFT ================= */
+function renderSteps(){
+  var el=$("cmSteps");el.innerHTML="";
+  var cur=phIdx(S.phase);
+  PH.forEach(function(p,i){
     var li=document.createElement("li");
-    li.innerHTML="<span>"+esc(row.t)+'</span><span class="tspacer"></span>';
-    if(row.pair){
-      li.appendChild(mkTick(row.id+"_att","Attempted",false));
-      li.appendChild(mkTick(row.id+"_sold","Sold",true));
-    }else if(row.pairB){
-      li.appendChild(mkTick(row.id,"Sold",true));
-      li.appendChild(mkTick(row.idB,row.pairB,false));
-    }else{
-      li.appendChild(mkTick(row.id,"Done",false));
-    }
+    li.className=(p[0]===S.phase?"cur":(i<cur?"done":""))+(locked(p[0])?" lock":"");
+    li.innerHTML=p[1]+(locked(p[0])?'<span class="lk">🔒</span>':"")+"<small>"+p[2]+" min</small>";
+    li.onclick=function(){goPhase(p[0]);};
     el.appendChild(li);
   });
 }
-function mkTick(id,label,sold){
-  var b=document.createElement("span");
-  b.className="tck"+(S.checks[id]?" on":"")+(sold?" sold":"");
-  b.textContent=label;
-  b.onclick=function(){S.checks[id]=!S.checks[id];save();renderTracker();};
-  return b;
+function renderProg(){
+  var rows=[
+    ["Open completed",allChecked(OPEN_CK)],
+    ["Agenda “yes” received",!!S.checks.op_perm],
+    ["Recording disclosed",!!S.checks.op_rec],
+    ["Business description captured",(S.biz||"").trim().length>2],
+    ["Universal Eight completed",S.u8max>=U8.length-1],
+    ["Contact info confirmed",allChecked(INFO_CK)],
+    ["Order reviewed",!!S.plan],
+    ["Bridge delivered",!!S.checks.bridge]
+  ];
+  $("cmProg").innerHTML=rows.map(function(r){return '<li class="'+(r[1]?"ok":"")+'"><span class="pk">'+(r[1]?"✓":"")+"</span>"+r[0]+"</li>";}).join("");
 }
 
-function renderStuck(){
-  var el=$("cmStuckReveal");
-  var bs=$("cmStuck").querySelectorAll("button");
-  for(var i=0;i<bs.length;i++){bs[i].classList.toggle("hot",bs[i].getAttribute("data-s")===S.stuck&&bs[i].getAttribute("data-s")!=="yes");}
-  if(!S.stuck){el.style.display="none";el.innerHTML="";return;}
-  var st=STUCK[S.stuck];
-  el.style.display="block";
-  el.innerHTML='<h4><span class="dot" style="background:var(--red)"></span>'+esc(st.t)+' <button class="cm-copy" id="cmStClose" style="float:none;margin-left:auto">✕ close</button></h4>'+
-    '<div class="cm-obj" style="margin-bottom:10px"><b>Next move:</b> '+esc(st.move)+"</div>"+
-    '<div class="say cm-stuckcard"><span class="tag">Say this</span><button class="cm-copy">Copy</button><div class="saytxt"><p>'+esc(st.line)+"</p></div></div>";
-  $("cmStClose").onclick=function(){S.stuck=null;save();renderStuck();};
-  var cp=el.querySelector(".say .cm-copy");
-  if(cp){cp.onclick=function(){copyText(st.line,cp);};}
+/* ================= RENDER: RIGHT ================= */
+function trkRow(id,label,pair){
+  var h='<li><span>'+label+'</span><span class="tspacer"></span>';
+  if(pair){h+='<span class="tck'+(S.checks[id+"_att"]?" on":"")+'" data-ck="'+id+'_att">Attempted</span><span class="tck'+(S.checks[id+"_sold"]?" on sold":"")+'" data-ck="'+id+'_sold">Sold</span>';}
+  else{h+='<span class="tck'+(S.checks[id]?" on":"")+'" data-ck="'+id+'">Done</span>';}
+  return h+"</li>";
 }
-function fireStuck(key){
-  var st=STUCK[key];
-  if(has(st.act,"yes")){S.yesOpen=true;$("cmYes").style.display="block";}
-  else{S.stuck=key;}
-  if(S.flags.indexOf(st.t)<0)S.flags.push(st.t);
-  st.act.forEach(function(a){
-    var p=a.split(":");
-    if(p[0]==="mode"){S.mode=p[1];segRender("cmMode",S.mode);}
-    if(p[0]==="lane"){S.pin=p[1];}
-    if(p[0]==="phase"){S.phase=p[1];}
-  });
-  save();renderAll();
-  if(has(st.act,"yes")){var ye=$("cmYes");if(ye.scrollIntoView)ye.scrollIntoView({behavior:"smooth",block:"center"});}
+function trackerRows(){
+  var r=route(),h="";
+  if(S.plan==="pro")h+=trkRow("provalid","Pro validated");
+  if(S.plan==="premium"){h+=trkRow("premvalid","Premium validated");if(S.mp==="included")h+=trkRow("mpreason","Money Pro reason asked");}
+  if(S.ra==="included")h+=trkRow("ravalid","RA validated");
+  else if(raGap())h+=trkRow("ra","Registered Agent",true);
+  if(S.wfc==="missing")h+=trkRow("wfc","Worry Free Compliance",true);
+  if(r.secondary.indexOf("stack")>=0||r.primary==="stack")h+=trkRow("stack","EIN / OA",true);
+  if(r.secondary.indexOf("blr")>=0)h+=trkRow("blr","License Report",true);
+  if(r.secondary.indexOf("mp")>=0)h+=trkRow("mp","Money Pro",true);
+  h+=trkRow("taxqual",S.plan==="premium"?"Tax gap discovered":"Tax opened / qualified");
+  h+=trkRow("taxrec",S.plan==="premium"?"QTP/BTP recommended":"ONE tax plan recommended");
+  h+=trkRow("taxsold","Tax sold",true).replace("Attempted","Sold").replace('data-ck="taxsold_att"','data-ck="taxsold"').replace('data-ck="taxsold_sold"','data-ck="consult"').replace(">Sold</span></li>",">Consult booked</span></li>");
+  h+=trkRow("snechk","SNE set (if not sold)");
+  h+=trkRow("pay","Payment permission used");
+  return h;
+}
+function renderRight(){
+  var h="";
+  if(!S.routeBuilt){
+    h+='<div class="cm-panel"><h4><span class="dot"></span>Customer notes</h4>'+
+       '<div class="cm-note"><div class="cm-lab">Fear — verbatim</div><input data-bind="fear" value="'+esc(S.fear)+'" placeholder="“I’m most worried about…”"></div>'+
+       '<div class="cm-note"><div class="cm-lab">Priority — sell this first</div><input data-bind="priority" value="'+esc(S.priority)+'" placeholder="“The first thing I need is…”"></div>'+
+       noteBox("General notes","notes",S.notes,"Anything worth remembering…")+"</div>";
+    h+='<div class="cm-panel"><h4><span class="dot"></span>Discovery signals</h4><div class="chips" id="cmSigCloud">'+SIGS.map(function(s){return tagChip(s[0],true);}).join("")+"</div>"+
+       '<p class="cm-mini" style="margin-top:8px">Tags feed the Smart Route after Order Review.</p></div>';
+    h+='<div class="cm-panel"><h4><span class="dot" style="background:var(--red)"></span>Stuck?</h4><div class="stuckgrid">'+STUCK_PRE.map(function(k){return '<button data-s="'+k+'">'+STUCK[k].t+"</button>";}).join("")+"</div></div>";
+  }else{
+    var r=route();
+    h+='<div class="cm-panel" style="background:var(--black);border-color:var(--black)"><h4 style="color:#fff"><span class="dot"></span>Route</h4>'+
+       '<p style="font-family:var(--disp);font-weight:800;font-size:16px;color:var(--zb)">→ '+LANES[r.primary].name+"</p>"+
+       (r.secondary.length?'<p class="cm-mini" style="color:#9DB3A8;margin-top:4px">then '+r.secondary.map(function(l){return LANES[l].name;}).join(" · ")+"</p>":"")+
+       (r.skip.length?'<p class="cm-mini" style="color:#9DB3A8;margin-top:4px">skip: '+r.skip.join(" · ")+"</p>":"")+
+       '<div class="cm-actionrow" style="margin:10px 0 0"><button class="cm-btn go" data-quick="yes">✅ They said yes</button><button class="cm-btn" data-quick="sne" style="background:#1C2621;color:#DCE9E2">📅 Set SNE</button></div></div>';
+    h+='<div class="cm-panel"><h4><span class="dot" style="background:var(--black)"></span>Close tracker <span style="font-weight:400;font-size:10px;color:var(--mute);margin-left:auto">attempted ≠ sold</span></h4><ul class="trk">'+trackerRows()+"</ul></div>";
+    h+='<div class="cm-panel"><h4><span class="dot"></span>Notes</h4>'+
+       '<p class="cm-mini"><b>Fear:</b> '+(esc(S.fear)||"—")+'</p><p class="cm-mini"><b>Priority:</b> '+(esc(S.priority)||"—")+"</p>"+
+       noteBox("Live notes","notes",S.notes,"")+"</div>";
+    h+='<div class="cm-panel"><h4><span class="dot" style="background:var(--red)"></span>Stuck?</h4><div class="stuckgrid">'+
+       STUCK_POST.map(function(k){return '<button data-s="'+k+'" class="'+(k==="saidyes"?"yes":"")+'">'+STUCK[k].t+"</button>";}).join("")+
+       STUCK_PRE.slice(0,1).map(function(k){return '<button data-s="'+k+'">'+STUCK[k].t+"</button>";}).join("")+
+       '<button data-s="gosne">'+STUCK.gosne.t+"</button></div></div>";
+  }
+  $("cmRight").innerHTML=h;
 }
 
-/* ---- recap ---- */
-function raLabel(){return S.ra==="included"?"Already purchased":S.ra==="self"?"Customer listed self":S.ra==="other"?"Other person listed":S.ra==="missing"?"Missing":"—";}
-function tri(v){return v==="included"?"Included":v==="missing"?"Missing":"—";}
+/* ================= TIMER & COACH ================= */
+function coachMsg(){
+  var e=S.elapsed/60;
+  if(has("sig","rushed"))return["comp","Set SNE if rushed"];
+  if(e<3)return["on","On pace"];
+  if(e<8)return S.phase==="open"?["long","Keep listening — move into discovery"]:["on","Keep listening"];
+  if(e<12)return(S.phase==="open"||S.phase==="disc"||S.phase==="u8")?["long","Move to Order Review"]:["on","On pace"];
+  if(!S.routeBuilt)return["long","Build the route"];
+  if(e<22)return["on","On pace"];
+  return["comp","Compress and close"];
+}
+function renderClock(){$("cmClock").textContent=fmt(S.elapsed);$("cmStart").textContent=S.running?"⏸ Pause":"▶ Start";$("cmStart").className="cm-btn "+(S.running?"":"go");
+  var c=coachMsg();var el=$("cmCoach");el.className="cm-coach "+c[0];el.textContent=c[1];}
+var last=Date.now();
+setInterval(function(){var now=Date.now();if(S.running){S.elapsed+=(now-last)/1000;renderClock();if(Math.floor(S.elapsed)%5===0)save();}last=now;},250);
+
+/* ================= NAVIGATION ================= */
+function goPhase(ph){
+  if(locked(ph)){var hint=$("cmLockHint");hint.style.display="block";setTimeout(function(){hint.style.display="none";},2500);S.phase="order";}
+  else S.phase=ph;
+  if(!S.running&&S.elapsed===0&&ph!=="open")S.running=true;
+  S.stuck=null;save();renderAll();
+}
+function nextPhase(){
+  var i=phIdx(S.phase);
+  if(!S.running)S.running=true;
+  if(i<PH.length-1)goPhase(PH[i+1][0]);
+}
+function buildRoute(){
+  if(!S.plan){var hint=$("cmLockHint");hint.textContent="Select the plan first";hint.style.display="block";setTimeout(function(){hint.style.display="none";hint.textContent="🔒 Finish Order Review → Build Smart Route first";},2200);return;}
+  S.routeBuilt=true;S.lanePin=null;goPhase("route");
+}
+
+/* ================= RECAP ================= */
+function tri(v){return v==="included"||v==="purchased"?"Included":v==="missing"?"Missing":v||"—";}
 function ck(id){return S.checks[id]?"Yes":"No";}
 function genRecap(){
-  var r=route(),g=gaps();
-  var lines=[];
-  lines.push("CALL MODE RECAP — "+new Date().toLocaleString());
-  lines.push("Plan: "+(S.plan?S.plan.charAt(0).toUpperCase()+S.plan.slice(1):"—")+"   ·   Mode: "+S.mode+"   ·   Elapsed: "+fmt(S.elapsed));
-  lines.push("Route: "+(r.primary?LANES[r.primary].name+"-first":"—")+(r.secondary?" (secondary: "+LANES[r.secondary].name+")":""));
-  lines.push("Order reviewed: "+ck("ordrev")+"   ·   Bridge delivered: "+ck("bridge"));
-  lines.push("RA: "+raLabel()+(g.ra?"  → attempted: "+ck("ra_att")+", sold: "+ck("ra_sold"):""));
-  lines.push("WFC: "+tri(S.wfc)+(g.wfc?"  → attempted: "+ck("wfc_att")+", sold: "+ck("wfc_sold"):"")+"   ·   EIN: "+tri(S.ein)+"   ·   OA: "+tri(S.oa)+"   ·   Money Pro: "+tri(S.mp));
-  if(S.checks.planvalid)lines.push((S.plan==="pro"?"Pro":"Premium")+" validated: Yes");
-  var sig=S.sig.concat(S.taxsig);if(sig.length)lines.push("Signals: "+sig.join(", "));
-  lines.push("Tax qualified: "+ck("taxqual")+"   ·   ONE plan recommended: "+ck("taxrec")+"   ·   Tax sold: "+ck("taxsold")+"   ·   Consultation scheduled: "+ck("consult"));
-  var sold=[];["ra","wfc","ein","oa","blr","mp"].forEach(function(p){if(S.checks[p+"_sold"])sold.push(p.toUpperCase());});
-  if(S.checks.taxsold)sold.push("TAX PLAN");
-  if(S.yesProd)lines.push("Closed on call: "+S.yesProd+(S.yesAmt?" ("+S.yesAmt+")":""));
-  else if(sold.length)lines.push("Closed on call: "+sold.join(", "));
-  lines.push("Outcome: "+(S.outcome==="sold"?"Sold":S.outcome==="sne"?"SNE set":S.outcome==="declined"?"Declined — door open":(S.checks.snechk?"SNE set":"—")));
-  if(S.flags.length)lines.push("Flags hit during call: "+S.flags.join(" · "));
-  var coach=$("cmCoach").value.trim();
-  lines.push("Coaching flag: "+(coach||"—"));
-  return lines.join("\n");
+  var r=route(),L=[];
+  L.push("CALL MODE RECAP — "+new Date().toLocaleString());
+  L.push("Plan: "+(S.plan?S.plan.charAt(0).toUpperCase()+S.plan.slice(1):"—")+"   ·   Elapsed: "+fmt(S.elapsed));
+  L.push("Route: "+(S.routeBuilt&&r.primary?LANES[r.primary].name+"-first":"—")+(r.secondary.length?" (then "+r.secondary.map(function(l){return LANES[l].name;}).join(", ")+")":""));
+  if((S.biz||"").trim())L.push("Business: "+S.biz.trim());
+  L.push("Customer fear: "+((S.fear||"").trim()||"—"));
+  L.push("Customer priority: "+((S.priority||"").trim()||"—"));
+  var sigs=S.sig.map(sigLabel);if(sigs.length)L.push("Signals: "+sigs.join(", "));
+  L.push("RA: "+(S.ra==="self"?"Customer listed self":S.ra==="other"?"Other person listed":tri(S.ra))+(raGap()?"  → attempted: "+ck("ra_att")+", sold: "+ck("ra_sold"):""));
+  L.push("WFC: "+tri(S.wfc)+(S.wfc==="missing"?"  → attempted: "+ck("wfc_att")+", sold: "+ck("wfc_sold"):"")+"   ·   EIN: "+tri(S.ein)+"   ·   OA: "+tri(S.oa)+"   ·   Money Pro: "+tri(S.mp));
+  L.push("Tax qualified: "+ck("taxqual")+"   ·   Plan recommended: "+ck("taxrec")+"   ·   Tax sold: "+ck("taxsold")+"   ·   Consultation booked: "+ck("consult"));
+  var att=[],sold=[];["ra","wfc","stack","blr","mp"].forEach(function(p){if(S.checks[p+"_att"])att.push(p.toUpperCase());if(S.checks[p+"_sold"])sold.push(p.toUpperCase());});
+  if(S.checks.taxsold)sold.push("TAX");
+  if(att.length)L.push("Attempted: "+att.join(", "));
+  if(S.yesProd)L.push("Closed on call: "+S.yesProd+(S.yesAmt?" ("+S.yesAmt+")":""));
+  else if(sold.length)L.push("Closed on call: "+sold.join(", "));
+  L.push("Outcome: "+(S.outcome==="sold"?"Sold":S.outcome==="sne"?"SNE set":S.outcome==="declined"?"Declined — door open":(S.checks.snechk?"SNE set":"—")));
+  var next=S.checks.wr_consult?"First consultation booked":S.checks.snechk||S.outcome==="sne"?"SNE on calendar — send recap email":"Send follow-up email + log callback trigger";
+  L.push("Next step: "+next);
+  L.push("Coaching flag: "+((S.coach||"").trim()||"—"));
+  return L.join("\n");
 }
 
-/* ---- timer loop ---- */
-var last=Date.now();
-setInterval(function(){
-  var now=Date.now();
-  if(S.running){S.elapsed+=(now-last)/1000;renderClock();renderPace();if(Math.floor(S.elapsed)%5===0)save();}
-  last=now;
-},250);
-
-/* ---- events ---- */
-$("cmStart").onclick=function(){S.running=!S.running;save();renderClock();};
-$("cmReset").onclick=function(){S.elapsed=0;S.running=false;save();renderClock();renderPace();};
-$("cmMode").onclick=function(e){var m=e.target.getAttribute("data-m");if(!m)return;S.mode=m;save();renderAll();};
-$("cmPlan").onclick=function(e){var v=e.target.getAttribute("data-v");if(!v)return;
-  S.plan=(S.plan===v)?null:v;
-  if(S.plan==="pro"||S.plan==="premium"){if(!S.wfc)S.wfc="included";if(!S.ein)S.ein="included";if(!S.oa)S.oa="included";}
-  save();renderAll();};
-[["cmRA","ra"],["cmWFC","wfc"],["cmEIN","ein"],["cmOA","oa"],["cmMP","mp"]].forEach(function(pair){
-  $(pair[0]).onclick=function(e){var v=e.target.getAttribute("data-v");if(!v)return;S[pair[1]]=(S[pair[1]]===v)?null:v;save();renderAll();};
+/* ================= EVENTS (delegated) ================= */
+document.addEventListener("click",function(e){
+  var t=e.target.closest?e.target.closest("button,li,span.tck"):e.target;
+  if(!t)return;
+  var root=document.getElementById("callmode");
+  if(!root||!root.contains(t))return;
+  /* copy buttons */
+  if(t.classList.contains("cm-copy")&&!t.hasAttribute("data-stclose")&&t.id!=="cmCopyRecap"){
+    var box=t.parentNode.querySelector(".saytxt");
+    if(box){copyText(box.innerText.trim(),t);return;}
+  }
+  if(t.hasAttribute("data-stclose")){S.stuck=null;save();renderCenter();return;}
+  if(t.hasAttribute("data-ck")){var id=t.getAttribute("data-ck");S.checks[id]=!S.checks[id];save();
+    var on=!!S.checks[id],els=root.querySelectorAll('[data-ck="'+id+'"]');
+    for(var ei=0;ei<els.length;ei++){var el2=els[ei];el2.classList.toggle("on",on);var bx=el2.querySelector(".bx");if(bx)bx.textContent=on?"✓":"";}
+    renderProg();return;}
+  if(t.hasAttribute("data-tag")){var v=t.getAttribute("data-tag");var ix=S.sig.indexOf(v);if(ix>=0)S.sig.splice(ix,1);else S.sig.push(v);save();
+    /* update chips in place */
+    var all=root.querySelectorAll('[data-tag="'+v+'"]');for(var i=0;i<all.length;i++)all[i].classList.toggle("on",S.sig.indexOf(v)>=0);
+    renderClock();return;}
+  if(t.hasAttribute("data-pemail")){S.persEmail=!S.persEmail;save();renderCenter();return;}
+  if(t.hasAttribute("data-u8nav")){var d=parseInt(t.getAttribute("data-u8nav"),10);S.u8i=Math.max(0,Math.min(U8.length-1,S.u8i+d));S.u8max=Math.max(S.u8max,S.u8i);save();renderCenter();renderProg();return;}
+  if(t.hasAttribute("data-u8go")){S.u8i=parseInt(t.getAttribute("data-u8go"),10);S.u8max=Math.max(S.u8max,S.u8i);save();renderCenter();renderProg();return;}
+  var rt=t.parentNode&&t.parentNode.getAttribute?t.parentNode.getAttribute("data-rt"):null;
+  if(rt&&t.hasAttribute("data-v")){var val=t.getAttribute("data-v");S[rt]=(S[rt]===val)?null:val;
+    if(rt==="plan"&&(val==="pro"||val==="premium")&&S[rt]){if(!S.wfc)S.wfc="included";if(!S.ein)S.ein="included";if(!S.oa)S.oa="included";}
+    save();renderCenter();renderRight();renderProg();return;}
+  if(t.id==="cmBuild"){buildRoute();return;}
+  if(t.id==="cmNext"){if(S.phase==="pitch")goPhase("close");else nextPhase();return;}
+  if(t.hasAttribute("data-lane")){S.lanePin=t.getAttribute("data-lane");save();renderCenter();return;}
+  if(t.hasAttribute("data-ctab")){S.closeTab=t.getAttribute("data-ctab");save();renderCenter();return;}
+  if(t.hasAttribute("data-s")){fireStuck(t.getAttribute("data-s"));return;}
+  if(t.hasAttribute("data-quick")){S.closeTab=t.getAttribute("data-quick");goPhase("close");return;}
+  var amt=t.parentNode&&t.parentNode.id==="cmAmt";
+  if(amt&&t.hasAttribute("data-a")){S.yesAmt=t.getAttribute("data-a");S.yesProd=t.getAttribute("data-p");save();renderCenter();return;}
+  if(t.id==="cmOutcome"||((t.parentNode&&t.parentNode.id==="cmOutcome")&&t.hasAttribute("data-o"))){var o=t.getAttribute("data-o");if(o){S.outcome=(S.outcome===o)?null:o;save();renderCenter();}return;}
+  if(t.id==="cmGen"){S._recap=genRecap();$("cmRecapOut").value=S._recap;save();return;}
+  if(t.id==="cmCopyRecap"){S._recap=$("cmRecapOut").value||genRecap();$("cmRecapOut").value=S._recap;copyText(S._recap,t);save();return;}
 });
-$("cmTaxSig").onclick=function(e){var v=e.target.getAttribute("data-v");if(!v)return;toggleArr(S.taxsig,v);save();renderAll();};
-$("cmSig").onclick=function(e){var v=e.target.getAttribute("data-v");if(!v)return;toggleArr(S.sig,v);save();renderAll();};
-$("cmTabs").onclick=function(e){var l=e.target.getAttribute("data-l");if(!l)return;S.pin=l;save();renderScript();};
-$("cmStuck").onclick=function(e){var s=e.target.getAttribute("data-s");if(!s)return;fireStuck(s);};
-$("cmAmt").onclick=function(e){var a=e.target.getAttribute("data-a");if(!a)return;S.yesAmt=a;S.yesProd=e.target.getAttribute("data-p");$("cmAmtOut").textContent=a;$("cmYesProd").textContent=S.yesProd;save();};
-$("cmAmtIn").oninput=function(){var v=this.value.trim();if(v){S.yesAmt=v;$("cmAmtOut").textContent=v;save();}};
-$("cmOutcome").onclick=function(e){var o=e.target.getAttribute("data-o");if(!o)return;S.outcome=(S.outcome===o)?null:o;segRender("cmOutcome",S.outcome);save();};
-$("cmCoach").onchange=function(){S.coach=this.value;save();};
-$("cmGenRecap").onclick=function(){$("cmRecapOut").value=genRecap();};
-$("cmCopyRecap").onclick=function(){var t=$("cmRecapOut").value||genRecap();$("cmRecapOut").value=t;copyText(t,this);};
+document.addEventListener("input",function(e){
+  var t=e.target;
+  var root=document.getElementById("callmode");
+  if(!root||!root.contains(t))return;
+  if(t.id==="cmAmtIn"){var v=t.value.trim();if(v){S.yesAmt=v;S.yesProd=null;var out=$("cmAmtOut");if(out)out.textContent=v;save();}return;}
+  var b=t.getAttribute("data-bind");
+  if(!b)return;
+  if(b.indexOf("u8n:")===0){S.u8n[b.slice(4)]=t.value;}
+  else S[b]=t.value;
+  save();
+  if(b==="biz"||b==="fear"||b==="priority")renderProg();
+});
+$("cmStart").onclick=function(){S.running=!S.running;save();renderClock();};
+$("cmTReset").onclick=function(){S.elapsed=0;S.running=false;save();renderClock();};
 $("cmNewCall").onclick=function(){
-  if(!confirm("Reset Call Mode? This clears the route, tracker, timer, and recap for a fresh call."))return;
-  store.del(KEY);S=JSON.parse(JSON.stringify(DEF));$("cmRecapOut").value="";$("cmCoach").value="";$("cmAmtOut").textContent="$___";$("cmYesProd").textContent="[product]";$("cmYes").style.display="none";renderAll();renderClock();
+  if(!confirm("Reset Call Mode? This clears the timer, phases, notes, route, and tracker for a fresh call."))return;
+  store.del(KEY);S=JSON.parse(JSON.stringify(DEF));renderAll();renderClock();
 };
+function fireStuck(k){
+  var st=STUCK[k];
+  S.stuck=k;
+  var flag=st.t;
+  if(!S.checks._flags)S.checks._flags=[];
+  if(S.checks._flags.indexOf(flag)<0)S.checks._flags.push(flag);
+  st.acts.forEach(function(a){
+    var p=a.split(":");
+    if(p[0]==="close"){S.stuck=null;S.closeTab=p[1];S.phase="close";}
+    if(p[0]==="phase"&&!locked(p[1]))S.phase=p[1];
+    if(p[0]==="compress")S.compress=true;
+  });
+  save();renderAll();
+}
+
+/* ---- debug hook for tests ---- */
+window.__cm={state:function(){return S;},addSeconds:function(n){S.elapsed+=n;renderClock();},route:route};
 
 /* ---- boot ---- */
-function renderAll(){
-  segRender("cmMode",S.mode);segRender("cmPlan",S.plan);segRender("cmOutcome",S.outcome);
-  chipsRender("cmRA",[S.ra]);chipsRender("cmWFC",[S.wfc]);chipsRender("cmEIN",[S.ein]);chipsRender("cmOA",[S.oa]);chipsRender("cmMP",[S.mp]);
-  chipsRender("cmTaxSig",S.taxsig);chipsRender("cmSig",S.sig);
-  renderPhases();renderPace();renderReco();renderScript();renderTracker();renderStuck();
-  if(S.yesOpen){$("cmYes").style.display="block";if(S.yesAmt)$("cmAmtOut").textContent=S.yesAmt;if(S.yesProd)$("cmYesProd").textContent=S.yesProd;}
-  if(S.coach)$("cmCoach").value=S.coach;
-}
-renderAll();renderClock();
+function renderAll(){renderSteps();renderProg();renderCenter();renderRight();renderClock();}
+renderAll();
 })();
 </script>
 
