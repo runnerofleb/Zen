@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZenBusiness Call Mode — Live Cockpit</title>
+<style>
+:root{
+  --bg:#EFF4F1;--card:#FFFFFF;--ink:#0C1310;--char:#2A332E;--mute:#69796F;--line:#DCE6E0;--mist:#F4F8F5;
+  --zb:#3DDC84;--zb-dark:#1FB768;--zb-tint:#E4FBEF;--zb-ink:#0B7A43;
+  --red:#E5484D;--red-soft:#FDECEC;--amber:#E9A900;--amber-soft:#FCF2D2;
+  --disp:"Avenir Next","Segoe UI",Futura,system-ui,sans-serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:
+  radial-gradient(1200px 500px at 85% -200px, #DDF6E8 0%, transparent 60%),
+  radial-gradient(900px 420px at -100px 110%, #E3F2E9 0%, transparent 55%),
+  var(--bg);
+  color:var(--char);font-size:14.5px;line-height:1.55;min-height:100vh}
+.wrap{max-width:1460px;margin:0 auto;padding:14px 20px 60px}
+
+/* ============ TOPBAR ============ */
+.topbar{position:sticky;top:10px;z-index:90;background:linear-gradient(135deg,#0C1310 0%,#12281C 100%);
+  border-radius:20px;padding:12px 18px;display:flex;align-items:center;gap:11px;flex-wrap:wrap;
+  box-shadow:0 14px 34px rgba(10,16,12,.28), inset 0 1px 0 rgba(255,255,255,.06)}
+.brand{display:flex;align-items:center;gap:9px;margin-right:4px}
+.brand .zbm{width:30px;height:30px;border-radius:9px;background:var(--zb);color:var(--ink);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-weight:800;font-size:14px;box-shadow:0 0 0 3px rgba(61,220,132,.18)}
+.brand b{font-family:var(--disp);font-size:13px;color:#fff;letter-spacing:.02em}
+.brand small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;color:#7FA38F;text-transform:uppercase}
+.clockbox{font-family:var(--mono);font-size:25px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;min-width:80px;text-align:center}
+.tbtn{font-family:var(--disp);font-weight:700;font-size:12px;border:none;border-radius:10px;padding:8px 13px;cursor:pointer;background:#1D2B22;color:#D9E9DF;transition:all .16s}
+.tbtn:hover{background:#27392C;transform:translateY(-1px)}
+.tbtn.go{background:var(--zb);color:var(--ink)}
+.tbtn.go:hover{background:var(--zb-dark)}
+.coach{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;border-radius:999px;padding:6px 11px;transition:all .3s}
+.coach.on{background:var(--zb);color:var(--ink)}
+.coach.long{background:var(--amber-soft);color:#7A5708}
+.coach.comp{background:var(--red);color:#fff}
+.rushT{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:1px solid #2C4033;background:#101E16;color:#8FAF9C;border-radius:999px;padding:6px 11px;cursor:pointer;transition:all .16s}
+.rushT.on{background:var(--red);border-color:var(--red);color:#fff}
+.trophy{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--zb);background:#12281C;border:1px solid #234531;border-radius:999px;padding:6px 12px}
+.who{font-family:var(--disp);font-weight:700;font-size:12.5px;color:#fff;margin-left:auto;text-align:right;line-height:1.3}
+.who small{display:block;font-family:var(--mono);font-weight:400;font-size:9.5px;color:#7FA38F}
+.progressbar{flex-basis:100%;height:6px;background:#1B2A20;border-radius:99px;overflow:hidden;position:relative}
+.progressbar i{display:block;height:100%;background:linear-gradient(90deg,var(--zb-dark),var(--zb));border-radius:99px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+
+/* ============ SETUP ============ */
+.setup{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px 20px;margin-top:14px;box-shadow:0 6px 22px rgba(14,25,18,.05)}
+.setup h3{font-family:var(--disp);font-size:15px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.setup h3 .savenote{margin-left:auto;font-family:var(--mono);font-size:9.5px;font-weight:400;color:var(--mute);letter-spacing:.06em;text-transform:uppercase}
+.lab{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);margin:12px 0 5px}
+.presetrow{display:flex;gap:7px;flex-wrap:wrap}
+.preset{font-family:var(--disp);font-weight:700;font-size:12px;border:1.5px dashed var(--zb-dark);background:var(--zb-tint);color:var(--zb-ink);border-radius:11px;padding:7px 13px;cursor:pointer;transition:all .15s}
+.preset:hover{background:var(--zb);color:var(--ink);border-style:solid;transform:translateY(-1px)}
+.preset.ghost{border-color:var(--line);background:var(--mist);color:var(--mute)}
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px 14px}
+.f{display:flex;flex-direction:column}
+.f label{font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+.f input{font-family:var(--body);font-size:13px;border:1.5px solid var(--line);border-radius:9px;padding:6px 10px;background:#fff;color:var(--char);transition:border-color .15s}
+.f input:focus{outline:none;border-color:var(--zb-dark);box-shadow:0 0 0 3px rgba(61,220,132,.15)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips button{font-family:var(--body);font-size:12px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:9px;padding:5px 10px;cursor:pointer;transition:all .13s}
+.chips button:hover{border-color:var(--zb-dark);transform:translateY(-1px)}
+.chips button.on{background:var(--ink);border-color:var(--ink);color:var(--zb)}
+.chips button.inc.on{background:var(--zb-tint);border-color:var(--zb-dark);color:var(--zb-ink)}
+.chips button.gap.on{background:var(--red-soft);border-color:var(--red);color:var(--red)}
+.chips button.sold.on{background:var(--ink);border-color:var(--ink);color:var(--zb)}
+.chips button.sm{font-size:11px;padding:3px 8px}
+.orderchips{display:grid;grid-template-columns:repeat(3,1fr);gap:9px 16px}
+.oc label{font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);display:block;margin-bottom:3px}
+.setbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.abtn{font-family:var(--disp);font-weight:700;font-size:12.5px;border:none;border-radius:11px;padding:9px 15px;cursor:pointer;transition:all .15s;background:var(--mist);color:var(--char)}
+.abtn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(14,25,18,.10)}
+.abtn.go{background:var(--zb);color:var(--ink)}
+.abtn.warn{background:var(--amber-soft);color:#7A5708}
+.abtn.danger{background:var(--red-soft);color:var(--red)}
+.abtn.dark{background:var(--ink);color:#fff}
+
+/* ============ GRID ============ */
+.grid{display:grid;grid-template-columns:212px minmax(0,1fr) 300px;gap:15px;margin-top:15px;align-items:start}
+.col{min-width:0}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px 17px;margin-bottom:13px;box-shadow:0 5px 18px rgba(14,25,18,.045)}
+.panel h4{font-family:var(--disp);font-size:13px;font-weight:800;color:var(--ink);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.panel h4 .dot{width:8px;height:8px;border-radius:50%;background:var(--zb);flex:0 0 auto}
+.lsticky{position:sticky;top:82px}
+.rsticky{position:sticky;top:82px;max-height:calc(100vh - 100px);overflow-y:auto;padding-right:2px;scrollbar-width:thin}
+
+/* stages */
+.steps{list-style:none}
+.steps li{position:relative;padding:6px 8px 6px 30px;font-size:12px;font-weight:600;color:var(--char);border-radius:9px;cursor:pointer;line-height:1.3;transition:all .13s}
+.steps li:hover{background:var(--mist);transform:translateX(2px)}
+.steps li .ic{position:absolute;left:7px;top:6px;font-size:12px;filter:grayscale(1);opacity:.6}
+.steps li.cur{background:var(--zb-tint)}
+.steps li.cur .ic{filter:none;opacity:1}
+.steps li.done{color:var(--mute)}
+.steps li.done .ic{filter:none;opacity:.9}
+.steps li small{display:block;font-weight:400;font-size:9.5px;color:var(--mute);font-family:var(--mono)}
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.routes button{font-family:var(--disp);font-weight:700;font-size:11px;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:9px;padding:6px 6px;cursor:pointer;transition:all .13s}
+.routes button:hover{border-color:var(--zb-dark);color:var(--zb-ink);transform:translateY(-1px)}
+.kbd{font-family:var(--mono);font-size:9.5px;color:var(--mute);margin-top:9px;line-height:1.7}
+.kbd b{background:var(--mist);border:1px solid var(--line);border-radius:5px;padding:0 5px;color:var(--char)}
+
+/* ============ CENTER: stage ============ */
+.stagehead{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.stagehead .pnum{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--zb-ink)}
+.stagehead h2{font-family:var(--disp);font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.goal{border:1px dashed #C3D2C9;border-radius:11px;padding:9px 13px;background:#FBFDFC;font-size:12.5px;color:#5A685F;margin:9px 0}
+.goal b{color:var(--ink)}
+.goal.hot{border-color:var(--red);background:#FFF9F9}
+.goal.hot b{color:var(--red)}
+.say{background:#fff;border:1px solid var(--line);border-left:4px solid var(--zb);border-radius:12px;padding:12px 15px;margin:10px 0;box-shadow:0 2px 8px rgba(14,25,18,.04)}
+.say .tag{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;background:var(--zb-tint);color:var(--zb-ink);border-radius:6px;padding:3px 8px;margin-bottom:7px}
+.say.ask{border-left-color:var(--ink)}
+.say.ask .tag{background:var(--ink);color:var(--zb)}
+.say.hot{border-left-color:var(--red)}
+.say.hot .tag{background:var(--red);color:#fff}
+.say .tag.note{background:var(--amber-soft);color:#7A5708}
+.say p{font-size:15.5px;line-height:1.75;color:var(--char)}
+.say p b{color:var(--ink)}
+.cue{font-family:var(--mono);font-size:10.5px;color:var(--zb-ink);background:var(--zb-tint);border-radius:6px;padding:1px 7px;white-space:nowrap}
+.tok{background:var(--zb-tint);color:var(--zb-ink);border-radius:5px;padding:0 5px;font-weight:650}
+.tok.miss{background:var(--amber-soft);color:#7A5708;font-weight:650}
+.copyb{float:right;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);background:var(--mist);color:var(--mute);border-radius:7px;padding:3px 8px;cursor:pointer;margin-left:8px;transition:all .13s}
+.copyb:hover{border-color:var(--zb-dark);color:var(--zb-ink)}
+.flow5{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:3px 0 10px}
+.flow5 span{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--zb);border-radius:7px;padding:4px 9px}
+.flow5 i{font-style:normal;color:var(--mute);font-size:10px}
+.vars{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.vars button{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:999px;padding:5px 12px;cursor:pointer;transition:all .13s}
+.vars button:hover{border-color:var(--zb-dark)}
+.vars button.on{background:var(--zb);border-color:var(--zb);color:var(--ink)}
+.navrow{display:flex;gap:8px;margin-top:15px}
+.navrow button{flex:1;font-family:var(--disp);font-weight:800;font-size:14px;border:none;border-radius:13px;padding:13px;cursor:pointer;transition:all .16s;background:var(--mist);color:var(--char)}
+.navrow button.go{background:var(--zb);color:var(--ink);box-shadow:0 6px 16px rgba(31,183,104,.28)}
+.navrow button:hover{transform:translateY(-2px)}
+.rxrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;margin:10px 0}
+.rx{position:relative;border:2px solid var(--line);border-radius:13px;padding:11px 13px;cursor:pointer;background:#fff;transition:all .15s}
+.rx:hover{border-color:var(--zb-dark);transform:translateY(-2px);box-shadow:0 8px 18px rgba(14,25,18,.08)}
+.rx.rec{border-color:var(--zb);background:var(--zb-tint)}
+.rx.picked{border-color:var(--ink);background:var(--ink)}
+.rx.picked .rt,.rx.picked .rd,.rx.picked .rp{color:#fff}
+.rx .rt{font-family:var(--disp);font-weight:800;font-size:13px;color:var(--ink)}
+.rx .rp{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--zb-ink);margin:1px 0 3px}
+.rx .rd{font-size:10.5px;color:var(--mute);line-height:1.45}
+.rx .recb{position:absolute;top:-9px;right:9px;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--zb);color:var(--ink);border-radius:7px;padding:2px 8px}
+.ckl{list-style:none;margin:8px 0}
+.ckl li{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13px;color:var(--char);cursor:pointer;user-select:none}
+.ckl li .bx{flex:0 0 17px;height:17px;border-radius:6px;border:1.5px solid var(--line);margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--mono);font-weight:700;color:var(--ink);background:#fff;transition:all .13s}
+.ckl li.on{font-weight:600}
+.ckl li.on .bx{background:var(--zb);border-color:var(--zb)}
+.notef{display:flex;flex-direction:column;margin-top:6px}
+.notef label{font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:3px}
+.notef input,.notef textarea{font-family:var(--body);font-size:13px;border:1.5px solid var(--line);border-radius:9px;padding:6px 10px;background:#fff;color:var(--char)}
+.notef textarea{min-height:46px;resize:vertical}
+.notef input:focus,.notef textarea:focus{outline:none;border-color:var(--zb-dark);box-shadow:0 0 0 3px rgba(61,220,132,.13)}
+.amtrow{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}
+.amtrow button{font-family:var(--mono);font-size:10.5px;font-weight:700;border:1.5px solid #BFEFD9;background:#fff;border-radius:8px;padding:4px 9px;cursor:pointer;color:var(--zb-ink);transition:all .13s}
+.amtrow button:hover{border-color:var(--zb-dark);transform:translateY(-1px)}
+.amtrow button.on{background:var(--zb);border-color:var(--zb);color:var(--ink)}
+.amtrow input{font-family:var(--mono);font-size:12px;border:1.5px solid var(--line);border-radius:8px;padding:4px 9px;width:88px}
+
+/* ============ RIGHT ============ */
+.reco{background:linear-gradient(150deg,#0C1310,#132A1D);border-radius:18px;padding:16px 18px;color:#CFE0D7;margin-bottom:13px;box-shadow:0 10px 26px rgba(10,16,12,.22)}
+.reco .rk{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--zb);font-weight:600}
+.reco h3{color:#fff;font-family:var(--disp);font-size:19px;margin:3px 0 5px;font-weight:800}
+.reco p{font-size:11.5px;color:#B7CDC0}
+.reco .flags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.reco .flags span{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:3px 7px;background:#1C2E22;color:#94B4A1;border:1px solid #294833}
+.reco .golane{margin-top:10px;width:100%;font-family:var(--disp);font-weight:800;font-size:13px;background:var(--zb);color:var(--ink);border:none;border-radius:11px;padding:10px;cursor:pointer;transition:all .15s}
+.reco .golane:hover{background:var(--zb-dark);transform:translateY(-1px)}
+.search{width:100%;font-family:var(--body);font-size:12.5px;border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;margin-bottom:8px}
+.search:focus{outline:none;border-color:var(--zb-dark);box-shadow:0 0 0 3px rgba(61,220,132,.13)}
+details.obj{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:7px;overflow:hidden;transition:all .15s}
+details.obj:hover{border-color:#C3D2C9}
+details.obj summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:10px 13px;font-family:var(--disp);font-weight:700;font-size:12.5px;color:var(--ink)}
+details.obj summary::-webkit-details-marker{display:none}
+details.obj summary .q{color:var(--red);font-family:var(--mono);font-size:8.5px;font-weight:700;background:var(--red-soft);border-radius:6px;padding:2px 6px;flex:0 0 auto}
+details.obj summary::after{content:'+';margin-left:auto;font-family:var(--mono);color:var(--zb-ink);font-size:16px}
+details.obj[open] summary::after{content:'–'}
+details.obj .objbody{padding:0 13px 11px;font-size:12.5px}
+.mini{font-size:11.5px;color:var(--mute)}
+.mini b{color:var(--char)}
+.recapbox textarea{width:100%;min-height:210px;font-family:var(--mono);font-size:11.5px;line-height:1.6;border:1px solid #294833;border-radius:13px;background:#0C1712;color:#D9E9DF;padding:13px;resize:vertical}
+.seg{display:flex;flex-wrap:wrap;gap:5px}
+.seg button{font-family:var(--body);font-size:12px;font-weight:600;border:1.5px solid var(--line);background:#fff;color:var(--char);border-radius:9px;padding:5px 11px;cursor:pointer;transition:all .13s}
+.seg button:hover{border-color:var(--zb-dark)}
+.seg button.on{background:var(--ink);border-color:var(--ink);color:var(--zb)}
+
+/* confetti + toast */
+.confetti{position:fixed;width:9px;height:14px;border-radius:2px;pointer-events:none;z-index:999;animation:cfall 1.35s ease-in forwards}
+@keyframes cfall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(46vh) rotate(560deg);opacity:0}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--ink);color:var(--zb);font-family:var(--disp);font-weight:800;font-size:14px;border-radius:13px;padding:12px 22px;z-index:998;opacity:0;transition:all .35s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 14px 34px rgba(10,16,12,.35)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+@media (max-width:1240px){
+  .grid{grid-template-columns:minmax(0,1fr) 300px}
+  .col.left{grid-column:1/-1}
+  .col.left .lsticky{position:static;display:grid;grid-template-columns:1fr 1fr;gap:13px;align-items:start}
+  .col.left .panel{margin-bottom:0}
+  .fgrid{grid-template-columns:repeat(3,1fr)}
+  .orderchips{grid-template-columns:1fr 1fr}
+}
+@media (max-width:920px){
+  .grid{grid-template-columns:1fr}
+  .col.left .lsticky{grid-template-columns:1fr}
+  .rsticky{position:static;max-height:none}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .orderchips{grid-template-columns:1fr}
+  .clockbox{font-size:20px}
+  .who{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= TOPBAR ================= -->
+  <div class="topbar" id="topbar">
+    <div class="brand"><div class="zbm">Z</div><div><b>CALL MODE</b><small>live cockpit · June 2026</small></div></div>
+    <span class="clockbox" id="clock">00:00</span>
+    <button class="tbtn go" id="btnStart">▶ Start</button>
+    <button class="tbtn" id="btnTReset" title="Reset timer only">↺</button>
+    <span class="coach on" id="coach">On pace</span>
+    <button class="rushT" id="btnRush">⏳ Rushed</button>
+    <span class="trophy" id="trophy">🏆 0 sold</span>
+    <button class="tbtn" id="btnSetup">⚙ Setup</button>
+    <span class="who" id="who"></span>
+    <div class="progressbar"><i id="progbar" style="width:0%"></i></div>
+  </div>
+
+  <!-- ================= SETUP ================= -->
+  <div class="setup" id="setup">
+    <h3>⚙ Customer Setup — one tap each, autofills everywhere <span class="savenote">saved on this device</span></h3>
+
+    <div class="lab">⚡ Quick presets — one click loads a typical file</div>
+    <div class="presetrow">
+      <button class="preset" data-preset="starter">Typical Starter · RA self-listed · nothing added</button>
+      <button class="preset" data-preset="pro">Typical Pro · WFC + EIN + OA included</button>
+      <button class="preset" data-preset="premium">Typical Premium · Pro + website tools</button>
+      <button class="preset ghost" data-preset="clearorder">✕ Clear order only</button>
+    </div>
+
+    <div class="lab">Rep &amp; customer</div>
+    <div class="fgrid">
+      <div class="f"><label>Rep name</label><input data-f="repName"></div>
+      <div class="f"><label>Customer name</label><input data-f="customerName"></div>
+      <div class="f"><label>Business name</label><input data-f="businessName"></div>
+      <div class="f"><label>Phone</label><input data-f="phone"></div>
+      <div class="f"><label>Email</label><input data-f="email"></div>
+      <div class="f"><label>State</label><input data-f="state"></div>
+      <div class="f"><label>Business type / industry</label><input data-f="businessType"></div>
+      <div class="f"><label>Management structure</label><input data-f="managementStructure"></div>
+      <div class="f"><label>Formation date (est.)</label><input data-f="formationDate"></div>
+      <div class="f"><label>Business address</label><input data-f="businessAddress"></div>
+      <div class="f"><label>Mailing address</label><input data-f="mailingAddress"></div>
+      <div class="f"><label>Card last 4</label><input data-f="cardLast4" maxlength="4"></div>
+      <div class="f"><label>RA name (if not customer)</label><input data-f="raName"></div>
+      <div class="f"><label>RA address</label><input data-f="raAddress"></div>
+    </div>
+
+    <div class="lab">Status — tap, don’t scroll</div>
+    <div class="orderchips">
+      <div class="oc"><label>Formation status</label><div class="chips" data-fc="formationStatus">
+        <button data-v="pre">Pre-formation</button><button data-v="post">Post-formation</button></div></div>
+      <div class="oc"><label>Entity type</label><div class="chips" data-fc="entityType">
+        <button data-v="Single-Member LLC">SMLLC</button><button data-v="Multi-Member LLC">Multi-Member</button><button data-v="S-Corp">S-Corp</button><button data-v="C-Corp">C-Corp</button></div></div>
+      <div class="oc"><label>Package</label><div class="chips" data-fc="packageName">
+        <button data-v="Starter">Starter</button><button data-v="Pro">Pro</button><button data-v="Premium">Premium</button></div></div>
+      <div class="oc"><label>Registered Agent listed as</label><div class="chips" data-fc="raStatus">
+        <button data-v="zb" class="inc">ZenBusiness</button><button data-v="customer" class="gap">Customer</button><button data-v="someoneElse" class="gap">Someone else</button><button data-v="otherProvider" class="gap">Other provider</button><button data-v="none" class="gap">None</button></div></div>
+      <div class="oc"><label>Worry Free Compliance</label><div class="chips" data-fc="wfc">
+        <button data-v="none" class="gap">None</button><button data-v="essential" class="inc">Essential</button><button data-v="advanced" class="inc">Advanced</button></div></div>
+      <div class="oc"><label>EIN</label><div class="chips" data-fc="ein">
+        <button data-v="y" class="inc">✓ Has it</button><button data-v="n" class="gap">✗ Missing</button></div></div>
+      <div class="oc"><label>Operating Agreement</label><div class="chips" data-fc="oaHas">
+        <button data-v="y" class="inc">✓ Has it</button><button data-v="n" class="gap">✗ Missing</button></div></div>
+      <div class="oc"><label>Money Pro</label><div class="chips" data-fc="mp">
+        <button data-v="y" class="inc">✓ Has it</button><button data-v="n" class="gap">✗ Missing</button></div></div>
+      <div class="oc"><label>Tax Planning (QTP)</label><div class="chips" data-fc="qtp">
+        <button data-v="y" class="inc">✓ Has it</button><button data-v="n" class="gap">✗ Missing</button></div></div>
+      <div class="oc"><label>Tax Prep (BTP)</label><div class="chips" data-fc="btp">
+        <button data-v="y" class="inc">✓ Has it</button><button data-v="n" class="gap">✗ Missing</button></div></div>
+      <div class="oc"><label>Website / online tools</label><div class="chips" data-fc="web">
+        <button data-v="y" class="inc">✓ Has it</button><button data-v="n" class="gap">✗ Missing</button></div></div>
+      <div class="oc"><label>License report (BLR)</label><div class="chips" data-fc="blrHas">
+        <button data-v="y" class="inc">✓ Has it</button><button data-v="n" class="gap">✗ Missing</button></div></div>
+      <div class="oc"><label>WFC coupon available</label><div class="chips" data-fc="coupon">
+        <button data-v="">None</button><button data-v="$149" class="inc">$149</button><button data-v="$119" class="inc">$119</button></div></div>
+      <div class="oc"><label>Tax monthly option on account?</label><div class="chips" data-fc="taxMonthly">
+        <button data-v="y" class="inc">Yes</button><button data-v="n">No</button></div></div>
+    </div>
+
+    <div class="setbtns">
+      <button class="abtn warn" id="btnClearProg">↺ Clear call progress</button>
+      <button class="abtn danger" id="btnClearCust">✕ Clear customer</button>
+      <button class="abtn dark" id="btnCopyNotes">📋 Copy recap notes</button>
+      <button class="abtn dark" id="btnCopyScript">📄 Copy current script</button>
+      <button class="abtn go" id="btnHideSetup">▲ Hide setup panel</button>
+    </div>
+  </div>
+
+  <!-- ================= GRID ================= -->
+  <div class="grid">
+    <div class="col left">
+      <div class="lsticky">
+        <div class="panel">
+          <h4><span class="dot"></span>Stages</h4>
+          <ul class="steps" id="steps"></ul>
+        </div>
+        <div class="panel">
+          <h4><span class="dot" style="background:var(--ink)"></span>Jump to lane</h4>
+          <div class="routes" id="routes">
+            <button data-go="ra">Go RA</button><button data-go="wfc">Go WFC</button>
+            <button data-go="tax">Go Tax</button><button data-go="mp">Go Money Pro</button>
+            <button data-go="quick:ein">Go EIN</button><button data-go="quick:oa">Go OA</button>
+            <button data-go="quick:blr">Go BLR</button><button data-go="obj">Go Objections</button>
+            <button data-go="pay">Go Close</button><button data-go="wrap">Go Wrap</button>
+          </div>
+          <div class="kbd"><b>←</b> <b>→</b> prev / next stage &nbsp;·&nbsp; <b>/</b> search objections</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col" id="center"></div>
+
+    <div class="col"><div class="rsticky" id="right"></div></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ================== CONSTANTS (single source of truth) ================== */
+var PRICE={ra:"$199",wfcE:"$199",wfcA:"$299",upgrade:"$99",coupon1:"$149",coupon2:"$119",
+  ein:"$99",oa:"$99",blr:"$149",mpY:"$300",mpM:"$30",
+  qtpY:"$899",qtpM:"$89",btpY:"$899",difyY:"$1,798",difyM:"$169",diyY:"$1,139",
+  bundleY:"$2,038",bundleM:"$199",
+  mmBtp:"$1,399",mmDify:"$2,298",mmDifyPromo:"$2,198",mmDifyM:"$219",
+  mmBundle:"$2,538",mmBundlePromo:"$2,498",mmBundleM:"$249",
+  scorpFree:"free within 30 days",scorpLate:"$200 after",
+  mileRate:"72.5¢",mile1000:"$725"};
+var PRICE_NOTE="Confirm current prices, fees, rates, and state-specific requirements in Salesforce/ZenGarden before quoting.";
+var TAX_DISCLAIMER="\u201CI\u2019m not a lawyer or accountant, so I\u2019m not giving tax advice. My role is to help you understand the areas most new LLC owners need to review with a tax professional.\u201D";
+
+/* ================== STORAGE ================== */
+var store=(function(){var ok=false,mem={};
+  try{localStorage.setItem("__t","1");localStorage.removeItem("__t");ok=true;}catch(e){}
+  return{get:function(k){if(ok){try{return localStorage.getItem(k);}catch(e){}}return (k in mem)?mem[k]:null;},
+    set:function(k,v){if(ok){try{localStorage.setItem(k,v);return;}catch(e){}}mem[k]=v;},
+    del:function(k){if(ok){try{localStorage.removeItem(k);return;}catch(e){}}delete mem[k];}};
+})();
+var KEY="zbcm_site_v1";
+
+var FIELDS=["repName","repLine","customerName","businessName","phone","email","state","formationStatus","entityType","businessType","managementStructure","formationDate","cardLast4","packageName","raStatus","raName","raAddress","businessAddress","mailingAddress","ein","oaHas","wfc","mp","qtp","btp","web","blrHas","coupon","taxMonthly"];
+var NOTES=["dream","fear","timeline","revenue","priority","objection","nextEvent","followup","mainRisk","triggerWords","followupDate","followupTime","followupReason"];
+function defState(){
+  var s={elapsed:0,running:false,stamp:null,stage:"open",rushed:false,setupOpen:true,
+    f:{},n:{},support:[],pitched:[],sold:[],outcome:null,taxRx:null,quickFocus:null,openVar:"full",checks:{},_recap:"",
+    depth:{ra:"full",wfc:"full",tax:"full",mp:"full"},agreedReconnect:null};
+  FIELDS.forEach(function(k){s.f[k]="";});
+  NOTES.forEach(function(k){s.n[k]="";});
+  return s;}
+var S=load();
+function load(){try{var raw=store.get(KEY);if(raw){var o=JSON.parse(raw),s=defState();
+  for(var k in o){if(k==="f"||k==="n"||k==="depth"){for(var k2 in o[k])s[k][k2]=o[k][k2];}else s[k]=o[k];}
+  if(s.running&&s.stamp)s.elapsed+=Math.max(0,(Date.now()-s.stamp)/1000);return s;}}catch(e){}
+  return defState();}
+function save(){S.stamp=S.running?Date.now():null;try{store.set(KEY,JSON.stringify(S));}catch(e){}}
+
+/* ================== HELPERS ================== */
+function $(id){return document.getElementById(id);}
+function esc(t){return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+function fmt(sec){sec=Math.floor(sec);var m=Math.floor(sec/60),s=sec%60;return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;}
+function copyText(txt,btn){
+  function done(){if(btn){var o=btn.textContent;btn.textContent="\u2713 Copied";setTimeout(function(){btn.textContent=o;},1200);}toast("Copied \u2713");}
+  function fb(){var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fb);}else{fb();}}
+function toast(msg){var t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._tm);t._tm=setTimeout(function(){t.classList.remove("show");},1600);}
+function confetti(){var colors=["#3DDC84","#1FB768","#0B7A43","#FFD166","#0C1310"];
+  for(var i=0;i<26;i++){var c=document.createElement("div");c.className="confetti";
+    c.style.left=(15+Math.random()*70)+"vw";c.style.top=(8+Math.random()*20)+"vh";
+    c.style.background=colors[i%colors.length];c.style.animationDelay=(Math.random()*.25)+"s";
+    c.style.transform="rotate("+(Math.random()*360)+"deg)";
+    document.body.appendChild(c);
+    (function(el){setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},1700);})(c);}}
+
+/* ---- tokens ---- */
+var TOKLAB={repName:"[Rep Name]",customerName:"[Customer Name]",businessName:"[Business Name]",phone:"[Phone]",email:"[Email]",state:"[State]",entityType:"[Entity Type]",businessType:"[Business Type]",managementStructure:"[Management Structure]",formationDate:"[Formation Date]",cardLast4:"[last 4]",packageName:"[Package]",raName:"[yourself / the person listed]",raAddress:"[the listed address]",businessAddress:"[Business Address]",mailingAddress:"[Mailing Address]",dream:"[their dream]",fear:"[their concern]",timeline:"[their timeline]",nextEvent:"[day/time]",mainRisk:"[main risk discussed]",triggerWords:"[their exact words]",followupDate:"[date]",followupTime:"[time]",followupReason:"[purpose of the call]"};
+function tokVal(k){
+  if(k.indexOf("price.")===0)return {v:PRICE[k.slice(6)]||"$\u2014",fill:true};
+  var v="";
+  if(S.f[k]!==undefined)v=S.f[k];else if(S.n[k]!==undefined)v=S.n[k];
+  v=(v||"").trim();
+  if(k==="raName"&&!v){
+    if(S.f.raStatus==="customer"&&(S.f.customerName||"").trim())return {v:S.f.customerName.trim(),fill:true};
+    if(S.f.raStatus==="someoneElse")return {v:"",fill:false,lab:"[the person listed]"};
+  }
+  return {v:v,fill:!!v};}
+function T(s){return s.replace(/\{\{([\w.]+)\}\}/g,function(m,k){
+  var r=tokVal(k);
+  if(r.fill)return '<span class="tok" data-tk="'+k+'">'+esc(r.v)+"</span>";
+  return '<span class="tok miss" data-tk="'+k+'">'+esc(r.lab||TOKLAB[k]||("["+k+"]"))+"</span>";});}
+function refreshTokens(k){
+  var spans=document.querySelectorAll('[data-tk="'+k+'"]');if(!spans.length&&k!=="customerName")return;
+  var keys=(k==="customerName")?[k,"raName"]:[k];
+  keys.forEach(function(kk){
+    var sp=document.querySelectorAll('[data-tk="'+kk+'"]'),r=tokVal(kk);
+    for(var i=0;i<sp.length;i++){
+      if(r.fill){sp[i].textContent=r.v;sp[i].className="tok";}
+      else{sp[i].textContent=r.lab||TOKLAB[kk]||("["+kk+"]");sp[i].className="tok miss";}
+      sp[i].setAttribute("data-tk",kk);}});}
+function say(tag,txt,opts){opts=opts||{};
+  return '<div class="say'+(opts.ask?" ask":"")+(opts.red?" hot":"")+'"><span class="tag'+(opts.note?" note":"")+'">'+tag+'</span><button class="copyb">Copy</button><div class="saytxt"><p>'+T(txt)+"</p></div></div>";}
+function P(){return ' <span class="cue">pause</span>';}
+function objAcc(cat,label,cust,rep,reclose){return '<details class="obj" data-objtext="'+esc((cat+" "+label+" "+cust+" "+rep).toLowerCase())+'"><summary><span class="q">'+cat+"</span>"+label+"</summary><div class='objbody'>"+
+  '<p class="mini" style="margin:6px 0;font-family:var(--mono);font-size:9.5px">Acknowledge \u2192 isolate (cost \u00B7 timing \u00B7 value) \u2192 tie back to their words \u2192 reframe \u2192 confirm \u2192 re-close</p>'+
+  (cust?'<p class="mini" style="margin:6px 0"><b>Customer says:</b> '+cust+"</p>":"")+
+  say("Rep says",rep)+(reclose?say("Re-close",reclose,{ask:1}):"")+"</div></details>";}
+var DRANK={fast:0,full:1,deep:2};
+function dOK(key,lvl){return DRANK[(S.depth&&S.depth[key])||"full"]>=DRANK[lvl];}
+function depthSel(key){var d=(S.depth&&S.depth[key])||"full";
+  return '<div class="vars">'+[["fast","\u26A1 Fast Track"],["full","Full Close Path"],["deep","Deep Dive"]].map(function(x){return '<button class="'+(d===x[0]?"on":"")+'" data-depth="'+key+":"+x[0]+'">'+x[1]+"</button>";}).join("")+"</div>";}
+function flow5(){return '<div class="flow5"><span>1 Diagnose</span><i>\u2192</i><span>2 Eye-Opener</span><i>\u2192</i><span>3 Buy-In</span><i>\u2192</i><span>4 Prescribe</span><i>\u2192</i><span>5 Close</span></div>';}
+function closeCue(){return '<div class="goal hot"><b>\uD83D\uDED1 Ask the buy-in question first. Then close.</b> Do not close until the customer has acknowledged the problem.</div>';}
+
+/* ================== STAGES ================== */
+var ST=[["open","Open","0\u20133","\uD83D\uDCDE"],["disc","Discovery","3\u20138","\uD83E\uDDED"],["contact","Contact / Filing","8\u201310","\uD83D\uDDC2"],["order","Order Review","10\u201312","\uD83D\uDCCB"],["bridge","Gains \u2192 Burden","12\u201313","\u2696\uFE0F"],["lane","Choose Lane","13","\uD83D\uDEE3"],["ra","Registered Agent","13\u201318","\uD83D\uDEE1"],["wfc","Worry Free Compliance","\u2014","\uD83D\uDCC6"],["tax","Tax / Money","18\u201323","\uD83D\uDCB0"],["mp","Money Pro","\u2014","\uD83D\uDCCA"],["quick","EIN \u00B7 OA \u00B7 BLR","\u2014","\u26A1"],["obj","Objections","23\u201326","\uD83E\uDD4A"],["pay","Payment","26\u201328","\uD83D\uDCB3"],["wrap","Wrap / Next Event","28\u201330","\uD83C\uDFC1"]];
+function stIdx(id){for(var i=0;i<ST.length;i++)if(ST[i][0]===id)return i;return 0;}
+
+function hasCPA(){return S.support.indexOf("CPA")>=0;}
+function personalEmail(){return /@(gmail|yahoo|hotmail|outlook|aol|icloud|proton)\./i.test(S.f.email||"");}
+function isMM(){return /multi|s-corp|c-corp/i.test(S.f.entityType||"");}
+function raGap(){return S.f.raStatus==="customer"||S.f.raStatus==="someoneElse"||S.f.raStatus==="none";}
+function regulated(){return /truck|real ?estate|food|restaurant|beauty|salon|health|construction|contract|clean|landscap|daycare|transport|local/i.test(S.f.businessType||"");}
+
+function recLane(){
+  if(S.rushed)return {lane:"quick",why:"Rushed \u2014 one obvious gap, then close or set the next event."};
+  if(raGap())return {lane:"ra",why:"RA is listed as "+(S.f.raStatus==="customer"?"the customer":S.f.raStatus==="someoneElse"?"someone else":"missing")+" \u2014 fix it while it\u2019s tied to the paperwork."};
+  if(S.f.wfc==="none")return {lane:"wfc",why:"No compliance support \u2014 nobody is tracking what {{state}} expects."};
+  if(!hasCPA()||S.f.mp==="n"||S.f.qtp==="n"||S.f.btp==="n")return {lane:"tax",why:"Money-side gap \u2014 no business tax pro"+(S.f.mp==="n"?" and no tracking system":"")+"."};
+  if(S.f.ein==="n")return {lane:"quick",why:"No EIN \u2014 it holds up the bank account."};
+  return {lane:"tax",why:"Compliance covered \u2014 confirm the tax setup is complete."};}
+function laneFlags(){var f=[];
+  if(S.f.ein==="n")f.push("EIN missing \u00B7 "+PRICE.ein);
+  if(S.f.oaHas==="n"&&(S.support.indexOf("Partner")>=0||isMM()||/bank|loan|fund/i.test((S.n.priority||"")+(S.n.timeline||""))))f.push("OA \u2014 partners / banking \u00B7 "+PRICE.oa);
+  if(regulated()&&S.f.blrHas!=="y")f.push("BLR \u2014 regulated industry \u00B7 "+PRICE.blr);
+  if(personalEmail()&&S.f.web!=="y")f.push("Domain seed \u2014 circle back");
+  if(S.f.mp==="n")f.push("Money Pro \u00B7 "+PRICE.mpY+"/yr");
+  return f;}
+var LANE_STAGE={ra:"ra",wfc:"wfc",tax:"tax",mp:"mp",quick:"quick"};
+var LANE_NAME={ra:"Registered Agent",wfc:"Worry Free Compliance",tax:"Tax / Money",mp:"Money Pro",quick:"Quick Setup (EIN \u00B7 OA \u00B7 BLR)"};
+
+/* ================== STAGE RENDERERS ================== */
+function head(t,goal){var i=stIdx(S.stage);
+  return '<div class="stagehead"><span class="pnum">'+ST[i][3]+" Stage "+(i+1)+" of "+ST.length+"</span><h2>"+t+"</h2></div>"+(goal?'<div class="goal"><b>Goal:</b> '+goal+"</div>":"");}
+function navRow(nextLabel){var i=stIdx(S.stage);
+  return '<div class="navrow">'+(i>0?'<button id="btnPrev">\u2190 Previous</button>':"")+'<button class="go" id="btnNext">'+(nextLabel||("Next \u2192 "+(ST[i+1]?ST[i+1][1]:"")))+"</button></div>";}
+function ckList(list){var h='<ul class="ckl">';list.forEach(function(it){h+='<li class="'+(S.checks[it[0]]?"on":"")+'" data-ck="'+it[0]+'"><span class="bx">'+(S.checks[it[0]]?"\u2713":"")+"</span><span>"+it[1]+"</span></li>";});return h+"</ul>";}
+
+function sOpen(){
+  var v=S.openVar,pre=S.f.formationStatus!=="post";
+  var h=head("Open","Trust fast. Thank them, verify, agenda, permission, disclose, congratulate, credit.");
+  h+='<div class="vars">'+[["full","Full word-for-word"],["short","Short version"],["rushed","If rushed"],["skeptical","If skeptical"]].map(function(x){return '<button class="'+(v===x[0]?"on":"")+'" data-openvar="'+x[0]+'">'+x[1]+"</button>";}).join("")+"</div>";
+  if(!S.f.formationStatus)h+='<div class="goal">\u26A0 Tap <b>Formation status</b> in Setup \u2014 it picks the right opener. Showing <b>pre-formation</b> for now.</div>';
+  if(v==="rushed"){
+    h+=say("Say","\u201CTotally fair. I\u2019ll respect your time.\u201D"+P()+" \u201CThe main reason for the call is to make sure the LLC is set up correctly before anything important gets missed \u2014 things like Secretary of State details, compliance, legal notices, and tax setup.\u201D"+P()+" \u201CI\u2019ll focus only on the most important thing based on your account, and if we need more time, we can set a quick follow-up. Fair?\u201D",{red:1});
+    h+='<div class="goal"><b>Then:</b> flip \u23F3 Rushed up top \u2014 the Recommended Lane compresses to the one biggest gap.</div>';
+  }else if(v==="skeptical"){
+    h+=say("Say","\u201CGood question. I\u2019m calling because you started or completed your LLC with ZenBusiness.\u201D"+P()+" \u201CAfter the LLC is submitted or formed, there are a few early pieces that can affect whether the setup is correct, compliant, and ready for the first year.\u201D"+P()+" \u201CSo this is just a quick review to verify the information, answer questions, and make sure nothing important gets missed. I\u2019ll keep it practical.\u201D",{red:1});
+  }else if(v==="short"){
+    h+=say("Short beats","Greet + thank \u2192 \u201Cthank you for choosing us\u201D \u2192 verify reason ("+(pre?"\u201Cbefore everything gets finalized with the Secretary of State\u201D":"\u201Cthe information sent back from the Secretary of State\u201D")+") \u2192 agenda \u2192 \u201C10 to 15 minutes \u2014 does that sound good?\u201D \u2192 recording \u2192 \u201Ccongratulations\u2026 are you excited?\u201D \u2192 credit line \u2192 \u201Cwhat is this business going to be doing?\u201D");
+  }else{
+    h+=say("Say","\u201CHi {{customerName}}, this is {{repName}} with ZenBusiness. Thank you for taking my call. How are you doing today?\u201D"+P());
+    h+=say("Then","\u201CFirst of all, thank you for choosing us to help you get your new business started.\u201D"+P());
+    if(pre){
+      h+=say("Verify","\u201CI see the application you submitted on our website to get your LLC formed.\u201D"+P()+" \u201CSo before everything gets finalized with the Secretary of State, we just want to verify a few details and make sure everything is correct.\u201D"+P());
+      h+=say("Agenda","\u201CWe\u2019ll quickly review your order, go over the compliance pieces for your LLC, answer any questions you may have, and make sure you\u2019re prepared and set up for success for this first year and beyond.\u201D"+P());
+    }else{
+      h+=say("Good news","\u201CI\u2019m calling to share some good news. Now that your LLC formation is complete, you\u2019re official.\u201D"+P()+" \u201CWe just want to verify that all the information that was sent back from the Secretary of State was set up the way you wanted.\u201D"+P());
+      h+=say("Agenda","\u201CWe\u2019ll answer any questions you may have, quickly review your order and what you now have access to, and make sure you\u2019re prepared and set up for success for this first year and beyond.\u201D"+P());
+    }
+    h+=say("Permission","\u201CThis should only take about 10 to 15 minutes. Does that sound good?\u201D"+P(),{ask:1});
+    h+=say("Disclose","\u201CGreat. I do want to disclose that this call will be recorded for training and quality purposes.\u201D"+P());
+    h+=say("Congratulate",(pre?"\u201CBut congratulations on taking this first big step to get the business started. Are you excited?\u201D":"\u201CAnd you may have already seen the email from us, but now that you\u2019re official \u2014 congratulations. Are you excited?\u201D")+P()+" <span class='cue'>respond naturally</span>",{ask:1});
+    h+=say("The credit line","\u201CI know it can feel like a lot upfront, but most people never even get this far, so I want to give you credit for getting started the right way.\u201D"+P());
+    h+=say("Into discovery","\u201CI see your business name as {{businessName}}, but please tell me, what is this business going to be doing?\u201D",{ask:1});
+  }
+  h+='<div class="goal"><b>Listen for:</b> rushed (short answers, background noise) \u2192 the rushed tab above. Guarded (\u201Cwhat is this about?\u201D) \u2192 the skeptical tab.</div>';
+  return h+navRow();}
+
+function sDisc(){
+  var h=head("Discovery","Understand the business before pitching anything. Capture Dream, Fear, and Timeline \u2014 their exact words become your close.");
+  h+=say("Frame","\u201CBefore I review the account, I want to understand the business a little better so I\u2019m not giving you generic information.\u201D");
+  var qs=["\u201CWhat inspired you to get {{businessName}} started?\u201D <span class='cue'>dream \u2014 verbatim</span>",
+    "\u201CIs this your first business or LLC?\u201D",
+    "\u201CAre you currently operational or open for business?\u201D <span class='cue'>yes \u2192 \u201CThat\u2019s exciting. What has that process been like for you so far?\u201D \u00B7 no \u2192 \u201CWhat needs to happen for you to become operational?\u201D</span>",
+    "\u201CHow quickly do you plan to generate revenue? Do you already have your first customer lined up?\u201D <span class='cue'>timeline</span>",
+    "\u201CIs this a side hustle, or will you be running and growing {{businessName}} full-time?\u201D",
+    "\u201CWhat vision do you have for {{businessName}} by the end of this year \u2014 or even 3, 6, 9, or 12 months from now?\u201D",
+    "\u201CSince this is your first LLC, what are you most worried or concerned about?\u201D <span class='cue'>fear \u2014 verbatim</span>",
+    "\u201CAre you handling everything on your own, or do you have anyone mentoring you or helping you?\u201D",
+    "\u201CWhat next steps are your highest priorities right now?\u201D <span class='cue'>they tell you what to sell first</span>"];
+  qs.forEach(function(q,i){h+=say("Ask "+(i+1),q+P(),{ask:1});});
+  h+='<div class="lab">Capture as they talk (mirrors the right panel)</div>';
+  h+='<div class="notef"><label>Dream</label><input data-n="dream" value="'+esc(S.n.dream)+'" placeholder="Why they started \u2014 verbatim"></div>';
+  h+='<div class="notef"><label>Fear</label><input data-n="fear" value="'+esc(S.n.fear)+'" placeholder="Biggest worry \u2014 verbatim"></div>';
+  h+='<div class="notef"><label>Timeline / revenue</label><input data-n="revenue" value="'+esc(S.n.revenue)+'" placeholder="First customer? Revenue when?"></div>';
+  h+='<div class="notef"><label>Priority</label><input data-n="priority" value="'+esc(S.n.priority)+'" placeholder="Their highest priority"></div>';
+  h+='<div class="lab">Support system</div><div class="chips" id="supportChips">'+["CPA","Attorney","Mentor","Partner","None"].map(function(x){return '<button class="'+(S.support.indexOf(x)>=0?"on":"")+'" data-sup="'+x+'">'+x+"</button>";}).join("")+"</div>";
+  return h+navRow();}
+
+function sContact(){
+  var h=head("Contact / Filing Review","Verification builds authority \u2014 and seeds the domain without pitching it.");
+  h+=say("Bridge in","\u201CGot it. That helps me understand what you\u2019re building.\u201D"+P()+" \u201CLet\u2019s first quickly confirm the information on the application so we can make sure everything lines up with what you want before we go deeper.\u201D"+P());
+  h+=say("Verify","\u201CI see the business management structure we have from your application as {{managementStructure}}. Is that correct?\u201D"+P()+" \u201CThe contact information we have on file is {{customerName}}, {{phone}}, {{email}}. Is all of that correct?\u201D"+P(),{ask:1});
+  if(personalEmail())h+=say("Domain seed \u2014 note it, do NOT pitch","\u201CI see your email is {{email}}. Now that you have this LLC and an official business name that is all yours, just curious \u2014 have you already created a custom domain, like a www dot com, for your business?\u201D <span class='cue'>note the answer \u00B7 circle back after the core closes</span>");
+  else h+='<div class="goal"><b>If the email is personal</b> (gmail / yahoo / outlook\u2026): seed the domain \u2014 \u201CNow that you have this LLC and an official business name that is all yours, just curious \u2014 have you already created a custom domain?\u201D Enter their email in Setup and this card appears automatically.</div>';
+  h+=say("Addresses","\u201CI see the business addresses you submitted are {{businessAddress}} and {{mailingAddress}}. Is all of that correct?\u201D"+P()+" \u201CAnd is this your primary residence, or will the business be operated out of that address?\u201D"+P(),{ask:1});
+  h+=say("Transition","\u201COkay, let\u2019s review your order.\u201D");
+  return h+navRow();}
+
+function sOrder(){
+  var pkg=(S.f.packageName||"").toLowerCase();
+  var h=head("Order Review","Validate what they chose, spot the whitespace, then banking next steps.");
+  var have=[],miss=[];
+  if(S.f.raStatus==="zb")have.push("Registered Agent");else if(raGap())miss.push("Registered Agent");
+  if(S.f.wfc==="essential"||S.f.wfc==="advanced")have.push("Worry Free Compliance ("+S.f.wfc+")");else if(S.f.wfc==="none")miss.push("Worry Free Compliance");
+  if(S.f.ein==="y")have.push("EIN");else if(S.f.ein==="n")miss.push("EIN");
+  if(S.f.oaHas==="y")have.push("Operating Agreement");else if(S.f.oaHas==="n")miss.push("Operating Agreement");
+  if(S.f.qtp==="y"||S.f.btp==="y")have.push("tax support");else if(S.f.qtp==="n"||S.f.btp==="n")miss.push("tax support");
+  if(S.f.mp==="y")have.push("Money Pro");else if(S.f.mp==="n")miss.push("Money Pro");
+  if(S.f.web==="y")have.push("website / online tools");
+  if(S.f.blrHas==="y")have.push("Business License Report");
+  if(pkg==="starter")h+=say("Starter","\u201CI see you went with our Starter package \u2014 that covers the LLC formation filing itself, and you kept the rest lean, which is a smart way to get moving. As we go, I\u2019ll point out what\u2019s complete and what responsibilities are still sitting with you.\u201D");
+  else if(pkg==="pro")h+=say("Pro \u2014 validate it","\u201CYou actually picked a strong setup with Pro \u2014 rush filing, Worry Free Compliance for your state deadlines, your EIN, and your Operating Agreement. Those are the pieces most new owners miss, so nice work.\u201D");
+  else if(pkg==="premium")h+=say("Premium \u2014 validate it","\u201CYou chose the most complete setup with Premium \u2014 rush filing, compliance, EIN, Operating Agreement, plus your website, domain, and business email tools. That tells me you\u2019re serious about doing this right.\u201D"+(S.f.mp==="y"?" \u201CAnd I see you added Money Pro \u2014 smart choice. What stood out to you about it when you signed up?\u201D":""));
+  else h+='<div class="goal">Tap the <b>Package</b> in Setup to load the matching validation card.</div>';
+  h+=say("What I see","\u201CSo right now, "+(S.f.formationStatus==="post"?"your LLC has been formed":"you have the LLC formation started and the filing is in progress")+(have.length?", and you have "+have.join(", "):"")+". "+(miss.length?"I do not see "+miss.join(", ")+" included yet.":"The core pieces look covered.")+"\u201D"+P()+" \u201CThat\u2019s not necessarily a problem \u2014 it just tells us what still needs to be discussed so you know what responsibilities are sitting with you versus what ZenBusiness is helping with.\u201D");
+  h+=say("Banking next steps","\u201CWith everything you have and your {{packageName}} package, your estimated formation date is {{formationDate}}. Around that date, you\u2019ll receive an update by email letting you know your documents are complete and uploaded to your dashboard.\u201D"+P()+" \u201CYou\u2019ll want to keep an eye out for that, because if our processing team runs into any snags or has questions, they\u2019ll reach out directly by email.\u201D"+P()+" \u201COnce you receive your documents, one of the most common next steps is opening a business bank account.\u201D"+P()+" \u201CWhen you go to the bank, make sure you bring your EIN, Operating Agreement, and your LLC paperwork from the state.\u201D");
+  return h+navRow();}
+
+function sBridge(){
+  var h=head("LLC Gains \u2192 Burden Bridge","The proven bridge, verbatim \u2014 it earns the right to recommend.");
+  h+=say("Gains","\u201CNow, with the creation of your LLC, you gain a number of different things.\u201D"+P()+" \u201CYou gain personal liability protection, which is the legal separation of your personal assets from the business\u2019s debts and liabilities.\u201D"+P()+" \u201CYou also gain access to things like business banking, business loans, credibility, and tax advantages that can be significant.\u201D"+P());
+  h+=say("Tie it to them","\u201COut of curiosity, are any of those reasons why you started this LLC in the first place?\u201D"+P(),{ask:1});
+  h+=say("Burden","\u201CNow, with everything you gain through the LLC, you also gain the responsibility of keeping the business compliant at the local, state, and federal level.\u201D"+P()+" \u201CThat\u2019s what allows the business to stay in good standing, continue operating legally, avoid fines, late fees, and penalties, and keep the protections and opportunities the LLC unlocks for you.\u201D"+P());
+  h+=say("Personalize","\u201CSo based on what you told me, I want to focus on the pieces that matter most for your situation.\u201D");
+  return h+navRow("Next \u2192 Choose Lane");}
+
+function sLane(){
+  var r=recLane();
+  var h=head("Choose Lane","One primary lane. The Recommended Lane box (right) is computed from your Setup taps.");
+  h+='<div class="goal"><b>Recommended:</b> '+LANE_NAME[r.lane]+" \u2014 "+T(r.why)+"</div>";
+  h+='<div class="rxrow">'+[["ra","Registered Agent","RA listed as customer / someone else \u2014 tied to the paperwork."],["wfc","Worry Free Compliance","No compliance support; first-timers and the nervous."],["tax","Tax / Money","No CPA, revenue soon, expenses, mileage, no Money Pro."],["quick","Quick Setup","EIN / OA / BLR \u2014 90-second closes; rushed calls."]].map(function(x){
+    return '<div class="rx'+(x[0]===r.lane?" rec":"")+'" data-golane="'+x[0]+'">'+(x[0]===r.lane?'<span class="recb">Recommended</span>':"")+'<div class="rt">'+x[1]+'</div><div class="rd">'+x[2]+"</div></div>";}).join("")+"</div>";
+  h+='<div class="goal">Flags to keep in your pocket: '+(laneFlags().join(" \u00B7 ")||"none \u2014 clean file")+"</div>";
+  return h+navRow("Start recommended lane \u2192 "+LANE_NAME[r.lane]);}
+
+function sRA(){
+  var h=head("Registered Agent \u2014 "+PRICE.ra+"/yr","Diagnose the responsibility, open their eyes, earn the buy-in, then prescribe. Never close before the buy-in.");
+  h+=flow5()+depthSel("ra");
+  h+=say("Transition","\u201CGoing back to your paperwork, one thing I noticed is that you assigned {{raName}} as the Registered Agent for the LLC.\u201D"+P()+" \u201CI want to pause there for a second because that role is more important than most new owners realize.\u201D");
+  h+=say("The proven question","\u201CI\u2019m curious \u2014 did you choose that intentionally, or was that more of a default setup when you formed the LLC?\u201D"+P(),{ask:1});
+  h+=say("Normalize","\u201CTotally makes sense. Sometimes new business owners list themselves at first because they\u2019re just trying to get the LLC filed, without fully realizing what the role commits them to.\u201D");
+  h+=say("Availability \u2014 buy-in","\u201CAre you planning to physically be available at {{raAddress}} during all normal business hours, each weekday?\u201D"+P(),{ask:1});
+  if(dOK("ra","full")){
+    h+=say("If yes","\u201COkay, great. Do you mind sharing your understanding of the requirements of being listed as the Registered Agent? I want to make sure you\u2019re set up for success.\u201D",{ask:1});
+    h+=say("If not familiar \u2014 permission","\u201CAs our customer, we owe it to you to make sure you fully understand what that commitment means. It\u2019ll take just a minute \u2014 would it be helpful if I walked through it?\u201D",{ask:1});
+  }
+  h+=say("Explain \u2014 eye-opener","\u201CThe Registered Agent is the official legal point of contact for state and legal notices for your LLC. It\u2019s a legal requirement, and whoever is listed needs a physical address in the same state where the business is registered.\u201D"+P()+" \u201CThe important part: whoever is listed is responsible for physically receiving official documents \u2014 state notices, lawsuits, compliance notices. Deliveries can show up unannounced, during business hours, and if a document is missed, delayed, or mishandled, it can create legal or compliance problems for the business.\u201D");
+  if(dOK("ra","deep")){
+    h+=say("Deep \u2014 \u201Cso I can never leave?\u201D","\u201COf course you can \u2014 that\u2019s actually the whole point. Process servers don\u2019t call ahead, and they\u2019re not required to come back. If no one is there to physically receive the document, that delivery is unsuccessful \u2014 and after enough unsuccessful attempts, a judge can allow the case to move forward anyway, through mail or posting. Legal action can proceed against your business without your full knowledge.\u201D");
+    h+=say("Deep \u2014 the insurance frame","\u201CHaving a reliable Registered Agent is like insurance. You don\u2019t set it up because you expect a problem \u2014 you set it up so a problem doesn\u2019t get worse because something was missed. An employee accident in a company vehicle, a tenant\u2019s city-code notice \u2014 those go to your Registered Agent.\u201D");
+  }
+  if(dOK("ra","full")){
+    h+=say("The 12-month fork \u2014 buy-in","\u201COver the next 12 months, do you expect {{raName}} to always be available at that address \u2014 or is there a chance they may be away, traveling, working, moving around, or focused on running the business?\u201D"+P(),{ask:1});
+    h+=say("Legal-requirement tie-down \u2014 buy-in","\u201CSince the Registered Agent is a legal requirement, and plays a key role in protecting your business\u2019s liability protection \u2014 one of the reasons you started the LLC \u2014 do you see why most people don\u2019t list themselves for that responsibility?\u201D"+P(),{ask:1});
+    h+=say("Benefits \u2014 personalize","\u201CHere\u2019s what it looks like with us handling it: we can serve as your Registered Agent in all 50 states. Every document is uploaded to your dashboard the moment it arrives, you get an email alert every time, and a courtesy call for anything urgent.\u201D"+P()+" \u201CIt also gives you privacy \u2014 our address goes on the Secretary of State\u2019s public website instead of yours \u2014 plus the flexibility to travel, work, and move freely, and the peace of mind that nothing gets missed: no missed documents, no default judgments.\u201D");
+  }
+  h+=say("Value confirm \u2014 buy-in","\u201CDo you see how all of that would be valuable for your specific situation?\u201D"+P(),{ask:1});
+  h+=say("Peace-of-mind question \u2014 buy-in","\u201CIt\u2019s one of those things that usually isn\u2019t a big deal \u2014 until it is. Would you gain some peace of mind and more freedom to move around if we got your Registered Agent switched over to ZenBusiness?\u201D"+P(),{ask:1});
+  h+=closeCue();
+  h+=say("Price","\u201CGreat choice. It\u2019s "+PRICE.ra+" for the entire year \u2014 and after the first year, it\u2019s still "+PRICE.ra+" annually. When you break it down, we handle this for less than $1 a day. I\u2019m happy to get this updated and unlocked for you today so staying compliant is that much easier. Does that sound good?\u201D",{ask:1});
+  h+=say("Payment","\u201CDo I have your permission to process the payment of "+PRICE.ra+" with the card on file ending in {{cardLast4}}?\u201D");
+  h+=say("Transition after close","\u201CGood. That handles the legal-contact side. The next piece is what the state expects from the LLC to stay in good standing.\u201D");
+  return h+navRow("Next \u2192 Worry Free Compliance");}
+
+function sWFC(){
+  var rec=(S.support.indexOf("Partner")>=0||isMM()||/loan|fund|grow/i.test((S.n.priority||"")+(S.n.timeline||"")))?"Advanced":"Essential";
+  var h=head("Worry Free Compliance \u2014 "+PRICE.wfcE+" / "+PRICE.wfcA,"Consequences first, then benefits, then the peace-of-mind buy-in. Recommend ONE tier.");
+  h+=flow5()+depthSel("wfc");
+  h+=say("Frame","\u201CForming an LLC is a huge accomplishment, and it\u2019s the first major step toward making the business official in the eyes of the state.\u201D"+P()+" \u201CAfter that, to keep the business in good standing and compliant, the right documents have to be filed at the right time.\u201D");
+  if(dOK("wfc","full"))h+=say("The consequence \u2014 eye-opener","\u201CIf those filings are missed, the state can add fines, late fees, and penalties \u2014 and the business can fall out of good standing. In some states it can even be administratively dissolved, which unravels the liability protection you worked hard to get.\u201D"+P()+" \u201CAnd most owners don\u2019t miss these because they\u2019re careless. They miss them because they\u2019re busy running the business and didn\u2019t know a deadline existed.\u201D");
+  h+=say("Diagnose \u2014 buy-in","\u201CThis might be a silly question, but how good are you with remembering important dates \u2014 deadlines, renewals, even birthdays?\u201D"+P(),{ask:1});
+  if(dOK("wfc","full")){
+    h+=say("Diagnose","\u201CHow comfortable and confident are you with the different reports and due dates {{state}} requires for your LLC to stay compliant?\u201D"+P(),{ask:1});
+    h+=say("Buy-in","\u201CWhat would it mean for you to know those state compliance deadlines were being tracked and almost automatically taken care of?\u201D"+P(),{ask:1});
+    h+=say("Buy-in","\u201CHow would it feel to have more time to focus on growing your business instead of tracking paperwork deadlines?\u201D"+P(),{ask:1});
+    h+=say("Benefits","\u201CHere\u2019s what Worry Free Compliance does: we track every state deadline for you, remind you until it\u2019s done, and file your annual report \u2014 with state fee waivers where they apply. You get two amendment credits a year for changes like an address or management update, and a compliance score in your dashboard \u2014 kind of like Credit Karma, but for your business\u2019s compliance.\u201D");
+  }
+  if(dOK("wfc","deep")){
+    h+=say("Deep \u2014 RA vs WFC","\u201CQuick way to think about it: the Registered Agent is about receiving official legal and state documents. Worry Free Compliance is about tracking and filing the requirements that keep the LLC in good standing. One catches what arrives \u2014 the other handles what\u2019s due. They work together.\u201D");
+    h+=say("Deep \u2014 the analogy","\u201CIt\u2019s like your car registration: the car still runs unregistered, but the day you get pulled over, it gets expensive.\u201D");
+  }
+  h+='<div class="goal"><b>Must ask before closing WFC:</b></div>';
+  h+=say("The peace-of-mind buy-in","\u201CIf we could ensure your business stays compliant with minimal effort on your part, would that give you peace of mind?\u201D"+P(),{ask:1});
+  h+=closeCue();
+  h+=say("Recommend ONE tier","\u201CBased on what you told me about {{businessName}}, I recommend <b>"+rec+"</b>.\u201D "+(rec==="Advanced"?"\u201CAdvanced is "+PRICE.wfcA+" for the year \u2014 everything in Essential plus additional amendment flexibility, one Certificate of Good Standing per year, and premium compliance support.\u201D":"\u201CEssential is "+PRICE.wfcE+" for the entire year, which breaks down to about 55 cents a day.\u201D")+" <span class='cue'>lead with ONE tier \u2014 mention the other only if they ask or the signals change</span>");
+  h+=say("Payment","\u201CDo I have your permission to process the payment of "+(rec==="Advanced"?PRICE.wfcA:PRICE.wfcE)+" with the card on file ending in {{cardLast4}}?\u201D");
+  h+=say("Rep note \u2014 value first","\u26A0 Never lead with the discount. The coupon ("+(S.f.coupon||PRICE.coupon1+" / "+PRICE.coupon2)+") lives inside the affordability rebuttal ONLY \u2014 confirm value first, isolate cost, then rescue. Script in the drawer under \u201CToo expensive (coupon rescue)\u201D.",{note:1});
+  h+=say("Transition after close","\u201CGreat. That helps keep the LLC in good standing. The next thing I want to look at is the tax and money side, because that\u2019s usually where new owners get surprised if they wait too long.\u201D");
+  return h+navRow("Next \u2192 Tax / Money");}
+
+/* ---------------- TAX: the full June-guide arc ---------------- */
+function rxRecCalc(){
+  if(!hasCPA()&&S.f.mp==="n")return "bundle";
+  if(!hasCPA())return "dify";
+  if(S.f.mp==="n"&&hasCPA())return "diy";
+  return "qtp";}
+function sTax(){
+  var mm=isMM();
+  var rxRec=rxRecCalc();
+  var h=head("Tax / Money","Taxes start with expenses, not income. Diagnose \u2192 educate segment by segment \u2192 April positioning \u2192 ONE recommendation.");
+  h+=flow5()+depthSel("tax");
+  if(dOK("tax","deep"))h+='<div class="goal"><b>Deep dive covers:</b> classification \u00B7 quarterlies \u00B7 startup costs \u00B7 vehicle &amp; mileage \u00B7 ongoing deductions \u00B7 recordkeeping \u2014 each segment ends in a buy-in question.</div>';
+  h+=say("Transition","\u201CEarlier, we talked about the many things you gain as an LLC, and one of those is potential tax advantages.\u201D"+P()+" \u201CA lot of our customers, both new and experienced business owners, usually ask us how to save or keep the most money, avoid mistakes, and make sure everything for taxes is correct, legal, and done right.\u201D"+P()+" \u201CSince this is a new business, your taxes do not start with income. They start with expenses. You\u2019ll want to know where every penny goes \u2014 money in, money out, profit, loss, cash flow \u2014 right from the beginning.\u201D");
+  h+=say("Disclaimer \u2014 every time",TAX_DISCLAIMER,{note:1});
+  h+=say("Diagnose \u2014 core buy-ins","\u201CHave you thought about how {{businessName}} will affect your taxes this year?\u201D"+P()+" \u201CDo you have a tax advisor or accountant that specializes in business taxes?\u201D"+P()+" \u201CDo you already know what tax classification is best for you, how you\u2019re planning to pay yourself, and whether you\u2019ll need to pay quarterly taxes?\u201D"+P(),{ask:1});
+  if(dOK("tax","full")){
+    h+=say("Diagnose \u2014 go deeper","\u201CHow do you typically file your personal taxes?\u201D"+P()+" \u201CHave you already spoken to them about {{businessName}} \u2014 like what classification would be best for you?\u201D"+P()+" \u201CWhat does their availability look like when you have pressing tax questions or tax-related decisions during the year?\u201D"+P()+" \u201CHow familiar are you with all the tax benefits you gain with this LLC?\u201D"+P()+" \u201CSince you may have already made purchases on a personal card, how have you been documenting those \u2014 and what\u2019s your plan for tracking income, mileage, and purchases moving forward?\u201D"+P(),{ask:1});
+    h+=say("Permission \u2014 buy-in","\u201CWould you find it helpful if I went a bit deeper on potential deductions and tax opportunities relevant to you today?\u201D"+P(),{ask:1});
+    h+=say("Classification \u2014 educate","\u201CThe IRS gives a new LLC a default tax classification. Depending on income, ownership, and goals, the default may or may not be the best fit \u2014 and there\u2019s a limited window, 75 days, to elect something different before the default locks in.\u201D"+P()+" <span class='cue'>S-Corp election: "+PRICE.scorpFree+" \u00B7 "+PRICE.scorpLate+"</span>");
+    h+=say("Classification \u2014 buy-ins","\u201CHow confident are you that your current classification is the most beneficial one for you?\u201D"+P()+" \u201CWould it make sense to talk to a tax professional about your classification options before making any decisions?\u201D"+P()+" \u201CDid you know that if you don\u2019t choose, it gets defaulted for you by the IRS?\u201D"+P(),{ask:1});
+    h+=say("Quarterlies \u2014 educate","\u201CHere\u2019s the one that catches almost every new LLC owner off guard: once you expect to owe $1,000 or more for the year, the IRS expects payment every few months \u2014 April 15, June 15, September 15, and January 15 \u2014 not one bill in April. And on top of income tax, there\u2019s the 15.3% self-employment side that a W-2 paycheck used to handle automatically.\u201D");
+    h+=say("Quarterlies \u2014 buy-ins","\u201CHow would it feel to set aside the right amount every month and know that money belonged to the IRS all along \u2014 instead of getting a surprise bill?\u201D"+P()+" \u201CMost owners tell us they wish someone had walked them through this in year one. Is this a surprise to you, or about what you expected?\u201D"+P()+" \u201CHow confident are you in knowing what to set aside, when it\u2019s due, and how to send it in?\u201D"+P()+" \u201CDo you see why getting this right in year one matters so much?\u201D"+P(),{ask:1});
+    h+=say("Startup costs \u2014 educate","\u201CIn year one, the IRS generally lets you deduct up to $5,000 in startup costs and another $5,000 in organizational costs \u2014 things like your formation, equipment, software, and getting ready to open.\u201D");
+    h+=say("Startup \u2014 buy-in","\u201CWhat other purchases have you made so far to get {{businessName}} going?\u201D"+P(),{ask:1});
+    h+=say("Vehicle &amp; mileage \u2014 educate","\u201CIf you drive for the business, the 2026 standard mileage rate is "+PRICE.mileRate+" per business mile. A thousand business miles is about "+PRICE.mile1000+" of calculation basis \u2014 and for people who drive a lot, that adds up fast.\u201D");
+    h+=say("Mileage \u2014 buy-ins","\u201CRoughly how many miles a month do you think you\u2019ll drive for the business \u2014 customers, supplies, jobs?\u201D"+P()+" <span class='cue'>do the math live: monthly \u00D7 12 \u00D7 $0.725</span> \u201CIf you could accurately track every one of those miles without thinking about it, what kind of impact do you think that would have at tax time?\u201D"+P(),{ask:1});
+  }else{
+    h+=say("Rep note \u2014 mileage math","2026 standard mileage rate is <b>"+PRICE.mileRate+"/mile</b> \u2014 1,000 business miles \u2248 <b>"+PRICE.mile1000+"</b> of calculation basis. Do their math out loud with their numbers.",{note:1});
+  }
+  if(dOK("tax","deep")){
+    h+=say("Deep \u2014 ongoing deductions","\u201CBeyond mileage, there are the ongoing ones: phone, home office, software, supplies, business meals, contractors. Each one only counts if it\u2019s documented.\u201D");
+    h+=say("Deep \u2014 recordkeeping","\u201CWhich is the real point: none of this works without clean records. If income, expenses, and mileage aren\u2019t tracked from the beginning, tax season becomes about reconstructing the year instead of planning it.\u201D");
+  }
+  h+=say("Gap summary","\u201CSo what I\u2019m hearing is that you have {{fear}} \u2014 [revenue coming soon / startup expenses / no business tax professional / questions about classification / possible quarterly payments / mileage / no tracking system yet]. Did I get that right?\u201D"+P()+" \u201CAnd would it be fair to say that you would rather have guidance before tax time than try to clean everything up later?\u201D"+P(),{ask:1});
+  /* ---- April positioning: the part that was getting skipped ---- */
+  h+=say("April positioning \u2014 do not skip","\u201CThe good news is, you don\u2019t have to figure any of this out alone.\u201D"+P()+" \u201CWhat most new business owners want is pretty simple: someone to help them make the right tax decisions during the year, and a stress-free filing at the end of the year.\u201D"+P()+" \u201CThat\u2019s exactly why we partnered with April Tax Solutions \u2014 a team of licensed tax professionals who specialize in small business taxes and support owners across all 50 states.\u201D"+P()+" \u201CInstead of searching for a CPA, trying to vet them, and paying hourly every time you have a question, you log into your ZenBusiness dashboard and schedule a session \u2014 to talk through classification, quarterly estimates, deductions, and your state\u2019s requirements before you make decisions. And when tax season hits, they can handle the filing start to finish.\u201D"+P()+" \u201CSo: no guessing, no scrambling, no surprise bills \u2014 just year-round guidance and filing done correctly.\u201D");
+  h+=say("Positioning buy-ins","\u201CWould it help to have a tax professional you can reach before you make these decisions \u2014 not after?\u201D"+P()+" \u201CAnd would it give you peace of mind knowing the filing is handled for you when the time comes?\u201D"+P(),{ask:1});
+  h+=say("Bridge to the recommendation","\u201CWhen you have a tax plan and someone in your corner year-round, you don\u2019t just survive tax season \u2014 you actually come out ahead. You started {{businessName}} to grow it, not to worry about tax codes.\u201D");
+  /* ---- 5 prescriptions: pick a card to load the FULL pitch ---- */
+  h+='<div class="lab">Recommend ONE \u2014 tap a card to load its full pitch \u00B7 suggested: <span style="color:var(--zb-ink)">'+({qtp:"Tax Planning",dify:"QTP + BTP",diy:"DIY Plan",mp:"Money Pro",bundle:"Complete Bundle"})[rxRec]+"</span>"+(mm?' \u00B7 <span style="color:var(--red)">multi-member pricing active</span>':"")+"</div>";
+  var rx=[["qtp","Quarterly Tax Planning",PRICE.qtpY+"/yr","4 pro sessions/yr \u00B7 estimates before due dates \u00B7 written next steps"],
+          ["btp","Business Tax Prep + Filing",(mm?PRICE.mmBtp:PRICE.btpY)+"/yr","Pro prepares, signs &amp; files fed + state"+(mm?"":" \u00B7 SMLLC personal return included")],
+          ["dify","QTP + BTP",(mm?PRICE.mmDify:PRICE.difyY)+"/yr"+(mm?" \u00B7 promo "+PRICE.mmDifyPromo:""),"Year-round guidance + the filing handled"],
+          ["diy","DIY Plan \u00B7 QTP + Money Pro",PRICE.diyY+"/yr","Guidance + tracking \u00B7 free self-filing via Column Tax"],
+          ["bundle","Complete Bundle",(mm?PRICE.mmBundle:PRICE.bundleY)+"/yr"+(mm?" \u00B7 promo "+PRICE.mmBundlePromo:""),"Planning + filing + books \u2014 the whole money side"]];
+  h+='<div class="rxrow">'+rx.map(function(r){return '<div class="rx'+(S.taxRx===r[0]?" picked":(r[0]===rxRec?" rec":""))+'" data-rx="'+r[0]+'">'+(r[0]===rxRec&&S.taxRx!==r[0]?'<span class="recb">Suggested</span>':"")+'<div class="rt">'+r[1]+'</div><div class="rp">'+r[2]+'</div><div class="rd">'+r[3]+"</div></div>";}).join("")+"</div>";
+  var pick=S.taxRx||rxRec;
+  var pitches={
+   qtp:say("Full pitch \u2014 Quarterly Tax Planning \u00B7 "+PRICE.qtpY+"/yr","\u201CQuarterly Tax Planning gives you four one-on-one sessions a year with a licensed tax professional from April.\u201D"+P()+" \u201CThey calculate your quarterly estimates before each due date, walk you through classification, deductions, and how to pay yourself \u2014 and after every session you get a written summary with your exact next steps.\u201D"+P()+" \u201CAnd if you\u2019re using Money Pro, it syncs in real time, so your tax pro is looking at your actual numbers, not guesses.\u201D"+P()+" \u201CSo instead of scrambling at tax time, you head into each quarter already knowing what to set aside, what you can deduct, and what to do next.\u201D"+P()+" <b>Buy-in:</b> \u201CWould having a tax expert you can check in with every quarter make you feel more confident running {{businessName}} and planning the next few months?\u201D",{ask:1}),
+   btp:say("Full pitch \u2014 Business Tax Prep + Filing \u00B7 "+(mm?PRICE.mmBtp:PRICE.btpY)+"/yr","\u201CBusiness Tax Prep and Filing means a licensed tax professional prepares, signs, and files your federal and state business return for you.\u201D"+P()+" \u201CYour documents and numbers are imported automatically, you answer a simple questionnaire, upload anything extra, then review and approve \u2014 and they file. It comes with a maximum-refund guarantee.\u201D"+P()+(mm?"":" \u201CAnd as a single-member LLC, your personal return is included \u2014 that alone is normally a few hundred dollars on its own.\u201D"+P())+" <b>Buy-ins:</b> \u201CIf you didn\u2019t have to worry about filing the right way and avoiding mistakes, how much stress would that take off your plate?\u201D"+P()+" \u201CAnd how do you see this benefiting you as a new business owner?\u201D",{ask:1}),
+   dify:say("Full pitch \u2014 QTP + BTP \u00B7 "+(mm?PRICE.mmDify+" (promo "+PRICE.mmDifyPromo+")":PRICE.difyY)+"/yr","\u201CThis pairs the two: quarterly sessions with a licensed tax professional all year \u2014 estimates before every due date, classification and deduction guidance, written next steps \u2014 plus the business return prepared, signed, and filed for you when the season comes"+(mm?"":", with your personal return included as a single-member LLC")+".\u201D"+P()+" \u201CSo the same team guiding your decisions during the year is the team filing at the end of it. Nothing gets lost in translation.\u201D"+P()+" <b>Buy-in:</b> \u201CDoes having the guidance and the filing under one roof sound like the setup you\u2019d want for year one?\u201D",{ask:1}),
+   diy:say("Full pitch \u2014 DIY Plan \u00B7 QTP + Money Pro \u00B7 "+PRICE.diyY+"/yr","\u201CIf you like doing the filing yourself, this is the plan I\u2019d recommend: quarterly guidance from a licensed tax professional so you\u2019re never guessing, plus Money Pro tracking your income, expenses, and mileage all year.\u201D"+P()+" \u201CThen when filing season comes, Money Pro includes free self-filing through Column Tax \u2014 one federal and one state return \u2014 with accuracy and maximum-refund guarantees.\u201D"+P()+" <b>Buy-in:</b> \u201CSo you stay hands-on, but with a pro checking your plan each quarter and the records already clean \u2014 does that fit how you like to work?\u201D",{ask:1}),
+   bundle:say("Full pitch \u2014 Complete Bundle \u00B7 "+(mm?PRICE.mmBundle+" (promo "+PRICE.mmBundlePromo+")":PRICE.bundleY)+"/yr","\u201CBased on everything you told me, I wouldn\u2019t solve just one piece of this. The Complete Bundle covers the whole money side: quarterly planning sessions with a licensed tax professional, the business"+(mm?"":" and personal")+" return prepared and filed for you, and Money Pro tracking income, expenses, mileage, and invoices in real time \u2014 all syncing together.\u201D"+P()+" \u201CThe reason I recommend it is because you said {{fear}}. This is the cleanest possible setup: guidance before decisions, records that build themselves, and a filing that\u2019s handled.\u201D"+P()+" <b>Buy-in:</b> \u201CDoes that feel like the right level of support for what you\u2019re building?\u201D",{ask:1})};
+  h+=pitches[pick];
+  /* ---- close cascade + uncertain + recommend ONE + step-down ---- */
+  h+=say("The close cascade \u2014 ask all four, pause after each","\u201CWe\u2019ve covered a lot! What questions do you have?\u201D"+P()+" \u201CIs there anything I\u2019ve shared that you think would absolutely not benefit you or your business?\u201D"+P()+" \u201COut of curiosity, what aspects would you find most beneficial?\u201D"+P()+" \u201CDo you see this type of help being important to get right away?\u201D"+P(),{ask:1});
+  h+=say("If they\u2019re uncertain","\u201COh, I\u2019m surprised to hear that based on everything we\u2019ve covered \u2014 help me understand what\u2019s giving you pause.\u201D <span class='cue'>then isolate: cost, timing, or value</span>",{ask:1});
+  h+=closeCue();
+  h+=say("Recommend ONE","\u201CIt\u2019s not about being perfect or having it all figured out. It\u2019s about knowing you\u2019re set up to win with the right tools and guidance beside you.\u201D"+P()+" \u201CBased on what you told me, I recommend <b>"+({qtp:"Quarterly Tax Planning",btp:"Business Tax Prep and Filing",dify:"Tax Planning plus Business Tax Prep and Filing",diy:"the DIY Plan \u2014 Tax Planning plus Money Pro",bundle:"the Complete Bundle"})[pick]+"</b>, because {{fear}} \u2014 tie it to their exact words.\u201D"+(S.f.taxMonthly==="y"?P()+" \u201CWould you prefer the annual option, or would monthly installments be easier for the first year?\u201D <span class='cue'>1-yr commitment \u00B7 QTP "+PRICE.qtpM+"/mo \u00B7 QTP+BTP "+(mm?PRICE.mmDifyM:PRICE.difyM)+"/mo \u00B7 Bundle "+(mm?PRICE.mmBundleM:PRICE.bundleM)+"/mo</span>":" <span class='cue'>monthly installments only inside the affordability rebuttal \u2014 and only if available on the account</span>"),{ask:1});
+  h+=say("Step-down \u2014 if the full recommendation stalls","\u201CTotally fair. Then let\u2019s not do everything at once. Let\u2019s have you start with just the <b>"+({qtp:"quarterly planning",btp:"filing",dify:"quarterly planning",diy:"quarterly planning",bundle:"quarterly planning"})[pick]+"</b> \u2014 the piece that solves the most urgent gap \u2014 and you can add the rest whenever it makes sense. Does that feel better?\u201D",{ask:1});
+  h+=say("Reassure","\u201CAnd honestly \u2014 you\u2019re already doing great by forming the LLC. You took action and did the hard part. This is just making sure the money side is as protected as the legal side.\u201D");
+  h+=say("Why us, not an hourly CPA \u2014 context if needed","\u201CKeep in mind, accountants and CPAs can charge you just to sit down with you \u2014 and hourly after that. This gives you licensed professionals year-round at a fraction of that cost, and some owners even deduct the service itself as a business expense.\u201D");
+  h+='<div class="goal hot"><b>\u26A0 Value first.</b> Never lead with the installment plan or discounts. Only use after the customer confirms they want the service and price is the only obstacle.</div>';
+  h+=say("Installment rescue \u2014 the structure","1 \u201CLet\u2019s put pricing aside for a second \u2014 are these the services you believe will put you in a position to win come tax time?\u201D"+P()+" 2 \u201COkay \u2014 so it sounds like the only thing preventing you is the cost. Is that correct?\u201D"+P()+" 3 \u201CNot a problem. Instead of paying upfront, we recently released a monthly installment plan.\u201D"+P()+" 4 \u201CIt\u2019s still a one-year commitment, but it\u2019s a much more manageable business expense \u2014 and a potential write-off.\u201D"+P()+" 5 \u201CWould you prefer the annual savings, or monthly installments for this first year?\u201D <span class='cue'>QTP "+PRICE.qtpM+"/mo \u00B7 QTP+BTP "+(mm?PRICE.mmDifyM:PRICE.difyM)+"/mo \u00B7 Bundle "+(mm?PRICE.mmBundleM:PRICE.bundleM)+"/mo \u2014 only if available on the account</span>",{red:1});
+  h+=say("Payment","\u201CDo I have your permission to process the payment of $___ with the card on file ending in {{cardLast4}}?\u201D"+P()+" <b>Then:</b> \u201CYour 12-month service starts today and automatically renews annually on the same date.\u201D");
+  h+='<div class="lab">If sold \u2014 schedule the first session NOW (tick as you walk them through)</div>';
+  h+=say("Say","\u201CAwesome \u2014 I\u2019ll process that now. The biggest thing is making sure you actually use this, so let\u2019s get your first session booked while we\u2019re on the phone. Are you able to log into your dashboard?\u201D <span class='cue'>website, not the app \u2014 if they just purchased, refresh or log out and back in</span>",{ask:1});
+  h+=ckList([["sch1","Log in at zenbusiness.com \u2014 website, not the app"],["sch2","Just purchased? Refresh, or log out and back in"],["sch3","Open the menu (upper left)"],["sch4","Tap Finances \u2192 Tax Services"],["sch5","Make sure the Tax Planning tab is selected"],["sch6","Click \u201CBook your consultation\u201D \u2192 pick a date &amp; time"],["sch7","Confirm name, email, phone + the short questionnaire"],["sch8","Upload any docs \u2192 confirm \u2014 watch for the email confirmation"]]);
+  h+=say("If they can\u2019t log in now","\u201CNo problem. I\u2019ll send you the steps by email, but I also want to set a specific time so this gets booked. Would later today or tomorrow be better?\u201D",{ask:1});
+  h+='<div class="goal">\uD83D\uDCB2 '+PRICE_NOTE+"</div>";
+  return h+navRow("Next \u2192 Money Pro");}
+
+function sMP(){
+  var h=head("Money Pro \u2014 "+PRICE.mpY+"/yr or "+PRICE.mpM+"/mo","Diagnose the tracking gap first. The books make every tax product work.");
+  h+=flow5()+depthSel("mp");
+  h+=say("Diagnose \u2014 buy-ins","\u201CHow are you tracking business income and expenses right now?\u201D"+P()+" \u201CAre any business expenses currently going through your personal bank account or personal card?\u201D"+P(),{ask:1});
+  if(dOK("mp","full"))h+=say("Diagnose \u2014 go deeper","\u201CWill you be sending invoices to customers?\u201D"+P()+" \u201CWill you have mileage or vehicle expenses?\u201D"+P()+" \u201CAre you buying equipment, tools, supplies, software, or advertising?\u201D"+P()+" \u201CIf tax time came tomorrow, would your income and expenses be cleanly organized?\u201D"+P(),{ask:1});
+  h+=say("Eye-opener","\u201CMost owners don\u2019t get in trouble because they didn\u2019t care \u2014 they get in trouble because everything is scattered. Receipts in one place, bank transactions somewhere else, mileage from memory, invoices in email.\u201D");
+  h+=say("What it is","\u201CMoney Pro is your all-in-one bookkeeping, mileage tracker, and quote/invoice tool right inside your ZenBusiness dashboard. You link your accounts or cards, and it tracks expenses, mileage, income, invoices, and more automatically.\u201D"+P()+" \u201CIt\u2019s like if QuickBooks and TurboTax had a baby \u2014 and it\u2019s super easy to use. Your tax pro will thank you for it.\u201D");
+  if(dOK("mp","deep"))h+=say("Deep \u2014 taxes &amp; invoicing","\u201CIt finds deductions and estimates what you owe \u2014 yearly and quarterly \u2014 from your linked data. If you\u2019re filing on your own, it includes one free federal and one free state self-filing through Column Tax, with accuracy and max-refund guarantees. And if you\u2019re billing customers: unlimited professional invoices, quotes, recurring billing, and online payments through Stripe \u2014 99% of applicants approved same day, plus Tap to Pay on your phone.\u201D");
+  h+=say("The close cascade \u2014 buy-ins","\u201CWe\u2019ve covered a lot! What questions do you have about Money Pro?\u201D"+P()+" \u201CIs there anything you think would absolutely not benefit you?\u201D"+P()+" \u201CWhat aspects would you find most beneficial?\u201D"+P()+" \u201CDo you see this being important to get right away?\u201D"+P(),{ask:1});
+  h+=closeCue();
+  h+=say("Price + payment","\u201CMoney Pro is "+PRICE.mpY+" for the year, or "+PRICE.mpM+" per month.\u201D"+P()+" \u201CDo I have your permission to process that with the card on file ending in {{cardLast4}}?\u201D");
+  h+=objAcc("MP","\u201CI don\u2019t have a business bank account yet.\u201D","","\u201CThat\u2019s not a problem \u2014 you don\u2019t need one. By not having a business account separating things yet, it\u2019s even more important to track and categorize each transaction on your personal account now, versus going back later hoping you captured everything. You can add the business account any time \u2014 there\u2019s no limit on accounts.\u201D","\u201CSo I wouldn\u2019t let that hold you back \u2014 does it make sense to get the finances in order now?\u201D");
+  return h+navRow("Next \u2192 EIN \u00B7 OA \u00B7 BLR");}
+
+function sQuick(){
+  var order=["ein","oa","blr"];
+  if(S.quickFocus){order=[S.quickFocus].concat(order.filter(function(x){return x!==S.quickFocus;}));}
+  var cards={
+   ein:say("EIN \u2014 "+PRICE.ein,"<b>Buy-ins first:</b> \u201CDo you already have an EIN for the business, or were you planning to get one?\u201D"+P()+" \u201CAre you planning to open a business bank account soon?\u201D"+P()+" \u201CWould it be helpful if we handled that so it\u2019s one less government process on your plate?\u201D"+P()+" <b>Educate:</b> \u201CAn EIN is essentially the tax ID number for the business \u2014 commonly needed for the bank account, hiring, taxes, certain licenses, and keeping your personal SSN off business documents.\u201D"+P()+" <b>Close:</b> \u201CWe can take care of that for "+PRICE.ein+" and upload it right to your dashboard. Do I have your permission to process that with the card on file ending in {{cardLast4}}?\u201D",{ask:1}),
+   oa:say("Operating Agreement \u2014 "+PRICE.oa,"\u201CIs it just you in the business, or are there partners or other owners involved?\u201D"+P()+" <b>If partners \u2014 buy-ins:</b> \u201CWhat have you and your partners already put in writing about ownership, responsibilities, or exit plans?\u201D"+P()+" \u201CEven when everyone trusts each other, do you see how having this documented protects the business and the relationships?\u201D"+P()+" <b>If solo:</b> \u201CAre you planning to open a business bank account or apply for funding? Banks and lenders often ask for the Operating Agreement \u2014 would it be helpful to have that ready before the bank asks for it?\u201D"+P()+" <b>Close:</b> \u201CIt\u2019s "+PRICE.oa+", and you can review and tweak it before it\u2019s finalized. Do I have your permission to process that with the card on file ending in {{cardLast4}}?\u201D",{ask:1}),
+   blr:say("Business License Report \u2014 "+PRICE.blr,"<b>Uncertainty questions first:</b> \u201CHow familiar are you with the licenses and permits you may need at the county, state, and federal level to operate?\u201D"+P()+" \u201CDo you have a plan for figuring out which ones apply to you?\u201D"+P()+" \u201CIf you applied for the wrong ones \u2014 or missed one \u2014 would that slow down your ability to operate?\u201D"+P()+" \u201CWould it be helpful to get a report that lays out exactly what applies to your business and location?\u201D"+P()+" <b>Educate + close:</b> \u201CBased on what you told me about {{businessType}}, our partner does the in-depth research at every level and emails you a report with clear instructions for each one. It\u2019s a one-time "+PRICE.blr+" \u2014 and since it takes a few days to generate, I\u2019m happy to unlock it now. Do I have your permission to process that with the card on file ending in {{cardLast4}}?\u201D",{ask:1})};
+  var h=head("Quick Setup \u2014 EIN \u00B7 OA \u00B7 BLR","90-second closes \u2014 but every one still starts with a buy-in question, never a pitch.");
+  order.forEach(function(k){h+=cards[k];});
+  h+=closeCue();
+  return h+navRow("Next \u2192 Objections");}
+
+/* ---------------- OBJECTION LIBRARY ---------------- */
+function objLib(){
+  var W=function(k,fb){var v=(S.n[k]||"").trim();return v?'<span class="tok">\u201C'+esc(v)+'\u201D</span>':fb;};
+  var mm=isMM();
+  return [
+   objAcc("ALL","\u201CI already paid.\u201D","\u201CI already paid you guys.\u201D","\u201CTotally understand \u2014 and you did pay to get the LLC created. What we\u2019re talking about now are the responsibilities that come after the LLC exists: receiving official documents, staying compliant with the state, and handling the tax and money side correctly.\u201D","\u201CSo I\u2019m not bringing this up because something was missing from your payment \u2014 these are the next responsibilities that come with having the LLC. Does that make sense?\u201D"),
+   objAcc("ALL","\u201CSend me information.\u201D","\u201CCan you just email me something?\u201D","\u201CI can definitely send information. Before I do, let me ask: what part are you still unsure about \u2014 whether it applies to you, the value, the cost, or the timing?\u201D","\u201CThat helps. Let me address that directly so the email actually makes sense when you read it.\u201D"),
+   objAcc("ALL","\u201CI need to think about it.\u201D","","\u201COf course \u2014 this is your business, so I want you to feel comfortable. Usually that means one of three things: you\u2019re not sure you need it, you\u2019re concerned about the cost, or you want to compare options.\u201D","\u201CWhich one is closest for you?\u201D"),
+   objAcc("ALL","\u201CI need to talk to my spouse / partner.\u201D","","\u201CAbsolutely, that makes sense. Quick question so the conversation is useful: what do you think they\u2019ll want to know most \u2014 the cost, whether you need it, or the timing?\u201D"+P()+" \u201CAnd if they\u2019re part of the business decisions, they\u2019re welcome to join your first tax consultation \u2014 a lot of couples do that.\u201D","\u201CLet\u2019s set a specific time to reconnect after you speak with them so this doesn\u2019t get lost. Would later today or tomorrow work better? I\u2019ll send a recap email you can share with them.\u201D"),
+   objAcc("ALL","\u201CI can\u2019t afford it.\u201D","","\u201CI understand \u2014 starting a business has a lot of costs. Let me ask this first: do you see how this would help with "+W("fear","[the specific problem]")+"?\u201D"+P()+" \u201COkay, so the value makes sense \u2014 the main issue is the upfront cost, is that fair?\u201D","\u201CThen let\u2019s look at the most manageable way to do it. <b>WFC:</b> coupon rescue \u2014 \u201Clet me see if we still have a coupon for your first year at just "+(S.f.coupon||PRICE.coupon1)+" \u2014 would that allow you to get this taken care of?\u201D <b>Tax:</b> monthly installments (if available) \u2014 \u201Cannual savings, or monthly installments for the first year?\u201D"),
+   objAcc("ALL","\u201CI\u2019ll do it myself.\u201D","","\u201CYou absolutely can. My job isn\u2019t to tell you that you\u2019re incapable \u2014 it\u2019s to help you decide whether it\u2019s worth carrying that responsibility yourself while also building the business.\u201D","\u201CBased on what you told me, your time is better spent on "+W("dream","[their goal]")+". Does it make sense to let us help with this part?\u201D"),
+   objAcc("ALL","\u201CI don\u2019t need that right now.\u201D","","\u201CFair. When do you feel like you would need it?\u201D"+P()+" \u201CGot it \u2014 the reason I bring it up now is that this isn\u2019t always something that waits until you feel ready. The responsibility starts once the business is formed or starts operating.\u201D","\u201CAre you comfortable carrying that until then, or would you rather put the support in place now?\u201D"),
+   objAcc("ALL","\u201CI want to shop around.\u201D","","\u201COf course \u2014 that\u2019s reasonable. When you compare, make sure you\u2019re comparing the same thing: not just the price, but what\u2019s included, who\u2019s handling it, whether it connects to your LLC dashboard, and whether you have support if something comes up.\u201D","\u201CIf everything were equal, would you prefer to keep this handled in one place, connected to the business you already formed with us?\u201D"),
+   objAcc("RA","\u201CI\u2019ll add RA later.\u201D","","\u201CYou can. Until it\u2019s changed, though, the responsibility is on whoever is listed now \u2014 from day one \u2014 and changing it after filing means state fees and weeks of processing.\u201D","\u201CIs waiting because you don\u2019t think you need it, or because of the cost today? Where\u2019s your head at?\u201D"),
+   objAcc("RA","\u201CAnother person will be my RA.\u201D","","\u201CThat can work if they fully understand it. Have they agreed to be available at that address every weekday during business hours? Would they recognize an official document and get it to you fast? With us it\u2019s dashboard upload, email alerts, and calls \u2014 and it keeps their address off the public state site.\u201D","\u201CFor less than $1 a day, does the professional system make more sense?\u201D"),
+   objAcc("RA","\u201CI don\u2019t think I\u2019ll get sued.\u201D","","\u201CI hope not \u2014 most owners feel the same. RA service is like insurance: not because we expect something bad, but so an official delivery never gets missed. Employee accidents in a company vehicle, tenant city-code notices \u2014 those go to the RA.\u201D","\u201CDoes that make sense?\u201D"),
+   objAcc("RA","\u201CI already have a Registered Agent elsewhere.\u201D","\u201CI use another service.\u201D","\u201CThat\u2019s great \u2014 glad it\u2019s covered. A lot of customers switch to us so everything lives in one place: documents, compliance calendar, and notices in the same dashboard you\u2019re already using. No separate login.\u201D","\u201CIs there any reason you\u2019d want to keep them separate?\u201D"),
+   objAcc("RA","\u201CMy accountant / lawyer handles that.\u201D","","\u201C<b>Lawyer:</b> Understood \u2014 glad you have that covered. <b>Accountant:</b> Since an RA must legally know they\u2019re listed \u2014 have you confirmed they\u2019ve agreed to be present at their office every Monday through Friday during business hours?\u201D","\u201CIf there\u2019s any uncertainty there, does it make sense to run it through a professional system instead?\u201D"),
+   objAcc("WFC","\u201CI\u2019ll remember the deadlines myself.\u201D","","\u201CYou might \u2014 and if you\u2019re very organized with state paperwork and government deadlines, you may manage it. The question is: is that really where you want your attention going while you build the business? You told me your focus is "+W("dream","[their focus]")+".\u201D","\u201CDoes it make sense to put that support in place for the first year?\u201D"),
+   objAcc("WFC","\u201CToo expensive.\u201D (coupon rescue)","","\u201CIf you think about the risk and what it costs to fix a missed report, this more than pays for itself. So let\u2019s do this \u2014 let me see if we still have a coupon available for your first year at just "+(S.f.coupon||PRICE.coupon1+" [/ "+PRICE.coupon2+"]")+".\u201D","\u201CIf we can get that discount applied, would that allow you to get this taken care of? \u2026It\u2019s the coupon price today, and "+PRICE.wfcE+"/year after your first year.\u201D"),
+   objAcc("WFC","\u201CWhat\u2019s the difference \u2014 RA vs WFC?\u201D","","\u201CGreat question. Registered Agent is about receiving official legal and state documents. Worry Free Compliance is about tracking and filing the requirements that keep the LLC in good standing. One catches what arrives \u2014 the other handles what\u2019s due.\u201D","\u201CThey work together \u2014 does the distinction make sense?\u201D"),
+   objAcc("TAX","\u201CI\u2019m not operational / not making money yet.\u201D","","\u201CThat makes sense \u2014 and a lot of owners think taxes only matter once revenue comes in. But your taxes don\u2019t start with income \u2014 they start with expenses. Startup costs, mileage, equipment, software \u2014 those are already happening, and they\u2019re usually deductible if they\u2019re tracked.\u201D","\u201CIt\u2019s much easier to capture that correctly now than to reconstruct it later. Does that make sense?\u201D"),
+   objAcc("TAX","\u201CI don\u2019t need to file until April.\u201D","","\u201CThat\u2019s the common assumption \u2014 but as a business owner, the IRS may expect quarterly estimated payments once you\u2019d owe $1,000 or more for the year: April, June, September, and January. Waiting until April can mean penalties on payments that were due months earlier.\u201D","\u201CWould it help to have a professional confirm whether quarterlies apply to you before the first deadline passes?\u201D"),
+   objAcc("TAX","\u201CI\u2019ll just use TurboTax / do it myself.\u201D","","\u201CThose can work depending on your situation. The question is whether software alone is enough for the decisions you\u2019re facing \u2014 classification, quarterly payments, deductions, and business-specific planning during the year. Software inputs information; it doesn\u2019t think through your setup with you.\u201D","\u201CBased on what you told me about "+W("fear","[their gap]")+", does having an expert beside the software make sense?\u201D"),
+   objAcc("TAX","\u201CWhy is this more expensive than TurboTax?\u201D","","\u201CBecause it\u2019s a different thing. TurboTax is software you operate alone at the end of the year. This is licensed tax professionals working with you all year \u2014 quarterly sessions, estimates before due dates, and a full-service business filing they prepare and sign. And accountants who do that hourly often charge more than this for a fraction of the access.\u201D","\u201CIf the price were the same, which would you rather have in year one \u2014 software, or professionals?\u201D"),
+   objAcc("TAX","\u201CThat\u2019s too much money.\u201D","","\u201CI understand. Let me ask this first: do you see how having tax guidance and clean records would help you avoid guessing?\u201D"+P()+" \u201COkay, so the value makes sense \u2014 the concern is the upfront cost. Is that fair?\u201D","\u201CThen let\u2019s find the manageable way: \u201CWould you prefer the annual savings, or monthly installments for the first year?\u201D <span class='cue'>value first \u00B7 only if available on the account</span>"),
+   objAcc("TAX","\u201CMy business is too small for this.\u201D","","\u201CHonestly, small is exactly when the habits form. The owners who struggle at tax time aren\u2019t the big companies \u2014 they\u2019re the ones who waited until they \u2018got bigger\u2019 to take the money side seriously. And the deductions we talked about \u2014 startup costs, mileage, home office \u2014 apply at your size right now.\u201D","\u201CWouldn\u2019t you rather grow into a clean system than clean up after growth?\u201D"),
+   objAcc("TAX","\u201CI need to think about it.\u201D (tax)","","\u201COf course. Can I share one thing first? Most owners who wait tell us later they regret NOT having help in year one \u2014 because by the time they felt ready, the quarterlies had passed and the records were messy.\u201D"+P()+" \u201CSo help me understand \u2014 is it the cost, the timing, or whether you\u2019d actually use it?\u201D","\u201CIf it\u2019s [their answer], here\u2019s what I\u2019d suggest\u2026 \u2014 then step down or set the next event.\u201D"),
+   objAcc("TAX","\u201CI already have a personal accountant.\u201D","","\u201CThat may be perfect \u2014 and this complements them rather than replacing them. The question is whether the strategy for this specific LLC has been reviewed: classification options, quarterly payments, deductions, recordkeeping. Have they gone through all of that with you for {{businessName}}?\u201D","\u201CIf not, that\u2019s the gap. Would it help to have business-specialized support focused on this LLC \u2014 while your accountant keeps doing what they do?\u201D"),
+   objAcc("TAX","\u201CI need to talk to my spouse first.\u201D (tax)","","\u201CAbsolutely. Let me make that conversation easy: what do you think they\u2019ll ask about \u2014 the cost, the value, or the timing?\u201D"+P()+" \u201CAnd honestly, they\u2019re welcome to join your first consultation \u2014 a lot of couples do that so everyone hears the plan directly from the tax pro.\u201D","\u201CLet\u2019s set a specific time to reconnect \u2014 would later today or tomorrow work better? I\u2019ll send a recap email you can share tonight.\u201D"),
+   objAcc("TAX","\u201CI don\u2019t have a business bank account yet.\u201D","","\u201CYou don\u2019t need one to start. In fact, while business money is still running through personal accounts, tracking matters even more \u2014 that\u2019s exactly what Money Pro solves, and your tax pro can help you plan the separation.\u201D","\u201CSo I wouldn\u2019t let that hold you back \u2014 does it make sense to get the system in place now?\u201D"),
+   objAcc("EIN","\u201CIsn\u2019t the EIN free?\u201D","","\u201CYes \u2014 getting it yourself through the IRS is typically free, and that\u2019s a fine option. Our "+PRICE.ein+" covers handling it end-to-end, making sure it\u2019s done right, and uploading it to your dashboard \u2014 most of our customers have us knock it out.\u201D","\u201CWould you rather handle the IRS process yourself, or have us take it off your plate?\u201D"),
+   objAcc("OA","\u201CWe trust each other \u2014 no paperwork needed.\u201D","","\u201CThat\u2019s great to hear! The best time to put things in writing is when everyone\u2019s on the same page \u2014 it avoids misunderstandings later, especially if money or roles ever change.\u201D","\u201CIt\u2019s "+PRICE.oa+" \u2014 does it make sense to lock that in while everyone\u2019s aligned?\u201D"),
+   objAcc("ALL","Rushed / \u201CI only have a minute.\u201D","","\u201CTotally fair. I\u2019ll respect your time. The main reason for the call is to make sure the LLC is set up correctly before anything important gets missed. I\u2019ll focus only on the most important thing based on your account, and if we need more time, we can set a quick follow-up. Fair?\u201D","\u201CWould later today or tomorrow work better for 15 focused minutes?\u201D")
+  ].join("");}
+
+function sObj(){
+  var h=head("Objections","Acknowledge \u2192 isolate \u2192 tie back to their words \u2192 reframe \u2192 confirm \u2192 re-close.");
+  h+=say("Universal framework","<b>1 Acknowledge:</b> \u201CThat makes sense.\u201D <b>2 Isolate:</b> \u201CIs the concern mainly the cost, the timing, or whether you need it?\u201D <b>3 Tie back:</b> \u201CThe reason I brought it up is because earlier you said {{fear}}.\u201D <b>4 Reframe:</b> \u201CThis is not about adding something random. It is about solving [specific risk].\u201D <b>5 Confirm:</b> \u201CDo you agree that solving that would help?\u201D <b>6 Re-close:</b> \u201CThen does it make sense to take care of that now?\u201D");
+  h+='<div class="goal"><b>Do not rebut yet.</b> First isolate: is the objection about <b>cost, timing, or value</b>? Then tie back to their words before reframing.</div>';
+  h+='<input class="search" id="objSearch2" placeholder="\uD83D\uDD0E Search objections\u2026 (also in the right rail, always)">';
+  h+='<div id="objList2">'+objLib()+"</div>";
+  return h+navRow("Next \u2192 Payment Authorization");}
+
+function sPay(){
+  var mm=isMM();
+  var h=head("Payment Authorization","Verbatim, every time. Clear yes before processing. Auto-renewal disclosed on subscriptions.");
+  h+='<div class="lab">Tap the amount</div><div class="amtrow" id="amtRow">'+[["RA",PRICE.ra],["WFC-E",PRICE.wfcE],["WFC-A",PRICE.wfcA],["Coupon",S.f.coupon||PRICE.coupon1],["EIN",PRICE.ein],["OA",PRICE.oa],["BLR",PRICE.blr],["MP",PRICE.mpY],["QTP",PRICE.qtpY],["BTP",mm?PRICE.mmBtp:PRICE.btpY],["QTP+BTP",mm?PRICE.mmDify:PRICE.difyY],["DIY",PRICE.diyY],["Bundle",mm?PRICE.mmBundle:PRICE.bundleY]].map(function(p){return '<button data-amt="'+p[1]+'" class="'+(S.checks.amt===p[1]?"on":"")+'">'+p[0]+" "+p[1]+"</button>";}).join("")+'<input id="amtIn" placeholder="$ custom"></div>';
+  h+=say("Authorize","\u201CPerfect. To get that started, do I have your permission to process the <b><span data-amt-out>"+(S.checks.amt||"$___")+"</span></b> payment with the card on file ending in {{cardLast4}}?\u201D"+P()+" <span class='cue'>wait for a clear yes</span>");
+  h+=say("Rep note","Subscriptions: disclose the renewal \u2014 \u201CYour 12-month service starts today and automatically renews annually on the same date.\u201D",{note:1});
+  h+=say("If unclear","\u201CI just need your verbal authorization before processing. Are you authorizing ZenBusiness to charge <b><span data-amt-out>"+(S.checks.amt||"[amount]")+"</span></b> to the card ending in {{cardLast4}} for [service]?\u201D"+P()+" <b>After yes:</b> \u201CThank you. I\u2019m processing that now.\u201D"+P()+" \u201CGreat, that is complete.\u201D");
+  h+=say("If payment fails","\u201CNo problem. It looks like that payment did not go through. Would you like to try another card?\u201D"+P()+" <b>No:</b> \u201CSince you do want to move forward, let\u2019s set a specific time for you to update the payment method and complete this. Would later today or tomorrow work better?\u201D");
+  h+=say("After-payment bridge","\u201CGreat, that\u2019s taken care of. Let\u2019s quickly touch on one more piece before I let you go.\u201D");
+  h+='<div class="goal">\uD83D\uDCB2 '+PRICE_NOTE+"</div>";
+  return h+navRow("Next \u2192 Wrap");}
+
+function sWrap(){
+  var h=head("Wrap / Next Event","Recap with their reasons. No-buy calls end with a scheduled next event \u2014 never \u201Ccall me whenever.\u201D");
+  h+=say("If they bought","\u201CPerfect. Let me recap what we handled today.\u201D"+P()+" \u201CWe added [service] because [reason tied to customer].\u201D"+P()+" \u201CSo your business is now in a stronger position around [legal contact / compliance / taxes / money tracking / setup].\u201D"+P()+" \u201CYou should see those updates in your ZenBusiness dashboard.\u201D"+P()+" \u201CYour next step is [specific next step].\u201D"+P()+" \u201CBefore I let you go, what questions do you have?\u201D"+P()+" \u201CCongratulations again on getting the business started. You are in a much stronger position now than when we got on the phone.\u201D");
+  h+='<div class="goal"><b>Next-step examples:</b> schedule your tax session \u00B7 watch for dashboard updates \u00B7 open the business bank account once the EIN is ready (bring EIN + OA + state paperwork) \u00B7 start tracking expenses in Money Pro.</div>';
+  h+=say("If no buy \u2014 the required flow, word for word","1 \u201CNo problem. I know you weren\u2019t expecting this call.\u201D"+P()+" 2 \u201CBased on what we discussed, I still think [service] is important because {{fear}}.\u201D"+P()+" 3 \u201CLet\u2019s set a specific time to revisit it. Would later today or tomorrow work better?\u201D"+P()+" 4 \u201CGreat \u2014 I have you down for {{followupDate}} at {{followupTime}}. The purpose of that call is {{followupReason}}.\u201D"+P()+" 5 \u201CAll I ask is that if something comes up, you call or email me so we can reschedule. Is that fair?\u201D"+P()+" 6 \u201CI\u2019ll send a quick recap before then.\u201D",{ask:1});
+  h+='<div class="fgrid" style="grid-template-columns:1fr 1fr 1fr">'+
+    '<div class="f"><label>Follow-up date</label><input data-n="followupDate" value="'+esc(S.n.followupDate)+'" placeholder="e.g. Thursday"></div>'+
+    '<div class="f"><label>Follow-up time</label><input data-n="followupTime" value="'+esc(S.n.followupTime)+'" placeholder="e.g. 2:15pm"></div>'+
+    '<div class="f"><label>Reason for the call</label><input data-n="followupReason" value="'+esc(S.n.followupReason)+'" placeholder="finalize the tax plan"></div></div>';
+  h+='<div class="lab">Customer agreed to reconnect?</div><div class="seg" id="agreeSeg">'+[["y","Yes \u2014 confirmed"],["n","No \u2014 soft"]].map(function(o){return '<button data-agree="'+o[0]+'" class="'+(S.agreedReconnect===o[0]?"on":"")+'">'+o[1]+"</button>";}).join("")+"</div>";
+  h+='<div class="notef"><label>Main risk discussed</label><input data-n="mainRisk" value="'+esc(S.n.mainRisk)+'" placeholder="e.g. quarterly taxes with no CPA"></div>';
+  h+='<div class="notef"><label>Key customer phrase \u2014 their exact words</label><input data-n="triggerWords" value="'+esc(S.n.triggerWords)+'" placeholder="\u201CI just don\u2019t want to mess this up\u201D"></div>';
+  h+='<div class="notef"><label>Next event (summary)</label><input data-n="nextEvent" value="'+esc(S.n.nextEvent)+'" placeholder="e.g. Thursday 2:15pm \u2014 tax plan"></div>';
+  h+='<div class="notef"><label>Objection hit</label><input data-n="objection" value="'+esc(S.n.objection)+'" placeholder="e.g. tax timing hesitation"></div>';
+  h+='<div class="notef"><label>Follow-up needed</label><input data-n="followup" value="'+esc(S.n.followup)+'" placeholder="e.g. send tax recap email"></div>';
+  h+='<div class="lab" style="margin-top:12px">Outcome</div><div class="seg" id="outcomeSeg">'+[["sold","\uD83C\uDF89 Sold"],["sne","\uD83D\uDCC5 Next event set"],["declined","Declined \u2014 door open"]].map(function(o){return '<button data-o="'+o[0]+'" class="'+(S.outcome===o[0]?"on":"")+'">'+o[1]+"</button>";}).join("")+"</div>";
+  h+='<div style="display:flex;gap:8px;margin:12px 0 10px"><button class="abtn go" id="btnGen">\uD83D\uDCDD Generate Call Recap</button><button class="abtn" id="btnCopyRecap">Copy recap</button></div>';
+  h+='<div class="recapbox"><textarea id="recapOut" placeholder="Recap appears here \u2014 paste into Salesforce." spellcheck="false"></textarea></div>';
+  return h+navRow("\u21BA Start next call (clears progress, keeps rep info)");}
+
+var STAGE_FN={open:sOpen,disc:sDisc,contact:sContact,order:sOrder,bridge:sBridge,lane:sLane,ra:sRA,wfc:sWFC,tax:sTax,mp:sMP,quick:sQuick,obj:sObj,pay:sPay,wrap:sWrap};
+
+/* ================== RENDER ================== */
+function renderCenter(){
+  $("center").innerHTML='<div class="panel" id="stagePanel">'+STAGE_FN[S.stage]()+"</div>";
+  var rc=$("recapOut");if(rc&&S._recap)rc.value=S._recap;
+  wireSearch("objSearch2","objList2");}
+function renderSteps(){
+  var el=$("steps");el.innerHTML="";
+  var cur=stIdx(S.stage);
+  ST.forEach(function(p,i){
+    var li=document.createElement("li");
+    li.className=(p[0]===S.stage?"cur":(i<cur?"done":""));
+    li.innerHTML='<span class="ic">'+p[3]+"</span>"+(i+1)+". "+p[1]+"<small>"+p[2]+" min</small>";
+    li.setAttribute("data-stage",p[0]);
+    el.appendChild(li);});
+  $("progbar").style.width=Math.round(cur/(ST.length-1)*100)+"%";}
+function renderWho(){
+  var c=(S.f.customerName||"").trim(),b=(S.f.businessName||"").trim(),p=(S.f.packageName||"").trim();
+  $("who").innerHTML=(c||b)?esc(c||"\u2014")+"<small>"+esc(b||"")+(p?" \u00B7 "+esc(p):"")+"</small>":"";}
+function renderRight(){
+  var r=recLane();
+  var h='<div class="reco"><span class="rk">Recommended lane</span><h3>\u2192 '+LANE_NAME[r.lane]+"</h3>"+
+    "<p>"+T(r.why)+"</p>"+
+    '<div class="flags">'+laneFlags().map(function(f){return "<span>"+esc(f)+"</span>";}).join("")+"</div>"+
+    '<button class="golane" data-go="'+(LANE_STAGE[r.lane]||r.lane)+'">Go there now \u2192</button></div>';
+  h+='<div class="panel"><h4><span class="dot"></span>Live notes</h4>'+
+    '<div class="notef"><label>Dream</label><input data-n="dream" value="'+esc(S.n.dream)+'"></div>'+
+    '<div class="notef"><label>Fear</label><input data-n="fear" value="'+esc(S.n.fear)+'"></div>'+
+    '<div class="notef"><label>Timeline</label><input data-n="timeline" value="'+esc(S.n.timeline)+'"></div>'+
+    '<div class="lab">Products pitched</div><div class="chips" id="pitchChips">'+["RA","WFC","EIN","OA","BLR","MP","QTP","BTP","Bundle"].map(function(x){return '<button class="sm '+(S.pitched.indexOf(x)>=0?"on":"")+'" data-pit="'+x+'">'+x+"</button>";}).join("")+"</div>"+
+    '<div class="lab">Products sold \uD83C\uDF89</div><div class="chips" id="soldChips">'+["RA","WFC","EIN","OA","BLR","MP","QTP","BTP","Bundle"].map(function(x){return '<button class="sm sold '+(S.sold.indexOf(x)>=0?"on":"")+'" data-sol="'+x+'">'+x+"</button>";}).join("")+"</div></div>";
+  h+='<div class="panel"><h4><span class="dot" style="background:var(--red)"></span>Objection drawer</h4>'+
+    '<div class="goal" style="margin-top:0;font-size:11px"><b>Do not rebut yet.</b> Isolate first: cost, timing, or value? \u201CThat makes sense \u2014 is the concern mainly the cost, the timing, or whether you need it?\u201D Then tie back to '+T("{{fear}}")+" before reframing.</div>"+
+    '<input class="search" id="objSearch" placeholder="\uD83D\uDD0E Type what they said\u2026">'+
+    '<div id="objList">'+objLib()+"</div></div>";
+  $("right").innerHTML=h;
+  wireSearch("objSearch","objList");}
+function wireSearch(inputId,listId){
+  var inp=$(inputId);if(!inp)return;
+  inp.oninput=function(){
+    var q=inp.value.trim().toLowerCase();
+    var items=$(listId).querySelectorAll("details.obj");
+    for(var i=0;i<items.length;i++){
+      var show=!q||items[i].getAttribute("data-objtext").indexOf(q)>=0;
+      items[i].style.display=show?"":"none";
+      if(q&&show)items[i].setAttribute("open","");else if(!q)items[i].removeAttribute("open");}};}
+function updateSetupChips(){
+  var groups=document.querySelectorAll("#setup [data-fc]");
+  for(var g=0;g<groups.length;g++){
+    var key=groups[g].getAttribute("data-fc"),btns=groups[g].querySelectorAll("button");
+    for(var b=0;b<btns.length;b++)btns[b].classList.toggle("on",btns[b].getAttribute("data-v")===S.f[key]&&S.f[key]!=="");}}
+function syncSetupInputs(){
+  var els=document.querySelectorAll("#setup input[data-f]");
+  for(var i=0;i<els.length;i++)els[i].value=S.f[els[i].getAttribute("data-f")]||"";
+  updateSetupChips();}
+
+/* ================== TIMER / COACH ================== */
+var BUD={open:3,disc:8,contact:10,order:12,bridge:13,lane:13.5,ra:18,wfc:20,tax:23,mp:24,quick:25,obj:26,pay:28,wrap:30};
+function coachMsg(){
+  var e=S.elapsed/60,b=BUD[S.stage]||30;
+  if(S.rushed)return["comp","Rushed \u2014 one gap, then close or next event"];
+  if(e<=b)return["on","On pace"];
+  if(e<=b+2)return["long","Running long \u2014 tighten up"];
+  return["comp","Compress and close"];}
+function renderClock(){$("clock").textContent=fmt(S.elapsed);$("btnStart").textContent=S.running?"\u23F8 Pause":"\u25B6 Start";$("btnStart").className="tbtn "+(S.running?"":"go");
+  var c=coachMsg(),el=$("coach");el.className="coach "+c[0];el.textContent=c[1];
+  $("btnRush").className="rushT"+(S.rushed?" on":"");
+  $("trophy").textContent="\uD83C\uDFC6 "+S.sold.length+" sold";}
+var last=Date.now();
+setInterval(function(){var now=Date.now();if(S.running){S.elapsed+=(now-last)/1000;renderClock();if(Math.floor(S.elapsed)%5===0)save();}last=now;},250);
+
+function goStage(id){S.stage=id;if(!S.running&&S.elapsed===0&&id!=="open")S.running=true;save();renderSteps();renderCenter();
+  try{window.scrollTo({top:0,behavior:"smooth"});}catch(e){}}
+function nextStage(){var i=stIdx(S.stage);if(!S.running)S.running=true;if(i<ST.length-1)goStage(ST[i+1][0]);}
+function prevStage(){var i=stIdx(S.stage);if(i>0)goStage(ST[i-1][0]);}
+
+/* ================== RECAP ================== */
+function genRecap(){
+  var W=function(k){return (S.n[k]||"").trim()||"\u2014";};
+  var L=[];
+  L.push("CALL RECAP \u2014 "+new Date().toLocaleString()+"  \u00B7  "+fmt(S.elapsed));
+  L.push("");
+  L.push("Today we reviewed "+((S.f.businessName||"").trim()||"[Business Name]")+", confirmed the LLC setup, and discussed "+W("mainRisk")+".");
+  L.push("Customer is starting the business because "+W("dream")+".");
+  L.push("Main concern: "+W("fear")+".");
+  L.push("Timeline: "+W("timeline")+".");
+  L.push("Products discussed: "+(S.pitched.join(", ")||"\u2014")+".");
+  L.push("Products sold: "+(S.sold.join(", ")||"\u2014")+".");
+  L.push("Objection: "+W("objection")+".");
+  L.push("Outcome: "+(S.outcome==="sold"?"Sold":S.outcome==="sne"?"Next event set":S.outcome==="declined"?"Declined \u2014 door open":"\u2014")+".");
+  L.push("Next event: "+W("nextEvent")+(W("followupDate")!=="\u2014"?" \u2014 "+W("followupDate")+" "+W("followupTime"):"")+(W("followupReason")!=="\u2014"?" \u00B7 purpose: "+W("followupReason"):"")+(S.agreedReconnect==="y"?" \u00B7 customer agreed to reconnect":S.agreedReconnect==="n"?" \u00B7 reconnect NOT confirmed":"")+".");
+  L.push("Key customer phrase: "+W("triggerWords")+".");
+  L.push("");
+  L.push("Customer: "+(S.f.customerName||"\u2014")+"  \u00B7  Business: "+(S.f.businessName||"\u2014")+"  \u00B7  "+(S.f.state||"\u2014")+"  \u00B7  "+(S.f.entityType||"\u2014")+"  \u00B7  "+(S.f.packageName||"\u2014")+"  \u00B7  "+(S.f.formationStatus==="pre"?"Pre-formation":S.f.formationStatus==="post"?"Post-formation":"\u2014"));
+  L.push("RA: "+(S.f.raStatus||"\u2014")+"  \u00B7  WFC: "+(S.f.wfc||"\u2014")+"  \u00B7  EIN: "+(S.f.ein||"\u2014")+"  \u00B7  OA: "+(S.f.oaHas||"\u2014")+"  \u00B7  MP: "+(S.f.mp||"\u2014")+"  \u00B7  QTP: "+(S.f.qtp||"\u2014")+"  \u00B7  BTP: "+(S.f.btp||"\u2014"));
+  L.push("Revenue: "+W("revenue")+"  \u00B7  Support: "+(S.support.join(", ")||"\u2014")+"  \u00B7  Priority: "+W("priority")+"  \u00B7  Follow-up: "+W("followup"));
+  if(S.taxRx)L.push("Tax recommendation: "+({qtp:"Quarterly Tax Planning",btp:"Business Tax Prep + Filing",dify:"QTP + BTP",diy:"DIY Plan (QTP + Money Pro)",bundle:"Complete Bundle"})[S.taxRx]);
+  return L.join("\n");}
+function recapNotes(){
+  var W=function(k){return (S.n[k]||"").trim()||"\u2014";};
+  return "Dream: "+W("dream")+"\nFear: "+W("fear")+"\nTimeline: "+W("timeline")+"\nMain risk: "+W("mainRisk")+"\nProducts pitched: "+(S.pitched.join(", ")||"\u2014")+"\nProducts sold: "+(S.sold.join(", ")||"\u2014")+"\nObjection: "+W("objection")+"\nOutcome: "+(S.outcome||"\u2014")+"\nNext event: "+W("nextEvent")+" ("+W("followupDate")+" "+W("followupTime")+")\nKey phrase: "+W("triggerWords");}
+
+/* ================== PRESETS ================== */
+var PRESETS={
+  starter:{packageName:"Starter",raStatus:"customer",wfc:"none",ein:"n",oaHas:"n",mp:"n",qtp:"n",btp:"n",web:"n",blrHas:"n"},
+  pro:{packageName:"Pro",raStatus:"customer",wfc:"essential",ein:"y",oaHas:"y",mp:"n",qtp:"n",btp:"n",web:"n",blrHas:"n"},
+  premium:{packageName:"Premium",raStatus:"customer",wfc:"essential",ein:"y",oaHas:"y",mp:"n",qtp:"n",btp:"n",web:"y",blrHas:"n"},
+  clearorder:{packageName:"",raStatus:"",wfc:"",ein:"",oaHas:"",mp:"",qtp:"",btp:"",web:"",blrHas:"",coupon:"",taxMonthly:""}};
+function applyPreset(name){var p=PRESETS[name];if(!p)return;
+  for(var k in p)S.f[k]=p[k];
+  save();syncSetupInputs();renderWho();renderCenter();renderRight();
+  toast(name==="clearorder"?"Order cleared":"Preset loaded \u2713");}
+
+/* ================== EVENTS ================== */
+document.addEventListener("click",function(e){
+  var t=e.target.closest?e.target.closest("button,li,.rx"):e.target;
+  if(!t)return;
+  if(t.classList&&t.classList.contains("copyb")){var box=t.parentNode.querySelector(".saytxt");if(box){copyText(box.innerText.trim(),t);return;}}
+  if(t.hasAttribute&&t.hasAttribute("data-openvar")){S.openVar=t.getAttribute("data-openvar");save();renderCenter();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-go")){var g=t.getAttribute("data-go").split(":");if(g[1])S.quickFocus=g[1];goStage(g[0]);return;}
+  if(t.hasAttribute&&t.hasAttribute("data-golane")){var l=t.getAttribute("data-golane");goStage(LANE_STAGE[l]||l);return;}
+  if(t.hasAttribute&&t.hasAttribute("data-rx")){S.taxRx=t.getAttribute("data-rx");save();renderCenter();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-depth")){var dp=t.getAttribute("data-depth").split(":");S.depth[dp[0]]=dp[1];save();renderCenter();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-sup")){var v=t.getAttribute("data-sup");var ix=S.support.indexOf(v);if(ix>=0)S.support.splice(ix,1);else S.support.push(v);save();renderCenter();renderRight();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-pit")){var v2=t.getAttribute("data-pit");var i2=S.pitched.indexOf(v2);if(i2>=0)S.pitched.splice(i2,1);else S.pitched.push(v2);save();t.classList.toggle("on");return;}
+  if(t.hasAttribute&&t.hasAttribute("data-sol")){var v3=t.getAttribute("data-sol");var i3=S.sold.indexOf(v3);
+    if(i3>=0)S.sold.splice(i3,1);else{S.sold.push(v3);try{confetti();}catch(e2){}toast("\uD83C\uDF89 "+v3+" sold!");}
+    save();t.classList.toggle("on");renderClock();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-ck")){var id=t.getAttribute("data-ck");S.checks[id]=!S.checks[id];save();
+    var on=!!S.checks[id],els=document.querySelectorAll('[data-ck="'+id+'"]');
+    for(var ei=0;ei<els.length;ei++){els[ei].classList.toggle("on",on);var bx=els[ei].querySelector(".bx");if(bx)bx.textContent=on?"\u2713":"";}
+    return;}
+  var fc=t.parentNode&&t.parentNode.getAttribute?t.parentNode.getAttribute("data-fc"):null;
+  if(fc&&t.hasAttribute("data-v")){var val=t.getAttribute("data-v");
+    S.f[fc]=(S.f[fc]===val)?"":val;
+    save();updateSetupChips();renderWho();renderCenter();renderRight();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-preset")){applyPreset(t.getAttribute("data-preset"));return;}
+  if(t.parentNode&&t.parentNode.id==="amtRow"&&t.hasAttribute("data-amt")){S.checks.amt=t.getAttribute("data-amt");save();renderCenter();return;}
+  if(t.parentNode&&t.parentNode.id==="outcomeSeg"&&t.hasAttribute("data-o")){var o=t.getAttribute("data-o");S.outcome=(S.outcome===o)?null:o;
+    if(S.outcome==="sold"){try{confetti();}catch(e3){}toast("\uD83C\uDF89 Closed!");}
+    save();renderCenter();return;}
+  if(t.parentNode&&t.parentNode.id==="agreeSeg"&&t.hasAttribute("data-agree")){var ag=t.getAttribute("data-agree");S.agreedReconnect=(S.agreedReconnect===ag)?null:ag;save();renderCenter();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-stage")){goStage(t.getAttribute("data-stage"));return;}
+  if(t.id==="btnNext"){if(S.stage==="wrap"){clearProgress();return;}nextStage();return;}
+  if(t.id==="btnPrev"){prevStage();return;}
+  if(t.id==="btnGen"){S._recap=genRecap();$("recapOut").value=S._recap;save();toast("Recap generated \u2713");return;}
+  if(t.id==="btnCopyRecap"){S._recap=$("recapOut").value||genRecap();$("recapOut").value=S._recap;copyText(S._recap,t);save();return;}
+});
+document.addEventListener("input",function(e){
+  var t=e.target;
+  if(t.id==="amtIn"){var v=t.value.trim();if(v){S.checks.amt=v;var outs=document.querySelectorAll("[data-amt-out]");for(var i=0;i<outs.length;i++)outs[i].textContent=v;save();}return;}
+  if(t.hasAttribute&&t.hasAttribute("data-f")){var fk=t.getAttribute("data-f");S.f[fk]=t.value;save();renderWho();refreshTokens(fk);renderRight();return;}
+  if(t.hasAttribute&&t.hasAttribute("data-n")){var k=t.getAttribute("data-n");S.n[k]=t.value;save();refreshTokens(k);
+    var twins=document.querySelectorAll('[data-n="'+k+'"]');
+    for(var j=0;j<twins.length;j++)if(twins[j]!==t)twins[j].value=t.value;
+    return;}
+});
+document.addEventListener("keydown",function(e){
+  var tag=(e.target&&e.target.tagName||"").toLowerCase();
+  if(tag==="input"||tag==="textarea"||tag==="select")return;
+  if(e.key==="ArrowRight"){nextStage();e.preventDefault();}
+  else if(e.key==="ArrowLeft"){prevStage();e.preventDefault();}
+  else if(e.key==="/"){var s=$("objSearch");if(s){s.focus();e.preventDefault();}}
+});
+$("btnStart").onclick=function(){S.running=!S.running;save();renderClock();};
+$("btnTReset").onclick=function(){S.elapsed=0;S.running=false;save();renderClock();};
+$("btnRush").onclick=function(){S.rushed=!S.rushed;save();renderClock();renderRight();if(S.stage==="lane")renderCenter();};
+function toggleSetup(){S.setupOpen=!S.setupOpen;save();$("setup").style.display=S.setupOpen?"":"none";
+  $("btnHideSetup").textContent=S.setupOpen?"\u25B2 Hide setup panel":"\u25BC Show setup panel";}
+$("btnSetup").onclick=toggleSetup;
+$("btnHideSetup").onclick=toggleSetup;
+function clearProgress(){
+  if(!confirm("Start the next call? This clears progress and notes but keeps rep info."))return;
+  var rep={repName:S.f.repName,repLine:S.f.repLine};
+  var s=defState();s.f.repName=rep.repName;s.f.repLine=rep.repLine;s.setupOpen=true;
+  S=s;save();syncSetupInputs();renderAll();toast("Fresh call \u2014 go get it \uD83D\uDCAA");}
+$("btnClearProg").onclick=clearProgress;
+$("btnClearCust").onclick=function(){
+  if(!confirm("Clear all customer fields?"))return;
+  FIELDS.forEach(function(k){if(k!=="repName"&&k!=="repLine")S.f[k]="";});
+  save();syncSetupInputs();renderAll();};
+$("btnCopyNotes").onclick=function(){copyText(recapNotes(),this);};
+$("btnCopyScript").onclick=function(){var p=$("stagePanel");if(p)copyText(p.innerText.trim(),this);};
+
+window.__cm={state:function(){return S;},addSeconds:function(n){S.elapsed+=n;renderClock();},recLane:recLane,PRICE:PRICE,rxRec:rxRecCalc};
+
+function renderAll(){renderSteps();renderWho();renderCenter();renderRight();renderClock();
+  $("setup").style.display=S.setupOpen?"":"none";
+  $("btnHideSetup").textContent=S.setupOpen?"\u25B2 Hide setup panel":"\u25BC Show setup panel";}
+syncSetupInputs();renderAll();
+})();
+</script>
+</body>
+</html>
