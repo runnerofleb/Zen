@@ -3941,6 +3941,405 @@ body.apex-dark #right .reco .golane { color: #062116; background: var(--folio-si
 }
 
 </style>
+<style id="focus-teleprompter-style">
+/* ========================================================================
+   FOCUS MODE — IMMERSIVE TELEPROMPTER
+   Full-viewport reading room. The content model is unchanged; this layer
+   maximizes legibility, preserves every control, and keeps the live line calm.
+   ======================================================================== */
+
+.focus {
+  --focus-copy-size: clamp(28px, 3.55vw, 50px);
+  --focus-note-size: clamp(16px, 1.55vw, 20px);
+  --focus-room: #061a12;
+  --focus-glass: rgba(12, 39, 28, .84);
+  --focus-line: rgba(226, 241, 231, .14);
+  --focus-soft: #b7c9bd;
+  --focus-white: #f7faf8;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  padding: clamp(10px, 1.5vh, 16px) clamp(12px, 2vw, 30px);
+  overflow: hidden;
+  color: var(--focus-white);
+  background:
+    radial-gradient(1100px 620px at 50% -24%, color-mix(in srgb, var(--phase, #39d98a) 18%, transparent), transparent 66%),
+    radial-gradient(900px 520px at 88% 112%, rgba(57,217,138,.055), transparent 70%),
+    linear-gradient(160deg, #0b2d21 0%, var(--focus-room) 55%, #04110c 100%);
+  isolation: isolate;
+}
+
+.focus::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px) 0 0 / 100% 54px,
+    radial-gradient(60% 75% at 50% 50%, transparent 48%, rgba(0,0,0,.25) 100%);
+}
+
+.focus.on { display: flex; }
+
+/* Compact instrument header: stage · position · clock · exit. */
+.focus .fhead {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto auto auto;
+  align-items: center;
+  gap: 8px 14px;
+  width: min(100%, 1360px);
+  min-height: 42px;
+  margin: 0 auto;
+  padding: 0 0 9px;
+  border-bottom: 1px solid var(--focus-line);
+}
+
+.focus .fhead .st {
+  min-width: 0;
+  overflow: hidden;
+  color: #f5faf7;
+  font-family: var(--ed-display);
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-weight: 720;
+  letter-spacing: -.025em;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.focus .fhead .st::before {
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  border-radius: 50%;
+  background: var(--phase, #39d98a);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--phase, #39d98a) 14%, transparent);
+}
+
+.focus .fhead .fhint {
+  color: #c0d0c5;
+  font-family: var(--ed-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .09em;
+  white-space: nowrap;
+}
+
+.focus .fhead .ct {
+  min-width: 74px;
+  margin: 0;
+  color: #fff;
+  font-family: var(--ed-mono);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.045em;
+  text-align: right;
+}
+
+.focus .fhead .fbtn {
+  min-height: 34px;
+  padding: 7px 11px;
+  color: #d7e4db;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 8px;
+  background: rgba(255,255,255,.055);
+  font-size: 11px;
+}
+
+.focus .fhead .fbtn:hover { color: #fff; border-color: rgba(255,255,255,.3); background: rgba(255,255,255,.1); }
+
+/* The script receives every remaining pixel. */
+.focus .fbody {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  padding: clamp(8px, 1.7vh, 17px) 0;
+  overflow: hidden;
+  display: grid;
+  place-items: stretch center;
+}
+
+.focus .fbody::before { display: none; }
+
+.focus .fcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(100%, 1280px);
+  max-width: 1280px;
+  max-height: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: clamp(22px, 4vh, 48px) clamp(24px, 5.4vw, 82px);
+  overflow: hidden;
+  color: var(--focus-white);
+  border: 1px solid rgba(222,239,228,.14);
+  border-radius: clamp(14px, 1.6vw, 22px);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.045), transparent 36%),
+    var(--focus-glass);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 32px 90px rgba(0,0,0,.3);
+  backdrop-filter: blur(24px) saturate(1.02);
+}
+
+.focus .fcard::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  border-radius: 0;
+  background: linear-gradient(180deg, var(--phase, #39d98a), color-mix(in srgb, var(--phase, #39d98a) 12%, transparent));
+}
+
+.focus .fcard:has(.frep)::before { background: linear-gradient(180deg, #d5ad58, rgba(213,173,88,.08)); }
+.focus .fcard::after { display: none; }
+
+.focus .fcard .ftag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 clamp(12px, 2.2vh, 22px);
+  color: color-mix(in srgb, var(--phase, #39d98a) 76%, #fff);
+  font-family: var(--ed-mono);
+  font-size: clamp(9px, .9vw, 11px);
+  font-weight: 700;
+  letter-spacing: .15em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.focus .fcard .ftag::before { width: 28px; height: 2px; background: currentColor; opacity: .72; }
+.focus .fcard .ftag.rep { color: #e5c982; }
+
+/* Spoken register: luminous serif, controlled line length, zero ornament. */
+.focus .fspoken {
+  max-width: 31ch;
+  margin: 0 auto;
+  color: var(--focus-white);
+  font-family: var(--ed-serif);
+  font-size: var(--focus-copy-size);
+  font-weight: 430;
+  letter-spacing: -.022em;
+  line-height: 1.43;
+  text-wrap: pretty;
+}
+
+.focus .fspoken b {
+  color: #fff;
+  font-family: var(--ed-serif);
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.focus .fspoken ul { margin-top: .55em; }
+.focus .fspoken ul li { margin: .32em 0; padding-left: 1.05em; font-size: .9em; }
+.focus .fspoken ul li::before { left: .2em; color: color-mix(in srgb, var(--phase, #39d98a) 74%, #fff); }
+
+.focus .fspoken .tok {
+  color: #b7f3d2;
+  border: 1px solid rgba(95,226,156,.24);
+  border-radius: .2em;
+  background: rgba(57,217,138,.1);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.focus .fspoken .tok.miss { color: #ffe0a0; border-color: rgba(226,179,78,.3); background: rgba(191,139,34,.13); }
+.focus .fspoken .cue { color: #aee9c9; border-color: rgba(95,226,156,.22); background: rgba(57,217,138,.085); }
+.focus .fspoken .pausecue { color: #c2d2c7; border-color: rgba(255,255,255,.15); background: rgba(255,255,255,.055); }
+
+/* Rep-only register: warm, structured, unmistakably private. */
+.focus .frep {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: clamp(18px, 3vh, 30px) clamp(19px, 3.5vw, 42px);
+  color: #f1e5c4;
+  border: 1px solid rgba(222,190,112,.28);
+  border-left: 4px solid #d5ad58;
+  border-radius: 13px;
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,.016), rgba(255,255,255,.016) 10px, transparent 10px, transparent 20px),
+    rgba(113,84,30,.16);
+  font-family: var(--ed-mono);
+  font-size: var(--focus-note-size);
+  line-height: 1.72;
+  letter-spacing: -.005em;
+}
+
+.focus .frep b { color: #fff2ce; }
+
+/* Interactive focus steps preserve the same hierarchy and stay tactile. */
+.focus .fbranch {
+  width: min(100%, 980px);
+  margin: clamp(12px, 2vh, 22px) auto 0;
+  gap: 10px;
+}
+
+.focus .fbranch button {
+  min-height: 48px;
+  padding: 12px 18px;
+  color: #eff6f1;
+  border: 1px solid rgba(255,255,255,.18);
+  border-bottom-width: 2px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  box-shadow: none;
+  font-size: clamp(13px, 1.2vw, 15px);
+}
+
+.focus .fbranch button:hover { color: #fff; border-color: color-mix(in srgb, var(--phase, #39d98a) 60%, #fff); background: rgba(255,255,255,.1); transform: translateY(-1px); }
+
+.focus .fgate {
+  width: min(100%, 980px);
+  margin: clamp(12px, 2vh, 20px) auto 0;
+  padding: 12px 14px;
+  border: 1px solid rgba(226,190,101,.3);
+  border-radius: 11px;
+  background: rgba(116,83,19,.18);
+}
+
+.focus .fgate .k { margin-bottom: 7px; color: #ead18e; font-size: 9px; }
+.focus .fgate button { min-height: 36px; margin: 0 5px 5px 0; padding: 7px 10px; color: #ecd89f; border-color: rgba(226,190,101,.3); background: rgba(255,255,255,.055); font-size: 11.5px; }
+.focus .fgate button.done { color: #062116; border-color: #58e39a; background: #58e39a; }
+
+/* Compact action rail: controls are fixed, progress is continuous and quiet. */
+.focus .ffoot {
+  display: grid;
+  grid-template-columns: auto auto auto auto minmax(120px,1fr);
+  align-items: center;
+  gap: 7px;
+  width: min(100%, 1360px);
+  min-height: 50px;
+  margin: 0 auto;
+  padding: 9px 0 0;
+  border-top: 1px solid var(--focus-line);
+}
+
+.focus .fbtn {
+  min-height: 40px;
+  padding: 8px 14px;
+  color: #d5e2d9;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 9px;
+  background: rgba(255,255,255,.055);
+  box-shadow: none;
+  font-size: 11.5px;
+  white-space: nowrap;
+}
+
+.focus .fbtn:hover { color: #fff; border-color: rgba(255,255,255,.28); background: rgba(255,255,255,.1); }
+.focus .fbtn.go { padding-inline: 18px; color: #062116; border-color: #58e39a; background: #58e39a; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+.focus .fbtn.go:hover { background: #74e9ab; }
+
+.focus .fdots {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  max-width: none;
+  min-width: 0;
+  height: 20px;
+  margin: 0 0 0 8px;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+
+.focus .fdots i {
+  flex: 1 1 3px;
+  width: auto;
+  min-width: 2px;
+  max-width: 16px;
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.14);
+  transform: none;
+}
+
+.focus .fdots i.past { background: rgba(255,255,255,.34); }
+.focus .fdots i.on { flex-basis: 12px; width: auto; height: 5px; background: var(--phase, #58e39a); box-shadow: 0 0 12px color-mix(in srgb, var(--phase, #58e39a) 60%, transparent); transform: none; }
+
+/* Page transitions: depth without spectacle. */
+@keyframes focusTeleprompterIn {
+  from { opacity: 0; transform: translateY(12px) scale(.994); filter: blur(2px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+.focus.on .fcard { animation: focusTeleprompterIn .38s cubic-bezier(.2,.78,.2,1) both; }
+.focus .fcard.is-turning > * { animation: focusLineIn .2s cubic-bezier(.2,.8,.3,1) both; }
+
+/* Short viewports: preserve height before reducing type. */
+@media (max-height: 720px) and (min-width: 701px) {
+  .focus { padding-block: 8px; }
+  .focus .fhead { min-height: 36px; padding-bottom: 6px; }
+  .focus .fbody { padding-block: 7px; }
+  .focus .fcard { padding-block: 20px; }
+  .focus .fcard .ftag { margin-bottom: 11px; }
+  .focus .ffoot { min-height: 43px; padding-top: 6px; }
+  .focus .fbtn { min-height: 36px; padding-block: 6px; }
+}
+
+@media (max-width: 700px) {
+  .focus {
+    --focus-copy-size: 26px;
+    --focus-note-size: 15px;
+    padding: max(7px, env(safe-area-inset-top)) 8px max(7px, env(safe-area-inset-bottom));
+  }
+
+  .focus .fhead {
+    grid-template-columns: minmax(0,1fr) auto auto;
+    gap: 4px 9px;
+    min-height: 54px;
+    padding-bottom: 6px;
+  }
+
+  .focus .fhead .st { grid-column: 1 / 3; grid-row: 1; font-size: 14px; }
+  .focus .fhead .fhint { grid-column: 1; grid-row: 2; }
+  .focus .fhead .ct { grid-column: 2; grid-row: 2; min-width: 62px; font-size: 18px; }
+  .focus .fhead .fbtn { grid-column: 3; grid-row: 1 / 3; min-height: 34px; padding: 7px 10px; }
+  .focus .fbody { padding: 7px 0; }
+  .focus .fcard { padding: 18px 15px; border-radius: 13px; }
+  .focus .fcard::before { display: block; width: 3px; }
+  .focus .fcard .ftag { margin-bottom: 11px; font-size: 8.5px; letter-spacing: .11em; }
+  .focus .fcard .ftag::before { width: 18px; }
+  .focus .fspoken { max-width: 32ch; font-size: var(--focus-copy-size); line-height: 1.4; }
+  .focus .frep { padding: 14px 14px 15px; font-size: var(--focus-note-size); line-height: 1.62; }
+  .focus .fbranch { margin-top: 10px; gap: 7px; }
+  .focus .fbranch button { flex: 1 1 calc(50% - 7px); min-height: 42px; padding: 9px 10px; }
+  .focus .fgate { margin-top: 9px; padding: 9px 10px; }
+  .focus .ffoot { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 5px; min-height: 96px; padding-top: 6px; }
+  .focus .fbtn { width: 100%; min-height: 38px; padding: 7px 8px; font-size: 10.5px; }
+  .focus .fdots { grid-column: 1 / -1; grid-row: 3; height: 6px; margin: 0; }
+}
+
+@media (max-width: 420px) {
+  .focus { --focus-copy-size: 23px; --focus-note-size: 15px; }
+  .focus .fhead .st { font-size: 13px; }
+  .focus .fcard { padding: 14px 12px; }
+  .focus .fspoken { line-height: 1.37; }
+  .focus .fbtn { font-size: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus.on .fcard,
+  .focus .fcard.is-turning > * { animation: none; }
+  .focus *, .focus *::before, .focus *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+@media (forced-colors: active) {
+  .focus { color: CanvasText; background: Canvas; }
+  .focus .fcard, .focus .frep, .focus .fgate, .focus .fbranch button { color: CanvasText; border: 1px solid CanvasText; background: Canvas; }
+  .focus .fspoken, .focus .fspoken b, .focus .frep, .focus .frep b { color: CanvasText; }
+  .focus .fbtn.go { color: HighlightText; background: Highlight; }
+}
+
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -7499,6 +7898,338 @@ if(S.focusOn)openFocus();
     var current = document.querySelector("#rail li.cur");
     if (current && window.innerWidth <= 1120) current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
   });
+})();
+
+</script>
+<script id="focus-teleprompter-script">
+(function () {
+  "use strict";
+
+  var focus = document.getElementById("focus");
+  var card = document.getElementById("fCard");
+  var position = document.getElementById("fPos");
+  var dots = document.getElementById("fDots");
+  var nextButton = document.getElementById("fNext");
+  var previousButton = document.getElementById("fPrev");
+  if (!focus || !card || !position || !dots || !nextButton || !previousButton) return;
+
+  var originalNext = nextButton.onclick;
+  var originalPrevious = previousButton.onclick;
+  var internalRender = false;
+  var scheduled = 0;
+  var fitFrame = 0;
+  var resizeTimer = 0;
+  var navigationDirection = 1;
+  var state = {
+    pages: [],
+    pageIndex: 0,
+    basePosition: "",
+    sourceText: "",
+    primaryKind: "",
+    limit: 0,
+    originalHTML: ""
+  };
+
+  function capacityForViewport(width, height) {
+    width = Math.max(280, Number(width) || window.innerWidth || 1280);
+    height = Math.max(420, Number(height) || window.innerHeight || 800);
+    if (width <= 420) return Math.max(145, Math.min(245, Math.floor(height * .29)));
+    if (width <= 700) return Math.max(180, Math.min(310, Math.floor(height * .36)));
+    if (width <= 1100) return Math.max(230, Math.min(390, Math.floor(height * .52)));
+    if (height <= 700) return Math.max(240, Math.min(390, Math.floor(height * .54)));
+    return Math.max(320, Math.min(510, Math.floor(height * .59)));
+  }
+
+  function minimumCopySize(width) {
+    return width <= 420 ? 22 : width <= 700 ? 23 : 25;
+  }
+
+  function textPoints(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    var nodes = [], total = 0, node;
+    while ((node = walker.nextNode())) {
+      nodes.push({ node: node, start: total, end: total + node.nodeValue.length });
+      total += node.nodeValue.length;
+    }
+    return { nodes: nodes, total: total };
+  }
+
+  function locate(points, positionValue) {
+    if (!points.nodes.length) return null;
+    positionValue = Math.max(0, Math.min(points.total, positionValue));
+    for (var i = 0; i < points.nodes.length; i++) {
+      var item = points.nodes[i];
+      if (positionValue <= item.end) return { node: item.node, offset: Math.max(0, positionValue - item.start) };
+    }
+    var last = points.nodes[points.nodes.length - 1];
+    return { node: last.node, offset: last.node.nodeValue.length };
+  }
+
+  function bestCut(text, start, target, limit) {
+    var floor = start + Math.floor(limit * .58);
+    var ceiling = Math.min(text.length, start + Math.floor(limit * 1.08));
+    var slice = text.slice(floor, ceiling);
+    var match, cut = -1;
+    var sentence = /[.!?][\”\’"')\]]*\s+/g;
+    while ((match = sentence.exec(slice))) {
+      var absolute = floor + match.index + match[0].length;
+      if (absolute <= target + Math.floor(limit * .12)) cut = absolute;
+    }
+    if (cut > start) return cut;
+    var before = text.lastIndexOf(" ", target);
+    if (before >= floor) return before + 1;
+    var after = text.indexOf(" ", target);
+    if (after > start && after <= ceiling) return after + 1;
+    return Math.min(text.length, target);
+  }
+
+  function splitMarkup(html, limit) {
+    var root = document.createElement("div");
+    root.innerHTML = String(html == null ? "" : html);
+    var points = textPoints(root);
+    if (!points.nodes.length || points.total <= limit) return [{ html: root.innerHTML, start: 0, end: points.total }];
+
+    var fullText = "";
+    for (var i = 0; i < points.nodes.length; i++) fullText += points.nodes[i].node.nodeValue;
+    var parts = [], start = 0;
+    while (start < points.total) {
+      var end = points.total;
+      if (points.total - start > limit) end = bestCut(fullText, start, start + limit, limit);
+      if (end <= start) end = Math.min(points.total, start + limit);
+      var from = locate(points, start), to = locate(points, end);
+      if (!from || !to) break;
+      var range = document.createRange();
+      range.setStart(from.node, from.offset);
+      range.setEnd(to.node, to.offset);
+      var holder = document.createElement("div");
+      holder.appendChild(range.cloneContents());
+      parts.push({ html: holder.innerHTML, start: start, end: end });
+      start = end;
+    }
+    return parts.length ? parts : [{ html: root.innerHTML, start: 0, end: points.total }];
+  }
+
+  function contentText(markup) {
+    var holder = document.createElement("div");
+    holder.innerHTML = String(markup == null ? "" : markup);
+    return holder.textContent || "";
+  }
+
+  function primaryContent(root) {
+    var directSpoken = root.querySelector(":scope > .fspoken");
+    var directNote = root.querySelector(":scope > .frep");
+    if (directSpoken) return { node: directSpoken, kind: "fspoken" };
+    if (directNote) return { node: directNote, kind: "frep" };
+    var branchResponse = root.querySelector(":scope > .fbranch ~ div .fspoken, :scope > .fbranch ~ div .frep");
+    if (branchResponse) return { node: branchResponse, kind: branchResponse.classList.contains("frep") ? "frep" : "fspoken", branchResponse: true };
+    return null;
+  }
+
+  function buildPagesFromCurrent(sourceHTML) {
+    if (!focus.classList.contains("on")) return;
+    var originalHTML = sourceHTML || card.innerHTML;
+    state.originalHTML = originalHTML;
+    var originalRoot = document.createElement("div");
+    originalRoot.innerHTML = originalHTML;
+    var primary = primaryContent(originalRoot);
+    var limit = capacityForViewport(window.innerWidth, window.innerHeight);
+    var pages = [];
+
+    state.basePosition = String(position.textContent || "").replace(/\s+·\s+\d+\s*\/\s*\d+\s*$/, "");
+    state.limit = limit;
+    state.pageIndex = navigationDirection < 0 ? -1 : 0;
+    state.primaryKind = primary ? primary.kind : "";
+    state.sourceText = primary ? primary.node.textContent || "" : originalRoot.textContent || "";
+
+    if (primary) {
+      var parts = splitMarkup(primary.node.innerHTML, limit);
+      if (parts.length > 1) {
+        parts.forEach(function (part, index) {
+          var pageRoot = originalRoot.cloneNode(true);
+          var pagePrimaryInfo = primaryContent(pageRoot);
+          var pagePrimary = pagePrimaryInfo.node;
+          pagePrimary.innerHTML = part.html;
+          if (pagePrimaryInfo.branchResponse && index > 0) {
+            var choices = pageRoot.querySelector(":scope > .fbranch");
+            if (choices) choices.remove();
+          }
+          if (index < parts.length - 1) {
+            Array.prototype.forEach.call(pageRoot.querySelectorAll(":scope > .fgate"), function (node) { node.remove(); });
+          }
+          pages.push({ html: pageRoot.innerHTML, primaryHTML: part.html, start: part.start, end: part.end });
+        });
+      }
+    }
+
+    if (!pages.length) pages.push({ html: originalHTML, primaryHTML: primary ? primary.node.innerHTML : originalHTML, start: 0, end: state.sourceText.length });
+    state.pages = pages;
+    state.pageIndex = state.pageIndex < 0 ? pages.length - 1 : 0;
+    renderPage();
+  }
+
+  function renderPage() {
+    if (!state.pages.length) return;
+    state.pageIndex = Math.max(0, Math.min(state.pages.length - 1, state.pageIndex));
+    internalRender = true;
+    card.innerHTML = state.pages[state.pageIndex].html;
+    if (state.pages.length > 1) position.textContent = state.basePosition + " · " + (state.pageIndex + 1) + "/" + state.pages.length;
+    else position.textContent = state.basePosition;
+    dots.style.setProperty("--focus-sub-progress", ((state.pageIndex + 1) / state.pages.length * 100) + "%");
+    dots.setAttribute("data-focus-subpage", state.pages.length > 1 ? (state.pageIndex + 1) + "/" + state.pages.length : "1/1");
+    requestAnimationFrame(function () { internalRender = false; scheduleFit(); });
+  }
+
+  function preferredSizes() {
+    var width = window.innerWidth, height = window.innerHeight;
+    var words = (card.textContent || "").trim().split(/\s+/).filter(Boolean).length;
+    var preferred = width <= 420 ? 27 : width <= 700 ? 32 : width <= 1100 ? 40 : 50;
+    var minimum = minimumCopySize(width);
+    if (height <= 700) preferred -= 5;
+    if (words > 90) preferred -= 4;
+    if (words > 130) preferred -= 3;
+    return { preferred: Math.max(minimum, preferred), minimum: minimum };
+  }
+
+  function fitCard() {
+    fitFrame = 0;
+    var body = focus.querySelector(".fbody");
+    if (!body || !focus.classList.contains("on")) return;
+    var sizes = preferredSizes();
+    var size = sizes.preferred;
+    card.style.setProperty("--focus-copy-size", size + "px");
+    card.style.setProperty("--focus-note-size", Math.max(15, Math.min(20, Math.round(size * .43))) + "px");
+    if (!body.clientHeight || !card.scrollHeight) return;
+    while (card.scrollHeight > body.clientHeight - 2 && size > sizes.minimum) {
+      size -= 1;
+      card.style.setProperty("--focus-copy-size", size + "px");
+      card.style.setProperty("--focus-note-size", Math.max(15, Math.min(20, Math.round(size * .43))) + "px");
+    }
+    var fits = card.scrollHeight <= body.clientHeight + 1;
+    card.classList.toggle("focus-at-minimum", size <= sizes.minimum);
+    card.setAttribute("data-focus-fit", fits ? "fit" : "tight");
+
+    if (!fits && size <= sizes.minimum && state.primaryKind && state.limit > 120) {
+      state.limit = Math.max(120, Math.floor(state.limit * .74));
+      var currentOffset = state.pages[state.pageIndex] ? state.pages[state.pageIndex].start : 0;
+      var currentRoot = document.createElement("div");
+      currentRoot.innerHTML = state.pages.map(function (page) { return page.primaryHTML; }).join("");
+      var parts = splitMarkup(currentRoot.innerHTML, state.limit);
+      if (parts.length > state.pages.length) {
+        var fullRoot = document.createElement("div");
+        fullRoot.innerHTML = state.originalHTML;
+        var templates = [];
+        parts.forEach(function (part, index) {
+          var pageRoot = fullRoot.cloneNode(true);
+          var pagePrimaryInfo = primaryContent(pageRoot);
+          pagePrimaryInfo.node.innerHTML = part.html;
+          if (pagePrimaryInfo.branchResponse && index > 0) {
+            var choices = pageRoot.querySelector(":scope > .fbranch");
+            if (choices) choices.remove();
+          }
+          if (index < parts.length - 1) Array.prototype.forEach.call(pageRoot.querySelectorAll(":scope > .fgate"), function (node) { node.remove(); });
+          templates.push({ html: pageRoot.innerHTML, primaryHTML: part.html, start: part.start, end: part.end });
+        });
+        state.pages = templates;
+        state.pageIndex = 0;
+        for (var i = 0; i < templates.length; i++) {
+          if (templates[i].start <= currentOffset && templates[i].end >= currentOffset) { state.pageIndex = i; break; }
+        }
+        renderPage();
+      }
+    }
+  }
+
+  function scheduleFit() {
+    if (fitFrame) cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(fitCard);
+  }
+
+  function schedulePagination() {
+    if (internalRender) return;
+    clearTimeout(scheduled);
+    scheduled = setTimeout(buildPagesFromCurrent, 0);
+  }
+
+  nextButton.onclick = function (event) {
+    if (state.pageIndex < state.pages.length - 1) {
+      state.pageIndex += 1;
+      navigationDirection = 1;
+      renderPage();
+      return;
+    }
+    navigationDirection = 1;
+    originalNext.call(this, event);
+  };
+
+  previousButton.onclick = function (event) {
+    if (state.pageIndex > 0) {
+      state.pageIndex -= 1;
+      navigationDirection = -1;
+      renderPage();
+      return;
+    }
+    navigationDirection = -1;
+    originalPrevious.call(this, event);
+  };
+
+  document.addEventListener("keydown", function (event) {
+    if (!focus.classList.contains("on")) return;
+    var key = String(event.key || "").toLowerCase();
+    if ((event.key === "ArrowRight" || event.key === " ") && state.pageIndex < state.pages.length - 1) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      nextButton.click();
+    } else if (event.key === "ArrowLeft" && state.pageIndex > 0) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      previousButton.click();
+    } else if (event.key === "ArrowRight" || event.key === " " || event.key === "ArrowLeft") {
+      navigationDirection = event.key === "ArrowLeft" ? -1 : 1;
+    } else if (key === "f" || event.key === "Escape") {
+      state.pages = [];
+      state.pageIndex = 0;
+    }
+  }, true);
+
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      if (!focus.classList.contains("on")) return;
+      var currentText = state.pages[state.pageIndex] ? contentText(state.pages[state.pageIndex].primaryHTML) : "";
+      navigationDirection = 1;
+      buildPagesFromCurrent(state.originalHTML);
+      if (currentText && state.pages.length > 1) {
+        for (var i = 0; i < state.pages.length; i++) {
+          if (contentText(state.pages[i].primaryHTML).indexOf(currentText.slice(0, 28)) >= 0) { state.pageIndex = i; break; }
+        }
+        renderPage();
+      }
+    }, 140);
+  });
+
+  new MutationObserver(schedulePagination).observe(card, { childList: true, subtree: false });
+
+  window.__focusTeleprompter = {
+    capacityForViewport: capacityForViewport,
+    minimumCopySize: minimumCopySize,
+    splitMarkup: splitMarkup,
+    getState: function () {
+      return {
+        pageCount: state.pages.length,
+        pageIndex: state.pageIndex,
+        basePosition: state.basePosition,
+        sourceText: state.sourceText,
+        primaryKind: state.primaryKind,
+        pagePrimaryHTML: state.pages.map(function (page) { return page.primaryHTML; }),
+        limit: state.limit
+      };
+    },
+    paginateCurrent: buildPagesFromCurrent,
+    nextOriginal: function () { navigationDirection = 1; originalNext.call(nextButton); },
+    previousOriginal: function () { navigationDirection = -1; originalPrevious.call(previousButton); }
+  };
+
+  if (focus.classList.contains("on")) schedulePagination();
 })();
 
 </script>
