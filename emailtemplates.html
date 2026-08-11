@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal Email Desk — Sales Template Library</title>
+  <style>
+    :root{
+      --ink:#101713;--ink2:#19221d;--paper:#f2f3ee;--card:#fff;--line:#d8ded9;
+      --muted:#69736c;--faint:#8b958e;--green:#31df7b;--green-dark:#087044;
+      --green-soft:#e7f9ed;--amber:#a66c08;--amber-soft:#fff5dc;--red:#b33440;
+      --sans:"Avenir Next","Segoe UI Variable",Inter,system-ui,sans-serif;
+      --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+      --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+      --shadow:0 22px 70px rgba(5,15,9,.13);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;color:var(--ink);background:radial-gradient(800px 420px at 86% -160px,rgba(49,223,123,.16),transparent 70%),#0a0e0b;font-family:var(--sans)}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    :focus-visible{outline:3px solid rgba(49,223,123,.42);outline-offset:2px}
+    .shell{width:min(1500px,100%);margin:0 auto;padding:0 18px 80px}
+    .mast{display:flex;align-items:center;gap:10px;min-height:46px;color:#f6faf7;font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase}
+    .mast:before{width:8px;height:8px;border-radius:2px;background:var(--green);box-shadow:0 0 18px rgba(49,223,123,.55);content:""}
+    .mast span:last-child{margin-left:auto;color:#77827a}
+    .hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(380px,.8fr);gap:24px;padding:32px;border:1px solid rgba(255,255,255,.13);border-radius:22px;color:#fff;background:radial-gradient(580px 260px at 90% 0,rgba(49,223,123,.14),transparent 72%),#121814;box-shadow:var(--shadow)}
+    .eyebrow{color:var(--green);font-family:var(--mono);font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    h1{max-width:720px;margin:8px 0 12px;font-size:clamp(36px,5.5vw,74px);font-weight:680;letter-spacing:-.065em;line-height:.95}
+    .hero p{max-width:680px;margin:0;color:#9ba89f;font-size:13px;line-height:1.65}
+    .hero-stats{display:grid;grid-template-columns:repeat(2,1fr);align-self:center;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:rgba(255,255,255,.035)}
+    .hero-stats div{padding:18px}.hero-stats div:nth-child(even){border-left:1px solid rgba(255,255,255,.1)}.hero-stats div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.1)}
+    .hero-stats span{display:block;color:#758078;font-family:var(--mono);font-size:7px;letter-spacing:.13em;text-transform:uppercase}
+    .hero-stats b{display:block;margin-top:5px;color:#fff;font-size:20px;letter-spacing:-.04em}
+    .guardrail{display:flex;align-items:flex-start;gap:11px;margin-top:14px;padding:13px 15px;border:1px solid #efd79e;border-radius:12px;color:#725315;background:var(--amber-soft);font-size:10px;line-height:1.55}
+    .guardrail b{flex:0 0 auto;padding:3px 6px;border-radius:5px;color:#fff;background:#a36d0d;font-family:var(--mono);font-size:7px;letter-spacing:.1em;text-transform:uppercase}
+    .workspace{display:grid;grid-template-columns:330px minmax(0,1fr);gap:14px;margin-top:14px;align-items:start}
+    .profile{position:sticky;top:12px;padding:20px;border:1px solid rgba(255,255,255,.65);border-radius:18px;background:var(--paper);box-shadow:var(--shadow)}
+    .section-kicker{color:var(--green-dark);font-family:var(--mono);font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .profile h2,.library-head h2{margin:5px 0 5px;font-size:24px;letter-spacing:-.045em}
+    .profile>p,.library-head p{margin:0;color:var(--muted);font-size:10px;line-height:1.55}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:17px}
+    .field{display:flex;flex-direction:column;gap:5px}.field.wide{grid-column:1/-1}
+    .field label{color:#737c76;font-family:var(--mono);font-size:7px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
+    .field input{width:100%;min-height:40px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#fff;font-size:11px}
+    .field input:focus{border-color:var(--green);outline:0;box-shadow:0 0 0 4px rgba(49,223,123,.12)}
+    .profile-note{margin-top:13px;padding:10px 11px;border:1px solid var(--line);border-radius:9px;color:#7d867f;background:#fff;font-family:var(--mono);font-size:7.5px;line-height:1.55}
+    .library{padding:21px;border:1px solid rgba(255,255,255,.68);border-radius:18px;background:var(--paper);box-shadow:var(--shadow)}
+    .library-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding-bottom:17px;border-bottom:1px solid var(--line)}
+    .search{width:min(350px,100%);min-height:42px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;color:var(--ink);background:#fff;font-size:11px}
+    .search:focus{border-color:var(--green);outline:0;box-shadow:0 0 0 4px rgba(49,223,123,.12)}
+    .filters{display:flex;gap:6px;overflow-x:auto;padding:12px 0;scrollbar-width:none}.filters::-webkit-scrollbar{display:none}
+    .filters button{flex:0 0 auto;min-height:34px;padding:7px 11px;border:1px solid var(--line);border-radius:8px;color:var(--muted);background:#fff;font-size:9px;font-weight:700}
+    .filters button.active{color:#07110b;background:var(--green);border-color:var(--green)}
+    .featured{margin-bottom:11px;padding:13px 14px;border:1px solid rgba(49,223,123,.35);border-radius:12px;color:var(--green-dark);background:var(--green-soft);font-size:10px;line-height:1.5}
+    .templates{display:grid;gap:9px}
+    .template{overflow:hidden;border:1px solid var(--line);border-radius:13px;background:#fff;transition:.16s ease}
+    .template:hover{border-color:#b7c4bb;box-shadow:0 12px 34px rgba(5,15,9,.07)}
+    .template.featured-template{border-color:rgba(49,223,123,.55);box-shadow:inset 4px 0 0 var(--green)}
+    .template summary{display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:11px;min-height:70px;padding:10px 13px;list-style:none;cursor:pointer}.template summary::-webkit-details-marker{display:none}
+    .template-icon{display:grid;place-items:center;width:35px;height:35px;border:1px solid var(--line);border-radius:9px;color:var(--green-dark);background:var(--green-soft);font-family:var(--mono);font-size:9px;font-weight:800}
+    .template-title{min-width:0}.template-title span{display:block;color:#7d867f;font-family:var(--mono);font-size:7px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.template-title h3{margin:3px 0 0;overflow:hidden;font-size:13px;letter-spacing:-.02em;text-overflow:ellipsis;white-space:nowrap}.template-title p{margin:4px 0 0;overflow:hidden;color:var(--faint);font-size:8.5px;text-overflow:ellipsis;white-space:nowrap}
+    .chevron{color:#8b958e;font-size:15px;transition:transform .16s}.template[open] .chevron{transform:rotate(180deg)}
+    .template-content{padding:0 14px 14px;border-top:1px solid var(--line)}
+    .email-label{margin:13px 0 5px;color:#7a837c;font-family:var(--mono);font-size:7px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+    .subject-preview{padding:9px 11px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#f7f8f5;font-size:10.5px;font-weight:700}
+    .body-preview{min-height:120px;margin:0;padding:15px;border:1px solid var(--line);border-radius:9px 9px 0 0;color:#263029;background:#fff;font-family:var(--serif);font-size:14px;line-height:1.62;white-space:pre-wrap}
+    .official-source{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border:1px solid var(--line);border-top:0;border-radius:0 0 9px 9px;color:#59645c;background:#f6f8f4;font-size:9px}.official-source span{flex:0 0 auto;color:var(--green-dark);font-family:var(--mono);font-size:7px;font-weight:850;letter-spacing:.1em;text-transform:uppercase}.official-source a{overflow:hidden;color:var(--green-dark);font-weight:750;text-overflow:ellipsis;white-space:nowrap}
+    .actions{display:flex;gap:7px;margin-top:9px}.actions button{min-height:38px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;color:var(--ink);background:#f3f5f1;font-size:9px;font-weight:750}.actions button.primary{color:#07110b;background:var(--green);border-color:var(--green)}
+    .empty{padding:42px 16px;border:1px dashed #c8d0ca;border-radius:12px;color:var(--faint);font-family:var(--mono);font-size:9px;text-align:center}
+    .toast{position:fixed;right:22px;bottom:22px;z-index:20;padding:11px 14px;border-radius:10px;color:#fff;background:var(--ink);box-shadow:var(--shadow);font-size:10px;font-weight:750}
+    .foot{padding:18px 4px 0;color:#657168;font-family:var(--mono);font-size:7.5px;line-height:1.6;text-align:center}
+    @media(max-width:980px){.hero{grid-template-columns:1fr}.workspace{grid-template-columns:1fr}.profile{position:static}.library-head{align-items:flex-start;flex-direction:column}.search{width:100%}}
+    @media(max-width:560px){.shell{padding-inline:8px}.hero{padding:23px 17px;border-radius:16px}.hero-stats{grid-template-columns:1fr 1fr}.profile,.library{padding:15px;border-radius:14px}.fields{grid-template-columns:1fr}.template summary{grid-template-columns:34px minmax(0,1fr) auto}.official-source{align-items:flex-start;flex-direction:column}.official-source a{max-width:100%}.actions{flex-direction:column}.actions button{width:100%}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="mast"><span>Personal Revenue Desk / Email Library</span><span>Official-source review · August 11, 2026</span></div>
+    <header class="hero">
+      <div>
+        <span class="eyebrow">Follow-up that sounds like you</span>
+        <h1>Send the right email in under a minute.</h1>
+        <p>Fill in the customer details once, choose the situation, review the message, and copy it. Every template connects the customer’s stated priority to a real reason to act, explains the value clearly, and moves the conversation toward a decision without losing the human tone.</p>
+      </div>
+      <div class="hero-stats">
+        <div><span>Templates</span><b id="templateCount">24</b></div>
+        <div><span>Official links</span><b>24 / 24</b></div>
+        <div><span>Categories</span><b>5</b></div>
+        <div><span>Verified</span><b>Aug 11</b></div>
+      </div>
+    </header>
+    <div class="guardrail"><b>Before sending</b><span>Every resource link points to an official ZenBusiness page verified on August 11, 2026. Confirm current pricing, promotions, product scope, renewal terms, account eligibility, and state-specific requirements in Salesforce or ZenGarden before sending. Do not promise legal outcomes, deductions, refunds, savings, or guaranteed results.</span></div>
+
+    <div class="workspace">
+      <aside class="profile">
+        <span class="section-kicker">Email profile</span>
+        <h2>Fill once. Reuse everywhere.</h2>
+        <p>Your information is stored only in this browser and used to personalize the previews.</p>
+        <div class="fields">
+          <div class="field"><label>Your name</label><input data-field="rep_name" placeholder="Jordan"></div>
+          <div class="field"><label>Direct line</label><input data-field="direct_line" placeholder="(512) 555-0110"></div>
+          <div class="field"><label>Customer name</label><input data-field="customer_name" placeholder="Maria Rivera"></div>
+          <div class="field"><label>Business name</label><input data-field="business_name" placeholder="Rivera Hauling LLC"></div>
+          <div class="field"><label>Meeting date</label><input data-field="meeting_date" placeholder="tomorrow, August 12"></div>
+          <div class="field"><label>Meeting time</label><input data-field="meeting_time" placeholder="2:00 PM CT"></div>
+          <div class="field wide"><label>Service discussed</label><input data-field="product_name" placeholder="Registered Agent service"></div>
+          <div class="field wide"><label>Price you confirmed / quoted</label><input data-field="quoted_price" placeholder="$199 annually"></div>
+          <div class="field wide"><label>Customer's priority</label><input data-field="customer_priority" placeholder="keeping your home address more private"></div>
+          <div class="field wide"><label>Next step</label><input data-field="next_step" placeholder="review the information and bring any questions to our meeting"></div>
+          <div class="field wide"><label>Optional link override</label><input data-field="link_override" inputmode="url" placeholder="Leave blank to use the verified official page"></div>
+        </div>
+        <div class="profile-note">Tip: use the customer’s exact words in “Customer’s priority.” Every copied email automatically includes its verified official product link. Paste a secure https link above only when you need to override it.</div>
+      </aside>
+
+      <main class="library">
+        <div class="library-head">
+          <div><span class="section-kicker">Template library</span><h2>Choose the moment.</h2><p id="resultCount">24 templates ready to use</p></div>
+          <input class="search" id="search" aria-label="Search email templates" placeholder="Search registered agent, price, partner…">
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="featured"><b>Start here:</b> “Registered Agent information before tomorrow’s meeting” is written specifically for the customer situation you described today.</div>
+        <div class="templates" id="templates"></div>
+      </main>
+    </div>
+    <div class="foot">Personal Email Desk · Review every message before sending · Customer support: 1-844-493-6249</div>
+  </div>
+
+  <script>
+  (function(){
+    "use strict";
+    var STORAGE="personal_email_desk_v1";
+    var CATEGORIES=["All","Meeting","Product information","Objections","Follow-up","After purchase"];
+    var TEMPLATES=[
+      {
+        id:"ra-before-meeting",category:"Meeting",featured:true,title:"Registered Agent information before tomorrow's meeting",use:"When the customer asked for information before a scheduled follow-up.",
+        subject:"A simple way to protect {{business_name}}’s important notices",
+        body:`Hi {{first_name}},
+
+It was great speaking with you today. Like I promised, here’s a quick overview of the Registered Agent service before we talk again on {{meeting_date}} at {{meeting_time}}.
+
+In simple terms, a Registered Agent is the person or company that receives important state and legal documents for a business. If ZenBusiness fills that role for {{business_name}}:
+
+• We monitor notices sent to the Registered Agent address.
+• Important documents are scanned and uploaded to your ZenBusiness dashboard.
+• We let you know when a legal notice needs your attention.
+• Sensitive notices can be received away from customers or employees.
+• You don’t have to personally be available at the listed address during normal business hours.
+
+The biggest value is knowing someone is consistently watching for documents that could be time-sensitive. That directly supports what you told me about {{customer_priority}}, while taking one more responsibility off your plate.
+
+The price we discussed was {{quoted_price}}. I’ll double-check the exact rate, renewal terms, and details for your account before you make any decision.
+
+You don’t need to do anything before our meeting. Take a look when you have a chance and jot down any questions. Tomorrow, we can answer them and decide whether you’d like to put this protection in place for {{business_name}}.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}
+Customer support: {{support_number}}`
+      },
+      {
+        id:"meeting-tomorrow",category:"Meeting",title:"Simple meeting confirmation",use:"A clean confirmation that reinforces the purpose of tomorrow's conversation.",
+        subject:"Our next step for {{business_name}}",
+        body:`Hi {{first_name}},
+
+Just a quick note to confirm that we’re set to talk on {{meeting_date}} at {{meeting_time}}.
+
+We’ll go over {{customer_priority}}, answer anything that’s still unclear, and decide whether the option we discussed is worth putting in place. You don’t need to prepare anything—just bring any questions that come to mind.
+
+If the time no longer works, reply here or give me a call and we’ll find a better one.
+
+Talk soon,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"general-info-request",category:"Meeting",title:"Information requested before a meeting",use:"A flexible version when the customer asks for product details.",
+        subject:"The information and next step for {{business_name}}",
+        body:`Hi {{first_name}},
+
+Thanks again for your time today. Here’s the information I promised so you can look it over before we talk on {{meeting_date}} at {{meeting_time}}.
+
+The biggest thing you mentioned was {{customer_priority}}. Leaving that unresolved can keep taking time and attention away from the business, so when we reconnect, we’ll focus on whether the option we discussed solves it well enough to move forward. I’ll also confirm the current price and terms and answer anything you’re unsure about.
+
+There’s nothing you need to do right now. Take a look when you have a moment and make a note of any questions. On our call, we can get those answered and make a clear decision together.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"ra-detailed",category:"Product information",title:"Registered Agent — detailed overview",use:"A more complete explanation after a substantive conversation.",
+        subject:"Keeping {{business_name}} covered during the business day",
+        body:`Hi {{first_name}},
+
+It was great talking with you. I wanted to send a little more detail about the Registered Agent service we discussed for {{business_name}}.
+
+A Registered Agent is the business’s official point of contact for important state and legal documents. Someone has to be available at the listed address during normal business hours, which is where a professional service can help.
+
+With ZenBusiness as your Registered Agent:
+
+• We monitor notices sent to the Registered Agent address.
+• Important documents are scanned and added to your dashboard.
+• We notify you when a legal notice needs your attention.
+• Sensitive notices can be received away from customers or employees.
+• You have more flexibility during the business day.
+
+The real value is consistency: important notices still need to be handled even when you’re working, traveling, or away from the listed address. Since you mentioned {{customer_priority}}, this gives you a practical way to handle that responsibility without building your day around it.
+
+The price we discussed was {{quoted_price}}. I’ll confirm the current rate, renewal terms, and details for your account before anything is added.
+
+Feel free to reply with questions. Otherwise, we’ll go through everything on {{meeting_date}} at {{meeting_time}} and decide whether you’d like to add it.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"money-pro",category:"Product information",title:"Money Pro overview",use:"For customers who want bookkeeping, invoicing, expense, or mileage information.",
+        subject:"A simpler way to manage {{business_name}}’s finances",
+        body:`Hi {{first_name}},
+
+Thanks again for speaking with me. Since you mentioned {{customer_priority}}, I thought it would be helpful to send a quick look at Money Pro.
+
+It’s built to make the day-to-day money side of the business easier to keep up with. You can use it to:
+
+• Track income and expenses from connected accounts
+• Categorize transactions and possible tax deductions
+• Track business mileage
+• Create quotes and invoices
+• Collect and monitor payments
+• Get a clearer view of cash flow and keep records organized for tax time
+
+Without one consistent system, transactions, receipts, invoices, and mileage can pile up quickly. Money Pro is meant to keep that work organized as the business runs, instead of leaving you with a large cleanup project later. That’s why I thought it fit your priority of {{customer_priority}}.
+
+The price we discussed was {{quoted_price}}. I’ll confirm the current features, rate, renewal terms, and eligibility for your account before you decide.
+
+Take a look and bring any questions to our call on {{meeting_date}} at {{meeting_time}}. If it fits the way you plan to manage the business, we can get the next step handled together.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"quarterly-planning",category:"Product information",title:"Quarterly Tax Planning overview",use:"For customers interested in professional tax guidance throughout the year.",
+        subject:"Planning ahead for {{business_name}}’s taxes",
+        body:`Hi {{first_name}},
+
+As promised, here’s a quick overview of Quarterly Tax Planning for {{business_name}}.
+
+The idea is to give you access to a credentialed tax expert during the year—not just when a return is due. Depending on the plan, they can help with things like quarterly estimates, tax deadlines, business-structure questions, IRS compliance, and planning ahead.
+
+The reason timing matters is that once a quarter—or the whole year—is over, some choices have already been made. Having a tax professional available during the year gives you a chance to ask questions while you can still act on the guidance. The advice is based on your situation, so it isn’t a promise of a certain deduction, refund, or tax result.
+
+The price we discussed was {{quoted_price}}. When we talk again, I’ll confirm exactly what’s included and how billing works. Then we can decide whether having that year-round guidance would be valuable enough to put in place now.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"tax-filing",category:"Product information",title:"Business Tax Prep and Filing overview",use:"For customers who want professional preparation and filing support.",
+        subject:"Taking tax preparation off your plate for {{business_name}}",
+        body:`Hi {{first_name}},
+
+Thanks again for your time. Here’s the information we discussed about Business Tax Prep and Filing.
+
+This is for business owners who would rather have a credentialed tax professional prepare and file the applicable returns than manage every form, deadline, and detail alone. That can reduce the time you spend sorting through tax requirements and give you professional help reviewing the return before it’s filed. What’s included varies by business type and plan, including state coverage and whether a personal return is included.
+
+When we talk again, I’ll confirm what applies to {{business_name}}, the current price of {{quoted_price}}, and what you would need to get started. If the scope fits what you need, we can move forward with a clear plan for gathering everything properly.
+
+If a question comes up while you’re reviewing this, just reply and send it my way.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"tax-bundle",category:"Product information",title:"Tax bundle recap",use:"A concise recap when planning, filing, and bookkeeping were discussed together.",
+        subject:"Connecting the tax and bookkeeping pieces for {{business_name}}",
+        body:`Hi {{first_name}},
+
+It was a pleasure speaking with you. Since your main priority is {{customer_priority}}, we talked about bringing three pieces together:
+
+• Quarterly planning with credentialed tax experts
+• Professional business tax preparation and filing
+• Money Pro for keeping up with income, expenses, mileage, and invoices
+
+The benefit is that the planning, the records, and the final return aren’t happening in three completely separate places. When those pieces are disconnected, it can mean more catching up, more uncertainty, and more work at filing time. Exactly what’s included depends on the business type and current plan.
+
+The price we discussed was {{quoted_price}}. I’ll confirm the package, eligibility, billing, and renewal details. If everything lines up, we can get the support in place and move forward with a cleaner system.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"ein",category:"Product information",title:"EIN filing information",use:"For customers deciding whether to obtain an EIN themselves or use the service.",
+        subject:"Getting {{business_name}} its federal tax ID",
+        body:`Hi {{first_name}},
+
+As promised, here’s a quick explanation of the EIN service we discussed.
+
+An EIN is a nine-digit federal tax ID issued by the IRS. Businesses commonly use it to file taxes, hire employees, and open a business bank account, so it can become a practical blocker when you’re trying to move the business forward.
+
+You can apply directly through the IRS, or ZenBusiness can file the application using the information you provide and let you know when the EIN is ready. The IRS controls the processing time, so I don’t want to promise an exact delivery date.
+
+The price we discussed was {{quoted_price}}. I’ll confirm the details for your account before anything is added. If you’d rather have ZenBusiness handle the application than complete it yourself, we can take care of that next step together.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"operating-agreement",category:"Product information",title:"Operating Agreement information",use:"For customers asking about ownership, banking, or internal LLC rules.",
+        subject:"Putting {{business_name}}’s rules in writing",
+        body:`Hi {{first_name}},
+
+Thanks for speaking with me. Here’s a quick overview of the Operating Agreement we discussed.
+
+It’s an internal LLC document that lays out how the company will operate—things like ownership, management, voting, responsibilities, and what happens if an owner leaves. Once the members agree to it, they sign the document.
+
+It’s easier to agree on these rules before there’s a disagreement, ownership change, or major decision. A bank, investor, or adviser may also ask to see the agreement. Since legal requirements can vary, an attorney is the right person to answer questions about your specific document.
+
+The price we discussed was {{quoted_price}}. I’ll confirm what the current template includes and how it’s delivered. If you want the company’s structure documented now rather than later, we can get the next step handled.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"license-report",category:"Product information",title:"Business License Report overview",use:"For customers who want help researching possible licenses and permits.",
+        subject:"Finding the licenses {{business_name}} may need",
+        body:`Hi {{first_name}},
+
+As promised, here’s a quick summary of the Business License Report.
+
+The report uses the business location, industry, and activities you provide to research possible licenses, permits, and registrations at the local, county, state, and federal levels. It also gives you instructions for applying. That can save a lot of research time and help uncover requirements before they delay the launch or create a compliance problem.
+
+One important distinction: the report tells you what may be required, but it doesn’t submit the applications for you. Requirements can change, so they should still be confirmed with the appropriate government agency before the business begins operating.
+
+The price we discussed was {{quoted_price}}. I’ll confirm exactly what’s included and how the report is delivered. If you’d rather start with a researched list than piece the requirements together yourself, we can order the report and give you a clearer path forward.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"wfc",category:"Product information",title:"Worry-Free Compliance explanation",use:"Information-only explanation when a customer asks what an included feature does.",
+        subject:"Helping {{business_name}} stay ahead of state deadlines",
+        body:`Hi {{first_name}},
+
+You asked about Worry-Free Compliance, so I wanted to send a simple explanation.
+
+It helps you keep track of state compliance deadlines with reminders, a compliance calendar, and a personalized score. Those deadlines keep coming even when you’re busy running the business, and missing a required filing can create extra work or affect the company’s good standing. Current plans include annual-report filing, while amendment coverage and some other features depend on the plan. State filing fees are separate.
+
+It’s different from Registered Agent service. A Registered Agent receives official state and legal correspondence; Worry-Free Compliance focuses on reminders and covered filings that help keep the business in good standing.
+
+You’ll still want to watch the email address on the account and complete anything ZenBusiness asks for. I’ll confirm the exact coverage on your plan so you know what is—and isn’t—included. If you’d rather have the reminders and covered filings organized for you, we can make sure the right plan is active.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"think-it-over",category:"Objections",title:"Customer wants to think it over",use:"Keeps the conversation moving without pressuring the customer.",
+        subject:"A couple of questions before we reconnect about {{business_name}}",
+        body:`Hi {{first_name}},
+
+Thanks again for the conversation today. I completely understand wanting a little time to think everything over.
+
+The main thing you wanted help with was {{customer_priority}}, and the option we discussed was {{quoted_price}}.
+
+As you review it, think about whether the service solves the problem you want handled—and what happens if that problem stays unresolved. Also make a note of anything that still feels unclear about the service, timing, or cost.
+
+We’ll reconnect on {{meeting_date}} at {{meeting_time}} and talk it through. My goal is for you to leave that conversation with a clear yes or no—not another unanswered question.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"price-concern",category:"Objections",title:"Follow-up after a price concern",use:"Recaps value without immediately discounting or arguing.",
+        subject:"Making sure the option for {{business_name}} is worth it",
+        body:`Hi {{first_name}},
+
+Thanks for being honest about the price today. I understand that the investment has to make sense for you.
+
+I recommended the service because you told me {{customer_priority}}. Before we talk again, think about whether the service itself feels like the right solution. If it does, we can focus our next conversation on the price and any available options. If it doesn’t, I’d rather know that too.
+
+The price we discussed was {{quoted_price}}. I’ll double-check the current rate, payment options, and terms before we reconnect on {{meeting_date}} at {{meeting_time}}. If the service solves the right problem and the numbers are comfortable, we can move forward. If not, we’ll know exactly why.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"partner",category:"Objections",title:"Customer needs to speak with a partner",use:"Helps the customer explain the decision and creates a specific next event.",
+        subject:"What to review together for {{business_name}}",
+        body:`Hi {{first_name}},
+
+I completely understand wanting to talk this over with your partner first.
+
+The main issue we discussed was {{customer_priority}}, and the option we reviewed was {{quoted_price}}. When the two of you talk, these three questions may help:
+
+1. Is this something you both want handled now?
+2. Does the service solve the issue in a way that feels worthwhile?
+3. What would either of you still need answered before deciding?
+
+If it would be easier, I’m happy to speak with both of you so you don’t have to relay everything secondhand. For now, we’re set to reconnect on {{meeting_date}} at {{meeting_time}}. If the questions are answered and you both feel comfortable, we can handle the next step on that call.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"comparing",category:"Objections",title:"Customer is comparing providers",use:"Stays professional and makes the comparison concrete.",
+        subject:"What to compare before choosing a provider for {{business_name}}",
+        body:`Hi {{first_name}},
+
+It makes sense to compare a few options before you decide. Just make sure you’re comparing the same things across each provider:
+
+• The exact service scope
+• What is included versus charged separately
+• Renewal pricing and commitment terms
+• How documents, support, and notifications are delivered
+• Cancellation and refund terms
+• Who is responsible for each next step
+
+The ZenBusiness option we discussed was {{quoted_price}}, and I recommended it because you mentioned {{customer_priority}}. When we talk again, I’ll confirm the current details so you can compare everything fairly.
+
+If you find something that looks different, send it over. I’ll help you understand the difference without trying to pressure you one way or the other. Once we’ve compared the same details, you should be able to choose confidently instead of continuing to research indefinitely.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"not-operational",category:"Objections",title:"Customer is not operational yet",use:"Keeps the focus on preparation without inventing urgency.",
+        subject:"What {{business_name}} needs now—and what can wait",
+        body:`Hi {{first_name}},
+
+Thanks for explaining that the business isn’t operating yet. That’s helpful context, and it means we can plan around your real timeline instead of rushing anything.
+
+The main thing you want to prepare for is {{customer_priority}}. Handling the right foundation now can prevent delays when you’re ready to open, while waiting on the wrong things protects your cash. When we talk again, we’ll separate what genuinely makes sense to handle now from what can wait.
+
+If you have an expected launch date—or questions about banking, purchases, or licenses—bring those with you. We’ll leave the call with a simple timeline and, if something needs attention now, a clear next step.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"no-answer",category:"Follow-up",title:"No answer after an attempted call",use:"A short, specific message that makes replying easy.",
+        subject:"A quick follow-up on {{business_name}}",
+        body:`Hi {{first_name}},
+
+I tried giving you a quick call today about {{business_name}}. You mentioned {{customer_priority}}, and I didn’t want that question to get lost before we finished the conversation.
+
+You can reply with a good time to reach you, or call me directly{{direct_line_sentence}}. If email is easier, just reply “email” and I’ll send everything that way. Either way, we can get you to a clear next step.
+
+Best,
+{{rep_name}}
+ZenBusiness`
+      },
+      {
+        id:"reschedule",category:"Follow-up",title:"Reschedule a missed or changed meeting",use:"Preserves momentum and gives two simple options.",
+        subject:"Let’s find a better time for {{business_name}}",
+        body:`Hi {{first_name}},
+
+No problem about missing our call. I’d still be happy to help with {{customer_priority}}, answer anything that came up, and make sure the issue doesn’t stay on your list unresolved.
+
+Would later today or tomorrow be better? Send me the day and time that works best, and I’ll confirm it.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"call-recap",category:"Follow-up",title:"Personalized call recap",use:"Summarizes the customer’s priority, recommendation, and next step.",
+        subject:"What we discussed—and the next decision for {{business_name}}",
+        body:`Hi {{first_name}},
+
+Thanks again for speaking with me today. Here’s a quick recap so everything is in one place:
+
+What matters most to you: {{customer_priority}}
+Service we discussed: {{product_name}}
+Price we reviewed: {{quoted_price}}
+Our next step: {{next_step}}
+
+I’ll double-check the pricing, terms, eligibility, and details for your account before you make a final decision. If everything matches what we discussed and the option solves the priority above, we can handle the next step together. In the meantime, just reply if a question comes up.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"scheduled-followup",category:"Follow-up",title:"Confirm a specific follow-up commitment",use:"Locks in the day, time, and reason for reconnecting.",
+        subject:"Our decision point for {{business_name}}",
+        body:`Hi {{first_name}},
+
+Just confirming that we’ll reconnect on {{meeting_date}} at {{meeting_time}}.
+
+We’ll pick back up with {{customer_priority}}, answer the remaining questions, and make a clear decision about the option we discussed. Before then, the next step is: {{next_step}}.
+
+If anything changes, reply here or call me directly{{direct_line_sentence}}.
+
+Talk soon,
+{{rep_name}}
+ZenBusiness`
+      },
+      {
+        id:"purchase-next-steps",category:"After purchase",title:"Purchase confirmation and next steps",use:"A clean recap after the customer completes a purchase.",
+        subject:"Your service is underway—next steps for {{business_name}}",
+        body:`Hi {{first_name}},
+
+Thank you for taking care of everything for {{business_name}} today. Here’s a quick recap of what comes next:
+
+Service selected: {{product_name}}
+Amount authorized: {{quoted_price}}
+Next step: {{next_step}}
+
+Keep an eye on the email connected to your account and check your ZenBusiness dashboard for updates, documents, or anything that needs your attention. Taking care of those requests promptly is the best way to keep the service moving. Timing varies by product, so the dashboard and confirmation email will have the most current instructions.
+
+If you need anything, reply here, call me directly{{direct_line_sentence}}, or contact Customer Support at {{support_number}}.
+
+Best,
+{{rep_name}}
+ZenBusiness`
+      },
+      {
+        id:"thank-you-no-sale",category:"Follow-up",title:"Helpful follow-up when they decline",use:"Leaves the relationship in good shape without continuing to pressure them.",
+        subject:"Here if you want to revisit this for {{business_name}}",
+        body:`Hi {{first_name}},
+
+Thank you for taking the time to speak with me about {{business_name}}.
+
+I understand that now isn’t the right time to move forward. I made a note that your main priority is {{customer_priority}}, so if the issue becomes more urgent or starts taking more time than expected, we can pick up from there instead of starting over.
+
+If you ever have a question, you’re welcome to reply to this email or contact Customer Support at {{support_number}}. Either way, I appreciate the conversation and wish you the best with the business.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      },
+      {
+        id:"questions-answered",category:"After purchase",title:"Questions answered after the sale",use:"Documents a clarification without making new promises.",
+        subject:"Your answers and next step for {{business_name}}",
+        body:`Hi {{first_name}},
+
+I’m glad you reached out. Here’s a quick recap of what we covered:
+
+• The service selected was {{product_name}}.
+• The amount authorized was {{quoted_price}}.
+• The next step is {{next_step}}.
+
+Your confirmation email and dashboard will always have the most current details about what’s included and what happens next. Please complete the action above as soon as you can so the service keeps moving. If anything in the dashboard looks different from what you expected, let me know or contact Customer Support at {{support_number}} and we’ll help get it reviewed.
+
+Best,
+{{rep_name}}
+ZenBusiness{{direct_line_line}}`
+      }
+    ];
+
+    var LINKS={
+      "ra-before-meeting":{label:"Registered Agent service details",url:"https://www.zenbusiness.com/registered-agent/"},
+      "meeting-tomorrow":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "general-info-request":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "ra-detailed":{label:"Registered Agent service details",url:"https://www.zenbusiness.com/registered-agent/"},
+      "money-pro":{label:"ZenBusiness Money Pro",url:"https://www.zenbusiness.com/money/"},
+      "quarterly-planning":{label:"ZenBusiness tax services",url:"https://www.zenbusiness.com/tax-services/"},
+      "tax-filing":{label:"ZenBusiness tax services",url:"https://www.zenbusiness.com/tax-services/"},
+      "tax-bundle":{label:"ZenBusiness tax services",url:"https://www.zenbusiness.com/tax-services/"},
+      "ein":{label:"ZenBusiness EIN service",url:"https://www.zenbusiness.com/ein-number/"},
+      "operating-agreement":{label:"ZenBusiness Operating Agreement",url:"https://www.zenbusiness.com/operating-agreement/"},
+      "license-report":{label:"ZenBusiness Business License Report",url:"https://www.zenbusiness.com/pricing-business-license-report/"},
+      "wfc":{label:"ZenBusiness Worry-Free Compliance",url:"https://www.zenbusiness.com/pricing-worry-free/"},
+      "think-it-over":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "price-concern":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "partner":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "comparing":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "not-operational":{label:"ZenBusiness small-business guides",url:"https://help.zenbusiness.com/"},
+      "no-answer":{label:"ZenBusiness contact and support",url:"https://www.zenbusiness.com/contact-us/"},
+      "reschedule":{label:"ZenBusiness Help Center",url:"https://help.zenbusiness.com/"},
+      "call-recap":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "scheduled-followup":{label:"ZenBusiness Help Center",url:"https://help.zenbusiness.com/"},
+      "purchase-next-steps":{label:"ZenBusiness customer login",url:"https://www.zenbusiness.com/login/"},
+      "thank-you-no-sale":{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"},
+      "questions-answered":{label:"ZenBusiness customer login",url:"https://www.zenbusiness.com/login/"}
+    };
+
+    var defaults={rep_name:"[your name]",direct_line:"",customer_name:"[customer name]",business_name:"[business name]",meeting_date:"[meeting date]",meeting_time:"[meeting time]",quoted_price:"[confirmed price]",customer_priority:"[their priority in their words]",next_step:"[agreed next step]",product_name:"[service discussed]",link_override:"",support_number:"1-844-493-6249"};
+    var profile={};
+    try{profile=JSON.parse(localStorage.getItem(STORAGE)||"{}")||{}}catch(e){profile={}}
+    var active="All";
+    var search=document.getElementById("search"),filters=document.getElementById("filters"),container=document.getElementById("templates"),resultCount=document.getElementById("resultCount");
+
+    function firstName(){var n=(profile.customer_name||"").trim();return n?n.split(/\s+/)[0]:"[first name]"}
+    function tokens(){
+      var v=Object.assign({},defaults,profile);
+      v.first_name=firstName();
+      v.direct_line_line=v.direct_line?"\n"+v.direct_line:"";
+      v.direct_line_sentence=v.direct_line?" at "+v.direct_line:"";
+      return v;
+    }
+    function fill(text){var v=tokens();return String(text).replace(/\{\{([a-z_]+)\}\}/g,function(_,k){return v[k]!==undefined?v[k]:"["+k.replace(/_/g," ")+"]"})}
+    function esc(text){return String(text).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+    function icon(category){return {"Meeting":"CAL","Product information":"INFO","Objections":"FIX","Follow-up":"NEXT","After purchase":"DONE"}[category]||"MAIL"}
+    function safeUrl(value){try{var u=new URL(String(value||"").trim());return u.protocol==="https:"?u.href:""}catch(e){return ""}}
+    function resourceFor(t){var standard=LINKS[t.id]||{label:"ZenBusiness products and pricing",url:"https://www.zenbusiness.com/pricing-products/"};var custom=safeUrl(profile.link_override);return custom?{label:"Information selected for this customer",url:custom}:standard}
+    function emailBody(t){var body=fill(t.body),resource=resourceFor(t),block="Helpful link — "+resource.label+":\n"+resource.url,signoff=body.search(/\n\n(?:Best|Talk soon),/);return signoff>=0?body.slice(0,signoff)+"\n\n"+block+body.slice(signoff):body+"\n\n"+block}
+
+    function renderFilters(){filters.innerHTML=CATEGORIES.map(function(c){return '<button type="button" data-category="'+esc(c)+'" class="'+(c===active?"active":"")+'">'+esc(c)+'</button>'}).join("")}
+    function matches(t){var q=search.value.trim().toLowerCase(),r=resourceFor(t);return (active==="All"||t.category===active)&&(!q||(t.title+" "+t.use+" "+t.subject+" "+t.body+" "+r.label).toLowerCase().indexOf(q)>=0)}
+    function render(){
+      var list=TEMPLATES.filter(matches);
+      resultCount.textContent=list.length+" template"+(list.length===1?"":"s")+" ready to use";
+      document.getElementById("templateCount").textContent=TEMPLATES.length;
+      if(!list.length){container.innerHTML='<div class="empty">No templates match that search.</div>';return}
+      container.innerHTML=list.map(function(t){var r=resourceFor(t);return '<details class="template'+(t.featured?' featured-template':'')+'" data-id="'+t.id+'"'+(t.featured&&active==="All"&&!search.value?' open':'')+'><summary><span class="template-icon">'+icon(t.category)+'</span><span class="template-title"><span>'+esc(t.category)+'</span><h3>'+esc(t.title)+'</h3><p>'+esc(t.use)+'</p></span><span class="chevron">⌄</span></summary><div class="template-content"><div class="email-label">Subject</div><div class="subject-preview"></div><div class="email-label">Email</div><pre class="body-preview"></pre><div class="official-source"><span>Verified official link</span><a href="'+esc(r.url)+'" target="_blank" rel="noopener noreferrer">'+esc(r.label)+' ↗</a></div><div class="actions"><button type="button" data-copy-subject="'+t.id+'">Copy subject</button><button type="button" data-copy-link="'+t.id+'">Copy link</button><button type="button" class="primary" data-copy-email="'+t.id+'">Copy full email</button></div></div></details>'}).join("");
+      refreshPreviews();
+    }
+    function refreshPreviews(){
+      Array.prototype.forEach.call(container.querySelectorAll(".template"),function(card){var t=TEMPLATES.find(function(x){return x.id===card.getAttribute("data-id")});if(!t)return;var r=resourceFor(t),a=card.querySelector(".official-source a");card.querySelector(".subject-preview").textContent=fill(t.subject);card.querySelector(".body-preview").textContent=emailBody(t);a.textContent=r.label+" ↗";a.href=r.url})
+    }
+    function save(){try{localStorage.setItem(STORAGE,JSON.stringify(profile))}catch(e){}}
+    function copy(text,message){
+      function done(){var n=document.createElement("div");n.className="toast";n.textContent=message;document.body.appendChild(n);setTimeout(function(){n.remove()},1800)}
+      if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(done);else{var a=document.createElement("textarea");a.value=text;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove();done()}
+    }
+
+    Array.prototype.forEach.call(document.querySelectorAll("[data-field]"),function(input){var k=input.getAttribute("data-field");input.value=profile[k]||"";input.addEventListener("input",function(){profile[k]=input.value;save();refreshPreviews()})});
+    filters.addEventListener("click",function(e){var b=e.target.closest("[data-category]");if(!b)return;active=b.getAttribute("data-category");renderFilters();render()});
+    search.addEventListener("input",render);
+    container.addEventListener("click",function(e){var sb=e.target.closest("[data-copy-subject]"),lb=e.target.closest("[data-copy-link]"),eb=e.target.closest("[data-copy-email]");if(sb){var t=TEMPLATES.find(function(x){return x.id===sb.getAttribute("data-copy-subject")});if(t)copy(fill(t.subject),"Subject copied")}if(lb){var l=TEMPLATES.find(function(x){return x.id===lb.getAttribute("data-copy-link")});if(l)copy(resourceFor(l).url,"Official link copied")}if(eb){var x=TEMPLATES.find(function(y){return y.id===eb.getAttribute("data-copy-email")});if(x)copy("Subject: "+fill(x.subject)+"\n\n"+emailBody(x),"Full email copied")}});
+    renderFilters();render();
+  })();
+  </script>
+</body>
+</html>
