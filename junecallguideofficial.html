@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZenBusiness Call Mode — June Training Sales Guide 2026</title>
+<meta name="theme-color" content="#10382a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,300..800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
    TWO REGISTERS, ALWAYS.
@@ -1500,6 +1504,7 @@ function saveDay(){try{store.set(SKEY,JSON.stringify(DAY));}catch(e){}}
    3. HELPERS
    ========================================================================== */
 function $(id){return document.getElementById(id);}
+function pingShell(){try{document.dispatchEvent(new Event("cm:render"));}catch(e){}}
 function esc(t){return String(t==null?"":t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function fmt(sec){sec=Math.max(0,Math.floor(sec));var m=Math.floor(sec/60),s=sec%60;return (m<10?"0":"")+m+":"+(s<10?"0":"")+s;}
 function money(s){var n=parseFloat(String(s).replace(/[^0-9.]/g,""));return isNaN(n)?0:n;}
@@ -3383,6 +3388,7 @@ function renderCenter(){
   var mc=$("mailOut"); if(mc&&S._mail)mc.value=S._mail;
   wireSearch("objSearchMain","objListMain");
   S.visited[S.stage]=true;
+  pingShell();
 }
 function renderRail(){
   var el=$("rail"), cur=stIdx(S.stage), html="", lastPhase="", open=false;
@@ -3402,6 +3408,7 @@ function renderRail(){
   var pct=Math.round(cur/(ST.length-1)*100);
   $("progbar").style.width=pct+"%"; $("mapPct").textContent=pct+"%";
   $("stagePill").innerHTML=ST[cur][1];
+  pingShell();
 }
 function renderWho(){
   var c=(S.f.customerName||"").trim(), b=(S.f.businessName||"").trim(), p=(S.f.packageName||"").trim();
@@ -3411,6 +3418,7 @@ function renderWho(){
   pill.textContent=n?("🛒 "+n+" · "+usd(cartTotal())):"🛒 Nothing closed";
   var r=readiness(), rp=$("readyPill");
   rp.className="readypill"+(r>=70?" hot":""); rp.textContent="Ready "+r+"%";
+  pingShell();
 }
 function shortName(k){return {RA:"Agent",EIN:"EIN",OA:"Agreement",BLR:"Licenses",MP:"Money Pro",MPM:"Money Pro (monthly)",
   QTP:"Planning",QTPM:"Planning (monthly)",BTP:"Filing",DIFY:"Planning+filing",DIFYM:"Planning+filing (monthly)",
@@ -3465,6 +3473,7 @@ function renderRight(){
 
   $("right").innerHTML=h;
   wireSearch("objSearch","objList");
+  pingShell();
 }
 function wireSearch(inputId,listId){
   var inp=$(inputId); if(!inp)return;
@@ -3521,6 +3530,7 @@ function renderClock(){
   var p=paceState(), el=$("pace"); el.className="pace "+p[0]; el.textContent=p[1];
   $("btnRush").className="rushbtn"+(S.rushed?" on":"");
   $("fClock").textContent=fmt(S.elapsed);
+  pingShell();
 }
 var lastTick=Date.now();
 setInterval(function(){
@@ -3996,6 +4006,8 @@ $("fObj").onclick=function(){openObj("");};
    20. INIT
    ========================================================================== */
 window.__cm={state:function(){return S;},day:function(){return DAY;},recLane:recLane,PRICE:PRICE,
+  stages:function(){return ST.map(function(p){return {id:p[0],name:String(p[1]).replace(/&amp;/g,"&"),phase:p[4]};});},
+  stageIndex:stIdx,
   taxReady:taxReady,readiness:readiness,genRecap:genRecap,genEmail:genEmail,
   addSeconds:function(n){S.elapsed+=n;renderClock();}};
 syncSetup();

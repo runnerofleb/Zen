@@ -10,7 +10,7 @@
      Archivo         = headings, controls, the wordmark
    ========================================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,300..800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap");
+/* Fonts now load from the HTML <head> with preconnect — no @import needed. */
 
 :root {
   /* Surface */
@@ -1367,4 +1367,238 @@ body.ui-compact #center .say-t { font-size: 18px; line-height: 1.58; }
   #center .nav,
   #center .bopts,
   .toast { display: none !important; }
+}
+
+/* ==========================================================================
+   PATCH 2 — focus mode: the reading room
+   A dim phase-tinted chamber, one lit ledger sheet, page-turn motion.
+   Append-only: safe to paste at the bottom of the existing file.
+   ========================================================================== */
+
+/* The room: ambient glow in the current phase color, cinematic vignette. */
+.focus {
+  padding: 20px clamp(18px, 4vw, 44px) 18px;
+  background:
+    radial-gradient(1100px 640px at 50% -240px, color-mix(in srgb, var(--phase, #37d183) 17%, transparent), transparent 62%),
+    radial-gradient(120% 90% at 50% 120%, rgba(0, 0, 0, .42), transparent 58%),
+    linear-gradient(180deg, #0d2f22, #071c13 72%);
+}
+
+/* A ghosted registry seal floats behind the sheet. */
+.fbody { position: relative; }
+
+.fbody::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(620px, 80vw);
+  height: min(620px, 80vw);
+  border: 2px solid rgba(255, 255, 255, .045);
+  border-radius: 50%;
+  outline: 1px solid rgba(255, 255, 255, .03);
+  outline-offset: 16px;
+  box-shadow: inset 0 0 0 46px rgba(255, 255, 255, .014);
+  transform: translate(-50%, -52%) rotate(-8deg);
+  pointer-events: none;
+}
+
+/* Head: the stage name set plainly, counter and clock in quiet mono. */
+.focus .fhead { gap: 14px; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, .09); }
+
+.focus .fhead .st {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  font-family: var(--ed-display);
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: -.02em;
+  text-transform: none;
+}
+
+.focus .fhead .st::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 10px;
+  border-radius: 2px;
+  background: var(--phase, var(--ed-signal));
+  vertical-align: 1px;
+}
+
+.focus .fhead .fhint { color: var(--ed-chrome-muted); font-size: 10.5px; letter-spacing: .12em; }
+.focus .fhead .ct { font-size: 24px; letter-spacing: -.02em; }
+.focus .fhead .fbtn { min-height: 0; padding: 8px 14px; font-size: 12px; }
+
+/* The sheet: feint rules, a stacked-pages edge, generous margins. */
+.focus .fcard {
+  position: relative;
+  max-width: 1080px;
+  padding: clamp(30px, 4.5vw, 54px) clamp(26px, 4vw, 58px) clamp(30px, 4.5vw, 54px) clamp(56px, 7vw, 108px);
+  border: 1px solid rgba(255, 255, 255, .6);
+  border-radius: 20px;
+  background:
+    linear-gradient(rgba(16, 56, 42, .038) 1px, transparent 1px) 0 0 / 100% 46px,
+    linear-gradient(180deg, #fdfdf9, #f2f4ec);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .9),
+    0 12px 0 -6px #e6e9df,
+    0 22px 0 -12px #d9ddd0,
+    0 48px 110px rgba(2, 12, 7, .6);
+}
+
+/* The vermilion margin rule every real ledger page has. */
+.focus .fcard::before {
+  inset: 0 auto 0 clamp(38px, 5vw, 76px);
+  width: 2px;
+  border-radius: 0;
+  background: rgba(191, 78, 66, .4);
+}
+
+.focus .fcard:has(.frep)::before { background: rgba(178, 141, 58, .5); }
+
+/* A rubber-stamped phase mark in the corner of the sheet. */
+.focus .fcard::after {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  padding: 5px 11px;
+  border: 1.5px solid color-mix(in srgb, var(--phase, var(--ed-brand)) 55%, transparent);
+  border-radius: 5px;
+  outline: 1px solid color-mix(in srgb, var(--phase, var(--ed-brand)) 28%, transparent);
+  outline-offset: 3px;
+  color: color-mix(in srgb, var(--phase-deep, var(--ed-brand-deep)) 88%, #000);
+  font-family: var(--ed-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  transform: rotate(4deg);
+  opacity: .8;
+  pointer-events: none;
+}
+
+html[data-phase="open"] .focus .fcard::after { content: "Open"; }
+html[data-phase="review"] .focus .fcard::after { content: "Review"; }
+html[data-phase="compliance"] .focus .fcard::after { content: "Compliance"; }
+html[data-phase="tax"] .focus .fcard::after { content: "Tax"; }
+html[data-phase="close"] .focus .fcard::after { content: "Close"; }
+html[data-phase="reference"] .focus .fcard::after { content: "Reference"; }
+
+/* Entry label, set like a ledger heading. */
+.focus .fcard .ftag {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: var(--phase-deep, var(--ed-brand-deep));
+  font-family: var(--ed-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+}
+
+.focus .fcard .ftag::before { content: ""; width: 22px; height: 2px; background: currentColor; opacity: .55; }
+.focus .fcard .ftag.rep { color: #8a6a1c; }
+
+/* The line itself: teleprompter serif, dark ink, calm rhythm. */
+.focus .fspoken {
+  color: #17251d;
+  font-family: var(--ed-serif);
+  font-size: clamp(25px, 3.1vw, 43px);
+  font-weight: 440;
+  letter-spacing: -.02em;
+  line-height: 1.42;
+}
+
+.focus .fspoken b { color: #04140c; font-family: var(--ed-serif); font-size: 1em; font-weight: 700; }
+.focus .fspoken ul li::before { color: var(--phase, var(--ed-brand)); }
+
+/* Rep-only notes: hatched manila — unmistakably not for the customer. */
+.focus .frep {
+  padding: 18px 20px;
+  border: 1px solid #e3d5a8;
+  border-left: 4px solid #c9a84c;
+  border-radius: 12px;
+  color: #4d4426;
+  background: repeating-linear-gradient(135deg, #fbf6e4, #fbf6e4 10px, #f6efd8 10px, #f6efd8 20px);
+  font-size: clamp(14px, 1.5vw, 18px);
+  line-height: 1.7;
+}
+
+.focus .frep b { color: #2e2812; }
+
+/* Branch choices: tactile paper option cards. */
+.focus .fbranch { gap: 10px; }
+
+.focus .fbranch button {
+  padding: 14px 22px;
+  border: 1px solid var(--ed-line-strong);
+  border-bottom-width: 3px;
+  border-radius: 11px;
+  color: var(--ed-ink);
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(13, 32, 22, .07);
+  font-family: var(--ed-display);
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.focus .fbranch button:hover { border-color: var(--ed-brand); color: var(--ed-brand-ink); transform: translateY(-2px); }
+
+/* Close gates, restyled for paper. */
+.focus .fgate { border: 1px solid #e6ce8a; border-radius: 12px; background: #fdf8ea; }
+.focus .fgate .k { color: #8a6a1c; }
+.focus .fgate button { border: 1px solid #e6ce8a; border-radius: 8px; color: #6d5415; background: #fff; }
+.focus .fgate button.done { border-color: var(--ed-brand-deep); color: #fff; background: var(--ed-brand-deep); }
+
+/* Foot: one luminous action, ruler-mark progress instead of dots. */
+.focus .ffoot { gap: 9px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, .09); }
+.focus .fbtn { min-height: 50px; padding: 13px 22px; border-radius: 11px; font-size: 13.5px; }
+.focus .fbtn.go { padding-inline: 30px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 10px 30px rgba(23, 185, 104, .35); }
+
+.focus .fdots { gap: 5px; align-items: flex-end; }
+.focus .fdots i { width: 3px; height: 12px; border-radius: 2px; background: rgba(255, 255, 255, .16); transform: none; }
+.focus .fdots i.past { background: rgba(255, 255, 255, .34); }
+
+.focus .fdots i.on {
+  width: 4px;
+  height: 20px;
+  background: var(--phase, var(--ed-signal));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--phase, var(--ed-signal)) 65%, transparent);
+  transform: none;
+}
+
+/* Motion: the sheet rises on entry; each line turns like a page. */
+@keyframes focusCardIn {
+  from { opacity: 0; transform: translateY(30px) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
+.focus.on .fcard { animation: focusCardIn .5s cubic-bezier(.16, .84, .28, 1) both; }
+
+@keyframes focusLineIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+.focus .fcard.is-turning > * { animation: focusLineIn .24s cubic-bezier(.2, .8, .3, 1) both; }
+.focus .fcard.is-turning > * + * { animation-delay: .05s; }
+
+@media (max-width: 700px) {
+  .focus .fcard { padding: 24px 18px 26px 20px; background: linear-gradient(180deg, #fdfdf9, #f2f4ec); }
+  .focus .fcard::before { display: none; }
+  .focus .fcard::after { top: 12px; right: 12px; }
+  .focus .fspoken { font-size: 23px; }
+  .focus .fhead .ct { font-size: 19px; }
+  .focus .fbtn { min-height: 46px; padding: 11px 16px; font-size: 12.5px; }
+  .fbody::before { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus.on .fcard,
+  .focus .fcard.is-turning > * { animation: none; }
 }
