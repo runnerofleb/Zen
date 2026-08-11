@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZenBusiness Call Mode — June Training Sales Guide 2026</title>
-<meta name="theme-color" content="#10382a">
+<meta name="theme-color" content="#0A7C46">
 <meta name="description" content="A personalized, live-call sales workspace for the June 2026 training guide.">
 <meta name="application-name" content="Revenue Desk">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -4351,8 +4351,10 @@ body.apex-dark #right .reco .golane { color: #062116; background: var(--folio-si
   --sl-ink: #0b1510;
   --sl-pine: #082c20;
   --sl-pine-2: #123e2e;
-  --sl-signal: #53e39a;
+  --sl-signal: #3DDC84;
   --sl-signal-ink: #032014;
+  --sl-zb-mid: #14B866;
+  --sl-zb-deep: #0A7C46;
   --sl-canvas: #eeece4;
   --sl-paper: #fffef9;
   --sl-field: #f7f7f2;
@@ -4429,7 +4431,7 @@ button, input, textarea, select { font-family: var(--sl-sans); }
 .ed-sep { height: 16px; background: var(--sl-line-strong); }
 .ed-suite { color: #4c5b52; font-size: 9px; letter-spacing: .17em; }
 .ed-mast-meta { color: #536159; font-size: 9px; letter-spacing: .12em; }
-.ed-mast-meta .ed-internal::before { width: 6px; height: 6px; border-radius: 0; background: #157b4b; box-shadow: 0 0 0 3px rgba(21, 123, 75, .11); }
+.ed-mast-meta .ed-internal::before { width: 6px; height: 6px; border-radius: 0; background: var(--sl-zb-deep); box-shadow: 0 0 0 3px rgba(10, 124, 70, .11); }
 
 /* The command beam is the sole dense surface: fast, flat, and exact. */
 .bar {
@@ -4533,6 +4535,7 @@ button, input, textarea, select { font-family: var(--sl-sans); }
 }
 
 .bar .bbtn.go:hover { color: var(--sl-signal-ink); background: #72eaaa; }
+.bar-tools #btnFocus::after { display: none; content: ""; }
 .bar .bbtn.ghost, .bar .cartpill.empty, .apex-tool { color: #edf5f0; border-color: rgba(255, 255, 255, .16); background: rgba(255, 255, 255, .045); }
 .bar .bbtn.ghost:hover, .apex-tool:hover { border-color: rgba(255, 255, 255, .32); background: rgba(255, 255, 255, .09); }
 .bar .track { right: 15px; bottom: 0; left: 15px; height: 3px; border-radius: 0; background: rgba(255, 255, 255, .1); }
@@ -4544,7 +4547,7 @@ button, input, textarea, select { font-family: var(--sl-sans); }
   margin-top: 15px;
   overflow: visible;
   border: 1px solid var(--sl-line);
-  border-left: 5px solid var(--phase, #157b4b);
+  border-left: 5px solid var(--phase, var(--sl-zb-deep));
   border-radius: 0;
   background: var(--sl-paper);
   box-shadow: var(--sl-shadow);
@@ -4567,7 +4570,7 @@ button, input, textarea, select { font-family: var(--sl-sans); }
 .ed-cs-lead { position: relative; z-index: 1; padding: 31px 35px 29px; }
 .ed-cs-kicker { margin-bottom: 16px; }
 .ed-live { color: var(--sl-pine); font-size: 8.5px; letter-spacing: .18em; }
-.ed-live::before { width: 7px; height: 7px; border-radius: 0; background: #157b4b; box-shadow: 0 0 0 4px rgba(21, 123, 75, .1); }
+.ed-live::before { width: 7px; height: 7px; border-radius: 0; background: var(--sl-zb-deep); box-shadow: 0 0 0 4px rgba(10, 124, 70, .1); }
 
 .ed-stamp {
   padding: 5px 9px;
@@ -4615,7 +4618,7 @@ button, input, textarea, select { font-family: var(--sl-sans); }
 .ed-cs-cell > small { margin-top: 9px; color: #59665e; font-size: 9px; }
 .ed-cs-cell:hover { background: color-mix(in srgb, var(--phase-tint, #e8f5ee) 42%, #fff); }
 .ed-meter { height: 3px; border-radius: 0; background: #dce1dc; }
-.ed-meter i { border-radius: 0; background: var(--phase, #157b4b); }
+.ed-meter i { border-radius: 0; background: var(--phase, var(--sl-zb-deep)); }
 
 /* The layout reads like a script desk, not a dashboard. */
 .grid {
@@ -4677,7 +4680,7 @@ button, input, textarea, select { font-family: var(--sl-sans); }
   padding: clamp(34px, 3vw, 54px);
   overflow: hidden;
   border: 1px solid var(--sl-line);
-  border-left: 6px solid var(--phase, #157b4b);
+  border-left: 6px solid var(--phase, var(--sl-zb-deep));
   border-radius: 0;
   background: var(--sl-paper);
   box-shadow: var(--sl-shadow);
@@ -4934,7 +4937,7 @@ button, input, textarea, select { font-family: var(--sl-sans); }
 .command-palette, .sheet { border: 1px solid rgba(255, 255, 255, .17); border-radius: 0; background: var(--sl-paper); box-shadow: 0 40px 120px rgba(3, 18, 11, .45); }
 .command-search-wrap > span { color: var(--sl-signal-ink); border-radius: 0; background: var(--sl-signal); clip-path: polygon(0 0, 100% 0, 100% 66%, 66% 100%, 0 100%); }
 .command-result { border-radius: 0; }
-.command-result:hover, .command-result.active { background: #e8f4ed; box-shadow: inset 4px 0 0 #157b4b; }
+.command-result:hover, .command-result.active { background: #e8f4ed; box-shadow: inset 4px 0 0 var(--sl-zb-deep); }
 
 /* Focus Mode: a full-screen reading chamber, composed around the voice. */
 .focus {
@@ -5125,28 +5128,28 @@ body.apex-dark #right .reco .golane { color: var(--sl-signal-ink); background: v
     <div class="mark"><i>Z</i><div><b>CALL MODE</b><small>June Guide 2026</small></div></div>
     <span class="clock" id="clock" title="Call length">00:00</span>
     <span class="stagepill" id="stagePill">Introduction</span>
-    <button class="bbtn go" id="btnStart">▶ Start call</button>
+    <button class="bbtn go" id="btnStart">Start call</button>
     <button class="bbtn ghost" id="btnTReset" title="Reset the timer only">↺</button>
     <span class="pace on" id="pace">On pace</span>
-    <button class="rushbtn" id="btnRush" title="Customer is short on time">⏳ Rushed</button>
+    <button class="rushbtn" id="btnRush" title="Customer is short on time">Rushed</button>
     <span class="readypill" id="readyPill">Ready 0%</span>
-    <button class="bbtn go" id="btnFocus" title="One line at a time, full screen">⛶ Focus</button>
-    <button class="cartpill empty" id="cartPill" title="Go to payment">🛒 Nothing closed</button>
-    <button class="bbtn ghost" id="btnSetup">⚙ Setup</button>
+    <button class="bbtn go" id="btnFocus" title="One line at a time, full screen">Focus</button>
+    <button class="cartpill empty" id="cartPill" title="Go to payment">Nothing closed</button>
+    <button class="bbtn ghost" id="btnSetup">Setup</button>
     <button class="bbtn ghost" id="btnHelp" title="Keyboard shortcuts">?</button>
     <span class="who" id="who"></span>
     <div class="track"><i id="progbar" style="width:0%"></i></div>
   </header>
 
   <section class="setup" id="setup">
-    <h3>⚙ Set up the call — tap what you see in Salesforce and ZenGarden <em>saved on this device</em></h3>
+    <h3>Set up the call — select what appears in Salesforce and ZenGarden <em>saved on this device</em></h3>
 
     <div class="lab">Load a typical file<s></s></div>
     <div class="presets">
       <button class="preset" data-preset="starter">Starter · listed themselves · no add-ons</button>
       <button class="preset" data-preset="pro">Pro · WFC + EIN + operating agreement</button>
       <button class="preset" data-preset="premium">Premium · Pro plus RA and online tools</button>
-      <button class="preset gh" data-preset="clearorder">✕ Clear the order only</button>
+      <button class="preset gh" data-preset="clearorder">Clear the order only</button>
     </div>
 
     <div class="lab">Who you're calling<s></s></div>
@@ -5169,7 +5172,7 @@ body.apex-dark #right .reco .golane { color: var(--sl-signal-ink); background: v
       <div class="f"><label>Days since formation purchase</label><input data-f="daysSincePurchase" inputmode="numeric" placeholder="12"></div>
     </div>
 
-    <div class="lab">What's on the account — tap, don't scroll<s></s></div>
+    <div class="lab">What's on the account — select each item<s></s></div>
     <div class="ocs">
       <div class="oc"><label>Formation status</label><div class="chips" data-fc="formationStatus">
         <button data-v="pre">Filing in progress</button><button data-v="post">Already formed</button></div></div>
@@ -5206,11 +5209,11 @@ body.apex-dark #right .reco .golane { color: var(--sl-signal-ink); background: v
     </div>
 
     <div class="setbtns">
-      <button class="abtn go" id="btnHideSetup">▲ Hide setup</button>
-      <button class="abtn dark" id="btnCopyNotes">📋 Copy notes</button>
-      <button class="abtn dark" id="btnCopyScript">📄 Copy this stage</button>
-      <button class="abtn warn" id="btnClearProg">↺ Start the next call</button>
-      <button class="abtn danger" id="btnClearCust">✕ Clear the customer</button>
+      <button class="abtn go" id="btnHideSetup">Hide setup</button>
+      <button class="abtn dark" id="btnCopyNotes">Copy notes</button>
+      <button class="abtn dark" id="btnCopyScript">Copy this stage</button>
+      <button class="abtn warn" id="btnClearProg">Start the next call</button>
+      <button class="abtn danger" id="btnClearCust">Clear the customer</button>
     </div>
   </section>
 
@@ -5222,12 +5225,12 @@ body.apex-dark #right .reco .golane { color: var(--sl-signal-ink); background: v
           <div id="rail"></div>
         </div>
         <div class="panel">
-          <h4><span class="dot" style="background:var(--ink)"></span>Jump straight to</h4>
+          <h4><span class="dot" style="background:var(--ink)"></span>Jump to</h4>
           <div class="lanes" id="lanes">
-            <button data-go="taxdisc" class="hero">★ Tax discovery</button><button data-go="edu">Tax education</button>
+            <button data-go="taxdisc" class="hero">Tax discovery</button><button data-go="edu">Tax education</button>
             <button data-go="ra">Registered agent</button><button data-go="sol">Tax solutions</button>
             <button data-go="close">Tax close</button><button data-go="mp">Money Pro</button>
-            <button data-go="quick:ein">EIN</button><button data-go="quick:oa">Operating agr.</button>
+            <button data-go="quick:ein">EIN</button><button data-go="quick:oa">Operating agreement</button>
             <button data-go="quick:blr">License report</button><button data-go="obj">Objections</button>
             <button data-go="pay">Take payment</button><button data-go="sched">Schedule session</button>
             <button data-go="sne">Set next event</button><button data-go="ref">Reference desk</button>
@@ -5251,13 +5254,13 @@ body.apex-dark #right .reco .golane { color: var(--sl-signal-ink); background: v
     <span class="st" id="fStage">Introduction</span>
     <span class="fhint" id="fPos">1 of 12</span>
     <span class="ct" id="fClock">00:00</span>
-    <button class="fbtn" id="fExit">✕ Exit focus</button>
+    <button class="fbtn" id="fExit">Exit focus</button>
   </div>
   <div class="fbody"><div class="fcard" id="fCard"></div></div>
   <div class="ffoot">
     <button class="fbtn" id="fPrev">← Back</button>
     <button class="fbtn go" id="fNext">Next line →</button>
-    <button class="fbtn" id="fHold">⏸ Hold the silence <span id="fHoldN"></span></button>
+    <button class="fbtn" id="fHold">Hold the silence <span id="fHoldN"></span></button>
     <button class="fbtn" id="fObj">Objection (O)</button>
     <span class="fdots" id="fDots"></span>
   </div>
@@ -5265,7 +5268,7 @@ body.apex-dark #right .reco .golane { color: var(--sl-signal-ink); background: v
 
 <div class="scrim" id="objScrim">
   <div class="sheet">
-    <h3>🥊 What did they just say?<button data-close="objScrim">Close (Esc)</button></h3>
+    <h3>What did they say?<button data-close="objScrim">Close (Esc)</button></h3>
     <p class="objsteps">Acknowledge → isolate cost, timing, value, trust or authority → tie back to their words → reframe → confirm → re-close</p>
     <input class="search" id="objSearchBig" placeholder="Type what they said…" style="width:100%;margin-bottom:10px">
     <div id="objListBig"></div>
@@ -5289,7 +5292,7 @@ body.apex-dark #right .reco .golane { color: var(--sl-signal-ink); background: v
       <b>Esc</b><span>Close whatever is open</span>
     </div>
     <p style="margin-top:16px;font-size:13px;color:var(--mute)">
-      Everything saves on this device as you go. Closing the tab mid-call is safe — reopen and you're back where you left off, timer included.
+      Everything saves on this device as you work. If the tab closes mid-call, reopen it to continue where you left off, including the timer.
     </p>
   </div>
 </div>
@@ -5427,7 +5430,7 @@ function money(s){var n=parseFloat(String(s).replace(/[^0-9.]/g,""));return isNa
 function usd(n){return "$"+Math.round(n).toLocaleString("en-US");}
 function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(t._tm);t._tm=setTimeout(function(){t.classList.remove("show");},2000);}
 function copyText(txt,btn){
-  function done(){if(btn){var o=btn.textContent;btn.textContent="✓ Copied";setTimeout(function(){btn.textContent=o;},1300);}toast("Copied to your clipboard");}
+  function done(){if(btn){var o=btn.textContent;btn.textContent="Copied";setTimeout(function(){btn.textContent=o;},1300);}toast("Copied to your clipboard");}
   function fb(){var ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";
     document.body.appendChild(ta);ta.select();try{document.execCommand("copy");}catch(e){}document.body.removeChild(ta);done();}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,fb);}else fb();
@@ -5531,14 +5534,14 @@ function beatSay(b,i){
   var h='<div class="beat'+(said?" hit":"")+'" data-beat="'+i+'"><div class="say'+kind+'">';
   h+='<div class="rowtop"><span class="tag">'+esc(b.tag||(b.k==="ask"?"Ask":"Say"))+'</span>';
   if(b.k==="ask")h+='<button class="hold" data-hold="7"><span class="ring"></span>Hold the silence · 7s</button>';
-  h+='<button class="mini-b'+(said?" said":"")+'" data-said="'+i+'">'+(said?"✓ said":"mark said")+'</button>';
+  h+='<button class="mini-b'+(said?" said":"")+'" data-said="'+i+'">'+(said?"Said":"Mark as said")+'</button>';
   h+='<button class="mini-b" data-copybeat="'+i+'">copy</button></div>';
   h+='<div class="say-t">'+T(b.t)+'</div></div></div>';
   return h;
 }
 function beatNote(b){
   var cls=b.tone==="alert"?" alert":(b.tone==="stop"?" stop":"");
-  return '<div class="beat"><div class="repnote'+cls+'"><span class="k">'+esc(b.tag||"Not out loud — just for you")+
+  return '<div class="beat"><div class="repnote'+cls+'"><span class="k">'+esc(b.tag||"Rep guidance — do not read aloud")+
     '</span><p>'+T(b.t)+'</p></div></div>';
 }
 function beatBranch(b,i){
@@ -5550,7 +5553,7 @@ function beatBranch(b,i){
   return h+'</div></div>';
 }
 function beatCheck(b){
-  var h='<div class="beat"><div class="repnote'+(b.tone==="alert"?" alert":"")+'"><span class="k">'+esc(b.tag||"Walk them through it")+'</span><ul class="ckl">';
+  var h='<div class="beat"><div class="repnote'+(b.tone==="alert"?" alert":"")+'"><span class="k">'+esc(b.tag||"Guide them through it")+'</span><ul class="ckl">';
   b.items.forEach(function(it){
     h+='<li class="'+(S.checks[it[0]]?"on":"")+'" data-ck="'+it[0]+'"><span class="bx">'+(S.checks[it[0]]?"✓":"")+'</span><span>'+it[1]+'</span></li>';});
   return h+'</ul></div></div>';
@@ -5578,7 +5581,7 @@ function beatRef(b){
   return '<div class="refcard"><h5>'+b.title+'</h5>'+b.t+'</div>';
 }
 function beatGuide(b){
-  return '<div class="gref">📘 June Guide <b>'+esc(b.t)+'</b></div>';
+  return '<div class="gref">June Guide <b>'+esc(b.t)+'</b></div>';
 }
 
 /* ---- gates: you cannot close what you have not earned ---- */
@@ -5616,9 +5619,9 @@ function gatesClear(k){return gateSet(k).every(function(g){return !!S.gates[g[0]
 function gatesLeft(k){return gateSet(k).filter(function(g){return !S.gates[g[0]];}).length;}
 function beatGates(key,title){
   var set=gateSet(key), clear=gatesClear(key);
-  var h='<div class="gates'+(clear?" clear":"")+'" data-gates="'+key+'"><h5>'+(clear?"🔓":"🔒")+' '+esc(title||"Buy-in checklist")+
-    '</h5><p class="sub">'+(clear?"All earned. The close is unlocked — go."
-      :"Tick these only when you actually hear them. "+gatesLeft(key)+" to go before the close unlocks.")+'</p><ul class="gl">';
+  var h='<div class="gates'+(clear?" clear":"")+'" data-gates="'+key+'"><h5>'+(clear?"":"")+' '+esc(title||"Buy-in checklist")+
+    '</h5><p class="sub">'+(clear?"All confirmed. Proceed to the close."
+      :"Confirm each item only when the customer says it. "+gatesLeft(key)+" remaining before the close.")+'</p><ul class="gl">';
   set.forEach(function(g){
     h+='<li class="'+(S.gates[g[0]]?"on":"")+'" data-gate="'+g[0]+'"><span class="bx">'+(S.gates[g[0]]?"✓":"")+
       '</span><span>'+esc(g[1])+(g[2]?'<small>'+esc(g[2])+'</small>':'')+'</span></li>';});
@@ -5628,13 +5631,13 @@ function beatClose(b){
   var key=b.gateKey, clear=!gateSet(key).length||gatesClear(key);
   var price=b.price||itemPrice(b.item);
   var h='<div class="lockwrap'+(clear?"":" locked")+'" data-lock="'+key+'">';
-  h+='<div class="lockbadge"><span>🔒 Earn the buy-in first<em>'+gatesLeft(key)+' left above</em></span></div>';
+  h+='<div class="lockbadge"><span>Confirm the buy-in first<em>'+gatesLeft(key)+' left above</em></span></div>';
   h+='<div class="locked-inner"><div class="closecard"><span class="k">'+esc(b.kicker||("The close · "+price))+'</span>';
   h+='<div class="say-t">'+T(b.t)+'</div>';
   if(b.auth!==false)h+='<div class="say-t" style="margin-top:12px">'+T("\u201CDo I have your permission to process the payment of "+price+
-    " with the card on file ending in {{cardLast4}}?\u201D")+cue("total silence now — the first person to talk loses")+'</div>';
-  h+='<div class="wonrow"><button class="wonb yes" data-won="'+b.item+'|'+price+'">✓ They said yes — add '+esc(price)+'</button>'+
-     '<button class="wonb no" data-lost="'+(b.objTag||"")+'">They pushed back — show me the rebuttal</button></div>';
+    " with the card on file ending in {{cardLast4}}?\u201D")+cue("hold the silence and wait for their answer")+'</div>';
+  h+='<div class="wonrow"><button class="wonb yes" data-won="'+b.item+'|'+price+'">They said yes — add '+esc(price)+'</button>'+
+     '<button class="wonb no" data-lost="'+(b.objTag||"")+'">They objected — show the response</button></div>';
   return h+'</div></div></div>';
 }
 
@@ -5680,24 +5683,24 @@ function flatBeats(list,out){
    6. STAGE MAP — the June guide's own running order.
    ========================================================================== */
 var ST=[
-  ["open","Introduction","0–2","📞","Open"],
-  ["disc","Initial discovery","2–6","🧭","Open"],
-  ["verify","Contact &amp; filing info","6–8","🗂","Open"],
-  ["order","Order review","8–11","📋","Review"],
-  ["gains","Gains &amp; responsibilities","11–12","⚖️","Review"],
-  ["ra","Registered Agent","3–5","🛡","Compliance"],
-  ["taxdisc","Tax discovery","2–3","💰","Tax"],
-  ["edu","Tax education","5–7","🎓","Tax"],
-  ["qualify","Qualifying","1–2","🎯","Tax"],
-  ["sol","Tax solutions","3–4","🤝","Tax"],
-  ["close","Tax close &amp; pricing","2–3","🏷","Tax"],
-  ["mp","Money Pro","2–3","📊","Tax"],
-  ["quick","EIN · agreement · licenses","optional","⚡","Compliance"],
-  ["pay","Payment authorization","1","💳","Close"],
-  ["sched","Schedule the consultation","2","📅","Close"],
-  ["sne","Next event &amp; closing","2","🏁","Close"],
-  ["obj","Objection library","any time","🥊","Reference"],
-  ["ref","Reference desk","any time","📘","Reference"]
+  ["open","Introduction","0–2","","Open"],
+  ["disc","Initial discovery","2–6","","Open"],
+  ["verify","Contact &amp; filing info","6–8","","Open"],
+  ["order","Order review","8–11","","Review"],
+  ["gains","Gains &amp; responsibilities","11–12","","Review"],
+  ["ra","Registered Agent","3–5","","Compliance"],
+  ["taxdisc","Tax discovery","2–3","","Tax"],
+  ["edu","Tax education","5–7","","Tax"],
+  ["qualify","Qualifying","1–2","","Tax"],
+  ["sol","Tax solutions","3–4","","Tax"],
+  ["close","Tax close &amp; pricing","2–3","","Tax"],
+  ["mp","Money Pro","2–3","","Tax"],
+  ["quick","EIN · agreement · licenses","optional","","Compliance"],
+  ["pay","Payment authorization","1","","Close"],
+  ["sched","Schedule the consultation","2","","Close"],
+  ["sne","Next event &amp; closing","2","","Close"],
+  ["obj","Objection library","any time","","Reference"],
+  ["ref","Reference desk","any time","","Reference"]
 ];
 function stIdx(id){for(var i=0;i<ST.length;i++)if(ST[i][0]===id)return i;return 0;}
 function stName(id){return ((ST[stIdx(id)]||[])[1]||id).replace(/&amp;/g,"&");}
@@ -5748,7 +5751,7 @@ var DRANK={fast:0,full:1,deep:2};
 function dOK(k,l){return DRANK[(S.depth&&S.depth[k])||"full"]>=DRANK[l];}
 function depthSel(key,labels){
   var d=(S.depth&&S.depth[key])||"full";
-  var L=labels||[["fast","⚡ Fast"],["full","Full guide path"],["deep","Deep dive"]];
+  var L=labels||[["fast","Fast"],["full","Full guide path"],["deep","Deep dive"]];
   return {k:"html",t:'<div class="segs">'+L.map(function(x){
     return '<button class="'+(d===x[0]?"on":"")+'" data-depth="'+key+":"+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>'};
 }
@@ -5799,8 +5802,8 @@ C.open=function(){
   b.push({k:"branch",q:"How did they answer the time ask?",opts:[
     {label:"Yes, go ahead",beats:[{k:"note",t:"You have their agreement. If the tax conversation later needs more room, ask for it explicitly rather than running over quietly — \u201Cthis is worth another ten minutes, is that alright?\u201D"}]},
     {label:"They're short on time",beats:[
-      {k:"say",tag:"Compress",hot:1,t:"\u201CTotally fair, I'll respect your time. The reason for the call is making sure the LLC is set up correctly before anything important gets missed. Let me go straight to the single most important thing on your account, and if we need longer we'll book it.\u201D"},
-      {k:"note",tone:"alert",t:"Flip <b>⏳ Rushed</b> in the top bar. Then take <b>one</b> gap and set a strong next event — the guide's SNE language is in the next-event stage."}]},
+      {k:"say",tag:"Compress",hot:1,t:"\u201CThat's fair, I'll respect your time. The reason for the call is making sure the LLC is set up correctly before anything important gets missed. Let me go straight to the single most important thing on your account, and if we need longer we'll book it.\u201D"},
+      {k:"note",tone:"alert",t:"Flip <b>Rushed</b> in the top bar. Then take <b>one</b> gap and set a strong next event — the guide's SNE language is in the next-event stage."}]},
     {label:"\u201CWhat is this about?\u201D",beats:[
       {k:"say",tag:"Disarm",hot:1,t:"\u201CNothing's wrong — this is a standard setup review. You started an LLC with us, and there are a few early pieces that decide whether it's compliant and ready for year one. I'll keep it practical.\u201D"}]}
   ]});
@@ -6016,11 +6019,11 @@ C.order=function(){
 /* ---------- GAINS AND RESPONSIBILITIES ---------- */
 C.gains=function(){
   var r=recLane(), b=[];
-  b.push({k:"guide",t:"§ Transition into Opportunities — \u201CPick tax or Registered Agent\u201D"});
+  b.push({k:"guide",t:"§ Transition into Opportunities — \u201CChoose tax or Registered Agent\u201D"});
   b.push({k:"goal",t:"<b>Job of this stage:</b> this is what earns you the right to recommend anything at all. Say it in full — gains first, then the responsibility that came with them. Skipping it is exactly why later recommendations feel like upsells."});
   b.push({k:"say",tag:"What they gained",t:"\u201CNow, with the creation of your LLC you gain a number of different things.\u201D"+PAUSE+
     "\u201CYou gain <b>personal liability protection</b>"+ELL+"which is the legal protection of your personal assets from your business's debts and liabilities.\u201D"+PAUSE+
-    "\u201CYou also gain access to business loans, business banking, credibility, and a ton of tax advantages which are quite significant.\u201D"+PAUSE});
+    "\u201CYou also gain access to business loans, business banking, credibility, and several tax advantages that can be significant.\u201D"+PAUSE});
   b.push({k:"ask",tag:"Tie it to them",t:"\u201COut of curiosity"+ELL+"are any of those reasons why you started this LLC in the first place?\u201D"+PAUSE+
     "<b>If not:</b> \u201CIs it purely to follow your passion?\u201D"+cue("don't forget the confidence-building statement after their answer")});
   b.push({k:"say",tag:"What came with it",t:"\u201CNow, with everything you gain with the creation of the LLC, you also at the same time gain the burden of having to comply with the government at the local, state, and federal level.\u201D"+PAUSE+
@@ -6030,13 +6033,13 @@ C.gains=function(){
   b.push({k:"goal",tone:"warn",t:"<b>Recommended: "+(LANE_NAME[r.lane]||r.lane)+"</b> — "+r.why});
   b.push({k:"html",t:'<div class="rxrow">'+[
     ["ra","Transition to Registered Agent","They listed themselves or someone who won't be there — and it's on the documents filed with the state.",PRICE.ra],
-    ["taxdisc","Transition to tax","The main event on an eligible call. First-year money decisions compound.","★ primary"]
+    ["taxdisc","Transition to tax","Primary lane on an eligible call. First-year money decisions compound.","primary"]
   ].map(function(x){
     return '<button class="rx'+(x[0]===r.lane?" rec":"")+'" data-golane="'+x[0]+'">'+(x[0]===r.lane?'<span class="badge">Start here</span>':"")+
       '<span class="rt">'+x[1]+'</span><span class="rp">'+x[3]+'</span><span class="rd">'+x[2]+'</span></button>';}).join("")+'</div>'});
   b.push({k:"say",tag:"Transition to Registered Agent",t:"\u201CGoing back to your paperwork, something I noticed is that you assigned "+
     (S.f.raStatus==="someoneElse"?"someone else":"yourself")+" as the Registered Agent for the LLC.\u201D"});
-  b.push({k:"say",tag:"Transition to tax",t:"\u201CA lot of our customers, both new and experienced at running a business, typically ask us about how to save or keep the most money, avoid mistakes, and in general just make sure everything for taxes is correct, legal and done right"+ELL+"\u201D"});
+  b.push({k:"say",tag:"Transition to tax",t:"\u201CMany of our customers, both new and experienced, ask how to keep more of what they earn, avoid mistakes, and make sure their taxes are accurate, compliant, and handled correctly"+ELL+"\u201D"});
   var fl=laneFlags();
   b.push({k:"note",tag:"Keep in your back pocket",t:fl.length?fl.join(" &nbsp;·&nbsp; "):"Nothing flagged — clean file. Diagnose honestly and wrap early rather than inventing a pitch."});
   return b;
@@ -6044,14 +6047,14 @@ C.gains=function(){
 /* ---------- REGISTERED AGENT ---------- */
 C.ra=function(){
   var b=[];
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">🛡 Compliance lane</span><h2>Registered Agent</h2><span class="price">'+PRICE.ra+' / year</span></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Compliance lane</span><h2>Registered Agent</h2><span class="price">'+PRICE.ra+' / year</span></div>'});
   b.push({k:"guide",t:"§ Registered Agent (RA) — Discovery · What is an RA · Personalize · Benefits · Close"});
   b.push(depthSel("ra"));
   b.push({k:"goal",t:"<b>Job of this lane:</b> they listed someone without knowing what it commits them to. You're not selling an address — you're making a legal commitment visible, then offering to carry it for them."});
   b.push({k:"note",tone:"alert",when:function(){return !raGap();},t:"The account already shows <b>"+(S.f.raStatus==="zb"?"ZenBusiness":"another provider")+"</b> as the agent. "+(S.f.raStatus==="zb"?"Nothing to sell — validate it and move to tax.":"Use the consolidation rebuttal in the objection library rather than this full lane.")});
 
   b.push({k:"say",tag:"RA discovery",t:"\u201CI see here that you have selected "+(S.f.raStatus==="someoneElse"?"someone else":"yourself")+" as the Registered Agent for {{businessName}}. I'm curious — did you choose that intentionally, or was that more of a default setup when you formed the LLC?\u201D"+PAUSE});
-  b.push({k:"say",tag:"Normalize it",t:"\u201CTotally makes sense. The reason I ask is it's not something we see that often, but sometimes new business owners list themselves at first because they're just trying to get the LLC filed.\u201D"});
+  b.push({k:"say",tag:"Normalize it",t:"\u201CThat makes sense. The reason I ask is it's not something we see that often, but sometimes new business owners list themselves at first because they're just trying to get the LLC filed.\u201D"});
   b.push({k:"ask",tag:"The question the lane turns on",t:"\u201CAre you planning to physically be available at {{raAddress}} during all normal business hours each weekday?\u201D"+
     cue("ask it, then stop. Whatever they say next is the whole conversation")});
   b.push({k:"branch",q:"How did they answer?",opts:[
@@ -6068,7 +6071,7 @@ C.ra=function(){
       {k:"say",tag:"Perfect opening",t:"\u201CGreat question — and the fact you're asking already puts you ahead. Let me walk you through it quickly, because right now you're the one listed for the job.\u201D"}]}
   ]});
 
-  b.push({k:"say",tag:"Set it up",t:"\u201COkay, let's get into this a little, because the Registered Agent is the biggest form of compliance and it basically holds your business together"+ELL+"\u201D"});
+  b.push({k:"say",tag:"Set it up",t:"\u201CLet's look at this closely, because the Registered Agent is a core compliance role for your business"+ELL+"\u201D"});
   b.push({k:"say",tag:"What is a Registered Agent",t:"\u201CThe Registered Agent is the official legal point of contact for state and legal notices for your LLC. It's a legal requirement, and whoever is listed needs to have a physical address in the same state where the business is registered.\u201D"+PAUSE+
     "\u201CThe important part is that whoever is listed is responsible for <b>physically receiving</b> official documents for the business. So if someone needs to deliver a state notice, a lawsuit, a compliance notice, or other legal documents, they show up at that address — often unannounced, during business hours.\u201D"+PAUSE+
     "\u201CIf you aren't there, the document may not get received, and the consequences of missing legal documents could include lost liability protection or default judgments. It can be pretty serious.\u201D"+PAUSE+
@@ -6104,13 +6107,13 @@ C.ra=function(){
     "\u201CIf they arrive and no one's there to physically receive the document, that delivery is considered unsuccessful. And after enough unsuccessful attempts, a judge can give permission for the case to move forward anyway — through mail, through posting, through whatever alternate method they choose. At that point legal action can proceed against your business without your full knowledge or participation.\u201D"+PAUSE+
     "\u201CThat's the risk. Not lunch — the unpredictability of when it happens and what it triggers if it's missed. That's exactly why most business owners have us handle it. We're always there, so you never have to be.\u201D"});
   b.push({k:"ask",tag:"Value confirm",t:"\u201CDo you see how all of that would be valuable for your specific situation?\u201D"+PAUSE+
-    "<b>When they say yes:</b> \u201COut of curiosity — why would it be, for you?\u201D"+cue("now they sell it back to you. Do not interrupt")});
+    "<b>When they say yes:</b> \u201COut of curiosity — why would it be, for you?\u201D"+cue("their answer gives you language for the close. Do not interrupt")});
   b.push({k:"say",tag:"Close setup",t:"\u201CRight"+ELL+"the main reason most people even get an LLC is for protecting your personal assets, so the last thing you want to do is put that at risk. It's one of those things that isn't a big deal — until it is.\u201D"});
-  b.push({k:"ask",tag:"The ask",t:"\u201CWould you gain some peace of mind and more freedom to move freely if we got your Registered Agent switched over to ZenBusiness?\u201D"+
+  b.push({k:"ask",tag:"The ask",t:"\u201CWould you gain more peace of mind and flexibility if we got your Registered Agent switched over to ZenBusiness?\u201D"+
     cue("you asked. Now silence")});
   b.push({k:"gates",key:"ra",title:"Before you name the price"});
   b.push({k:"close",item:"RA",gateKey:"ra",objTag:"RA",kicker:"The close · "+PRICE.ra+" for the year",
-    t:"\u201CGreat choice. It's only "+PRICE.ra+" for the entire year. After the first year it's still just "+PRICE.ra+""+ELL+"so if you break it down, you get us to handle this for you and keep the peace of mind for less than a dollar a day.\u201D"+PAUSE+
+    t:"\u201CThe service is "+PRICE.ra+" for the full year. After the first year, it renews at "+PRICE.ra+""+ELL+"which is less than a dollar a day for us to handle this and maintain that peace of mind.\u201D"+PAUSE+
       "\u201CYou won't have to worry about this at all, and your business gets the protection it needs. I'm happy to get this updated and unlocked for you today so that staying compliant with this LLC is that much easier. Does that sound good?\u201D"});
   b.push({k:"bridge",t:"\u201CGood — that's the legal-contact side handled. Now let me shift to something a lot of our customers ask about"+ELL+"how to save or keep the most money, avoid mistakes, and make sure everything for taxes is correct, legal and done right.\u201D"});
   return b;
@@ -6155,7 +6158,7 @@ function mileTableHTML(){
 /* ---------- TAX DISCOVERY ---------- */
 C.taxdisc=function(){
   var hasMP=S.f.mp==="y", b=[], ready=taxReady();
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">💰 Main event</span><h2>Tax discovery</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Primary lane</span><h2>Tax discovery</h2></div>'});
   b.push({k:"guide",t:"§ Tax: Discovery — "+(hasMP?"\u201CHas Money Pro\u201D column":"\u201CDoesn't Have Money Pro\u201D column")});
   b.push({k:"html",t:'<div class="taxhero"><div class="eyebrow">Build it one block at a time</div>'+
     '<h3>By the time you name a price, the customer should already have described the problem it solves.</h3>'+
@@ -6172,7 +6175,7 @@ C.taxdisc=function(){
 
   b.push({k:"say",tag:"Transition",when:function(){return !hasMP;},
     t:"\u201CEarlier we talked about the many things you gain as an LLC and how tax advantages are one of them"+ELL+"\u201D"+PAUSE+
-    "\u201CA lot of our customers, both new and experienced at running a business, typically ask us about how to save or keep the most money, avoid mistakes, and in general just make sure everything for taxes is correct, legal and done right"+ELL+"\u201D"});
+    "\u201CMany of our customers, both new and experienced, ask how to keep more of what they earn, avoid mistakes, and make sure their taxes are accurate, compliant, and handled correctly"+ELL+"\u201D"});
   b.push({k:"say",tag:"Transition — they already have Money Pro",when:function(){return hasMP;},
     t:"\u201CEarlier we talked about the many things you gain as an LLC and how significant tax advantages are one of them.\u201D"+PAUSE+
     "\u201CI see here that you already have Money Pro"+ELL+"so that was a great decision by you.\u201D"+PAUSE+
@@ -6182,7 +6185,7 @@ C.taxdisc=function(){
   b.push({k:"say",tag:"Say this before any tax talk",t:"\u201C"+NOTAPRO+" but just like every year, and every person, you'll need to do your taxes to see how much you owe or how much you'll get back after filing, right?\u201D"+PAUSE+
     "\u201CWith a business like an LLC, taxes are not just a box to check. Your taxes are going to look different now, because you gain a number of tax advantages like deductions and write-offs, and the opportunity for quarterly tax estimates"+ELL+"and there are some actions you'll want to consider taking right away to really make sure your best interests are taken into account.\u201D"});
   b.push({k:"note",tone:"stop",tag:"Not optional",t:"The \u201CI'm not a lawyer or an accountant\u201D line is said on every call, before any tax discussion, and it is not paraphrased away."});
-  b.push({k:"say",tag:"Why business taxes are different",t:"\u201CBusiness taxes have a lot of moving parts, ongoing responsibilities, and higher risk. It requires way more strategy and planning than personal taxes.\u201D"+PAUSE+
+  b.push({k:"say",tag:"Why business taxes are different",t:"\u201CBusiness taxes have many moving parts, ongoing responsibilities, and greater risk. They require more strategy and planning than personal taxes.\u201D"+PAUSE+
     "\u201CUltimately, by being proactive with your business taxes, that's what should allow you to keep more of your hard-earned money and avoid giving more than you need to during tax time.\u201D"});
 
   b.push({k:"ask",tag:"Discovery — lead with these",t:"\u201CI'm curious"+ELL+"have you thought about how {{businessName}} will affect your taxes for this year?\u201D"+PAUSE+
@@ -6234,9 +6237,9 @@ C.taxdisc=function(){
 /* ---------- TAX EDUCATION ---------- */
 C.edu=function(){
   var mm=isMM(), b=[], tab=S.eduTab||"all";
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">🎓 Education</span><h2>Tax education</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Education</span><h2>Tax education</h2></div>'});
   b.push({k:"guide",t:"§ Classification · Quarterly Estimates · Start Up + Org Costs · Vehicle Deductions · Ongoing Deductions"});
-  b.push(depthSel("edu",[["fast","⚡ Core three"],["full","Full guide path"],["deep","Deep dive + fold-outs"]]));
+  b.push(depthSel("edu",[["fast","Core three"],["full","Full guide path"],["deep","Deep dive + fold-outs"]]));
   b.push({k:"html",t:'<div class="segs">'+[["all","▶ Full sequence"],["class","01 Classification"],["quarterly","02 Quarterly"],
     ["startup","03 Startup"],["vehicle","04 Vehicle"],["ongoing","05 Ongoing"]].map(function(x){
       return '<button class="'+(tab===x[0]?"on":"")+'" data-edutab="'+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>'});
@@ -6282,26 +6285,26 @@ C.edu=function(){
   if(show("quarterly"))b.push({k:"mod",num:"02",title:"Quarterly estimated payments",why:"Cash-flow urgency",tone:"risk",
     goal:"Make them care about knowing which money in the account is actually theirs to spend.",beats:[
     {k:"say",tag:"Teach",t:"\u201CMost LLC owners don't realize that, unlike a regular job, the IRS expects you to pay taxes on your business profit every few months — not just at annual tax time.\u201D"+PAUSE+
-      "\u201CThe IRS, and most states, expect you to pay tax on your business profit as you earn it. That's why the vast majority of brand-new LLC owners are required to make quarterly estimated tax payments. Plus many states also require quarterly payments on your LLC's profit, and the rules can vary wildly depending on where {{businessName}} is based.\u201D"},
+      "\u201CThe IRS, and most states, expect you to pay tax on your business profit as you earn it. That's why the vast majority of brand-new LLC owners are required to make quarterly estimated tax payments. Plus many states also require quarterly payments on your LLC's profit, and the rules can vary significantly depending on where {{businessName}} is based.\u201D"},
     {k:"say",tag:"How it works",t:"\u201CHere's a quick breakdown of how it works. If you expect to owe <b>a thousand dollars or more</b> in taxes for the year, the IRS requires you to pay as you go — usually in four installments.\u201D"+PAUSE+
       "\u201CMiss these or underpay, and you can get hit with penalties and interest — even if you're profitable and file on time for your annual taxes.\u201D"+
       cue("you don't have to read the dates out: April 15, June 15, September 15, and January 15 of the following year")},
     {k:"say",tag:"Single-member LLC or S-Corp",when:function(){return !mm||/s-corp/i.test(S.f.entityType||"");},
       t:"\u201CAs a single-member "+(/s-corp/i.test(S.f.entityType||"")?"S-Corp":"LLC")+" you're personally responsible for paying both federal income tax and self-employment tax — that's the 15.3% for Social Security and Medicare — on your net profit, and it all gets paid quarterly through estimated payments.\u201D"+PAUSE+
-      "\u201CBasically, the IRS sees the business profit as your personal income right away, so you're estimating and sending in what you'll owe on that profit every few months to stay current.\u201D"},
+      "\u201CThe IRS sees the business profit as your personal income right away, so you're estimating and sending in what you'll owe on that profit every few months to stay current.\u201D"},
     {k:"say",tag:"Multi-member LLC taxed as a partnership",when:function(){return mm&&!/s-corp/i.test(S.f.entityType||"");},
       t:"\u201CAs a multi-member LLC, the business itself doesn't pay any income tax — it's a pass-through entity — but you and the other members each owe estimated payments on your individual share of the profit.\u201D"+PAUSE+
       "\u201CThat share gets detailed on a Schedule K-1 you'll receive from the LLC, and you report it on your personal return. So quarterly payments are still on you personally, to cover your portion of income tax and self-employment tax as the profit rolls in.\u201D"},
-    {k:"note",when:function(){return !S.f.entityType;},tone:"alert",t:"Tap the <b>entity type</b> in setup — the guide says read <b>only</b> the bullet that matches, and reading the wrong one is the fastest way to sound like you're guessing."},
-    {k:"ask",tag:"Buy-in question — the strong one",t:"\u201C{{customerName}}, when money starts coming in over the next few months and it's actually yours to keep for the first time"+ELL+"how would it feel to get to your next annual tax filing and suddenly find out a big chunk of it actually belonged to the IRS all along?\u201D"+
+    {k:"note",when:function(){return !S.f.entityType;},tone:"alert",t:"Tap the <b>entity type</b> in setup — the guide says read <b>only</b> the bullet that matches, and reading the wrong one will make the guidance inaccurate."},
+    {k:"ask",tag:"Primary buy-in question",t:"\u201C{{customerName}}, when money starts coming in over the next few months and it's actually yours to keep for the first time"+ELL+"how would it feel to get to your next annual tax filing and suddenly find out a significant portion of it actually belonged to the IRS all along?\u201D"+
       cue("slow down for this one. Then say nothing")},
-    {k:"ask",tag:"Or use this one",t:"\u201CPretty much every new LLC owner we work with says the quarterly thing was the one piece they wish someone had walked them through from day one. Does that surprise you, or does that feel about right?\u201D"},
-    {k:"say",tag:"What clients want",t:"\u201CMost of our clients tell us they want to know exactly how much to set aside every time money hits the business account — and when to send it in — so nothing slips through the cracks.\u201D"},
+    {k:"ask",tag:"Or use this one",t:"\u201CMany new LLC owners we work with say quarterly payments were the one area they wish someone had explained from day one. Does that surprise you, or does that feel about right?\u201D"},
+    {k:"say",tag:"What clients want",t:"\u201CMost of our clients tell us they want to know exactly how much to set aside every time money hits the business account — and when to send it in — so nothing is missed.\u201D"},
     {k:"ask",tag:"Earn the buy-in",t:"\u201CHow confident are you right now that you know: one, whether you're required to make quarterly payments; two, how much to pay each quarter; and three, the exact due dates so you never get penalized?\u201D"+PAUSE+
       "<b>Or:</b> \u201CHow important do you feel it is to be on top of potential quarterly taxes for your business specifically?\u201D"},
     {k:"field",n:"quarterlyConcern",label:"Their cash-flow concern — their words",ph:"\u201CI don't want to spend tax money by accident\u201D"},
     {k:"check",items:[["pfQuarterly","They want clarity on what to set aside, before a due date rather than after"]]},
-    {k:"bridge",tag:"Transition → startup costs",t:"\u201COkay great. Now for some of the fun stuff"+ELL+"\u201D"}
+    {k:"bridge",tag:"Transition → startup costs",t:"\u201CGood. Now let's look at the opportunities"+ELL+"\u201D"}
   ]});
 
   /* 03 startup and org */
@@ -6317,7 +6320,7 @@ C.edu=function(){
       "<ul><li>\u201CState filing fees paid to legally form the LLC\u201D</li><li>\u201CAccounting services, like setting up the company's accounting records\u201D</li></ul>"},
     {k:"say",tag:"The headline",t:"\u201CSo you could potentially immediately deduct up to <b>ten thousand dollars</b> in business expenses in your first year — if your costs are under fifty thousand in each of the two buckets we just discussed.\u201D"+PAUSE+
       "\u201CIt also means there's a lot of bookkeeping and accounting to stay on top of throughout each year"+ELL+"\u201D"},
-    {k:"note",tone:"stop",tag:"Say the honest qualifier every time",t:"\u201CUp to ten thousand in <b>deductions</b>\u201D is not \u201Cten thousand dollars back.\u201D A deduction reduces taxable income; it is not a refund. Overselling this is the fastest way to a chargeback conversation and it is not what the guide says."},
+    {k:"note",tone:"stop",tag:"Say the honest qualifier every time",t:"\u201CUp to ten thousand in <b>deductions</b>\u201D is not \u201Cten thousand dollars back.\u201D A deduction reduces taxable income; it is not a refund. Do not overstate this. It can create a chargeback and it is not what the guide says."},
     {k:"ask",tag:"Find the money they've already spent",t:"\u201C{{customerName}}, in addition to filing for your LLC and everything you've already purchased from us for your business — the plan, "+
       (S.f.raStatus==="zb"?"Registered Agent, ":"")+(S.f.wfc==="yes"?"Worry Free Compliance, ":"")+(S.f.ein==="y"?"EIN, ":"")+(S.f.web==="y"?"website, ":"")+
       "and so on — what other purchases have you made towards getting this business started and operational?\u201D"+
@@ -6343,7 +6346,7 @@ C.edu=function(){
     {k:"html",t:'<div class="lab">The guide\u2019s mileage grid — their row highlights automatically<s></s></div><div id="mileTable">'+mileTableHTML()+'</div>'},
     {k:"ask",tag:"The question that lands",t:"\u201CUsing that estimate"+ELL+"you might be able to deduct that on your taxes. And that's just from tracking your mileage.\u201D"+PAUSE+
       "\u201CLet me ask you, {{customerName}} — if you were able to deduct that every single year, or even just this year, what sort of impact would that make on the finances for you and this business?\u201D"+
-      cue("their answer is the best line you will get all call. Write it down word for word")},
+      cue("their answer is the strongest line from the call. Write it down word for word")},
     {k:"say",tag:"The catch",t:"\u201CSo you'll want to make sure you track all expenses related to your vehicle, and what year you're logging your mileage for, so you can decide which method to leverage for your taxes"+ELL+"and we recommend you consult with a tax expert so they can advise you on the method that would be most beneficial for you.\u201D"},
     {k:"check",items:[["pfVehicle","Vehicle reviewed — either they bought in, or it's genuinely not applicable"]]},
     {k:"bridge",tag:"Transition → ongoing deductions",t:"\u201CAnd the one you're probably most aware of is general ongoing business expenses"+ELL+"\u201D"}
@@ -6365,7 +6368,7 @@ C.edu=function(){
     {k:"say",tag:"Land the whole education",t:"\u201CSo as you can see"+ELL+"there's a lot to figure out when it comes to which purchases you've made, and will make, that are considered eligible as business expenses"+ELL+"and what you could gain by effectively writing them off.\u201D"},
     {k:"field",n:"deductionTargets",label:"Their upcoming purchases",ph:"second trailer, software, contractor help"},
     {k:"check",items:[["pfOngoing","They see why documentation and clean books matter — not just the deduction itself"]]},
-    {k:"bridge",tag:"Transition → qualifying",t:"\u201CHere's what we've seen happen over and over again with a lot of business owners"+ELL+"\u201D"}
+    {k:"bridge",tag:"Transition → qualifying",t:"\u201CHere is a pattern we see with many business owners"+ELL+"\u201D"}
   ]});
 
   b.push({k:"html",t:'<div class="nav"><button data-go="taxdisc">← Back to discovery</button><button class="go" data-go="qualify">Now qualify them →</button></div>'});
@@ -6374,11 +6377,11 @@ C.edu=function(){
 /* ---------- QUALIFYING ---------- */
 C.qualify=function(){
   var b=[];
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">🎯 The hinge of the call</span><h2>Qualifying</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Decision point</span><h2>Qualifying</h2></div>'});
   b.push({k:"guide",t:"§ Qualifying — does the customer want to solve the problems we uncovered?"});
   b.push({k:"note",tone:"stop",tag:"The most important sixty seconds of the call",
     t:"Everything before this was <b>your</b> information. Everything after it depends on it becoming <b>their</b> problem. Skip this and the close turns into a price conversation — and price conversations are the ones you lose."});
-  b.push({k:"say",tag:"The pattern — say it calmly",t:"\u201CHere's what we've seen happen over and over again with a lot of business owners:\u201D"+
+  b.push({k:"say",tag:"The pattern — say it calmly",t:"\u201CHere is a pattern we see with many business owners:\u201D"+
     "<ul><li>\u201CThey miss deductions and overpay on taxes.\u201D</li>"+
     "<li>\u201CThey wait until tax season and scramble for receipts.\u201D</li>"+
     "<li>\u201CThey get surprised by quarterly taxes, or IRS letters they didn't expect and don't know what to do with.\u201D</li>"+
@@ -6388,14 +6391,14 @@ C.qualify=function(){
     cue("silence. Do not help them. Whatever they say is your close")});
   b.push({k:"branch",q:"How did they answer?",opts:[
     {label:"\u201CYes, that's my worry\u201D",beats:[{k:"say",tag:"Agree",t:"\u201CExactly why I brought it up.\u201D"}]},
-    {label:"\u201CNot really\u201D",beats:[{k:"say",tag:"Turn it",t:"\u201CEven better reason to talk about it before it becomes a problem.\u201D"+cue("said warmly, not as a gotcha")}]}
+    {label:"\u201CNot really\u201D",beats:[{k:"say",tag:"Turn it",t:"\u201CEven better reason to talk about it before it becomes a problem.\u201D"+cue("say this calmly, without sounding corrective")}]}
   ]});
   b.push({k:"ask",tag:"Make the cost real",t:"\u201CCan you see how that might become a problem, or how you'd miss out on everything you could gain"+ELL+"if you don't get ahead of it now?\u201D"+PAUSE+
     "\u201CAre you opposed to exploring better options?\u201D"});
   b.push({k:"say",tag:"Set up the recommendation",t:"\u201CI have an idea"+ELL+"but I want to make sure it's a good fit for you first"+ELL+"\u201D"+PAUSE+
     "\u201CEarlier you shared that you were going to be "+({unsure:"figuring the tax side out as you go",diy:"doing your business taxes on your own",maybe:"maybe hiring a tax professional to handle your taxes for you",pro:"working with a tax professional"}[S.taxPath||"unsure"])+
     ". Is that still correct?\u201D"});
-  b.push({k:"note",tone:"alert",tag:"Last chance",t:"This is your last opportunity to surface a problem before you present a solution. If something they told you earlier hasn't been connected to a risk yet — {{worry}}, {{consequence}} — connect it now, not after the price."});
+  b.push({k:"note",tone:"alert",tag:"Final check",t:"This is your last opportunity to surface a problem before you present a solution. If something they told you earlier hasn't been connected to a risk yet — {{worry}}, {{consequence}} — connect it now, not after the price."});
   b.push({k:"fields",items:[
     {n:"qualifyReason",label:"The one thing they most want to avoid",ph:"their exact words"},
     {n:"taxGoal",label:"What they want instead",ph:"clarity / savings / no surprises / just handled"},
@@ -6410,11 +6413,11 @@ C.qualify=function(){
 /* ---------- TAX SOLUTIONS ---------- */
 C.sol=function(){
   var mm=isMM(), b=[];
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">🤝 Solutions</span><h2>Tax solutions</h2><span class="aprilchip">Partner · April Tax Solutions</span></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Solutions</span><h2>Tax solutions</h2><span class="aprilchip">Partner · April Tax Solutions</span></div>'});
   b.push({k:"guide",t:"§ Tax Solutions · Quarterly Tax Planning · Annual Business Tax Prep + Filing"});
   b.push({k:"goal",t:"<b>Job of this stage:</b> present the solutions in the same order as the problems you surfaced — the year-round decisions first, then the filing at the end of it."});
   b.push({k:"say",tag:"The good news",t:"\u201CThe good news is"+ELL+"you don't have to figure any of this out alone.\u201D"+PAUSE+
-    "\u201CWhat most new business owners want is pretty simple: someone to help them make the right tax decisions <b>during</b> the year, and a stress-free filing at the <b>end</b> of the year.\u201D"+PAUSE+
+    "\u201CWhat most new business owners want is straightforward: someone to help them make the right tax decisions <b>during</b> the year, and a stress-free filing at the <b>end</b> of the year.\u201D"+PAUSE+
     "\u201CThat's exactly why we partnered with <b>April Tax Solutions</b> — a team of licensed tax professionals who specialize in small business taxes and support owners across all fifty states.\u201D"});
   b.push({k:"say",tag:"How it works",t:"\u201CHere's how it works: instead of searching for a CPA, trying to vet them, and paying hourly every time you have a question"+ELL+"you can log into your ZenBusiness dashboard and schedule your first quarterly consultation to talk through things like tax classification, quarterly estimates, deductions, and any state requirements — <b>before</b> you make decisions.\u201D"+PAUSE+
     "\u201CAnd when tax season hits, they'll handle the filing start to finish.\u201D"+PAUSE+
@@ -6449,7 +6452,7 @@ C.sol=function(){
 
   b.push({k:"mod",num:"B",title:"Annual Business Tax Prep + Filing",why:"Owns the finish line",
     goal:"Take the filing itself off their plate — and, for single-member LLCs, their personal return with it.",beats:[
-    {k:"say",tag:"Name the fear",t:"\u201CA lot of new business owners are nervous about the annual tax filing, because they're not sure how to file taxes as a business, how deductions work, or whether the return will be accurate.\u201D"+PAUSE+
+    {k:"say",tag:"Name the fear",t:"\u201CMany new business owners are concerned about the annual tax filing, because they're not sure how to file taxes as a business, how deductions work, or whether the return will be accurate.\u201D"+PAUSE+
       "\u201CSo on top of Quarterly Tax Planning, we also offer <b>Business Tax Prep and Filing</b>, handled entirely by April's licensed tax professionals. They prepare and file your business taxes for you"+
       (mm?".\u201D":", and if you are a single-member LLC, they also file your personal return at no extra cost.\u201D")},
     {k:"say",tag:"What's included",t:"\u201CHere's what's included:\u201D"+
@@ -6499,7 +6502,7 @@ function planCards(){
 }
 C.close=function(){
   var mm=isMM(), b=[], covered=taxCovered();
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">🏷 The close</span><h2>Tax close &amp; pricing</h2><span class="price">'+bundlePrice()+'</span></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">The close</span><h2>Tax close &amp; pricing</h2><span class="price">'+bundlePrice()+'</span></div>'});
   b.push({k:"guide",t:"§ Tax Close · Monthly Installments"});
   b.push({k:"goal",t:"<b>Job of this stage:</b> let them say what's valuable, recommend <b>only one</b> plan, lead annual, ask once, and stop talking."});
 
@@ -6507,16 +6510,16 @@ C.close=function(){
     "\u201CFor context, accountants and CPAs can charge you just to sit down with you. But for a fraction of the cost, you get proactive tax planning every quarter, along with expert business advice"+
     (mm?".\u201D":" and personal tax filing handled for you. Some even deduct the service itself.\u201D")});
   b.push({k:"say",tag:"Add Money Pro if they don't have it",when:function(){return S.f.mp!=="y";},
-    t:"\u201CAnd if you're someone who wants it all buttoned up before tax season"+ELL+"and you want to keep everything clean and automated so nothing slips through the cracks"+ELL+"I'd also recommend we turn on <b>Money Pro</b> for you. It pairs perfectly with the tax services. In fact, your tax pro will probably thank you and be impressed that you have it.\u201D"+PAUSE+
-      "\u201CMoney Pro will be your all-in-one bookkeeping, mileage tracker and quote/invoice tool right in your ZenBusiness dashboard. You simply link your bank accounts or cards, and it tracks your expenses, mileage, income and invoices automatically. It's like if QuickBooks and TurboTax had a baby — and it's super easy to use.\u201D"});
+    t:"\u201CAnd if you're someone who wants it all buttoned up before tax season"+ELL+"and you want to keep everything clean and automated so nothing is missed"+ELL+"I'd also recommend we turn on <b>Money Pro</b> for you. It pairs perfectly with the tax services. It also gives your tax professional cleaner records to work with.\u201D"+PAUSE+
+      "\u201CMoney Pro will be your all-in-one bookkeeping, mileage tracker and quote/invoice tool right in your ZenBusiness dashboard. You simply link your bank accounts or cards, and it tracks your expenses, mileage, income and invoices automatically. It brings bookkeeping, tax-ready records, mileage tracking, and invoicing into one straightforward tool.\u201D"});
 
   b.push({k:"ask",tag:"The four questions — don't rush these",t:"\u201CWe have covered a lot! What questions do you have about our tax services"+(S.f.mp!=="y"?" or Money Pro":"")+"?\u201D"+PAUSE+
-    "\u201COur tax services allow you to effortlessly optimize your finances, maximize tax savings and ensure full compliance, so you can confidently grow your business"+ELL+"but is there anything I've shared with you that you think would absolutely <b>not</b> benefit you or your business?\u201D"+PAUSE+
+    "\u201COur tax services help you organize your finances, identify tax savings, and stay compliant as your business grows"+ELL+"but is there anything I've shared with you that you think would absolutely <b>not</b> benefit you or your business?\u201D"+PAUSE+
     "\u201COut of curiosity, what aspects of the tax services would you find <b>most</b> beneficial?\u201D"+PAUSE+
     "\u201CDo you see this type of help being important to get right away?\u201D"+
     cue("wait for a real answer after every single one")});
-  b.push({k:"say",tag:"If they're uncertain",t:"\u201COh, I'm surprised to hear that based on everything we have covered. Can you help me understand why you don't feel it would be important right now?\u201D"+
-    cue("curious tone, not challenging — this question re-opens more deals than any rebuttal")});
+  b.push({k:"say",tag:"If they're uncertain",t:"\u201CI understand. Based on what we covered, help me understand why this does not feel important right now.\u201D"+
+    cue("curious tone — this clarifies the concern without challenging them")});
   b.push({k:"check",items:[["taxValue","They said what's most beneficial and that it's important to get right away"]]});
 
   b.push({k:"note",when:function(){return covered;},tone:"alert",tag:"They may already be covered",
@@ -6542,8 +6545,8 @@ C.close=function(){
     "\u201CNow it's really just about giving yourself the tools and expert support that help you win long-term. Getting the right tax solutions in place now will make sure the rest of your year, and the life of the business, run more smoothly.\u201D"});
   b.push({k:"close",item:"BUNDLE",gateKey:"tax",price:bundlePrice(),objTag:"TAX",auth:false,
     kicker:"The annual ask · "+bundlePrice(),
-    t:"\u201CThat being said, based on our conversation and your business needs, I'd highly recommend we get this set up for you now and get started on next steps. How does that sound?\u201D"+
-      cue("STOP TALKING. Silence is not a no")});
+    t:"\u201CBased on our conversation and your business needs, I recommend we set this up now and move to the next steps. How does that sound?\u201D"+
+      cue("Ask once, then wait. Silence is not a decline.")});
   b.push({k:"say",tag:"After the yes",t:"\u201CYou've made a great choice for your business's financial health. I'll get that activated for you now.\u201D"+PAUSE+
     "\u201CYour twelve-month service starts today and will automatically renew annually on the same date.\u201D"+PAUSE+
     "\u201CDo I have your permission to process the payment of <b>"+bundlePrice()+"</b> with the card on file ending in {{cardLast4}}?\u201D"});
@@ -6554,7 +6557,7 @@ C.close=function(){
     goal:"\u201CI like it, I want it, I just don't have that kind of money right now.\u201D Confirm value, isolate cost, then unlock the plan.",beats:[
     {k:"gates",key:"monthly",title:"Before you mention monthly at all"},
     {k:"html",t:'<div class="lockwrap'+(gatesClear("monthly")?"":" locked")+'" data-lock="monthly">'+
-      '<div class="lockbadge"><span>🔒 Confirm value and isolate cost first<em>'+gatesLeft("monthly")+' left above</em></span></div><div class="locked-inner">'+
+      '<div class="lockbadge"><span>Confirm value and isolate cost first<em>'+gatesLeft("monthly")+' left above</em></span></div><div class="locked-inner">'+
       renderBeats([
         {k:"say",tag:"1 · Put pricing aside",t:"\u201CThat's fair"+ELL+"let's put pricing to the side for just a moment"+ELL+"\u201D"+PAUSE+
           "\u201CAre Quarterly Tax Planning and Business Tax Prep and Filing"+(S.f.mp!=="y"?" — and Money Pro —":"")+" services that you believe will put you in a position to maximize your deductions and win come tax time?\u201D"},
@@ -6579,7 +6582,7 @@ C.close=function(){
     goal:"\u201CLet's have you start with just the X, that way you're still putting yourself in a position to win, and we can revisit the rest down the road.\u201D",beats:[
     {k:"gates",key:"stepdown",title:"Before you step down"},
     {k:"html",t:'<div class="lockwrap'+(gatesClear("stepdown")?"":" locked")+'" data-lock="stepdown">'+
-      '<div class="lockbadge"><span>🔒 A pause is not a decline<em>'+gatesLeft("stepdown")+' left above</em></span></div><div class="locked-inner">'+
+      '<div class="lockbadge"><span>A pause is not a decline<em>'+gatesLeft("stepdown")+' left above</em></span></div><div class="locked-inner">'+
       renderBeats([
         {k:"note",tone:"alert",tag:"Order matters",t:"Step down <b>one rung at a time</b>, and keep planning in the package as long as you can. Planning is what creates the outcome they actually said they wanted."},
         {k:"say",tag:"The step-down line",t:"\u201CLet's have you start with just the "+(S.f.mp!=="y"?"planning":"planning and filing")+", that way you're still putting yourself in a position to win, and we can revisit the rest down the road. Does that feel better for you?\u201D"},
@@ -6596,18 +6599,18 @@ C.close=function(){
 /* ---------- MONEY PRO ---------- */
 C.mp=function(){
   var b=[], has=S.f.mp==="y";
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">📊 Lane</span><h2>Money Pro</h2><span class="price">'+PRICE.mpY+' / yr · '+PRICE.mpM+' / mo</span></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Lane</span><h2>Money Pro</h2><span class="price">'+PRICE.mpY+' / yr · '+PRICE.mpM+' / mo</span></div>'});
   b.push({k:"guide",t:"§ Money Pro Benefits · Money Pro Close"});
   b.push(depthSel("mp"));
   b.push({k:"goal",tone:has?"":"hot",t:has
     ? "<b>They already have it.</b> The job here is activation, not sale. Get the accounts linked and connect it to the tax conversation — an unused Money Pro is a cancellation waiting to happen."
     : "<b>Bundle-first rule:</b> don't lead with standalone Money Pro while planning and filing gaps are open. Use this lane when books are the genuinely missing piece, or when the bundle was specifically declined."});
-  b.push({k:"say",tag:"Why it exists",t:"\u201CMost tax experts will probably recommend that you use a bookkeeping or accounting software to save you money, time and stress, and ensure the most accuracy when it comes to your finances for the business.\u201D"+PAUSE+
-    "\u201CTo make this necessary process of owning a business super easy"+ELL+"you can add Money Pro to your ZenBusiness dashboard, link as many personal or business bank accounts as you want, and start tracking all of your finances right away. With this you can get tax write-offs, save money, and get paid — all in one place.\u201D"});
+  b.push({k:"say",tag:"Why it exists",t:"\u201CMost tax experts will recommend bookkeeping or accounting software to save time, reduce stress, and improve the accuracy of your business records.\u201D"+PAUSE+
+    "\u201CTo make this part of owning a business easier"+ELL+"you can add Money Pro to your ZenBusiness dashboard, link as many personal or business bank accounts as you want, and start tracking all of your finances right away. With this you can get tax write-offs, save money, and get paid — all in one place.\u201D"});
   b.push({k:"ask",tag:"Diagnose first",t:"\u201CHow are you tracking income and expenses right now?\u201D"+PAUSE+
     "\u201CAnd are any business expenses currently going through your personal account or card?\u201D"+cue("almost always yes. Don't judge it — just let it sit")});
 
-  b.push({k:"say",tag:"Income and expenses",t:"\u201CIt's really easy to use"+ELL+"picture this. You'll use Money Pro to track your money coming in and going out automatically for every bank account or credit card you add, instead of having to save all your receipts or dig through emails.\u201D"+PAUSE+
+  b.push({k:"say",tag:"Income and expenses",t:"\u201CHere is how it works. You'll use Money Pro to track your money coming in and going out automatically for every bank account or credit card you add, instead of having to save all your receipts or dig through emails.\u201D"+PAUSE+
     "<ul><li>\u201CYou can upload pictures of your receipts for each transaction right into Money Pro, keeping everything in one place.\u201D</li>"+
     "<li>\u201CThere's artificial intelligence built in that makes recommendations on categories and tags for expenses — and it learns from your actions to make even better recommendations.\u201D</li>"+
     "<li>\u201CIf you're a visual person, you get colored graphs and charts breaking down profit and loss, cash flow, mileage, expenses, income, taxes and invoices.\u201D</li></ul>"});
@@ -6664,7 +6667,7 @@ C.quick=function(){
   var trig=oaTriggers();
   var blocks={
     ein:[
-      {k:"html",t:'<div class="shead"><span class="eyebrow">⚡ Quick close</span><h2>EIN</h2><span class="price">'+PRICE.ein+'</span></div>'},
+      {k:"html",t:'<div class="shead"><span class="eyebrow">Quick close</span><h2>EIN</h2><span class="price">'+PRICE.ein+'</span></div>'},
       {k:"guide",t:"§ EIN — Discovery · Quick Pitch · The Close · Rebuttals"},
       {k:"ask",tag:"Discovery — lead with two or three questions",t:"\u201CWhen I look at your account, I don't see that you had us obtain an EIN for you"+ELL+"did you already get one on your own, or what's your plan for that?\u201D"+PAUSE+
         "\u201CAre you up to speed on what an EIN is and what it's used for with your business?\u201D"+PAUSE+
@@ -6676,14 +6679,14 @@ C.quick=function(){
       {k:"say",tag:"Position the value",t:"\u201CLike most of our customers, if you'd rather not deal with the IRS steps, we can obtain the EIN for you. We typically already have the information needed, and we'll upload the EIN document right to your dashboard when it's back.\u201D"},
       {k:"say",tag:"Set up the circle-back",t:"\u201COkay, you have a couple of options"+ELL+"but I'll circle back before we end our call so you can get your EIN as easily as possible. Sound good?\u201D"},
       {k:"say",tag:"Circle-back close",t:"\u201CYou can get it yourself on irs.gov — it's usually free — but you'll need your SSN or ITIN, and details like the business structure, responsible party info, start date, business activity and more. If you don't have an SSN or ITIN, you may need to complete an SS-4 with a wet signature and mail it in.\u201D"},
-      {k:"ask",tag:"Direct choice close",t:"\u201CWould you prefer to obtain the EIN on your own, or — just like we filed your LLC for you — do you want us to get the EIN for you too? Most of our customers have us knock it out.\u201D"+cue("then silence")},
+      {k:"ask",tag:"Direct choice close",t:"\u201CWould you prefer to obtain the EIN on your own, or — just like we filed your LLC for you — do you want us to get the EIN for you too? Most of our customers choose to have us handle it.\u201D"+cue("then silence")},
       {k:"say",tag:"If they choose DIY",t:"\u201COkay, great. And I believe it's free if you do it on your own, so that's a good option. If you run into any issues, we're here to help.\u201D"+
         cue("say this warmly. Fighting a DIY EIN costs you the tax conversation")},
       {k:"gates",key:"ein",title:"Before you close the EIN"},
       {k:"close",item:"EIN",gateKey:"ein",objTag:"EIN",t:"\u201CPerfect! I can get that set up for you. It's only "+PRICE.ein+" for us to obtain the EIN and upload it to your dashboard.\u201D"}
     ],
     oa:[
-      {k:"html",t:'<div class="shead"><span class="eyebrow">⚡ Quick close</span><h2>Operating agreement</h2><span class="price">'+PRICE.oa+'</span></div>'},
+      {k:"html",t:'<div class="shead"><span class="eyebrow">Quick close</span><h2>Operating agreement</h2><span class="price">'+PRICE.oa+'</span></div>'},
       {k:"guide",t:"§ Operating Agreement — Discovery · Guide · Rebuttals · Who to pitch"},
       {k:"note",tone:trig.length?"alert":"",tag:trig.length?"Must-pitch triggers hit":"No trigger yet",
         t:trig.length?"<b>"+trig.join(" · ")+"</b> — the guide says any one of these means you pitch it."
@@ -6709,7 +6712,7 @@ C.quick=function(){
           "\u201CYou'll have a chance to review it and make any tweaks before it's finalized — but getting started now ensures you're fully protected as your business grows.\u201D"}
     ],
     blr:[
-      {k:"html",t:'<div class="shead"><span class="eyebrow">⚡ Quick close</span><h2>Business license report</h2><span class="price">'+PRICE.blr+' one-time</span></div>'},
+      {k:"html",t:'<div class="shead"><span class="eyebrow">Quick close</span><h2>Business license report</h2><span class="price">'+PRICE.blr+' one-time</span></div>'},
       {k:"guide",t:"§ Business License Report — Discovery · BLR Benefits · BLR Close"},
       {k:"ask",tag:"Discovery",t:"\u201CSince we're talking about compliance"+ELL+"I'm curious, how familiar are you with the licensing and permits you will need at the county, state and federal level to operate your business?\u201D"+PAUSE},
       {k:"say",tag:"If they're not sure",t:"\u201COkay, no problem at all, that is definitely something to look into and start getting ready for.\u201D"+PAUSE+
@@ -6718,7 +6721,7 @@ C.quick=function(){
       {k:"ask",tag:"Their plan",t:"\u201CDo you have a plan in place for how you're going to get started with these for your business?\u201D"},
       {k:"branch",q:"Do they have a plan?",opts:[
         {label:"Not sure / no plan",beats:[
-          {k:"say",tag:"Open the solution",t:"\u201CNo worries"+ELL+"we're always working hard to create solutions for any problems business owners could run into, and this is one of those things. Since licensing and permits can be really complicated"+ELL+"we have a simple solution to make this easier.\u201D"}]},
+          {k:"say",tag:"Open the solution",t:"\u201CUnderstood"+ELL+"we build practical solutions for common problems business owners face, and licensing is one of them. Since licensing and permits can be complex"+ELL+"we have a simple way to make the process clearer.\u201D"}]},
         {label:"Yes, they have a plan",beats:[
           {k:"say",tag:"Validate and move on",t:"\u201COkay, great! This is something that commonly gets overlooked and creates some issues, so I'm glad to know you have a clear plan in place.\u201D"+PAUSE+
             "\u201CIt looks like you've already knocked out some compliance essentials with ZenBusiness"+ELL+"that puts you ahead of the game.\u201D"},
@@ -6729,13 +6732,13 @@ C.quick=function(){
         "<ul><li>\u201CWe'll use all the information you've already provided to form your LLC — like your business purpose and industry — along with you answering a few follow-up questions.\u201D</li>"+
         "<li>\u201CThen the team at our partner, <b>Avalara</b>, takes over and does all of the in-depth research for you at every level, from city all the way up to federal, for your business type and location.\u201D</li>"+
         "<li>\u201CWe'll then email the comprehensive report to you, with clear and detailed instructions on how to obtain each license and permit.\u201D</li>"+
-        "<li>\u201CAnd you'll quickly know exactly what you need to fill out to be totally in the clear to be operational.\u201D</li></ul>"+PAUSE+
+        "<li>\u201CAnd you'll quickly know exactly which applications to complete before operating.\u201D</li></ul>"+PAUSE+
         "\u201CHow helpful does that sound?\u201D"},
       {k:"gates",key:"blr",title:"Before you close the report"},
       {k:"close",item:"BLR",gateKey:"blr",objTag:"BLR",
-        t:"\u201CA real time saver, right?\u201D"+PAUSE+
-          "\u201CAnd the best part is"+ELL+"believe it or not"+ELL+"to get all of that in-depth research and custom report generated and delivered to you, it's only a one-time payment of "+PRICE.blr+""+ELL+"and for you to be one step closer to confidently opening your doors, knowing you truly have everything you need to operate legally at every level.\u201D"+PAUSE+
-          "\u201CSince it does take a few days to generate that report, I'm happy to unlock that in your dashboard now to make it even easier for you and ensure you have it sooner rather than later.\u201D"}
+        t:"\u201CThat can save you research time.\u201D"+PAUSE+
+          "\u201CThe in-depth research and custom report are available for a one-time payment of "+PRICE.blr+"."+ELL+"That brings you one step closer to opening with a clear view of what you need to operate legally at every level.\u201D"+PAUSE+
+          "\u201CSince the report takes a few days to generate, I can add it to your dashboard now so the research can begin.\u201D"}
     ]
   };
   var b=[{k:"goal",t:"<b>Job of this lane:</b> ninety-second closes — but every one still opens with a <b>question</b>, never a pitch. Lead with whichever gap is actually real on this account."}];
@@ -6747,7 +6750,7 @@ C.quick=function(){
 /* ---------- PAYMENT AUTHORIZATION ---------- */
 C.pay=function(){
   var b=[], total=cartTotal(), n=S.cart.length;
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">💳 Word for word</span><h2>Payment authorization</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Word for word</span><h2>Payment authorization</h2></div>'});
   b.push({k:"guide",t:"§ Payment Authorization — used at the end of every close in the guide"});
   b.push({k:"goal",t:"<b>Job of this stage:</b> a clear, recorded yes before anything is processed. Read the authorization as written — this is the part that gets audited."});
   if(!n){
@@ -6772,7 +6775,7 @@ C.pay=function(){
     "<b>After the yes:</b> \u201CThank you — I'll process that now.\u201D"+PAUSE+"\u201CGreat, that's complete.\u201D"});
   b.push({k:"say",tag:"If the payment fails",t:"\u201CNo problem — it looks like that didn't go through. Would you like to try another card?\u201D"+PAUSE+
     "<b>If not:</b> \u201CSince you do want to move forward, let's set a specific time for you to update the payment method and finish this. Would later today or tomorrow work better?\u201D"});
-  b.push({k:"say",tag:"After it processes",t:"\u201CAwesome. Taking this step now means you can focus entirely on growing your business, with the confidence of knowing your taxes are managed correctly.\u201D"+PAUSE+
+  b.push({k:"say",tag:"After it processes",t:"\u201CGood. Taking this step now means you can focus entirely on growing your business, with the confidence of knowing your taxes are managed correctly.\u201D"+PAUSE+
     "\u201CThis is going to allow you to schedule your first meeting and get all of your initial tax guidance and planning in order. Are you able to log into your dashboard so I can help you schedule your first session?\u201D"});
   b.push({k:"note",tone:"alert",tag:"Check before you quote",t:VERIFY});
   b.push({k:"html",t:'<div class="nav"><button data-go="close">← Back to the close</button><button class="go" data-go="sched">Schedule the session →</button></div>'});
@@ -6783,17 +6786,17 @@ C.pay=function(){
 C.sched=function(){
   var taxSold=isSold("BUNDLE")||isSold("BUNDLEM")||isSold("QTP")||isSold("QTPM")||isSold("DIFY")||isSold("DIFYM")||isSold("DIY")||S.f.qtp==="y";
   var b=[];
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">📅 Do it on this call</span><h2>Schedule the consultation</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Complete on this call</span><h2>Schedule the consultation</h2></div>'});
   b.push({k:"guide",t:"§ Schedule Consultation — basic tips and the walkthrough"});
   b.push({k:"note",tone:"stop",tag:"The step that decides whether the sale sticks",
-    t:"A tax customer who never books the first session is a refund waiting to happen. Book it <b>while you are still on the phone</b>. Do not end the call without it."});
+    t:"A tax customer who never books the first session is more likely to request a refund. Book it <b>while you are still on the phone</b>. Do not end the call without it."});
   b.push({k:"note",tone:taxSold?"":"alert",tag:"This account",t:taxSold
     ? "Tax planning is on the account — book the first session now."
     : "No tax planning on the account yet, so there's nothing to book. Use this stage after a tax close, or skip to the next event."});
   b.push({k:"say",tag:"Ask them to log in",t:"\u201CGreat — let's book your first planning session right now while we're together, so you can start with the classification and estimated-payment questions we just uncovered.\u201D"+PAUSE+
     "\u201CAre you able to log into your ZenBusiness dashboard?\u201D"});
   b.push({k:"note",tone:"alert",tag:"Basic tips",t:"Have them log in on their <b>phone or computer</b> — avoid the ZenBusiness app for scheduling, the website works better. If they were already logged in, have them <b>refresh, or log out and back in</b>, so the right tax scheduling page shows up."});
-  b.push({k:"check",tag:"Walk them through it",items:[
+  b.push({k:"check",tag:"Guide them through it",items:[
     ["sch1","Log in to the dashboard on the website"],
     ["sch2","Already logged in? Refresh, or log out and back in"],
     ["sch3","Menu, upper left-hand corner"],
@@ -6815,7 +6818,7 @@ C.sched=function(){
 /* ---------- SET NEXT EVENT AND CLOSING REMARKS ---------- */
 C.sne=function(){
   var b=[], sold=S.cart.length>0;
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">🏁 Last two minutes</span><h2>Next event &amp; closing remarks</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Last two minutes</span><h2>Next event &amp; closing remarks</h2></div>'});
   b.push({k:"guide",t:"§ Set SNE · Closing Remarks"});
   b.push({k:"goal",t:"<b>Job of this stage:</b> no call ends with \u201Ccall me whenever.\u201D Every call ends with a <b>day</b>, a <b>time</b> and a <b>purpose</b>."});
   if(sold){
@@ -6828,7 +6831,7 @@ C.sne=function(){
   }
   b.push({k:"say",tag:"No sale — set the next event",t:"\u201COkay, no problem"+ELL+"I know you weren't expecting my call, so that's okay.\u201D"+PAUSE+
     "\u201CSo let's do this — let's set up a time when you have fifteen minutes where you can be focused, or in front of a computer.\u201D"+PAUSE+
-    "\u201CWith a little more time, we'll discuss more about your business and how to be prepared for tax season, make sure you have the right plan to maximize deductions, and ensure you have the resources you need to save as much money as possible. I know it'll be worth your time.\u201D"});
+    "\u201CWith a little more time, we'll discuss more about your business and how to be prepared for tax season, make sure you have the right plan to maximize deductions, and ensure you have the resources you need to save as much money as possible. That will give us time to review the account properly.\u201D"});
   b.push({k:"ask",tag:"Get the exact time",t:"\u201CWhat time works best for you to connect — either later today or tomorrow?\u201D"+
     cue("two options, not an open question. Then stop talking")});
   b.push({k:"say",tag:"Lock it in",t:"\u201COkay great, so let me put this on the calendar here for {{followupDate}} at {{followupTime}}"+ELL+"would it be helpful for you if I sent you a calendar invite?\u201D"+PAUSE+
@@ -6849,7 +6852,7 @@ C.sne=function(){
     {n:"triggerWords",label:"Their exact words — the phrase to reopen with",ph:"\u201CI can't afford a surprise right now\u201D"}
   ]});
   b.push({k:"html",t:'<div class="lab">Outcome<s></s></div><div class="seg2" id="outcomeSeg">'+
-    [["sold","🎉 Sold"],["sne","📅 Next event set"],["declined","Declined — door open"]].map(function(o){
+    [["sold","Sold"],["sne","Next event set"],["declined","Declined — door open"]].map(function(o){
       return '<button data-o="'+o[0]+'" class="'+(S.outcome===o[0]?"on":"")+'">'+o[1]+'</button>';}).join("")+'</div>'});
   b.push({k:"html",t:'<div class="lab">Ninety-second self-check against the guide<s></s></div>'});
   b.push({k:"check",tag:"Score your own call honestly",items:[
@@ -6864,9 +6867,9 @@ C.sne=function(){
     ["sc9","I booked the first session, or set a next event with a day, time and purpose"]
   ]});
   b.push({k:"html",t:'<div style="display:flex;gap:8px;margin:14px 0 10px;flex-wrap:wrap">'+
-    '<button class="abtn go" id="btnGen">📝 Build the recap</button>'+
+    '<button class="abtn go" id="btnGen">Build the recap</button>'+
     '<button class="abtn dark" id="btnCopyRecap">Copy for Salesforce</button>'+
-    '<button class="abtn" data-go="ref">✉ Follow-up email templates →</button></div>'+
+    '<button class="abtn" data-go="ref">Follow-up email templates →</button></div>'+
     '<div class="recapbox"><textarea id="recapOut" placeholder="Tap “Build the recap” — it writes itself from everything you logged." spellcheck="false"></textarea></div>'});
   return b;
 };
@@ -6874,42 +6877,42 @@ C.sne=function(){
 /* ---------- REFERENCE DESK ---------- */
 C.ref=function(){
   var b=[], kind=S.mailKind||"tax";
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">📘 Reference</span><h2>Reference desk</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Reference</span><h2>Reference desk</h2></div>'});
   b.push({k:"guide",t:"§ Email Templates · Customer Support · pricing · mileage grid"});
 
   b.push({k:"html",t:'<div class="lab">Follow-up email templates<s></s></div><div class="segs">'+
     [["tax","Tax follow-up"],["mp","Money Pro follow-up"],["ra","Registered Agent follow-up"]].map(function(x){
       return '<button class="'+(kind===x[0]?"on":"")+'" data-mailkind="'+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>'+
     '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">'+
-    '<button class="abtn go" id="btnGenMail">✉ Build the email</button>'+
+    '<button class="abtn go" id="btnGenMail">Build the email</button>'+
     '<button class="abtn dark" id="btnCopyMail">Copy to clipboard</button></div>'+
     '<div class="mailbox"><textarea id="mailOut" placeholder="Pick a template above and tap Build the email — it fills in their name, what you discussed and the pricing you actually quoted." spellcheck="false"></textarea></div>'});
 
   b.push({k:"html",t:'<div class="lab">Pricing at a glance — '+(isMM()?"multi-member":"single-member")+'<s></s></div>'+planCards()});
-  b.push({k:"ref",title:"⚠️ Prices the guide leaves open",t:
+  b.push({k:"ref",title:"Prices the guide leaves open",t:
     "<p>Confirm these four in Salesforce before you say them out loud: the <b>"+PRICE.btpPromo+"</b> filing figure used in some multi-member math, the promotional multi-member totals <b>"+PRICE.bundleMMPromo+"</b> and <b>"+PRICE.difyMMPromo+"</b>, and the <b>"+PRICE.qtpM_MM+"</b> monthly planning figure.</p>"});
 
   b.push({k:"html",t:'<div class="lab">Mileage grid — '+PRICE.mileRate+' a mile<s></s></div>'+mileTableHTML()});
 
-  b.push({k:"ref",title:"🗂 Worry Free Compliance — mention only",t:
+  b.push({k:"ref",title:"Worry Free Compliance — mention only",t:
     "<p>WFC has no pitch or close in the June guide. It shows up as an included feature on the Starter (if selected), Pro and Premium plans, so name it when reviewing their order and move on.</p>"+
     "<p style='margin-top:6px'><b>If they ask what it does:</b> \u201CWorry Free Compliance helps keep your LLC in compliance year round. All you have to do is keep an eye on the email you have on file with us — we reach out when there are action items needed.\u201D</p>"+
     "<p style='margin-top:6px'><b>If they ask how it differs from the Registered Agent:</b> the Registered Agent <b>receives</b> official legal and state documents. Compliance is about <b>filing</b> what's due to keep you in good standing.</p>"});
 
-  b.push({k:"ref",title:"🧾 S-Corp designation — the exact rule",t:
+  b.push({k:"ref",title:"S-Corp designation — the exact rule",t:
     "<ul><li>Free if ZenBusiness knows within <b>30 days</b> of the LLC formation purchase.</li>"+
     "<li><b>"+PRICE.scorp+"</b> after the first 30 days.</li>"+
     "<li>After <b>75 days</b> it's a late filing — nothing is charged beyond the "+PRICE.scorp+".</li></ul>"+
     "<p style='margin-top:8px'>"+(daysSince()===null?"Enter days since purchase in setup to see which applies to this account."
       :(scorpFree()?"<b style='color:var(--zb-ink)'>Day "+daysSince()+" — free window.</b>":"<b style='color:var(--amber-ink)'>Day "+daysSince()+" — "+PRICE.scorp+" applies.</b>"))+"</p>"});
 
-  b.push({k:"ref",title:"🎧 Customer support — give them this number",t:
+  b.push({k:"ref",title:"Customer support — give them this number",t:
     "<p class='big'>"+PRICE.support+"</p>"+
     "<ul><li>Call and chat: Monday to Friday, 8am – 8pm CT</li>"+
     "<li>Saturday and Sunday, 9am – 6pm CT</li>"+
     "<li>Less urgent inquiries: the Contact Us form on zenbusiness.com</li></ul>"});
 
-  b.push({k:"ref",title:"📌 The lines you never change",t:
+  b.push({k:"ref",title:"The lines you never change",t:
     "<ul><li>\u201C"+NOTAPRO+"\u201D — before any tax discussion, every call.</li>"+
     "<li>\u201CDo I have your permission to process the payment of $___ with the card on file ending in ___?\u201D — before anything is charged.</li>"+
     "<li>\u201CYour twelve-month service starts today and will automatically renew annually on the same date.\u201D — before any annual service is processed.</li>"+
@@ -6951,7 +6954,7 @@ function OBJ(){
 
   {c:"Agent",l:"\u201CI already have a Registered Agent through another service.\u201D",
    h:"Don't knock the competitor. Sell consolidation.",
-   r:"\u201CThat's great, glad it's covered. The reason I bring it up is that a lot of customers who have a Registered Agent through another service switch to us so everything is in one place.\u201D"+PAUSE+
+   r:"\u201CGood. I'm glad it is covered. The reason I bring it up is that a lot of customers who have a Registered Agent through another service switch to us so everything is in one place.\u201D"+PAUSE+
      "\u201CAll your documents, compliance calendar and notices are in the same ZenBusiness dashboard you're already using. No separate login, no separate platform.\u201D",
    x:"\u201CIs there any reason you'd want to keep them separate?\u201D"},
 
@@ -7039,7 +7042,7 @@ function OBJ(){
 
   {c:"EIN",l:"\u201CI'll do it later.\u201D",
    h:"Name what it holds up.",
-   r:"\u201CTotally fair. The only thing is it can hold up banking, payroll, and some licenses.\u201D",
+   r:"\u201CThat's fair. The only thing is it can hold up banking, payroll, and some licenses.\u201D",
    x:"\u201CIf you want to keep things moving, we can take it off your plate today for "+PRICE.ein+".\u201D"},
 
   {c:"EIN",l:"\u201CI don't want to give my SSN or ITIN online.\u201D",
@@ -7076,7 +7079,7 @@ function OBJ(){
 
   {c:"Agreement",l:"\u201CI'll just figure this out later.\u201D",
    h:"Courts don't wait.",
-   r:"\u201CTotally understandable, but that's exactly how things slip through the cracks. Courts don't wait. If something happens — a disagreement, a lawsuit, a breakup — you'll wish you had something in place.\u201D",
+   r:"\u201CThat's understandable, but that's exactly how things slip through the cracks. Courts don't wait. If something happens — a disagreement, a lawsuit, a breakup — you'll wish you had something in place.\u201D",
    x:"\u201CWould you rather have it sitting in your dashboard, done, before you need it?\u201D"},
 
   {c:"Agreement",l:"\u201CCan I just write my own?\u201D",
@@ -7094,7 +7097,7 @@ function OBJ(){
   /* ---- General bridges: not scripted in the guide, use sparingly ---- */
   {c:"Bridge",l:"\u201CI already paid you people.\u201D",q:1,
    h:"Not in the guide — a bridge line. It isn't about money, it's about feeling upsold.",
-   r:"\u201CTotally understand — and you did pay to get the LLC created. What we're talking about now are the responsibilities that start <b>once</b> the LLC exists: receiving official documents, staying compliant, and handling the tax side properly.\u201D",
+   r:"\u201CI understand — and you did pay to get the LLC created. What we're talking about now are the responsibilities that start <b>once</b> the LLC exists: receiving official documents, staying compliant, and handling the tax side properly.\u201D",
    x:"\u201CSo I'm not raising this because something was missing from what you paid for. These are the duties that came with it. Does that make sense?\u201D"},
 
   {c:"Bridge",l:"\u201CJust email me something.\u201D",q:1,
@@ -7141,7 +7144,7 @@ function isolatePrompt(){
 
 C.obj=function(){
   var b=[];
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">🥊 Any time</span><h2>Objection library</h2></div>'});
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Any time</span><h2>Objection library</h2></div>'});
   b.push({k:"guide",t:"§ RA Rebuttals · Tax Rebuttals · EIN Rebuttals · Operating Agreement Rebuttals"});
   b.push({k:"goal",tone:"hot",t:"<b>Do not rebut yet.</b> Isolate first: is this about <b>cost</b>, <b>timing</b>, <b>value</b>, <b>trust</b>, or <b>someone else's approval</b>? Rebutting the wrong one is exactly why objections come back."});
   b.push({k:"html",t:'<div class="lab">What kind of objection is it?<s></s></div><div class="seg2">'+
@@ -7151,10 +7154,10 @@ C.obj=function(){
   b.push({k:"say",tag:"The framework — works on anything",t:
     "<b>1 Acknowledge:</b> \u201CThat makes sense.\u201D<br><b>2 Isolate:</b> the question above.<br><b>3 Tie back:</b> \u201CThe reason I raised it is that you said {{worry}}.\u201D<br>"+
     "<b>4 Reframe:</b> \u201CThis isn't about adding something extra — it's about solving that.\u201D<br><b>5 Confirm:</b> \u201CDo you agree solving it would help?\u201D<br><b>6 Re-close:</b> \u201CThen does it make sense to handle it now?\u201D"});
-  b.push({k:"note",tag:"Tone beats wording",t:"Slow down about twenty percent, drop your pitch, stay curious. Defensiveness kills a rebuttal faster than the wrong words ever will."});
+  b.push({k:"note",tag:"Tone matters as much as wording",t:"Slow down about twenty percent, drop your pitch, stay curious. A defensive tone weakens even a good response."});
   b.push({k:"field",n:"objection",label:"What they actually said",ph:"\u201Cthat's a lot of money right now\u201D",
     hint:"Goes into the recap — it tells your manager which lane needs work."});
-  b.push({k:"html",t:'<input class="search" id="objSearchMain" placeholder="🔎 Search the rebuttals…" style="width:100%;margin:12px 0 10px">'+
+  b.push({k:"html",t:'<input class="search" id="objSearchMain" placeholder="Search the responses…" style="width:100%;margin:12px 0 10px">'+
     '<div id="objListMain">'+objHTML(OBJ())+'</div>'});
   b.push({k:"note",tag:"About the Bridge category",t:"Everything tagged <b>Agent</b>, <b>Tax</b>, <b>EIN</b>, <b>Agreement</b> or <b>Money Pro</b> is the guide's own wording. The four tagged <b>Bridge</b> are field lines that aren't scripted in the June guide — use them to get back into the guide, not instead of it."});
   b.push({k:"bridge",t:"\u201CPerfect — it sounds like we answered the part that was holding you up. If you're comfortable moving forward, I'll confirm exactly what we're adding and the amount before anything is charged.\u201D"});
@@ -7173,7 +7176,7 @@ function addCart(k,price){
   DAY.revenue+=money(price||itemPrice(k));
   if(k==="BUNDLE"||k==="BUNDLEM")DAY.bundles++;
   saveDay(); save(); confetti();
-  toast("🎉 "+it.label+" — "+(price||itemPrice(k)));
+  toast(it.label+" — "+(price||itemPrice(k)));
   renderAll();
 }
 function removeCart(i){S.cart.splice(i,1);save();renderAll();}
@@ -7200,7 +7203,7 @@ function nextBest(){
   if(st==="open")return ["Get the 10–15 minutes","The agenda plus the time ask is what buys you the whole call.","This should only take about ten to fifteen minutes. Does that sound good?"];
   if(st==="disc"){
     if(!(S.n.inspired||"").trim())return ["Find out what inspired them","You need their reason before you can use it later.","What inspired you to get this business started?"];
-    if(!(S.n.worry||"").trim())return ["Find the concern","No problem means no recommendation.","Since this is your first LLC — what are you most worried or concerned about?"];
+    if(!(S.n.worry||"").trim())return ["Find the concern","Without a clear problem, there is no basis for a recommendation.","Since this is your first LLC — what are you most worried or concerned about?"];
     if(!(S.n.timeline||"").trim())return ["Find the clock","Urgency without a timeline is guesswork.","What needs to happen next, and by when?"];
     if(!(S.n.consequence||"").trim())return ["Go one layer deeper","Let them describe the cost of doing nothing.","And if that isn't handled by then, what happens?"];
     return ["Ask for their priorities","They'll tell you which lane to run.","What next steps are your highest priorities?"];
@@ -7212,7 +7215,7 @@ function nextBest(){
     if(!S.gates.ra_role)return ["Explain what the role commits them to","They almost certainly don't know.","Are you planning to physically be available at that address during all normal business hours each weekday?"];
     if(!S.gates.ra_avail)return ["Ask the twelve-month question","One crack in \u201Calways there\u201D is the whole conversation.","Over the next twelve months, is there a chance you're away, traveling, or out running the business?"];
     if(!S.gates.ra_value)return ["Confirm the value out loud","Never close on a silent nod.","Do you see how all of that would be valuable for your specific situation? Why, for you?"];
-    return ["Ask for the decision","Short sentence, then silence.","Would you gain some peace of mind and more freedom to move freely if we got your Registered Agent switched over to us?"];
+    return ["Ask for the decision","Short sentence, then silence.","Would you gain more peace of mind and flexibility if we got your Registered Agent switched over to us?"];
   }
   if(st==="taxdisc"){
     if(!S.checks.taxPermission)return ["Get permission to go deeper","The ten-thousand-dollar hook opens the door.","Would you find it helpful if I went a bit deeper on the deductions and tax opportunities relevant to you today?"];
@@ -7221,14 +7224,14 @@ function nextBest(){
   }
   if(st==="edu"){
     if(!S.checks.pfClass)return ["Create decision urgency","Classification — without recommending one.","Do you see why this is an important decision to discuss with a tax professional, before it's defaulted for you?"];
-    if(!S.checks.pfQuarterly)return ["Create cash-flow urgency","Make the money in the account feel real.","How would it feel to get to your tax filing and find out a big chunk of it belonged to the IRS all along?"];
+    if(!S.checks.pfQuarterly)return ["Create cash-flow urgency","Make the money in the account feel real.","How would it feel to get to your tax filing and find out a significant portion of it belonged to the IRS all along?"];
     if(!S.checks.pfStartup)return ["Flip to the upside","Find money they've already spent.","What other purchases have you made towards getting this business started and operational?"];
     if(!S.checks.pfVehicle)return ["Run the mileage math","Or rule it out in ten seconds.","How many miles do you think you'll drive every month for business-related activities?"];
     if(!S.checks.pfOngoing)return ["Turn deductions into records","Ordinary and necessary — and documented.","What purchases do you expect to make for the business for the rest of this year?"];
-    return ["Go and qualify them","Stop teaching. Make it their problem.","Does any of that sound like something you've been concerned about, or want to avoid altogether?"];
+    return ["Move to qualifying","Stop teaching. Confirm the problem in their words.","Does any of that sound like something you've been concerned about, or want to avoid altogether?"];
   }
   if(st==="qualify"){
-    if(!S.checks.taxQualified)return ["Get the agreement","This is the hinge of the whole call.","Can you see how that might become a problem if you don't get ahead of it now?"];
+    if(!S.checks.taxQualified)return ["Get the agreement","This is the decision point in the call.","Can you see how that might become a problem if you don't get ahead of it now?"];
     return ["Move to solutions","They named the problem. Now name the fix.","The good news is, you don't have to figure any of this out alone."];
   }
   if(st==="sol"){
@@ -7239,7 +7242,7 @@ function nextBest(){
   if(st==="close"){
     if(!S.checks.taxValue)return ["Run the four questions","Let them say what's most beneficial and why now.","Out of curiosity, what aspects would you find most beneficial?"];
     if(!gatesClear("tax"))return ["Tick the buy-in gates","The close stays locked until you've actually heard these.","(Tick each gate only when the customer said it — not when you did.)"];
-    if(!S.checks.taxAsked)return ["Ask once, then stop","Name one plan and the annual price.","Based on our conversation and your business needs, I'd highly recommend we get this set up for you now. How does that sound?"];
+    if(!S.checks.taxAsked)return ["Ask once, then stop","Name one plan and the annual price.","Based on our conversation and your business needs, I recommend we set this up now. How does that sound?"];
     if(S.objType)return ["Work the actual objection","Don't step down or offer monthly until it's isolated.",plain(isolatePrompt()).replace(/[\u201C\u201D]/g,"")];
     return ["Move to authorization","A yes ends the pitch. Confirm, authorize, then book the session.","Your twelve-month service starts today and renews annually on the same date."];
   }
@@ -7256,9 +7259,9 @@ function nextBest(){
   }
   if(st==="obj")return ["Isolate before rebutting","Find the real category first.",plain(isolatePrompt()).replace(/[\u201C\u201D]/g,"")];
   if(st==="pay")return ["Ask for authorization","Service, amount, last four. Then say nothing.","Do I have your permission to process the payment with the card on file ending in "+((S.f.cardLast4||"").trim()||"[last 4]")+"?"];
-  if(st==="sched")return ["Book it while you're together","A sale nobody activates becomes a refund.","Are you able to log into your dashboard so I can help you schedule your first session?"];
+  if(st==="sched")return ["Book it while you're together","A service the customer does not activate can become a refund.","Are you able to log into your dashboard so I can help you schedule your first session?"];
   if(st==="sne")return S.cart.length
-    ? ["Close it out properly","Recap in their words, then closing remarks.","You're really set up for success now. What questions do you have for me?"]
+    ? ["Close it out properly","Recap in their words, then closing remarks.","You now have the key pieces in place. What questions do you have for me?"]
     : ["Set the next event","No-buy calls still need a day, a time and a purpose.","What time works best for you to connect — either later today or tomorrow?"];
   return ["Use the reference desk","Emails, pricing, the mileage grid and the support number live here.","(Nothing to say — this stage is for you.)"];
 }
@@ -7295,7 +7298,7 @@ function renderCenter(){
   var body=(hasHead?"":genericHead())+renderBeats(beats,"");
   if(!/class="nav"/.test(body)){
     var nx=ST[stIdx(S.stage)+1];
-    var nextL=S.stage==="ref"?"↺ Start the next call":"Next: "+(nx?nx[1]:"");
+    var nextL=S.stage==="ref"?"Start the next call":"Next: "+(nx?nx[1]:"");
     body+='<div class="nav">'+(stIdx(S.stage)>0?'<button class="prev" id="btnPrev">← Back</button>':"")+
       '<button class="go" id="btnNext">'+nextL+'</button></div>';
   }
@@ -7331,7 +7334,7 @@ function renderWho(){
   $("who").innerHTML=(c||b)?esc(c||"—")+'<small>'+esc(b||"")+(p?" · "+esc(p):"")+(isMM()?" · multi-member":"")+'</small>':"";
   var n=S.cart.length, pill=$("cartPill");
   pill.className="cartpill"+(n?"":" empty");
-  pill.textContent=n?("🛒 "+n+" · "+usd(cartTotal())):"🛒 Nothing closed";
+  pill.textContent=n?(n+" · "+usd(cartTotal())):"Nothing closed";
   var r=readiness(), rp=$("readyPill");
   rp.className="readypill"+(r>=70?" hot":""); rp.textContent="Ready "+r+"%";
   pingShell();
@@ -7348,9 +7351,9 @@ function renderRight(){
      '<div class="wh">'+esc(nb[1])+'</div><div class="sn"><span class="kk">Say next</span><q>'+esc(nb[2])+'</q></div>'+
      '<div class="momentum">'+mom.map(function(x){return '<i class="'+(x?"on":"")+'"></i>';}).join("")+'</div></div>';
 
-  h+='<div class="reco"><span class="k">'+(S.rushed?"Rushed — one gap only":"Pick tax or Registered Agent")+'</span><h3>'+(LANE_NAME[r.lane]||r.lane)+'</h3>'+
+  h+='<div class="reco"><span class="k">'+(S.rushed?"Rushed — address one gap":"Choose tax or Registered Agent")+'</span><h3>'+(LANE_NAME[r.lane]||r.lane)+'</h3>'+
      '<p>'+T(r.why)+'</p><div class="flags">'+laneFlags().map(function(f){return '<span>'+plain(f)+'</span>';}).join("")+'</div>'+
-     '<button class="golane" data-go="'+r.lane+'">Take me there →</button></div>';
+     '<button class="golane" data-go="'+r.lane+'">Open lane →</button></div>';
 
   h+='<div class="panel"><h4><span class="dot"></span>What they told you<em>fills the script</em></h4>'+
      '<div class="notef"><label>What inspired them</label><input data-n="inspired" value="'+esc(S.n.inspired)+'" placeholder="why they started"></div>'+
@@ -7366,20 +7369,20 @@ function renderRight(){
     h+='<ul class="cart-l">'+S.cart.map(function(c,i){
       return '<li>'+esc(c.label)+'<b>'+esc(c.price)+'</b><button data-uncart="'+i+'" title="Remove">✕</button></li>';}).join("")+
       '</ul><div class="carttotal"><span class="k">Total</span><b>'+usd(cartTotal())+'</b></div>'+
-      '<button class="abtn go" style="width:100%;margin-top:10px" data-go="pay">Go and take the payment →</button>';
+      '<button class="abtn go" style="width:100%;margin-top:10px" data-go="pay">Take payment →</button>';
   }else{
-    h+='<p class="empty-n">Nothing yet. When they say yes, hit the green button on the close card — the payment stage then reads the exact total back to you.</p>';
+    h+='<p class="empty-n">Nothing closed yet. When the customer agrees, select the green button on the close card. The payment stage will read back the exact total.</p>';
   }
   h+='</div>';
 
-  h+='<div class="panel"><h4><span class="dot" style="background:var(--red)"></span>They pushed back<em>press O</em></h4>'+
+  h+='<div class="panel"><h4><span class="dot" style="background:var(--red)"></span>Customer objection<em>Press O</em></h4>'+
      '<div class="lab" style="margin-top:0">Isolate first<s></s></div><div class="seg2" style="margin-bottom:9px">'+
      [["cost","Cost"],["timing","Timing"],["value","Value"],["trust","Trust"],["authority","Partner"]].map(function(o){
        return '<button data-objtype="'+o[0]+'" class="'+(S.objType===o[0]?"on":"")+'">'+o[1]+'</button>';}).join("")+'</div>'+
      '<div class="goal" style="margin-top:0;font-size:12px">'+T(isolatePrompt())+'</div>'+
      '<div class="quickobj">'+OBJ().filter(function(o){return o.q;}).slice(0,8).map(function(o){
        return '<button data-quickobj="'+esc(o.l)+'">'+esc(o.l)+'</button>';}).join("")+'</div>'+
-     '<input class="search" id="objSearch" placeholder="🔎 Type what they said…">'+
+     '<input class="search" id="objSearch" placeholder="Type what they said…">'+
      '<div id="objList">'+objHTML(OBJ())+'</div></div>';
 
   h+='<div class="panel"><h4><span class="dot" style="background:var(--ink)"></span>Today<em>resets at midnight</em></h4>'+
@@ -7422,7 +7425,7 @@ function syncSetup(){
 function renderAll(){
   renderRail(); renderWho(); renderCenter(); renderRight(); renderClock();
   $("setup").style.display=S.setupOpen?"":"none";
-  $("btnHideSetup").textContent=S.setupOpen?"▲ Hide setup":"▼ Show setup";
+  $("btnHideSetup").textContent=S.setupOpen?"Hide setup":"Show setup";
   if(S.focusOn)renderFocus();
 }
 
@@ -7441,7 +7444,7 @@ function paceState(){
 function renderClock(){
   $("clock").textContent=fmt(S.elapsed);
   $("clock").classList.toggle("over",S.elapsed/60>45);
-  $("btnStart").textContent=S.running?"⏸ Pause":"▶ Start call";
+  $("btnStart").textContent=S.running?"⏸ Pause":"Start call";
   $("btnStart").className="bbtn "+(S.running?"ghost":"go");
   var p=paceState(), el=$("pace"); el.className="pace "+p[0]; el.textContent=p[1];
   $("btnRush").className="rushbtn"+(S.rushed?" on":"");
@@ -7509,7 +7512,7 @@ function renderFocus(){
   $("fStage").innerHTML=ST[stIdx(S.stage)][1];
   $("fPos").textContent=(S.focusIdx+1)+" of "+list.length;
   if(b.k==="note"){
-    h+='<div class="ftag rep">⚠ Not out loud — '+esc(b.tag||"for you")+'</div><div class="frep">'+T(b.t)+'</div>';
+    h+='<div class="ftag rep">Rep guidance — '+esc(b.tag||"for you")+'</div><div class="frep">'+T(b.t)+'</div>';
   }else if(b.k==="branch"){
     var key=S.stage+":f"+S.focusIdx, picked=S.branch[key];
     h+='<div class="ftag">'+esc(b.q||"What did they say?")+'</div><div class="fbranch">'+
@@ -7725,8 +7728,8 @@ function paintGates(key,gid,on){
   if(box){
     box.classList.toggle("clear",clear);
     var h5=box.querySelector("h5"), sub=box.querySelector("p.sub");
-    if(h5)h5.textContent=(clear?"🔓 ":"🔒 ")+h5.textContent.replace(/^\S+\s*/,"");
-    if(sub)sub.textContent=clear?"All earned. The close is unlocked — go."
+    if(h5)h5.textContent=(clear?"":"")+h5.textContent.replace(/^\S+\s*/,"");
+    if(sub)sub.textContent=clear?"All confirmed. Proceed to the close."
       :"Tick these only when you actually hear them. "+left+" to go before the close unlocks.";
   }
   var lw=document.querySelector('.lockwrap[data-lock="'+key+'"]');
@@ -7767,7 +7770,7 @@ document.addEventListener("click",function(e){
   if(a("data-said")!=null){
     var kk=S.stage+":"+a("data-said"); S.said[kk]=!S.said[kk]; save();
     t.closest(".beat").classList.toggle("hit",!!S.said[kk]);
-    t.classList.toggle("said",!!S.said[kk]); t.textContent=S.said[kk]?"✓ said":"mark said"; return;
+    t.classList.toggle("said",!!S.said[kk]); t.textContent=S.said[kk]?"Said":"Mark as said"; return;
   }
   if(a("data-copybeat")!=null){
     var box=t.closest(".say").querySelector(".say-t");
@@ -7900,7 +7903,7 @@ $("cartPill").onclick=function(){goStage("pay");};
 function toggleSetup(){
   S.setupOpen=!S.setupOpen; save();
   $("setup").style.display=S.setupOpen?"":"none";
-  $("btnHideSetup").textContent=S.setupOpen?"▲ Hide setup":"▼ Show setup";
+  $("btnHideSetup").textContent=S.setupOpen?"Hide setup":"Show setup";
 }
 $("btnSetup").onclick=toggleSetup;
 $("btnHideSetup").onclick=toggleSetup;
@@ -8100,7 +8103,7 @@ if(S.focusOn)openFocus();
   overlay.innerHTML='<section class="command-palette" role="dialog" aria-modal="true" aria-label="Jump anywhere">'+
     '<div class="command-search-wrap"><span>Z</span><input class="command-search" aria-label="Search stages and actions" placeholder="Jump to a stage or run an action…"><kbd>ESC</kbd></div>'+
     '<div class="command-results"></div>'+
-    '<footer class="command-footer"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Select</span><span><kbd>ESC</kbd> Close</span><em>All guide content stays one keystroke away</em></footer>'+
+    '<footer class="command-footer"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Select</span><span><kbd>ESC</kbd> Close</span><em>Open any guide section with one keystroke</em></footer>'+
     '</section>';
   document.body.appendChild(overlay);
   var search=overlay.querySelector(".command-search");
@@ -8112,12 +8115,12 @@ if(S.focusOn)openFocus();
   function staticActions(){
     return [
       {kind:"action",icon:"▶",label:"Start or pause the call",detail:"Timer and pacing",key:"P",run:function(){click("#btnStart");}},
-      {kind:"action",icon:"⛶",label:"Open focus mode",detail:"One line at a time",key:"F",run:function(){click("#btnFocus");}},
-      {kind:"action",icon:"🥊",label:"Open objection finder",detail:"Search the full rebuttal library",key:"O",run:function(){dispatchKey("o");}},
-      {kind:"action",icon:"⚙",label:"Show or hide customer setup",detail:"Customer and account context",run:function(){click("#btnSetup");}},
-      {kind:"action",icon:"💳",label:"Jump to payment",detail:"Authorization and checkout",run:function(){click('[data-go="pay"]');}},
-      {kind:"action",icon:"📘",label:"Open reference desk",detail:"Prices, terms, products, and policy",key:"R",run:function(){click('[data-go="ref"]');}},
-      {kind:"action",icon:"📝",label:"Jump to live notes",detail:"Customer language and call summary",run:function(){var right=document.getElementById("right");if(right)right.scrollIntoView({behavior:"smooth",block:"start"});}},
+      {kind:"action",icon:"",label:"Open focus mode",detail:"One line at a time",key:"F",run:function(){click("#btnFocus");}},
+      {kind:"action",icon:"",label:"Open objection finder",detail:"Search the full rebuttal library",key:"O",run:function(){dispatchKey("o");}},
+      {kind:"action",icon:"",label:"Show or hide customer setup",detail:"Customer and account context",run:function(){click("#btnSetup");}},
+      {kind:"action",icon:"",label:"Jump to payment",detail:"Authorization and checkout",run:function(){click('[data-go="pay"]');}},
+      {kind:"action",icon:"",label:"Open reference desk",detail:"Prices, terms, products, and policy",key:"R",run:function(){click('[data-go="ref"]');}},
+      {kind:"action",icon:"",label:"Jump to live notes",detail:"Customer language and call summary",run:function(){var right=document.getElementById("right");if(right)right.scrollIntoView({behavior:"smooth",block:"start"});}},
       {kind:"action",icon:"↺",label:"Start the next call",detail:"Clear customer progress and timer",run:function(){click("#btnClearProg");}}
     ];
   }
@@ -8263,7 +8266,7 @@ if(S.focusOn)openFocus();
         '<span class="ed-stamp" id="missionPhase">Open phase</span>' +
       '</div>' +
       '<h1 id="missionAccount">New customer call</h1>' +
-      '<p id="missionObjective">Load the account context, then lead the conversation one decision at a time.</p>' +
+      '<p id="missionObjective">Load the account context, then guide one decision at a time.</p>' +
       '<div class="ed-cs-actions">' +
         '<button type="button" id="missionSetup">Open account dossier</button>' +
         '<button type="button" id="missionFocus">Focus the script</button>' +
@@ -8271,8 +8274,8 @@ if(S.focusOn)openFocus();
     '</div>' +
     '<div class="ed-cs-ledger" role="group" aria-label="Call status">' +
       '<article class="ed-cs-cell"><span>Stage</span><strong id="missionStage">01 / 18</strong><small id="missionStageName">Introduction</small></article>' +
-      '<article class="ed-cs-cell"><span>Readiness</span><strong id="missionReady">0%</strong><div class="ed-meter"><i id="missionReadyBar"></i></div><small>Discovery signal</small></article>' +
-      '<article class="ed-cs-cell"><span>Coverage</span><strong id="missionProgress">0%</strong><div class="ed-meter"><i id="missionProgressBar"></i></div><small>Guide completed</small></article>' +
+      '<article class="ed-cs-cell"><span>Readiness</span><strong id="missionReady">0%</strong><div class="ed-meter"><i id="missionReadyBar"></i></div><small>Discovery readiness</small></article>' +
+      '<article class="ed-cs-cell"><span>Coverage</span><strong id="missionProgress">0%</strong><div class="ed-meter"><i id="missionProgressBar"></i></div><small>Guide progress</small></article>' +
       '<article class="ed-cs-cell"><span>Call clock</span><strong id="missionClock">00:00</strong><small id="missionPace">On pace</small></article>' +
     '</div>';
   bar.insertAdjacentElement("afterend", callsheet);
@@ -8288,7 +8291,7 @@ if(S.focusOn)openFocus();
   dossierHead.className = "dossier-head";
   dossierHead.innerHTML =
     '<span class="dossier-mark">ZB</span>' +
-    '<span class="dossier-title"><span>Account intelligence</span><strong>Customer call dossier</strong><small>Context powers every personalized line in the playbook</small></span>' +
+    '<span class="dossier-title"><span>Account context</span><strong>Customer call dossier</strong><small>Use account context to personalize each line</small></span>' +
     '<button type="button" class="dossier-close" aria-label="Close account dossier">×</button>';
   setup.insertBefore(dossierHead, setup.firstChild);
 
@@ -8394,7 +8397,7 @@ if(S.focusOn)openFocus();
     if (!right || right.querySelector(".ed-margin-head")) return;
     var heading = document.createElement("div");
     heading.className = "ed-margin-head";
-    heading.innerHTML = '<span>Margin notes</span><strong>Live decision support</strong><small>Next lane · exact wording · objection answers</small>';
+    heading.innerHTML = '<span>Rep guidance</span><strong>Live decision support</strong><small>Next lane · exact wording · objection responses</small>';
     right.insertBefore(heading, right.firstChild);
   }
 
@@ -8547,7 +8550,7 @@ if(S.focusOn)openFocus();
     favicon = document.createElement("link");
     favicon.rel = "icon";
     favicon.href = "data:image/svg+xml," + encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#10382a"/><path d="M17 17h30v8L28 42h19v8H17v-8l19-17H17z" fill="#37d183"/></svg>'
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#0A1410"/><path d="M17 17h30v8L28 42h19v8H17v-8l19-17H17z" fill="#3DDC84"/></svg>'
     );
     document.head.appendChild(favicon);
   }
@@ -8565,13 +8568,13 @@ if(S.focusOn)openFocus();
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () {
       saveState.classList.remove("is-saving");
-      saveState.textContent = navigator.onLine ? "Saved locally" : "Offline · saved";
+      saveState.textContent = navigator.onLine ? "Saved locally" : "Saved locally · offline";
     }, 480);
   }
   function syncNetwork() {
     if (!saveState) return;
     saveState.classList.toggle("is-offline", !navigator.onLine);
-    saveState.textContent = navigator.onLine ? "Saved locally" : "Offline · saved";
+    saveState.textContent = navigator.onLine ? "Saved locally" : "Saved locally · offline";
   }
   document.addEventListener("input", markSaving, true);
   document.addEventListener("cm:render", markSaving);
@@ -8589,7 +8592,7 @@ if(S.focusOn)openFocus();
     return button;
   }
 
-  var theme = toolButton("apex-tool-theme", "☾", "Switch color theme");
+  var theme = toolButton("apex-tool-theme", "Dark", "Switch color theme");
   var map = toolButton("apex-tool-layout", 'M<span class="apex-tool-label">Map</span>', "Show or hide the call map");
   var coach = toolButton("apex-tool-layout", 'C<span class="apex-tool-label">Coach</span>', "Show or hide decision support");
   if (tools) {
@@ -8604,10 +8607,10 @@ if(S.focusOn)openFocus();
   var dark = savedTheme === "dark";
   function paintTheme() {
     document.body.classList.toggle("apex-dark", dark);
-    theme.textContent = dark ? "☀" : "☾";
+    theme.textContent = dark ? "Light" : "Dark";
     theme.setAttribute("aria-pressed", dark ? "true" : "false");
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = dark ? "#0d1712" : "#10382a";
+    if (meta) meta.content = dark ? "#0A1410" : "#0A7C46";
   }
   theme.addEventListener("click", function () {
     dark = !dark;
