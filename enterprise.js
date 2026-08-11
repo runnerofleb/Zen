@@ -213,3 +213,89 @@
 
   syncDesk();
 })();
+
+/* ==========================================================================
+   PATCH 1 — dossier focus management, live announcements, stamp settle
+   Append-only: safe to paste at the bottom of the existing file.
+   ========================================================================== */
+(function () {
+  "use strict";
+
+  var setup = document.getElementById("setup");
+  if (!setup) return;
+
+  /* Screen-reader announcements when the stage or phase changes. --------- */
+  var live = document.createElement("div");
+  live.className = "ed-sr-live";
+  live.setAttribute("aria-live", "polite");
+  document.body.appendChild(live);
+
+  var lastMessage = "";
+  function announce() {
+    var stage = document.getElementById("missionStage");
+    var name = document.getElementById("missionStageName");
+    var phase = document.getElementById("missionPhase");
+    var message = "Step " + (stage ? stage.textContent : "") +
+      (name && name.textContent ? " — " + name.textContent : "") +
+      (phase && phase.textContent ? ". " + phase.textContent : "");
+    if (message !== lastMessage) { lastMessage = message; live.textContent = message; }
+  }
+
+  /* Stamp settle: press the mark again whenever the phase changes. ------- */
+  var lastPhase = document.documentElement.getAttribute("data-phase");
+  new MutationObserver(function () {
+    var phase = document.documentElement.getAttribute("data-phase");
+    if (phase !== lastPhase) {
+      lastPhase = phase;
+      Array.prototype.forEach.call(document.querySelectorAll(".ed-stamp"), function (node) {
+        node.classList.remove("is-settling");
+        void node.offsetWidth; /* restart the animation */
+        node.classList.add("is-settling");
+      });
+    }
+    announce();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-phase"] });
+
+  var stageCell = document.getElementById("missionStage");
+  if (stageCell) {
+    new MutationObserver(announce).observe(stageCell, { childList: true, characterData: true, subtree: true });
+  }
+
+  /* Dossier focus management: trap Tab inside, return focus on close. ---- */
+  function focusables() {
+    return Array.prototype.filter.call(
+      setup.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'),
+      function (node) { return !node.disabled && node.offsetParent !== null; }
+    );
+  }
+
+  function dossierVisible() { return window.getComputedStyle(setup).display !== "none"; }
+
+  var lastFocused = null;
+  var wasOpen = dossierVisible();
+  new MutationObserver(function () {
+    var open = dossierVisible();
+    if (open && !wasOpen) {
+      lastFocused = document.activeElement;
+      var target = setup.querySelector("input") || focusables()[0];
+      if (target) target.focus();
+    } else if (!open && wasOpen && lastFocused && document.contains(lastFocused)) {
+      lastFocused.focus();
+    }
+    wasOpen = open;
+  }).observe(setup, { attributes: true, attributeFilter: ["style"] });
+
+  setup.addEventListener("keydown", function (event) {
+    if (event.key !== "Tab") return;
+    var nodes = focusables();
+    if (!nodes.length) return;
+    var first = nodes[0];
+    var last = nodes[nodes.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+
+  /* The mobile bar reduces Focus to an icon — give it an accessible name. */
+  var focusBtn = document.getElementById("btnFocus");
+  if (focusBtn && !focusBtn.getAttribute("aria-label")) focusBtn.setAttribute("aria-label", "Focus mode");
+})();
