@@ -179,12 +179,12 @@ body.focusing{overflow:hidden}
 .cartpill.empty{background:transparent;color:var(--text-3);font-weight:500;border:1px dashed var(--line-strong)}
 
 .facts{display:flex;align-items:center;gap:22px;min-width:0;flex-wrap:nowrap}
-.fact{display:flex;flex-direction:column;min-width:0}
+.fact{display:flex;flex-direction:column;min-width:0;flex:0 0 auto}
 .fact span{font-size:11.5px;color:var(--text-3);white-space:nowrap}
 .fact b{font-size:13px;font-weight:550;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
 .fact b.empty{color:var(--text-3);font-weight:400}
 .rec-divider{width:1px;align-self:stretch;background:var(--line);margin:2px 0}
-.coverage{display:flex;align-items:center;gap:6px;min-width:0;overflow-x:auto;scrollbar-width:none;padding:1px 0}
+.coverage{display:flex;align-items:center;gap:6px;min-width:0;flex:1 1 0;overflow-x:auto;scrollbar-width:none;padding:1px 0}
 .coverage::-webkit-scrollbar{display:none}
 .coverage>span{font-size:11.5px;color:var(--text-3);margin-right:2px;white-space:nowrap}
 .cov{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;font-size:12px;font-weight:550;white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--text-3);transition:.12s}
@@ -726,7 +726,9 @@ dialog::backdrop{background:rgba(10,10,12,.5);backdrop-filter:blur(2px)}
 body.rail-open .drawer-scrim,body.copilot-open .drawer-scrim{opacity:1;pointer-events:auto}
 .mobile-nav{display:none}
 
-@media (max-width:1560px){.sb-count{display:none}}
+@media (max-width:1560px){.sb-count{display:none}.fact.opt{display:none}}
+@media (max-width:1680px){.phasebar button:not(.cur) .pl{display:none}.phasebar button{padding:0 9px}}
+@media (max-width:1600px){.rec-row+.rec-row .facts,.rec-row+.rec-row .facts+.rec-divider{display:none}}
 @media (max-width:1440px){
   .gb-search{width:min(300px,26vw)}
   .fact.opt{display:none}
@@ -745,7 +747,7 @@ body.rail-open .drawer-scrim,body.copilot-open .drawer-scrim{opacity:1;pointer-e
   :root{--gut:136px;--ind:156px}
   .gb-app,.gb-sep{display:none}
   .rec-row+.rec-row .facts{display:none}
-  .rec-row+.rec-row .rec-divider{display:none}
+  .rec-row+.rec-row .facts+.rec-divider{display:none}
 }
 @media (max-width:1080px){
   .pace{display:none}
@@ -827,6 +829,117 @@ body.rail-open .drawer-scrim,body.copilot-open .drawer-scrim{opacity:1;pointer-e
   html,body{height:auto;overflow:visible;background:#fff}
   .app{display:block}.main{padding:0}#stagePanel{border:0;box-shadow:none}
 }
+
+/* ==========================================================================
+   Live layer
+   ========================================================================== */
+/* money in the record header */
+.metrics{display:flex;align-items:center;gap:22px}
+.metric{display:flex;flex-direction:column;min-width:0;cursor:default}
+.metric span{font-size:11.5px;color:var(--text-3);white-space:nowrap}
+.metric b{font-size:17px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.25}
+.metric small{font-size:11px;font-weight:600;color:var(--danger);margin-top:-1px}
+.metric.won b{color:var(--zen-text)}
+
+/* the live line */
+.say{transition:background .2s,box-shadow .2s,opacity .2s}
+.beat.is-current>.say:not(.ask):not(.hot){background:linear-gradient(90deg,var(--zen-soft) 0%,color-mix(in srgb,var(--zen-soft) 35%,transparent) 55%,transparent 100%);border-radius:10px;border-top-color:transparent;margin:0 -14px;padding-left:14px;padding-right:14px}
+.beat.is-current+.beat>.say{border-top-color:transparent}
+.beat.is-current>.say.ask,.beat.is-current>.say.hot{box-shadow:0 0 0 3px color-mix(in srgb,var(--zen) 32%,transparent),var(--sh-2)}
+.beat.is-current>.say::after{content:"";position:absolute;left:-20px;top:22px;width:8px;height:8px;border-radius:50%;background:var(--zen);box-shadow:0 0 0 4px rgba(51,242,139,.22)}
+.beat.is-current>.say.ask::after,.beat.is-current>.say.hot::after{left:-26px}
+.beat.is-current .rowtop>.tag::after{content:"Now";margin-left:2px;font-size:9.5px;font-weight:750;letter-spacing:.07em;text-transform:uppercase;color:var(--on-zen);background:var(--zen);border-radius:4px;padding:1px 5px;align-self:center}
+.beat.is-current .mini-b{opacity:1}
+.beat.hit.is-current{opacity:.75}
+body.spotlight #center .beat:not(.is-current)>.say{opacity:.38}
+body.spotlight #center .beat:not(.is-current)>.say:hover{opacity:.8}
+body.spotlight #center .repnote:not(.alert):not(.stop){opacity:.55}
+.sb-toggle{height:30px;display:inline-flex;align-items:center;gap:6px;padding:0 10px;border-radius:7px;font-size:12.5px;font-weight:550;color:var(--text-3);border:1px solid transparent}
+.sb-toggle:hover{color:var(--text);background:var(--hover)}
+.sb-toggle[aria-pressed="true"]{color:var(--zen-text);background:var(--zen-soft);border-color:var(--zen-line)}
+
+/* stage meta: time in stage, lines said */
+.smeta{width:100%;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.stime,.linechip{display:inline-flex;align-items:center;gap:7px;height:24px;padding:0 9px;border-radius:6px;font-size:12px;font-weight:550;color:var(--text-2);background:var(--surface-2);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.stime::before{content:"";width:10px;height:10px;border-radius:50%;border:1.6px solid currentColor;box-shadow:inset 3px -3px 0 -2px currentColor;opacity:.7}
+.stime.over{color:var(--warn);background:var(--warn-soft);border-color:var(--warn-line)}
+.linechip i{width:34px;height:4px;border-radius:99px;background:var(--sunken);overflow:hidden;position:relative}
+.linechip i::after{content:"";position:absolute;inset:0;width:var(--p);background:var(--zen);border-radius:99px;transition:width .3s}
+#stagePanel{position:relative;overflow:hidden}
+#stagePanel::before{content:"";position:absolute;left:0;top:0;height:3px;width:var(--said,0%);background:var(--zen);transition:width .4s cubic-bezier(.2,.8,.2,1);border-radius:0 3px 3px 0}
+.rail li small.timed{color:var(--text-2);font-weight:600}
+.rail li small.over{color:var(--warn)}
+
+/* stage entrance */
+#stagePanel.enter{animation:stageIn .38s cubic-bezier(.2,.8,.2,1)}
+#stagePanel.enter .shead,#stagePanel.enter .gref,#stagePanel.enter>.beat:nth-child(-n+10),#stagePanel.enter>.goal{animation:beatIn .45s cubic-bezier(.2,.8,.2,1) both}
+#stagePanel.enter .gref{animation-delay:.04s}
+#stagePanel.enter>.goal{animation-delay:.08s}
+#stagePanel.enter>.beat:nth-child(4){animation-delay:.1s}#stagePanel.enter>.beat:nth-child(5){animation-delay:.13s}
+#stagePanel.enter>.beat:nth-child(6){animation-delay:.16s}#stagePanel.enter>.beat:nth-child(7){animation-delay:.19s}
+#stagePanel.enter>.beat:nth-child(8){animation-delay:.22s}#stagePanel.enter>.beat:nth-child(9){animation-delay:.25s}#stagePanel.enter>.beat:nth-child(10){animation-delay:.28s}
+@keyframes stageIn{from{opacity:.4;transform:translateY(6px)}}
+@keyframes beatIn{from{opacity:0;transform:translateY(8px)}}
+
+/* live signal on the global bar */
+.gbar::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;opacity:0;transition:opacity .4s;
+  background:linear-gradient(90deg,transparent 0,var(--zen) 50%,transparent 100%) no-repeat;background-size:40% 100%}
+body.is-live .gbar::after{opacity:1;animation:scan 3.2s linear infinite}
+@keyframes scan{from{background-position:-60% 0}to{background-position:160% 0}}
+
+/* welcome */
+.welcome{background:var(--black);color:var(--on-black-2);border-radius:14px;padding:24px 26px 20px;margin:0 0 16px;box-shadow:var(--sh-2),inset 0 0 0 1px rgba(255,255,255,.06);animation:stageIn .45s cubic-bezier(.2,.8,.2,1);position:relative;overflow:hidden}
+.welcome::before{content:"";position:absolute;right:-80px;top:-120px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(51,242,139,.18),transparent 65%);pointer-events:none}
+.wl-head{display:flex;align-items:center;gap:14px;position:relative}
+.wl-head .zmark{width:36px;height:36px;border-radius:10px;font-size:20px}
+.wl-head h2{font-size:20px;font-weight:650;letter-spacing:-.02em;color:#fff}
+.wl-head p{font-size:13.5px;margin-top:2px}
+.wl-steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 14px;position:relative}
+.wl-steps button{width:100%;height:100%;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px;border-radius:10px;background:#1A1A1D;border:1px solid #2A2A30;color:var(--on-black-2);transition:.15s}
+.wl-steps button:hover{border-color:#44444c;background:#202024}
+.wl-steps i{grid-row:span 2;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:700;background:#2A2A30;color:#fff}
+.wl-steps b{font-size:14px;font-weight:600;color:#fff}
+.wl-steps span{font-size:12px;line-height:1.45}
+.wl-steps button.go{background:var(--zen);border-color:var(--zen);color:var(--on-zen)}
+.wl-steps button.go:hover{background:var(--zen-hover)}
+.wl-steps button.go i{background:var(--on-zen);color:var(--zen)}
+.wl-steps button.go b{color:var(--on-zen)}
+.wl-keys{font-size:12px;color:var(--on-black-3);position:relative}
+.wl-keys kbd{font-family:var(--font-ui);font-size:11px;color:var(--on-black-2);background:#1F1F23;border:1px solid #2F2F35;border-radius:4px;padding:0 5px;margin:0 1px}
+
+/* readiness ring */
+.coach{position:relative}
+.coach .ring{position:absolute;right:14px;top:12px;width:46px;height:46px;display:grid;place-items:center}
+.coach .ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.coach .ring .rt{fill:none;stroke:#26262B;stroke-width:3.5}
+.coach .ring .rv{fill:none;stroke:var(--zen);stroke-width:3.5;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)}
+.coach .ring b{position:relative;font-size:13px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+.coach .ring small{font-size:9px;font-weight:600;color:var(--on-black-2)}
+.coach h3{padding-right:52px}
+
+/* focus mode: progress and what's next */
+.focus::before{content:"";position:absolute;left:0;top:0;height:2px;width:var(--fprog,0%);background:var(--zen);transition:width .35s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 12px rgba(51,242,139,.6)}
+.fnext{margin-top:40px;padding-top:16px;border-top:1px solid #1E1E22;max-width:780px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;font-size:14px;color:#6E6E78}
+.fnext span{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4B4B53}
+.fnext b{font-weight:600;color:#9A9AA4}
+.fnext em{font-style:normal;flex-basis:100%;font-family:var(--font-read);font-size:17px;color:#5E5E68;line-height:1.5}
+
+@media (max-width:1280px){.metrics{gap:16px}}
+@media (max-width:1080px){.sb-toggle span{display:none}}
+@media (max-width:899px){
+  .beat.is-current>.say::after{display:none}
+  .beat.is-current>.say:not(.ask):not(.hot){margin:0 -8px;padding-left:8px;padding-right:8px}
+  .record .rec-row+.rec-row{flex-wrap:wrap;row-gap:8px}
+  .metrics{gap:18px}
+  .metric b{font-size:15px}
+  .record .rec-row+.rec-row>.rec-divider{display:none}
+  .coverage{flex-basis:100%}
+  .sb-toggle{display:none}
+  .wl-steps{grid-template-columns:1fr}
+  .wl-keys{display:none}
+  .welcome{padding:18px}
+}
+@media (prefers-reduced-motion:reduce){body.is-live .gbar::after{animation:none}}
 </style></head><body>
 <a class="skip-link" href="#center">Skip to the live script</a>
 
@@ -874,6 +987,8 @@ body.rail-open .drawer-scrim,body.copilot-open .drawer-scrim{opacity:1;pointer-e
     </div>
   </div>
   <div class="rec-row">
+    <div class="metrics" id="metrics"></div>
+    <span class="rec-divider" aria-hidden="true"></span>
     <div class="facts" id="facts"></div>
     <span class="rec-divider" aria-hidden="true"></span>
     <div class="coverage" id="coverage" aria-label="Account coverage"></div>
@@ -919,6 +1034,9 @@ body.rail-open .drawer-scrim,body.copilot-open .drawer-scrim{opacity:1;pointer-e
       <nav class="phasebar" id="phasebar" aria-label="Call phases"></nav>
       <div class="sb-right">
         <span class="sb-count" id="crumbN">1 of 18</span>
+        <button class="sb-toggle" id="btnSpot" aria-pressed="false" title="Dim everything except the line you're on (L)">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="8" cy="8" r="2.5"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2"/></svg><span>Spotlight</span>
+        </button>
         <div class="seg" role="group" aria-label="Script text size">
           <button data-size="s" aria-pressed="false" aria-label="Small text">A</button>
           <button data-size="m" aria-pressed="true" aria-label="Medium text">A</button>
@@ -1127,6 +1245,9 @@ body.rail-open .drawer-scrim,body.copilot-open .drawer-scrim{opacity:1;pointer-e
     <h3>Keyboard shortcuts<button data-close="helpScrim">Close</button></h3>
     <div class="kbdtable">
       <b>⌘ K</b><span>Jump to any stage or action</span>
+      <b>J / K</b><span>Move to the next or previous line in the script</span>
+      <b>Enter</b><span>Mark the current line as said and move on</span>
+      <b>L</b><span>Spotlight the current line</span>
       <b>→ or Space</b><span>Next line in focus mode, next stage otherwise</span>
       <b>←</b><span>Back one line or stage</span>
       <b>F</b><span>Enter or leave focus mode</span>
@@ -1231,7 +1352,7 @@ var FIELDS=["repName","repLine","customerName","businessName","phone","email","s
 var NOTES=["inspired","firstBiz","dayToDay","revenuePlan","vision","worry","support","priority","timeline",
   "consequence","triggerWords","domainAnswer","addonNotes","orderQuestions",
   "taxCurrent","taxPro","taxProScope","taxRisk","taxGoal","taxAha","taxWhyNow","classConcern","quarterlyConcern",
-  "startupSpend","taxMiles","deductionTargets","qualifyReason","qtpValue","btpValue","mpValue","billingAnswer",
+  "taxFilingHistory","taxRevenueTiming","startupSpend","taxMiles","deductionTargets","qualifyReason","qtpValue","btpValue","mpValue","billingAnswer",
   "objection","nextEvent","followup","mainRisk","followupDate","followupTime","followupReason","indNotes"];
 
 function defState(){
@@ -1239,7 +1360,7 @@ function defState(){
     f:{},n:{},supportList:[],pitched:[],cart:[],outcome:null,quickFocus:null,openVar:"auto",
     objType:null,checks:{},gates:{},branch:{},said:{},visited:{},
     depth:{ra:"full",tax:"full",mp:"full",edu:"full"},agreedReconnect:null,_recap:"",_mail:"",mailKind:"tax",
-    focusIdx:0,focusOn:false,taxPath:"unsure",eduTab:"all"};
+    focusIdx:0,focusOn:false,taxPath:"",eduTab:"all"};
   FIELDS.forEach(function(k){s.f[k]="";});
   NOTES.forEach(function(k){s.n[k]="";});
   return s;
@@ -1333,7 +1454,7 @@ var TOKLAB={repName:"your name",repLine:"your direct line",customerName:"their n
   consequence:"what happens if it isn't handled",priority:"their top priority",triggerWords:"their exact words",
   dayToDay:"their day-to-day work",revenuePlan:"their revenue plan",
   taxCurrent:"their current setup",taxRisk:"their biggest tax worry",taxGoal:"what they want handled",
-  taxAha:"the moment it landed",taxWhyNow:"their reason to act now",classConcern:"their classification concern",
+  taxAha:"the moment it landed",taxFilingHistory:"how their filings usually go",taxRevenueTiming:"when they expect revenue",taxWhyNow:"their reason to act now",classConcern:"their classification concern",
   quarterlyConcern:"their cash-flow concern",startupSpend:"what they've already spent",
   taxMiles:"their monthly miles",deductionTargets:"their upcoming purchases",
   qualifyReason:"the one thing they most want to avoid",
@@ -1441,7 +1562,7 @@ var GATES={
     ["ra_value","They answered the \u201Cdo you see how that would be valuable\u201D question","never tick this on a silent nod"]
   ],
   tax:[
-    ["tax_discovery","Tax discovery done — how they file, whether they have a business tax pro, how they'll track",""],
+    ["tax_discovery","Tax discovery done — their plan, their advisor situation, and a yes to Path 1",""],
     ["tax_proof","At least three education blocks earned a real reaction","classification, quarterlies, startup, vehicle, ongoing"],
     ["tax_qualified","They agreed the problems we surfaced are ones they want to avoid","the guide's qualifying questions"],
     ["tax_value","They named what they'd find most beneficial and said it's important to get right away",""]
@@ -1888,7 +2009,7 @@ C.gains=function(){
       '<span class="rt">'+x[1]+'</span><span class="rp">'+x[3]+'</span><span class="rd">'+x[2]+'</span></button>';}).join("")+'</div>'});
   b.push({k:"say",tag:"Transition to Registered Agent",t:"\u201CGoing back to your paperwork, something I noticed is that you assigned "+
     (S.f.raStatus==="someoneElse"?"someone else":"yourself")+" as the Registered Agent for the LLC.\u201D"});
-  b.push({k:"say",tag:"Transition to tax",t:"\u201CMany of our customers, both new and experienced, ask how to keep more of what they earn, avoid mistakes, and make sure their taxes are accurate, compliant, and handled correctly"+ELL+"\u201D"});
+  b.push({k:"note",tag:"Transition to tax",t:"Going to tax? The spoken transition is the first line of <b>Tax discovery</b> — \u201CEarlier we talked about different things you gain as an LLC\u2026\u201D Open that stage and start there."});
   var fl=laneFlags();
   b.push({k:"note",tag:"Keep in your back pocket",t:fl.length?fl.join(" &nbsp;·&nbsp; "):"Nothing flagged — clean file. Diagnose honestly and wrap early rather than inventing a pitch."});
   return b;
@@ -1964,7 +2085,8 @@ C.ra=function(){
   b.push({k:"close",item:"RA",gateKey:"ra",objTag:"RA",kicker:"The close · "+PRICE.ra+" for the year",
     t:"\u201CThe service is "+PRICE.ra+" for the full year. After the first year, it renews at "+PRICE.ra+""+ELL+"which is less than a dollar a day for us to handle this and maintain that peace of mind.\u201D"+PAUSE+
       "\u201CYou won't have to worry about this at all, and your business gets the protection it needs. I'm happy to get this updated and unlocked for you today so that staying compliant with this LLC is that much easier. Does that sound good?\u201D"});
-  b.push({k:"bridge",t:"\u201CGood — that's the legal-contact side handled. Now let me shift to something a lot of our customers ask about"+ELL+"how to save or keep the most money, avoid mistakes, and make sure everything for taxes is correct, legal and done right.\u201D"});
+  b.push({k:"note",tag:"Next — tax discovery",t:"Agent handled. Tax discovery opens with its own transition — \u201CEarlier we talked about different things you gain as an LLC\u2026\u201D — so go straight there."});
+  b.push({k:"html",t:'<div class="nav"><button data-go="gains">← Back to gains</button><button class="go" data-go="taxdisc">Go to tax discovery →</button></div>'});
   return b;
 };
 
@@ -2006,82 +2128,90 @@ function mileTableHTML(){
 
 /* ---------- TAX DISCOVERY ---------- */
 C.taxdisc=function(){
-  var hasMP=S.f.mp==="y", b=[], ready=taxReady();
-  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Primary lane</span><h2>Tax discovery</h2></div>'});
-  b.push({k:"guide",t:"§ Tax: Discovery — "+(hasMP?"\u201CHas Money Pro\u201D column":"\u201CDoesn't Have Money Pro\u201D column")});
+  var b=[], ready=taxReady(), path=taxPathNorm();
+  b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Primary lane</span><h2>Tax discovery</h2><span class="budget">2–3 min</span></div>'});
+  b.push({k:"guide",t:"§ Tax Discovery — Opener · Initial Tax Discovery Questions · Has a Tax Advisor · No Help Yet · Path 1"});
   b.push({k:"html",t:'<div class="taxhero"><div class="eyebrow">Build it one block at a time</div>'+
     '<h3>By the time you name a price, the customer should already have described the problem it solves.</h3>'+
-    '<p><b>Classification</b> creates decision urgency. <b>Quarterly estimates</b> create cash-flow urgency. <b>Startup costs, mileage and ongoing deductions</b> create the upside — and make clean records worth having. <b>Qualifying</b> turns all of it from your education into their problem. Only then do planning, filing and bookkeeping mean anything.</p>'+
+    '<p><b>Discovery</b> finds out where they stand. <b>Classification</b> creates decision urgency. <b>Quarterly estimates</b> create cash-flow urgency. <b>Startup costs, mileage and ongoing deductions</b> create the upside. <b>Qualifying</b> turns all of it into their problem. Only then do planning, filing and bookkeeping mean anything.</p>'+
     '<div class="meter"><b id="taxReadyLabel">Bundle readiness '+ready+'%</b><span><i id="taxReadyBar" style="width:'+ready+'%"></i></span></div></div>'});
   b.push({k:"html",t:'<div class="stack">'+[
-    ["taxDiscovery","Discovery"],["pfClass","Classification"],["pfQuarterly","Quarterly"],["pfStartup","Startup costs"],
+    ["taxDiscovery","Discovery"],["taxPermission","Path 1 yes"],["pfClass","Classification"],["pfQuarterly","Quarterly"],["pfStartup","Startup costs"],
     ["pfVehicle","Vehicle"],["pfOngoing","Ongoing"],["taxQualified","Qualified"],
     ["taxQtp","Planning"],["taxBtp","Filing"],["taxMp","Money Pro"],["taxValue","Value stated"]
   ].map(function(x){
     return '<button class="st '+(S.checks[x[0]]?"on":"")+'" data-ck="'+x[0]+'"><b>'+(S.checks[x[0]]?"✓ bought in":"○ not yet")+'</b>'+x[1]+'</button>';
   }).join("")+'</div>'});
+  b.push({k:"goal",t:"<b>Job of this stage:</b> reopen the tax conversation, show why year one is decided by what happens with every dollar, find out where they stand today, then earn a yes to spend a few minutes on the time-sensitive items."});
   b.push({k:"note",tone:"stop",tag:"Honesty rules — these protect you and the customer",t:HONESTY+" Say \u201Cmay,\u201D \u201Ccan,\u201D and \u201Cdepending on your situation.\u201D A customer who later feels misled costs far more than the sale was worth."});
 
-  b.push({k:"say",tag:"Transition",when:function(){return !hasMP;},
-    t:"\u201CEarlier we talked about the many things you gain as an LLC and how tax advantages are one of them"+ELL+"\u201D"+PAUSE+
-    "\u201CMany of our customers, both new and experienced, ask how to keep more of what they earn, avoid mistakes, and make sure their taxes are accurate, compliant, and handled correctly"+ELL+"\u201D"});
-  b.push({k:"say",tag:"Transition — they already have Money Pro",when:function(){return hasMP;},
-    t:"\u201CEarlier we talked about the many things you gain as an LLC and how significant tax advantages are one of them.\u201D"+PAUSE+
-    "\u201CI see here that you already have Money Pro"+ELL+"so that was a great decision by you.\u201D"+PAUSE+
-    "\u201CSince you already have Money Pro"+ELL+"I'm sure you've already thought about this, but"+ELL+"\u201D"});
-  b.push({k:"say",tag:"Taxes start with expenses",t:"\u201CSince it is a new business, your taxes don't start with income"+ELL+"they're going to start with expenses"+ELL+"so you'll want to know where every single penny goes. Money in, money out, profit, loss, cash flow"+ELL+"right from the beginning.\u201D"+PAUSE+
-    "\u201CThe biggest financial wins — and losses — show up during tax time, which means they're actually tied to what happens all throughout the year.\u201D"});
-  b.push({k:"say",tag:"Say this before any tax talk",t:"\u201C"+NOTAPRO+" but just like every year, and every person, you'll need to do your taxes to see how much you owe or how much you'll get back after filing, right?\u201D"+PAUSE+
-    "\u201CWith a business like an LLC, taxes are not just a box to check. Your taxes are going to look different now, because you gain a number of tax advantages like deductions and write-offs, and the opportunity for quarterly tax estimates"+ELL+"and there are some actions you'll want to consider taking right away to really make sure your best interests are taken into account.\u201D"});
-  b.push({k:"note",tone:"stop",tag:"Not optional",t:"The \u201CI'm not a lawyer or an accountant\u201D line is said on every call, before any tax discussion, and it is not paraphrased away."});
-  b.push({k:"say",tag:"Why business taxes are different",t:"\u201CBusiness taxes have many moving parts, ongoing responsibilities, and greater risk. They require more strategy and planning than personal taxes.\u201D"+PAUSE+
-    "\u201CUltimately, by being proactive with your business taxes, that's what should allow you to keep more of your hard-earned money and avoid giving more than you need to during tax time.\u201D"});
+  b.push({k:"say",tag:"Reopen the tax conversation",t:"\u201CEarlier we talked about different things you gain as an LLC, and how tax advantages is one of them, and I want to be sure to cover it before we wrap up.\u201D"+PAUSE+
+    "\u201CA lot of our customers, both new and experienced at running a business, are typically asking us about how to save or keep the most money, avoid mistakes, and generally make sure everything for taxes is correct and legal.\u201D"});
+  b.push({k:"say",tag:"Taxes start with expenses",t:"\u201CSince it is a new business"+ELL+"your taxes don't start with income"+ELL+"they're going to start with expenses"+ELL+"so you'll want to know where every single penny goes"+ELL+"Money in, money out, profit, loss, cash flow"+ELL+"right from the beginning.\u201D"});
+  b.push({k:"say",tag:"Why year one matters",t:"\u201CThis is honestly where most new LLC owners either win big or get caught off guard in year one, and it's the most common thing our customers wish they'd gotten ahead of sooner.\u201D"+PAUSE+
+    "\u201CHere's what's different now that you have an LLC: your taxes don't just start at filing time, they start <b>right now</b>, with every dollar that goes in, or out of this business.\u201D"+PAUSE+
+    "\u201CThe biggest financial wins and the biggest financial losses we typically see all come down to what happens throughout the year, not just in April for the filing.\u201D"});
+  b.push({k:"say",tag:"Set up the questions",t:"\u201CSo, let me ask you a couple of quick questions to understand where you're at with all of this"+ELL+"\u201D"});
 
-  b.push({k:"ask",tag:"Discovery — lead with these",t:"\u201CI'm curious"+ELL+"have you thought about how {{businessName}} will affect your taxes for this year?\u201D"+PAUSE+
-    "\u201CHow do you typically file your personal taxes?\u201D"+PAUSE+
-    "\u201CDo you have a tax advisor or accountant that specializes in <b>business</b> taxes?\u201D"});
-  b.push({k:"branch",q:"What did the accountant question turn up?",opts:[
-    {label:"Nobody yet",beats:[
-      {k:"ask",tag:"Follow up",t:"\u201CDo you have anyone in mind, or has anyone been recommended to you?\u201D"},
-      {k:"note",t:"Clean gap. Don't celebrate it out loud — note it and keep teaching. You'll come back to it when you position year-round access."}]},
-    {label:"Personal accountant only",beats:[
-      {k:"ask",tag:"Qualify the scope, not the person",t:"\u201CHave you already spoken to them about {{businessName}} — like what classification would be best for you?\u201D"+PAUSE+
-        "\u201CDo they have experience with business taxes, and experience doing taxes for your industry?\u201D"+PAUSE+
-        "\u201CWhat's their availability look like for when you have pressing tax questions or tax-related decisions to make throughout the year?\u201D"+
-        cue("the gap is almost never \u2018no accountant.\u2019 It's \u2018nobody has looked at this business\u2019")},
-      {k:"note",tone:"alert",t:"Never criticize their accountant. We complement, we don't replace. You're looking for <b>scope</b>, not fault."}]},
-    {label:"Business tax pro already engaged",beats:[
-      {k:"note",tone:"alert",t:"Then don't sell tax planning over the top of it. Confirm the coverage is real, check whether the bookkeeping actually feeds it, and move on early. Pitching over an engaged professional destroys your credibility for the rest of the call."}]}
-  ]});
-  b.push({k:"ask",tag:"How familiar are they",t:"\u201CHow familiar are you with all the tax benefits you gain with this LLC?\u201D"+PAUSE+
-    "\u201CAnd do you already know what tax classification is best for you, how you're planning to pay yourself through this business, and if you'll need to pay quarterly taxes?\u201D"+PAUSE+
-    "\u201CWere you planning on applying all the state fees and services you purchased with us towards your startup cost and organizational cost deductions for this year's taxes?\u201D"+PAUSE+
-    "\u201CSince you've already made some purchases on your personal card"+ELL+"how have you been documenting those transactions, and what's your plan for tracking income, mileage and purchases moving forward?\u201D"});
-  b.push({k:"ask",tag:"The hook",t:"\u201CDid you know you could potentially lower your tax liability by immediately deducting up to <b>ten thousand dollars</b> in startup and organizational costs in your first year?\u201D"+PAUSE+
-    "\u201CWhile there are potentially hundreds of available deductions your business may qualify for over the years"+ELL+"would you find it helpful if I went a bit deeper on the deductions and tax opportunities that are relevant to you today?\u201D"+
-    cue("a yes here turns everything after it from a pitch into a service")});
-  b.push({k:"say",tag:"Permission granted",t:"\u201COkay great, let's talk through a few key components of your business taxes"+ELL+"\u201D"});
-  b.push({k:"html",t:'<div class="lab">Where are they starting from?<s></s></div><div class="segs">'+
-    [["unsure","Unsure / hasn't thought about it"],["diy","Planning to self-file"],["maybe","Might hire a tax pro"],["pro","Business tax pro engaged"]].map(function(x){
-      return '<button class="'+((S.taxPath||"unsure")===x[0]?"on":"")+'" data-taxpath="'+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>'});
-  b.push({k:"note",tag:"Current read",t:{
-    unsure:"<b>Strong candidate.</b> The guide is explicit: unsure, self-filing, or \u201Chaven't thought about it yet\u201D means they're a strong candidate for tax services. Teach the full path.",
-    diy:"<b>Strong candidate.</b> Self-filers are exactly who the education is written for. Don't attack the DIY plan — separate <b>deciding</b> from <b>filing</b>.",
-    maybe:"<b>Strong candidate.</b> \u201CMight hire someone\u201D means nobody is accountable yet. Qualify the scope later rather than arguing now.",
-    pro:"<b>Be careful.</b> Confirm the coverage is real and specifically covers this business. If it does, protect your credibility, check the bookkeeping, and go to Money Pro or wrap."
-  }[S.taxPath||"unsure"]});
+  b.push({k:"ask",tag:"Initial tax discovery",t:"\u201CHave you thought about how you'll handle your business taxes this year? Do you have a plan, or still TBD?\u201D"+PAUSE+
+    "<b>Follow up:</b> \u201CDo you have a tax advisor or accountant that specializes in <b>business</b> taxes?\u201D"+PAUSE+
+    "<b>Follow up:</b> \u201CDo you have anyone in mind, or has anyone been recommended to you?\u201D"+
+    cue("their answer picks the path below")});
+
+  b.push({k:"html",t:'<div class="lab">Which path are they on?<s></s></div><div class="segs">'+
+    [["advisor","Has a tax advisor, or someone in mind"],["none","No help yet, no plan"]].map(function(x){
+      return '<button class="'+(path===x[0]?"on":"")+'" data-taxpath="'+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>'});
+  if(!path)b.push({k:"note",t:"Tap the path that matches their answer and the guide's follow-up questions for that path appear here. Ask the ones that fit — you don't need every one."});
+
+  b.push({k:"ask",tag:"They have an advisor, or someone in mind",when:function(){return taxPathNorm()==="advisor";},t:
+    "<ul><li>\u201CWhat kinds of conversations have you had with them about your business?\u201D</li>"+
+    "<li><b>If not yet:</b> \u201CWhen are you thinking you will have a conversation?\u201D</li>"+
+    "<li>\u201CWhat is their ability to handle business taxes?\u201D</li>"+
+    "<li>\u201CWhat does their availability look like?\u201D</li>"+
+    "<li>\u201CWhat does the cost look like for meeting with them?\u201D</li>"+
+    "<li>\u201CHow often are you able to meet with them throughout the year?\u201D</li>"+
+    "<li><b>If applicable:</b> \u201CHow has it gone the last few times you have filed taxes with them?\u201D</li></ul>"+
+    cue("ask a few, then stop and listen")});
+  b.push({k:"note",tone:"alert",tag:"Qualify the scope, not the person",when:function(){return taxPathNorm()==="advisor";},
+    t:"Never criticize their accountant — we complement, we don't replace. The gap is almost never \u201Cno accountant.\u201D It's that <b>nobody has looked at this business yet</b>, or they can't be reached when a decision comes up. If a business tax pro is genuinely engaged and covering all of it, don't sell over the top of them."});
+
+  b.push({k:"ask",tag:"No help yet, no plan",when:function(){return taxPathNorm()==="none";},t:
+    "<ul><li>\u201CHow do you typically file your personal taxes?\u201D</li>"+
+    "<li>\u201CHow do the filings normally go?\u201D"+cue("owe or refund")+"</li>"+
+    "<li>\u201CHave you considered using a CPA or professional before?\u201D</li>"+
+    "<li>\u201COverall, how familiar are you with the benefits you could gain with this LLC?\u201D</li>"+
+    "<li>\u201COver the next few months, how soon do you think you will be making money with this LLC?\u201D</li></ul>"+
+    cue("ask a few, then stop and listen")});
+  b.push({k:"note",when:function(){return taxPathNorm()==="none";},tag:"Current read",
+    t:"<b>Strong candidate.</b> No plan and no one helping means nobody is accountable for the decisions coming up this year. Don't pitch yet — Path 1 is about agreeing the conversation is worth having."});
+
   b.push({k:"fields",items:[
-    {n:"taxCurrent",label:"Their current tax and bookkeeping setup",ph:"nothing yet / spreadsheet / TurboTax"},
-    {n:"taxPro",label:"Tax pro situation",ph:"personal CPA, never discussed the business"},
-    {n:"taxRisk",label:"Their biggest tax uncertainty so far",ph:"\u201CI honestly don't know what I'm supposed to do\u201D"},
-    {n:"taxProScope",label:"What their pro has actually covered",ph:"nothing about classification or quarterlies"}
+    {n:"taxCurrent",label:"Their plan for business taxes this year",ph:"still TBD / TurboTax / their CPA"},
+    {n:"taxPro",label:"Tax advisor or accountant",ph:"personal CPA, never discussed the business"},
+    {n:"taxProScope",label:"What they've covered — ability, availability, cost",ph:"hasn't talked about the LLC; hard to reach"},
+    {n:"taxFilingHistory",label:"How their filings usually go",ph:"usually owe a little"},
+    {n:"taxRevenueTiming",label:"When they expect to start making money",ph:"first invoices next month"},
+    {n:"taxRisk",label:"Their biggest tax uncertainty so far",ph:"\u201CI honestly don't know what I'm supposed to do\u201D"}
   ]});
   b.push({k:"check",tag:"Tick when it's true",items:[
-    ["taxPermission","They said yes to going deeper on deductions and tax opportunities"],
-    ["taxDiscovery","Discovery done — how they file, tax pro situation, and tracking plan are all clear"]]});
-  b.push({k:"bridge",tag:"Transition → classification",t:"\u201CGreat, let's talk through a few key components of your business taxes. Let's start with the very first thing you may want to consider doing"+ELL+"\u201D"});
+    ["taxDiscovery","Discovery done — their plan, their advisor situation, and the follow-ups for their path"]]});
+
+  b.push({k:"ask",tag:"Path 1 — earn the next few minutes",t:"\u201COkay, this gives me some helpful context around your situation.\u201D"+PAUSE+
+    "\u201CWith that said, I do think there are some important, time-sensitive things you'll want to address over the next few weeks to make sure the business is set up properly for the year.\u201D"+PAUSE+
+    "\u201CWould you agree that it makes sense for us to spend a few minutes talking through those?\u201D"+
+    cue("wait for the yes, then go straight into tax education")});
+  b.push({k:"check",items:[["taxPermission","They agreed it makes sense to spend a few minutes on the time-sensitive items"]]});
+  b.push({k:"note",tag:"Before any tax education",t:"The guide's standing rule still applies: say \u201C"+NOTAPRO+"\u201D before you teach anything about taxes. It opens the next stage."});
+  b.push({k:"html",t:'<div class="nav"><button data-go="gains">← Back to gains</button><button class="go" data-go="edu">Yes — go to tax education →</button></div>'});
   return b;
 };
+function taxPathNorm(){
+  var p=S.taxPath||"";
+  if(p==="advisor"||p==="none")return p;
+  if(p==="diy")return "none";
+  if(p==="maybe"||p==="pro")return "advisor";
+  return "";
+}
 
 /* ---------- TAX EDUCATION ---------- */
 C.edu=function(){
@@ -2093,6 +2223,7 @@ C.edu=function(){
     ["startup","03 Startup"],["vehicle","04 Vehicle"],["ongoing","05 Ongoing"]].map(function(x){
       return '<button class="'+(tab===x[0]?"on":"")+'" data-edutab="'+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>'});
   b.push({k:"note",tag:"Proof count",t:"<b>"+proofCount()+" of 5</b> education blocks have a real buy-in ticked. Three or more is where the recommendation stops feeling like a bundle and starts feeling like the answer."});
+  b.push({k:"say",tag:"Say this first — every call",t:"\u201C"+NOTAPRO+"\u201D"+cue("the guide's standing rule: before any tax discussion, never paraphrased away")});
   function show(id){return tab==="all"||tab===id;}
 
   /* 01 classification */
@@ -2245,7 +2376,7 @@ C.qualify=function(){
   b.push({k:"ask",tag:"Make the cost real",t:"\u201CCan you see how that might become a problem, or how you'd miss out on everything you could gain"+ELL+"if you don't get ahead of it now?\u201D"+PAUSE+
     "\u201CAre you opposed to exploring better options?\u201D"});
   b.push({k:"say",tag:"Set up the recommendation",t:"\u201CI have an idea"+ELL+"but I want to make sure it's a good fit for you first"+ELL+"\u201D"+PAUSE+
-    "\u201CEarlier you shared that you were going to be "+({unsure:"figuring the tax side out as you go",diy:"doing your business taxes on your own",maybe:"maybe hiring a tax professional to handle your taxes for you",pro:"working with a tax professional"}[S.taxPath||"unsure"])+
+    "\u201CEarlier you shared that you were going to be "+({advisor:"working with a tax professional, or someone you have in mind",none:"figuring out the tax side on your own"}[taxPathNorm()]||"figuring out the tax side as you go")+
     ". Is that still correct?\u201D"});
   b.push({k:"note",tone:"alert",tag:"Final check",t:"This is your last opportunity to surface a problem before you present a solution. If something they told you earlier hasn't been connected to a risk yet — {{worry}}, {{consequence}} — connect it now, not after the price."});
   b.push({k:"fields",items:[
@@ -3067,9 +3198,12 @@ function nextBest(){
     return ["Ask for the decision","Short sentence, then silence.","Would you gain more peace of mind and flexibility if we got your Registered Agent switched over to us?"];
   }
   if(st==="taxdisc"){
-    if(!S.checks.taxPermission)return ["Get permission to go deeper","The ten-thousand-dollar hook opens the door.","Would you find it helpful if I went a bit deeper on the deductions and tax opportunities relevant to you today?"];
-    if(!S.checks.taxDiscovery)return ["Finish diagnosing","How they file, the tax pro situation, and how they'll track. All three.","Do you have a tax advisor or accountant that specializes in business taxes?"];
-    return ["Move to classification","Start with the decision the IRS makes for them by default.","The very first thing you may want to consider is telling the IRS how you want the business taxed."];
+    if(!taxPathNorm())return ["Find out where they're at","Plan or TBD, and whether a business tax pro is involved.","Have you thought about how you'll handle your business taxes this year? Do you have a plan, or still TBD?"];
+    if(!S.checks.taxDiscovery)return taxPathNorm()==="advisor"
+      ? ["Qualify the scope, not the person","Conversations so far, ability, availability, cost.","What kinds of conversations have you had with them about your business?"]
+      : ["Understand their starting point","Personal filing, owe or refund, and when revenue starts.","Over the next few months, how soon do you think you will be making money with this LLC?"];
+    if(!S.checks.taxPermission)return ["Take Path 1","Earn a yes to spending a few minutes on the time-sensitive items.","Would you agree that it makes sense for us to spend a few minutes talking through those?"];
+    return ["Move to tax education","Say the not-a-lawyer line, then start with classification.","Now, I'm not a lawyer or an accountant…"];
   }
   if(st==="edu"){
     if(!S.checks.pfClass)return ["Create decision urgency","Classification — without recommending one.","Do you see why this is an important decision to discuss with a tax professional, before it's defaulted for you?"];
@@ -3381,6 +3515,10 @@ function renderFocus(){
       h+='<button class="'+(S.gates[g[0]]?"done":"")+'" data-gate="'+g[0]+'">'+(S.gates[g[0]]?"✓ ":"")+esc(g[1])+'</button>';});
     h+='</div>';
   }
+  var nx=list[S.focusIdx+1];
+  if(nx&&nx.k!=="note")h+='<div class="fnext"><span>Up next</span><b>'+esc(nx.tag||nx.q||(nx.k==="ask"?"Ask":"Say"))+'</b>'+
+    (nx.t?'<em>'+esc(plain(nx.t).slice(0,110))+(plain(nx.t).length>110?"…":"")+'</em>':'')+'</div>';
+  $("focus").style.setProperty("--fprog",((S.focusIdx+1)/list.length*100)+"%");
   $("fCard").innerHTML=h;
   $("fDots").innerHTML=list.map(function(_,i){return '<i class="'+(i===S.focusIdx?"on":(i<S.focusIdx?"past":""))+'"></i>';}).join("");
   save();
@@ -3418,7 +3556,9 @@ function genRecap(){
     " · Agreement: "+(S.f.oaHas||"—")+" · Money Pro: "+(S.f.mp||"—")+" · Planning: "+(S.f.qtp||"—")+" · Filing: "+(S.f.btp||"—"));
   L.push("");
   L.push("TAX CONVERSATION");
-  L.push("  Starting point: "+(S.taxPath||"unsure")+" · current setup: "+N("taxCurrent"));
+  L.push("  Path: "+({advisor:"has a tax advisor or someone in mind",none:"no help yet, no plan"}[taxPathNorm()]||"—")+" · plan this year: "+N("taxCurrent"));
+  L.push("  Filings usually: "+N("taxFilingHistory")+" · revenue expected: "+N("taxRevenueTiming"));
+  L.push("  Agreed to Path 1: "+(S.checks.taxPermission?"yes":"no"));
   L.push("  Tax pro: "+N("taxPro")+" · scope actually covered: "+N("taxProScope"));
   L.push("  Readiness: "+taxReady()+"% · education buy-ins earned: "+proofCount()+" of 5");
   L.push("  Classification: "+N("classConcern"));
@@ -3857,7 +3997,11 @@ const jump=$('jumpDialog'), jin=$('jumpSearch'), jres=$('jumpResults');
 let matches=[], ai=0;
 function actions(){
   const s=cm.state(), st=cm.stages();
-  return st.map((x,i)=>({group:x.phase,label:x.name,detail:/\d/.test(x.time)?x.time+' min':x.time,ji:String(i+1),cur:x.id===s.stage,run:()=>cm.goStage(x.id)})).concat([
+  const lane=cm.recLane().lane, ci=cm.stageIndex(s.stage), laneSt=st.find(x=>x.id===lane), nxt=st[ci+1];
+  const sug=[];
+  if(laneSt&&lane!==s.stage)sug.push({group:'Suggested',label:'Recommended lane: '+laneSt.name,detail:'What this account points to',ji:'★',run:()=>cm.goStage(lane)});
+  if(nxt)sug.push({group:'Suggested',label:'Next stage: '+nxt.name,detail:'Continue the call',ji:'→',run:()=>cm.nextStage()});
+  return sug.concat(st.map((x,i)=>({group:x.phase,label:x.name,detail:/\d/.test(x.time)?x.time+' min':x.time,ji:String(i+1),cur:x.id===s.stage,run:()=>cm.goStage(x.id)})).concat([
     {group:'Actions',label:s.running?'Pause the call timer':'Start the call timer',detail:'P',ji:'▶',run:()=>$('btnStart').click()},
     {group:'Actions',label:'Focus mode',detail:'One line at a time, full screen',ji:'F',run:()=>cm.openFocus()},
     {group:'Actions',label:'Find an objection response',detail:'O',ji:'O',run:()=>cm.openObj('')},
@@ -3868,7 +4012,7 @@ function actions(){
     {group:'Actions',label:'Download the recap',detail:'Plain text file',ji:'↓',run:()=>$('exportCall').click()},
     {group:'Actions',label:s.rushed?'Customer is no longer rushed':'Customer is short on time',detail:'Compresses the plan to one gap',ji:'⏱',run:()=>$('btnRush').click()},
     {group:'Actions',label:'Start the next call',detail:'Clears the customer, keeps your name',ji:'↺',run:()=>$('btnClearProg').click()}
-  ]);
+  ]));
 }
 function renderJump(){
   const q=jin.value.trim().toLowerCase();
@@ -3933,12 +4077,34 @@ new MutationObserver(()=>enhance($('rail'))).observe($('rail'),{childList:true})
 /* ---------- sync with the engine ---------- */
 let lastStage=null, lastSig='';
 function initials(s){return s.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();}
+function money(v){return parseFloat(String(v).replace(/[^0-9.]/g,''))||0;}
+function usd(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function opportunity(s){
+  const P=cm.PRICE,f=s.f,mm=/multi|s-corp|c-corp|partner/i.test(f.entityType||''),sold=s.cart.map(c=>c.k),has=k=>k.some(x=>sold.includes(x));
+  const items=[];
+  if(['customer','someoneElse','none'].includes(f.raStatus)&&!has(['RA']))items.push(['Agent',P.ra]);
+  if(f.ein==='n'&&!has(['EIN']))items.push(['EIN',P.ein]);
+  if(f.oaHas==='n'&&!has(['OA']))items.push(['Agreement',P.oa]);
+  if(f.blrHas==='n'&&!has(['BLR']))items.push(['Licenses',P.blr]);
+  const taxKnown=f.qtp||f.btp, taxGap=!(f.qtp==='y'&&f.btp==='y');
+  if(taxKnown&&taxGap&&!has(['BUNDLE','BUNDLEM','DIFY','DIFYM','QTP','QTPM','BTP','DIY']))items.push(['Tax bundle',mm?P.bundleMM:P.bundleSM]);
+  else if(taxKnown&&!taxGap&&f.mp==='n'&&!has(['MP','MPM']))items.push(['Money Pro',P.mpY]);
+  return {items,total:items.reduce((t,x)=>t+money(x[1]),0)};
+}
 const COV=[
   ['Agent','raStatus',v=>v==='zb'?['has','ZenBusiness is the agent']:v==='otherProvider'?['has','Another provider is the agent']:(v==='customer'||v==='someoneElse'||v==='none')?['gap','Agent responsibility is with the customer']:['unk','Agent not set']],
   ['Compliance','wfc',v=>v==='yes'?['has','Worry Free Compliance on the plan']:v==='none'?['gap','No Worry Free Compliance']:['unk','Not set']],
   ['EIN','ein',null],['Agreement','oaHas',null],['Money Pro','mp',null],
   ['Tax planning','qtp',null],['Tax filing','btp',null],['Licenses','blrHas',null],['Website','web',null]];
 function renderRecord(s){
+  const opp=opportunity(s), closed=s.cart.reduce((t,c)=>t+money(c.price),0);
+  const mx=$('metrics');mx.replaceChildren();
+  [['Open opportunity',usd(opp.total),opp.items.map(x=>x[0]+' '+x[1]).join(' · ')||'No open gaps flagged yet','opp'],
+   ['Closed this call',usd(closed),s.cart.map(c=>c.label+' '+c.price).join(' · ')||'Nothing closed yet','won']].forEach(([k,v,tip,cls])=>{
+    const d=document.createElement('div');d.className='metric '+cls;d.title=tip;
+    const a=document.createElement('span');a.textContent=k;const b=document.createElement('b');b.textContent=v;d.append(a,b);
+    if(cls==='opp'&&opp.items.length){const c=document.createElement('small');c.textContent=opp.items.length+' gap'+(opp.items.length>1?'s':'');d.append(c);}
+    mx.append(d);});
   const facts=[['Plan',s.f.packageName],['Entity',s.f.entityType],['State',s.f.state],
     ['Formation',s.f.formationStatus==='pre'?'Filing in progress':s.f.formationStatus==='post'?'Formed':''],
     ['Card on file',s.f.cardLast4?'•••• '+s.f.cardLast4:'',true]];
@@ -3965,7 +4131,7 @@ function update(){
   const av=$('idAvatar');
   if(c||b){text(av,initials(c||b));av.classList.remove('empty');}else{text(av,'+');av.classList.add('empty');}
   text($('idName'),c||b||'No customer yet');
-  text($('idMeta'),c?(b||'Business name not set'):(b?'Customer name not set':'Add who you’re calling to personalize the script'));
+  text($('idMeta'),(c||b)?[c?(b||'Business name not set'):'Customer name not set',s.f.packageName&&s.f.packageName+' plan',s.f.state].filter(Boolean).join(' · '):'Add who you’re calling to personalize the script');
   text($('recEdit'),c||b?'Edit':'Set up');
   text($('gbCustomer'),c||b||'New call');
   const rep=(s.f.repName||'').trim();text($('repAvatar'),rep?initials(rep):'You');
@@ -4000,6 +4166,148 @@ if(!persistent)$('saveStatus').textContent='This browser blocks storage — copy
 
 enhance(document);paintTabs();update();
 if(cm.state().setupOpen)accountOpen(true);
+})();
+</script><script id="desk-live">
+(function(){
+'use strict';
+const cm=window.__cm; if(!cm) return;
+const $=id=>document.getElementById(id);
+const center=$('center'), right=$('right'), body=document.body;
+const store={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
+const fmt=sec=>{sec=Math.max(0,Math.floor(sec));return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');};
+const typing=t=>t&&t.closest&&t.closest('input,textarea,select,[contenteditable]');
+
+/* ---------- the live line: always know which line you're on ---------- */
+const curKey={};
+const tagOf=b=>{const t=b&&b.querySelector('.tag');return t?t.textContent:'';};
+const keyOf=b=>b.dataset.beat+'|'+tagOf(b);
+function visibleBeats(){return [...center.querySelectorAll('.beat[data-beat]')].filter(b=>b.offsetParent!==null&&!b.closest('.lockwrap.locked'));}
+function paintCurrent(scroll){
+  const s=cm.state(), list=visibleBeats();
+  center.querySelectorAll('.beat.is-current').forEach(n=>n.classList.remove('is-current'));
+  if(list.length){
+    const want=curKey[s.stage]||'', wantTag=want.split('|').slice(1).join('|');
+    let b=list.find(n=>keyOf(n)===want)||(wantTag&&list.find(n=>tagOf(n)===wantTag));
+    if(!b)b=list.find(n=>!n.classList.contains('hit'))||list[list.length-1];
+    b.classList.add('is-current');curKey[s.stage]=keyOf(b);
+    if(scroll)b.scrollIntoView({block:'center',behavior:'smooth'});
+  }
+  updateLines();
+}
+function moveCurrent(d){
+  const s=cm.state(), list=visibleBeats(); if(!list.length)return;
+  let i=list.findIndex(n=>keyOf(n)===curKey[s.stage]);
+  i=i<0?0:Math.max(0,Math.min(list.length-1,i+d));
+  curKey[s.stage]=keyOf(list[i]); paintCurrent(true);
+}
+function updateLines(){
+  const list=visibleBeats(), said=list.filter(n=>n.classList.contains('hit')).length;
+  const panel=$('stagePanel'), head=panel&&panel.querySelector('.shead'); if(!head)return;
+  let meta=head.querySelector('.smeta');
+  if(!meta){meta=document.createElement('div');meta.className='smeta';meta.innerHTML='<span class="stime" title="Time spent in this stage while the call is live"></span><span class="linechip"></span>';head.append(meta);}
+  const chip=meta.querySelector('.linechip');
+  chip.hidden=!list.length;
+  chip.innerHTML='<i style="--p:'+(list.length?said/list.length*100:0)+'%"></i>'+said+' of '+list.length+' lines said';
+  panel.style.setProperty('--said',(list.length?said/list.length*100:0)+'%');
+  paintTime();
+}
+document.addEventListener('click',e=>{
+  if(e.target.closest('#center [data-said]')){
+    const beat=e.target.closest('.beat');
+    if(beat&&beat.classList.contains('hit')){curKey[cm.state().stage]=keyOf(beat);moveCurrent(1);}else updateLines();
+    return;
+  }
+  const say=e.target.closest('#center .beat[data-beat]>.say');
+  if(say&&!e.target.closest('button,a,input,summary,textarea')){curKey[cm.state().stage]=keyOf(say.parentElement);paintCurrent(false);}
+});
+document.addEventListener('keydown',e=>{
+  if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey||typing(e.target))return;
+  if(document.querySelector('dialog[open],.scrim.on')||$('focus').classList.contains('on'))return;
+  const k=e.key.toLowerCase();
+  if(k==='j'){e.preventDefault();moveCurrent(1);}
+  else if(k==='k'){e.preventDefault();moveCurrent(-1);}
+  else if(k==='l'){e.preventDefault();setSpot(!body.classList.contains('spotlight'));}
+  else if(e.key==='Enter'&&(e.target===body||e.target===center||e.target.closest?.('#center .say'))){
+    const cur=center.querySelector('.beat.is-current [data-said]');if(cur){e.preventDefault();cur.click();}}
+});
+
+/* ---------- spotlight ---------- */
+function setSpot(on){body.classList.toggle('spotlight',on);$('btnSpot').setAttribute('aria-pressed',String(on));store.set('rd_spot',on?'1':'0');}
+$('btnSpot').onclick=()=>setSpot(!body.classList.contains('spotlight'));
+setSpot(store.get('rd_spot')==='1');
+
+/* ---------- time in each stage ---------- */
+let stime={};try{stime=JSON.parse(store.get('rd_stime')||'{}')||{};}catch(e){stime={};}
+let lastEl=null, saveTick=0;
+function upper(t){const m=String(t).match(/(\d+)(?!.*\d)/);return m?+m[1]*60:null;}
+function paintTime(){
+  const s=cm.state(), st=cm.stages(), cur=st[cm.stageIndex(s.stage)];
+  const el=center.querySelector('.stime');
+  if(el){const t=stime[s.stage]||0, lim=upper(cur.time);
+    el.textContent=(t>=1?fmt(t):'0:00')+' in stage'+(lim?' · budget '+cur.time+' min':'');
+    el.classList.toggle('over',!!lim&&t>lim);}
+  const li=$('rail').querySelector('li[data-stage="'+s.stage+'"] small');
+  if(li&&(stime[s.stage]||0)>=5){const lim=upper(cur.time);li.textContent=fmt(stime[s.stage]);li.classList.toggle('over',!!lim&&stime[s.stage]>lim);li.classList.add('timed');}
+}
+function paintRailTimes(){
+  const st=cm.stages();
+  $('rail').querySelectorAll('li[data-stage]').forEach(li=>{const id=li.dataset.stage,t=stime[id]||0,sm=li.querySelector('small');if(!sm||t<5)return;
+    const x=st.find(q=>q.id===id),lim=upper(x.time);sm.title='Budget '+(/\d/.test(x.time)?x.time+' min':x.time);sm.textContent=fmt(t);sm.classList.add('timed');sm.classList.toggle('over',!!lim&&t>lim);});
+}
+function tick(){
+  const s=cm.state();
+  if(lastEl!==null){
+    const d=s.elapsed-lastEl;
+    if(s.elapsed<lastEl-1||(s.elapsed===0&&lastEl>0)){stime={};store.set('rd_stime','{}');paintRailTimes();}
+    else if(s.running&&d>0&&d<5){stime[s.stage]=(stime[s.stage]||0)+d;if(++saveTick%8===0)store.set('rd_stime',JSON.stringify(stime));}
+  }
+  lastEl=s.elapsed;
+  body.classList.toggle('is-live',!!s.running);
+  paintTime();
+}
+window.addEventListener('pagehide',()=>store.set('rd_stime',JSON.stringify(stime)));
+
+/* ---------- welcome: a clear first step instead of an empty record ---------- */
+function paintWelcome(){
+  const s=cm.state(), empty=!(s.f.customerName||'').trim()&&!(s.f.businessName||'').trim();
+  const old=center.querySelector('.welcome');
+  const show=empty&&s.stage==='open'&&!s.running&&s.elapsed===0;
+  if(!show){if(old)old.remove();return;}
+  if(old)return;
+  const w=document.createElement('section');w.className='welcome';w.setAttribute('aria-label','Get ready for the call');
+  w.innerHTML='<div class="wl-head"><span class="zmark" aria-hidden="true">z</span><div><h2>Ready for your next call</h2><p>Thirty seconds of setup and the whole script speaks their name.</p></div></div>'+
+    '<ol class="wl-steps">'+
+    '<li><button data-wl="file"><i>1</i><b>Load their file</b><span>Pick Starter, Pro or Premium and the gaps fill in</span></button></li>'+
+    '<li><button data-wl="who"><i>2</i><b>Add who you\u2019re calling</b><span>Name, business and what they do</span></button></li>'+
+    '<li><button data-wl="go" class="go"><i>3</i><b>Start the call</b><span>Timer, pace and coaching go live</span></button></li></ol>'+
+    '<p class="wl-keys"><kbd>⌘K</kbd> jump anywhere · <kbd>J</kbd><kbd>K</kbd> move line by line · <kbd>Enter</kbd> mark said · <kbd>F</kbd> focus mode</p>';
+  w.addEventListener('click',e=>{const b=e.target.closest('[data-wl]');if(!b)return;
+    if(b.dataset.wl==='go')$('btnStart').click();else $('btnSetup').click();});
+  center.prepend(w);
+}
+
+/* ---------- readiness ring on the coach card ---------- */
+function paintRing(){
+  const k=right.querySelector('.coach .k'); if(!k||k.parentElement.querySelector('.ring'))return;
+  const m=k.textContent.match(/(\d+)%/); const v=m?+m[1]:0, C=2*Math.PI*17;
+  k.textContent=k.textContent.replace(/\s*·\s*\d+% ready/,'');
+  const r=document.createElement('div');r.className='ring';r.title='Readiness to recommend: '+v+'%';
+  r.innerHTML='<svg viewBox="0 0 40 40" width="46" height="46" aria-hidden="true"><circle cx="20" cy="20" r="17" class="rt"/><circle cx="20" cy="20" r="17" class="rv" stroke-dasharray="'+C+'" stroke-dashoffset="'+(C*(1-v/100))+'"/></svg><b>'+v+'<small>%</small></b>';
+  k.parentElement.prepend(r);
+}
+
+/* ---------- wiring ---------- */
+let lastStage=null;
+function onCenter(){
+  const s=cm.state(), panel=$('stagePanel');
+  if(panel&&lastStage!==s.stage){panel.classList.add('enter');lastStage=s.stage;}
+  paintWelcome(); paintCurrent(false);
+}
+new MutationObserver(onCenter).observe(center,{childList:true});
+new MutationObserver(paintRailTimes).observe($('rail'),{childList:true});
+new MutationObserver(paintRing).observe(right,{childList:true});
+document.addEventListener('cm:render',tick);
+onCenter(); paintRailTimes(); paintRing(); tick();
 })();
 </script><script id="focus-teleprompter">
 (function () {
@@ -4205,5 +4513,6 @@ if(cm.state().setupOpen)accountOpen(true);
   if (focus.classList.contains("on")) schedulePagination();
 })();
 </script></body></html>
-Revenue Desk · ZenBusiness.html
-Displaying Revenue Desk · ZenBusiness.html.
+revenue-desk (3).html
+
+Displaying revenue-desk (3).html.
