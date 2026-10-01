@@ -363,6 +363,8 @@ body.focusing{overflow:hidden}
 .bkids{margin:12px 0 0 calc(-1 * var(--ind) - 15px)}
 .bkids .branch{margin-left:var(--ind)}
 .bkids .say{border-top-color:transparent}
+.bpath{margin:14px 0 -4px;padding-top:10px;border-top:1px dashed var(--line)}.bpath:first-of-type{border-top:0}
+.bpath span{font-size:12px;font-weight:700;color:var(--text-2)}
 
 /* transitions */
 .bridge{display:grid;grid-template-columns:var(--gut) minmax(0,1fr);gap:0 20px;margin:22px 0 4px;padding:16px 0;border-top:1px dashed var(--line-strong)}
@@ -797,7 +799,7 @@ body.rail-open .drawer-scrim,body.copilot-open .drawer-scrim{opacity:1;pointer-e
   .hold{white-space:nowrap;height:24px}
   .repnote:not(.alert):not(.stop){padding:8px 0 8px 14px}.repnote:not(.alert):not(.stop)::before{left:0}
   .repnote.alert,.repnote.stop,.branch,.gates,.lockwrap,details.fold,.refcard,.calcbox,.pairfields,#center .tablewrap,#center>.panel>.notef,#center .mod>.notef,#center .bkids>.notef,#center .in>.notef{margin-left:0}
-  .bkids{margin-left:0}.bkids .branch{margin-left:0}
+  .bkids{margin-left:0}.bkids .branch{margin-left:0}.bpath{margin-left:0}
   .mod .mg{margin-left:0}
   .bridge .k{padding:0 0 6px}
   .pairfields{grid-template-columns:1fr}
@@ -1353,13 +1355,13 @@ var NOTES=["inspired","firstBiz","dayToDay","revenuePlan","vision","worry","supp
   "consequence","triggerWords","domainAnswer","addonNotes","orderQuestions",
   "taxCurrent","taxPro","taxProScope","taxRisk","taxGoal","taxAha","taxWhyNow","classConcern","quarterlyConcern",
   "taxFilingHistory","taxRevenueTiming","startupSpend","taxMiles","deductionTargets","qualifyReason","qtpValue","btpValue","mpValue","billingAnswer",
-  "objection","nextEvent","followup","mainRisk","followupDate","followupTime","followupReason","indNotes"];
+  "objection","decider","tempScore","tempGap","sessionQs","nextEvent","followup","mainRisk","followupDate","followupTime","followupReason","indNotes"];
 
 function defState(){
   var s={elapsed:0,running:false,callCounted:false,stamp:null,stage:"open",rushed:false,setupOpen:false,
     f:{},n:{},supportList:[],pitched:[],cart:[],outcome:null,quickFocus:null,openVar:"auto",
     objType:null,checks:{},gates:{},branch:{},said:{},visited:{},
-    depth:{ra:"full",tax:"full",mp:"full",edu:"full"},agreedReconnect:null,_recap:"",_mail:"",mailKind:"tax",
+    depth:{ra:"deep",tax:"deep",mp:"deep",edu:"deep"},agreedReconnect:null,_recap:"",_mail:"",mailKind:"tax",
     focusIdx:0,focusOn:false,taxPath:"",eduTab:"all"};
   FIELDS.forEach(function(k){s.f[k]="";});
   NOTES.forEach(function(k){s.n[k]="";});
@@ -1425,6 +1427,10 @@ function regulated(){return /truck|haul|real ?estate|food|restaurant|cater|beaut
 function drives(){return /truck|haul|deliver|transport|driv|landscap|clean|mobile|construct|contract|real ?estate|courier|rideshare|repair|install|photo|event/i.test(S.f.businessType||"");}
 function invoices(){return /consult|contract|clean|landscap|design|market|coach|photo|repair|install|freelanc|agency|service|train|legal|account|it\b|web/i.test(S.f.businessType||"");}
 function taxCovered(){return S.f.qtp==="y"&&S.f.btp==="y";}
+/* agent gap still open and not yet in the cart — offer it once, before payment */
+function raAttach(){return raGap()&&S.cart.map(function(c){return c.k;}).indexOf("RA")<0;}
+/* who else weighs in on money decisions — pre-handles the spouse/partner stall */
+function hasDecider(){var d=(S.n.decider||"").trim().toLowerCase();return !!d&&!/^(no|nobody|none|just me|me|n\/a|-)$/.test(d);}
 function soldKeys(){return S.cart.map(function(c){return c.k;});}
 function isSold(k){return soldKeys().indexOf(k)>=0;}
 function daysSince(){var n=parseInt(S.f.daysSincePurchase,10);return isNaN(n)?null:n;}
@@ -1459,7 +1465,7 @@ var TOKLAB={repName:"your name",repLine:"your direct line",customerName:"their n
   taxMiles:"their monthly miles",deductionTargets:"their upcoming purchases",
   qualifyReason:"the one thing they most want to avoid",
   qtpValue:"why planning matters to them",btpValue:"why filing support matters",mpValue:"why clean books matter",
-  nextEvent:"day and time",mainRisk:"the main risk",followupDate:"date",followupTime:"time",followupReason:"purpose of the call"};
+  nextEvent:"day and time",decider:"who else weighs in",tempScore:"their number",sessionQs:"their first-session questions",mainRisk:"the main risk",followupDate:"date",followupTime:"time",followupReason:"purpose of the call"};
 function tokVal(k){
   if(k.indexOf("price.")===0)return {v:PRICE[k.slice(6)]||"$—",fill:true};
   var v="";
@@ -1520,6 +1526,8 @@ function beatBranch(b,i){
   b.opts.forEach(function(o,j){h+='<button class="'+(picked===j?"on":"")+'" data-branch="'+key+"|"+j+'">'+esc(o.label)+'</button>';});
   h+='</div>';
   if(picked!=null&&b.opts[picked]&&b.opts[picked].beats)h+='<div class="bkids">'+renderBeats(b.opts[picked].beats,"br"+i+"_")+'</div>';
+  else b.opts.forEach(function(o,j){
+    if(o.beats&&o.beats.length)h+='<div class="bpath"><span>If: '+esc(o.label)+'</span></div><div class="bkids">'+renderBeats(o.beats,"br"+i+"_"+j+"_")+'</div>';});
   return h+'</div></div>';
 }
 function beatCheck(b){
@@ -1558,7 +1566,7 @@ function beatGuide(b){
 var GATES={
   ra:[
     ["ra_role","They heard what being the Registered Agent actually commits them to","the guide's \u201Cwhat is a Registered Agent\u201D block, said out loud"],
-    ["ra_avail","They admitted they may not always be at that address weekdays","travel, job sites, school runs — any crack in \u201Cevery weekday, all day\u201D"],
+    ["ra_avail","They named a personal reason it matters","not always at that address, a home address on the public record, or not wanting to carry the responsibility — in their words"],
     ["ra_value","They answered the \u201Cdo you see how that would be valuable\u201D question","never tick this on a silent nod"]
   ],
   tax:[
@@ -1590,8 +1598,8 @@ function gatesLeft(k){return gateSet(k).filter(function(g){return !S.gates[g[0]]
 function beatGates(key,title){
   var set=gateSet(key), clear=gatesClear(key);
   var h='<div class="gates'+(clear?" clear":"")+'" data-gates="'+key+'"><h5>'+esc(title||"Buy-in checklist")+
-    '</h5><p class="sub">'+(clear?"All confirmed. Proceed to the close."
-      :"Confirm each item only when the customer says it. "+gatesLeft(key)+" remaining before the close.")+'</p><ul class="gl">';
+    '</h5><p class="sub">'+(clear?"All confirmed — they're ready."
+      :"Optional quick read — nothing is locked. Tap an item when you hear it, or just use it as a mental check.")+'</p><ul class="gl">';
   set.forEach(function(g){
     h+='<li class="'+(S.gates[g[0]]?"on":"")+'" data-gate="'+g[0]+'"><span class="bx">'+(S.gates[g[0]]?"✓":"")+
       '</span><span>'+esc(g[1])+(g[2]?'<small>'+esc(g[2])+'</small>':'')+'</span></li>';});
@@ -1600,8 +1608,7 @@ function beatGates(key,title){
 function beatClose(b){
   var key=b.gateKey, clear=!gateSet(key).length||gatesClear(key);
   var price=b.price||itemPrice(b.item);
-  var h='<div class="lockwrap'+(clear?"":" locked")+'" data-lock="'+key+'">';
-  h+='<div class="lockbadge"><span>Confirm the buy-in first<em>'+gatesLeft(key)+' left above</em></span></div>';
+  var h='<div class="lockwrap" data-lock="'+key+'">';
   h+='<div class="locked-inner"><div class="closecard"><span class="k">'+esc(b.kicker||("The close · "+price))+'</span>';
   h+='<div class="say-t">'+T(b.t)+'</div>';
   if(b.auth!==false)h+='<div class="say-t" style="margin-top:12px">'+T("\u201CDo I have your permission to process the payment of "+price+
@@ -1699,6 +1706,9 @@ function recLane(){
   if(regulated()&&S.f.blrHas!=="y"){sc.quick+=3;why.quick.push("licensing is real for {{businessType}}");}
   var best="taxdisc";["taxdisc","ra","quick","mp"].forEach(function(k){if(sc[k]>sc[best])best=k;});
   if(sc[best]===0)return {lane:"taxdisc",why:"Nothing flagged on the account. Run tax discovery honestly and don't invent a gap that isn't there."};
+  /* field play: with the filing still open, the agent close is short and time-bound — take that yes first, then carry it into tax */
+  if(raGap()&&S.f.formationStatus!=="post"&&gap)return {lane:"ra",why:"Filing is still in progress, so the agent can change before it's final. Run the agent lane on Fast depth (about three minutes), then carry that first yes straight into tax discovery for the bundle."};
+  if(best==="taxdisc"&&raGap())return {lane:"taxdisc",why:why.taxdisc.join(" · ")+" · agent gap is open too — make one attach offer at payment"};
   return {lane:best,why:why[best].join(" · ")};
 }
 function laneFlags(){
@@ -1777,6 +1787,8 @@ C.open=function(){
     {label:"\u201CWhat is this about?\u201D",beats:[
       {k:"say",tag:"Disarm",hot:1,t:"\u201CNothing's wrong — this is a standard setup review. You started an LLC with us, and there are a few early pieces that decide whether it's compliant and ready for year one. I'll keep it practical.\u201D"}]}
   ]});
+  b.push({k:"ask",tag:"Upfront agreement — the line top closers never skip",t:"\u201CAnd so you know how I work: as we go, if I see anything that would genuinely help you, or anything that could cause you a problem down the road, I'll tell you straight and give you my honest recommendation. And you're always free to tell me it's not a fit. Fair enough?\u201D"+
+    cue("their yes here is what makes a clear yes-or-no at the end feel natural. It quietly takes \u201Clet me think about it\u201D off the table")});
   b.push({k:"say",tag:"Disclose the recording",t:"\u201CGreat! I do want to disclose that this call will be recorded for training and quality purposes"+ELL+"\u201D"+PAUSE});
   b.push({k:"ask",tag:"Congratulate",t:(v==="pre"
     ? "\u201Cbut congratulations on taking this first big step to get this business started! Are you excited?\u201D"
@@ -1891,6 +1903,11 @@ C.disc=function(){
   b.push({k:"html",t:'<div class="lab">Who is already helping them<s></s></div><div class="chips">'+
     ["Accountant","Attorney","Mentor","Partner","Nobody"].map(function(x){
       return '<button class="'+(S.supportList.indexOf(x)>=0?"on":"")+'" data-sup="'+x+'">'+x+'</button>';}).join("")+'</div>'});
+  b.push({k:"ask",tag:"Who else decides — ask it now, not at the close",t:"\u201CBesides you, is there anyone else who weighs in on decisions about the business's money — a partner, a spouse, an investor?\u201D"+
+    cue("asked here it's just discovery. Asked after the price, it becomes the objection")});
+  b.push({k:"field",n:"decider",label:"Who else weighs in on money decisions",ph:"nobody / wife handles the finances / 50-50 partner",
+    hint:"If someone else decides, invite them to the last ten minutes, or set the next event with both of them on the line."});
+  b.push({k:"note",tone:"alert",when:hasDecider,tag:"Plan for the second decision-maker now",t:"{{decider}} weighs in on money. Ask: \u201CWould it make sense to bring them on for the last few minutes, so you're not stuck relaying everything?\u201D If not today, make the next event a time when <b>both</b> can be on the call."});
   b.push({k:"bridge",t:"\u201CThat helps a lot — now I know what actually matters to you. Let's first quickly confirm some information"+ELL+"\u201D"});
   return b;
 };
@@ -2032,7 +2049,10 @@ C.ra=function(){
       {k:"ask",tag:"Test the depth, kindly",t:"\u201COkay, great, no problem. Do you mind sharing your understanding of the requirements of being listed as the Registered Agent? I want to make sure you're set up for success.\u201D"+
         cue("nine times out of ten the answer is thin — stay curious, never smug")},
       {k:"branch",q:"Did they actually know it?",opts:[
-        {label:"They're all set",beats:[{k:"note",tone:"alert",t:"Then don't sell it. They understand the commitment and accept it. Validate them and <b>move to taxes</b> — that's the guide's instruction, and pushing here costs you credibility for the rest of the call."}]},
+        {label:"They're all set",beats:[
+          {k:"note",tone:"alert",t:"Respect it — they know the commitment. Still make <b>one</b> clean offer, built on what is still true for them: the address is public on the state's website, and the responsibility stays personal. If they pass, validate warmly and <b>move to taxes</b>. One offer, never two — pushing past a real no costs you the tax conversation."},
+          {k:"ask",tag:"One clean offer",t:"\u201CYou clearly know what it involves, which honestly puts you ahead of most owners. The two reasons people who <i>could</i> do it still hand it to us are privacy — the agent address is the first public address on the state's website — and simply having one less legal responsibility sitting on them personally. Would either of those matter to you?\u201D"+
+            cue("a yes to either one is a real reason. Tick it as their reason below and carry on. A no means validate and go to tax")}]},
         {label:"Not familiar",beats:[{k:"say",tag:"Earn permission to explain",t:"\u201CAs our customer we owe it to you to make sure you fully understand what that commitment actually means. It'll take just a minute — would that be helpful for me to walk through?\u201D"}]}
       ]}]},
     {label:"\u201CNo, not always\u201D",beats:[
@@ -2085,6 +2105,8 @@ C.ra=function(){
   b.push({k:"close",item:"RA",gateKey:"ra",objTag:"RA",kicker:"The close · "+PRICE.ra+" for the year",
     t:"\u201CThe service is "+PRICE.ra+" for the full year. After the first year, it renews at "+PRICE.ra+""+ELL+"which is less than a dollar a day for us to handle this and maintain that peace of mind.\u201D"+PAUSE+
       "\u201CYou won't have to worry about this at all, and your business gets the protection it needs. I'm happy to get this updated and unlocked for you today so that staying compliant with this LLC is that much easier. Does that sound good?\u201D"});
+  b.push({k:"bridge",tag:"Carry the yes into tax — right after they say yes",when:function(){return !taxCovered();},t:"\u201CPerfect — that's the legal side of the business protected. The other half of protecting what you're building is the money side, and honestly that's where most new owners get caught off guard in year one\u2026\u201D"+
+    cue("then open tax discovery with \u201CEarlier we talked about different things you gain as an LLC\u2026\u201D. Don't pause between the two — momentum is the point")});
   b.push({k:"note",tag:"Next — tax discovery",t:"Agent handled. Tax discovery opens with its own transition — \u201CEarlier we talked about different things you gain as an LLC\u2026\u201D — so go straight there."});
   b.push({k:"html",t:'<div class="nav"><button data-go="gains">← Back to gains</button><button class="go" data-go="taxdisc">Go to tax discovery →</button></div>'});
   return b;
@@ -2161,9 +2183,9 @@ C.taxdisc=function(){
   b.push({k:"html",t:'<div class="lab">Which path are they on?<s></s></div><div class="segs">'+
     [["advisor","Has a tax advisor, or someone in mind"],["none","No help yet, no plan"]].map(function(x){
       return '<button class="'+(path===x[0]?"on":"")+'" data-taxpath="'+x[0]+'">'+x[1]+'</button>';}).join("")+'</div>'});
-  if(!path)b.push({k:"note",t:"Tap the path that matches their answer and the guide's follow-up questions for that path appear here. Ask the ones that fit — you don't need every one."});
+  if(!path)b.push({k:"note",t:"Both paths are showing. Ask the follow-ups that match their answer — tapping a path above just hides the other one."});
 
-  b.push({k:"ask",tag:"They have an advisor, or someone in mind",when:function(){return taxPathNorm()==="advisor";},t:
+  b.push({k:"ask",tag:"They have an advisor, or someone in mind",when:function(){return taxPathNorm()!=="none";},t:
     "<ul><li>\u201CWhat kinds of conversations have you had with them about your business?\u201D</li>"+
     "<li><b>If not yet:</b> \u201CWhen are you thinking you will have a conversation?\u201D</li>"+
     "<li>\u201CWhat is their ability to handle business taxes?\u201D</li>"+
@@ -2172,10 +2194,10 @@ C.taxdisc=function(){
     "<li>\u201CHow often are you able to meet with them throughout the year?\u201D</li>"+
     "<li><b>If applicable:</b> \u201CHow has it gone the last few times you have filed taxes with them?\u201D</li></ul>"+
     cue("ask a few, then stop and listen")});
-  b.push({k:"note",tone:"alert",tag:"Qualify the scope, not the person",when:function(){return taxPathNorm()==="advisor";},
+  b.push({k:"note",tone:"alert",tag:"Qualify the scope, not the person",when:function(){return taxPathNorm()!=="none";},
     t:"Never criticize their accountant — we complement, we don't replace. The gap is almost never \u201Cno accountant.\u201D It's that <b>nobody has looked at this business yet</b>, or they can't be reached when a decision comes up. If a business tax pro is genuinely engaged and covering all of it, don't sell over the top of them."});
 
-  b.push({k:"ask",tag:"No help yet, no plan",when:function(){return taxPathNorm()==="none";},t:
+  b.push({k:"ask",tag:"No help yet, no plan",when:function(){return taxPathNorm()!=="advisor";},t:
     "<ul><li>\u201CHow do you typically file your personal taxes?\u201D</li>"+
     "<li>\u201CHow do the filings normally go?\u201D"+cue("owe or refund")+"</li>"+
     "<li>\u201CHave you considered using a CPA or professional before?\u201D</li>"+
@@ -2505,6 +2527,16 @@ C.close=function(){
   b.push({k:"note",when:function(){return covered;},tone:"alert",tag:"They may already be covered",
     t:"Planning and filing are both already on the account. Don't sell a duplicate. Confirm the next tax-professional touchpoint, check the bookkeeping actually feeds it, and go to Money Pro or wrap."});
 
+  b.push({k:"ask",tag:"Temperature check — before any price",t:"\u201COn a scale of one to ten — one being not important, ten being it needs to be handled now — how important is it to you to get the tax side set up right"+((S.n.timeline||"").trim()?" before {{timeline}}":" this year")+"?\u201D"+PAUSE+
+    "<b>If 7 or higher:</b> \u201CWhat would make it a ten?\u201D"+PAUSE+
+    "<b>If 6 or lower:</b> \u201CWhy a [their number] and not lower?\u201D"+
+    cue("the second question makes them argue for it in their own words. Whatever's between their number and ten is the objection you'd otherwise meet after the price")});
+  b.push({k:"fields",items:[
+    {n:"tempScore",label:"Their number",ph:"8"},
+    {n:"tempGap",label:"What would make it a ten — their words",ph:"\u201Cknowing what it costs per month\u201D"}]});
+  b.push({k:"ask",tag:"Trial close",t:"\u201CIf everything we covered fits the way you want it to, is there anything that would stop you from getting it started today?\u201D"+
+    cue("anything they say here is the real objection. Handle it now, while there's no number on the table")});
+  b.push({k:"note",tone:"alert",when:hasDecider,tag:"Second decision-maker",t:"They told you {{decider}} weighs in. If that person isn't on the line, the trial close is where you find out whether this is a today decision. Don't let it surface for the first time after the price."});
   b.push({k:"gates",key:"tax",title:"Before you name the price"});
   b.push({k:"note",tag:"Proof count",t:"<b>"+proofCount()+" of 5</b> education blocks earned a buy-in. Three or more is the threshold where the bundle stops feeling like a bundle."});
 
@@ -2513,7 +2545,7 @@ C.close=function(){
     '<p>Based on what they shared — their business activity, where they are now, and where they want to be — name <b>one</b> plan with confidence. '+
     (mm?'<b>Multi-member / partnership / S-Corp / C-Corp pricing is showing.</b>':'<b>Single-member pricing is showing.</b>')+' Tap the entity type in setup if that\u2019s wrong.</p>'+
     '<div class="mathline">'+bundleMath()+'</div></div>'});
-  b.push({k:"say",tag:"Prescribe — connect every block",t:"\u201CBased on what you've shared with me"+ELL+"your business activity, where you're at now and where you want to be"+ELL+"I strongly recommend the <b>Complete Tax Bundle</b>.\u201D"+PAUSE+
+  b.push({k:"say",tag:"Prescribe — connect every block",t:"\u201CBased on what you've shared with me"+ELL+"your business activity, where you're at now and where you want to be"+ELL+"I strongly recommend the <b>"+(S.f.mp==="y"?"Do-It-For-You Plan":"Complete Tax Bundle")+"</b>"+(S.f.mp==="y"?", since you already have Money Pro running underneath it":"")+".\u201D"+PAUSE+
     "\u201CAnd the reason isn't just \u2018taxes.\u2019 You told me {{classConcern}}. You want clarity on {{quarterlyConcern}}. You've already spent money on {{startupSpend}} that's worth reviewing. And the thing you said you most want to avoid is {{qualifyReason}}.\u201D"+PAUSE+
     "\u201CPlanning gives you the professional during the year, Money Pro keeps everything organized underneath it, and the filing gives the year a proper finish.\u201D"});
   b.push({k:"note",tag:"Read that back slowly",t:"Those are <b>their</b> four sentences, not your features. A recommendation made of the customer's own words is very hard to argue with — which is exactly why discovery and qualifying come first."});
@@ -2523,54 +2555,50 @@ C.close=function(){
 
   b.push({k:"say",tag:"Close the loop",t:"\u201CYou're already doing great by forming the LLC and getting started — you've already done the hard part. You took action and formed the business.\u201D"+PAUSE+
     "\u201CNow it's really just about giving yourself the tools and expert support that help you win long-term. Getting the right tax solutions in place now will make sure the rest of your year, and the life of the business, run more smoothly.\u201D"});
-  b.push({k:"close",item:"BUNDLE",gateKey:"tax",price:bundlePrice(),objTag:"TAX",auth:false,
-    kicker:"The annual ask · "+bundlePrice(),
-    t:"\u201CBased on our conversation and your business needs, I recommend we set this up now and move to the next steps. How does that sound?\u201D"+
+  b.push({k:"close",item:(S.f.mp==="y"?"DIFY":"BUNDLE"),gateKey:"tax",price:(S.f.mp==="y"?difyPrice():bundlePrice()),objTag:"TAX",auth:false,
+    kicker:"The annual ask · "+(S.f.mp==="y"?difyPrice()+" · Do-It-For-You Plan":bundlePrice()+" · Complete Tax Bundle"),
+    t:"\u201CThe "+(S.f.mp==="y"?"Do-It-For-You Plan is <b>"+difyPrice()+"</b> for the year — your quarterly planning and your filing, handled.":"Complete Tax Bundle is <b>"+bundlePrice()+"</b> for the year — planning every quarter, your filing handled, and Money Pro keeping the books underneath it.")+"\u201D"+PAUSE+
+      "\u201CBased on our conversation and your business needs, I recommend we set this up now and move to the next steps. How does that sound?\u201D"+
       cue("Ask once, then wait. Silence is not a decline.")});
   b.push({k:"say",tag:"After the yes",t:"\u201CYou've made a great choice for your business's financial health. I'll get that activated for you now.\u201D"+PAUSE+
     "\u201CYour twelve-month service starts today and will automatically renew annually on the same date.\u201D"+PAUSE+
-    "\u201CDo I have your permission to process the payment of <b>"+bundlePrice()+"</b> with the card on file ending in {{cardLast4}}?\u201D"});
+    (raAttach()
+      ? "<b>Agent gap still open:</b> don't authorize yet. Go to <b>Payment</b>, make the one attach offer there, then authorize everything as a single charge."
+      : "\u201CDo I have your permission to process the payment of <b>"+(S.f.mp==="y"?difyPrice():bundlePrice())+"</b> with the card on file ending in {{cardLast4}}?\u201D")});
   b.push({k:"note",tone:"stop",tag:"Annual first means annual first",
     t:"Do <b>not</b> volunteer monthly because they paused, went quiet, or said \u201Chow much?\u201D Monthly is an affordability rescue and nothing else. Offering it early tells the customer the annual price was never real."});
 
   b.push({k:"mod",num:"R1",title:"Monthly installments — the affordability rescue",why:"Protect the full sale",tone:"closing",
     goal:"\u201CI like it, I want it, I just don't have that kind of money right now.\u201D Confirm value, isolate cost, then unlock the plan.",beats:[
-    {k:"gates",key:"monthly",title:"Before you mention monthly at all"},
-    {k:"html",t:'<div class="lockwrap'+(gatesClear("monthly")?"":" locked")+'" data-lock="monthly">'+
-      '<div class="lockbadge"><span>Confirm value and isolate cost first<em>'+gatesLeft("monthly")+' left above</em></span></div><div class="locked-inner">'+
-      renderBeats([
+    {k:"gates",key:"monthly",title:"Quick read before monthly"},
+  ].concat([
         {k:"say",tag:"1 · Put pricing aside",t:"\u201CThat's fair"+ELL+"let's put pricing to the side for just a moment"+ELL+"\u201D"+PAUSE+
           "\u201CAre Quarterly Tax Planning and Business Tax Prep and Filing"+(S.f.mp!=="y"?" — and Money Pro —":"")+" services that you believe will put you in a position to maximize your deductions and win come tax time?\u201D"},
         {k:"say",tag:"2 · Isolate the cost",t:"\u201COkay, great. I believe that too. Since it sounds like you understand the value and benefit these services will have for you"+ELL+"and it's something you want to have"+ELL+"it sounds like the only thing preventing you is just cost. Is that correct?\u201D"},
-        (S.f.taxMonthly==="y"
-          ? {k:"say",tag:"3 · Unlock the plan",t:"\u201CNot a problem. Hey, you're just getting this business started — we get it. So let's do this, I have a couple of other options to unlock these services for you"+ELL+"\u201D"+PAUSE+
+        {k:"note",tone:"alert",when:function(){return S.f.taxMonthly!=="y";},tag:"Confirm before step 3",t:"Monthly isn't marked available in setup. Glance at Salesforce before you say it — if it isn't on this account, skip to the step-down below."},
+        {k:"say",tag:"3 · Unlock the plan",t:"\u201CNot a problem. Hey, you're just getting this business started — we get it. So let's do this, I have a couple of other options to unlock these services for you"+ELL+"\u201D"+PAUSE+
               "\u201CDue to the demand of these services and how essential they are for our customers to be successful"+ELL+"instead of paying "+bundlePrice()+" upfront, we recently released the ability to unlock this in your dashboard through a <b>monthly installment plan</b>.\u201D"+PAUSE+
               "\u201CThis means you'd be able to access the same exact services we discussed earlier for just <b>"+bundleMonthly()+" a month</b>.\u201D"+PAUSE+
               "\u201CIt's still a one-year commitment, but it's a much more manageable business expense and — like we discussed earlier — is a potential write-off on your business taxes.\u201D"+PAUSE+
-              "\u201CWould you prefer to get some annual savings by going with the annual, or for this first year get started with the monthly installments?\u201D"}
-          : {k:"note",tone:"stop",tag:"Stop — do not offer this yet",t:"Monthly is <b>not confirmed available</b> on this account. Never invent a payment plan. Verify it, then tap <b>monthly installments</b> in setup and this script unlocks."}),
+              "\u201CWould you prefer to get some annual savings by going with the annual, or for this first year get started with the monthly installments?\u201D"},
         {k:"html",t:'<div class="lab">Monthly options<s></s></div><div class="rxrow">'+
           [["BUNDLEM","Complete Bundle",bundleMonthly()+"/mo"],["DIFYM","Planning + filing",isMM()?PRICE.difyM_MM+"/mo":PRICE.difyM_SM+"/mo"],
            ["QTPM","Planning only",isMM()?PRICE.qtpM_MM+"/mo":PRICE.qtpM_SM+"/mo"],["MPM","Money Pro only",PRICE.mpM+"/mo"]].map(function(x){
             return '<button class="rx" data-won="'+x[0]+'|'+x[2].split("/")[0]+'"><span class="rt">'+x[1]+'</span><span class="rp">'+x[2]+
               '</span><span class="rd">Twelve-month commitment. Tap only once they have agreed.</span></button>';}).join("")+'</div>'},
         {k:"note",tone:"alert",t:"State the exact monthly amount, that it is a <b>twelve-month commitment</b>, and the renewal date — then get a clear yes to those terms specifically before you process anything."}
-      ],"mrescue_")+'</div></div>'}
-  ]});
+      ])});
 
   b.push({k:"mod",num:"R2",title:"Step down — only after a real decline",why:"Keep them winning",tone:"closing",
     goal:"\u201CLet's have you start with just the X, that way you're still putting yourself in a position to win, and we can revisit the rest down the road.\u201D",beats:[
-    {k:"gates",key:"stepdown",title:"Before you step down"},
-    {k:"html",t:'<div class="lockwrap'+(gatesClear("stepdown")?"":" locked")+'" data-lock="stepdown">'+
-      '<div class="lockbadge"><span>A pause is not a decline<em>'+gatesLeft("stepdown")+' left above</em></span></div><div class="locked-inner">'+
-      renderBeats([
+    {k:"gates",key:"stepdown",title:"Quick read before stepping down"},
+  ].concat([
         {k:"note",tone:"alert",tag:"Order matters",t:"Step down <b>one rung at a time</b>, and keep planning in the package as long as you can. Planning is what creates the outcome they actually said they wanted."},
         {k:"say",tag:"The step-down line",t:"\u201CLet's have you start with just the "+(S.f.mp!=="y"?"planning":"planning and filing")+", that way you're still putting yourself in a position to win, and we can revisit the rest down the road. Does that feel better for you?\u201D"},
         {k:"say",tag:"Rung 1 · Planning + filing",t:"\u201CIf you'd rather handle the books your own way, the next strongest setup is the planning plus the business filing — you keep the professional guidance and the return handled. Would that fit better?\u201D"},
         {k:"say",tag:"Rung 2 · Planning + Money Pro",t:"\u201CIf you'd rather stay hands-on with the filing itself, then I'd protect the planning and the records — an expert reviewing your plan each quarter, with clean books underneath it. Does that match how you like to work?\u201D"},
         {k:"say",tag:"Rung 3 · One piece only",t:"\u201CIf we only solve one thing today, I don't want to pick at random. The biggest gap you gave me was {{qualifyReason}} — so let's solve that piece first, and you can add the rest whenever it makes sense.\u201D"}
-      ],"sdown_")+'</div></div>'}
-  ]});
+      ])});
   b.push({k:"note",tone:"alert",tag:"Check before you quote",t:VERIFY});
   b.push({k:"html",t:'<div class="nav"><button data-go="obj">Objections →</button><button class="go" data-go="pay">Take the payment →</button></div>'});
   return b;
@@ -2622,8 +2650,10 @@ C.mp=function(){
   b.push({k:"check",items:[["taxMp","They see clean records as part of the tax plan, not admin"]]});
   b.push({k:"gates",key:"mp",title:"Before you close Money Pro"});
   b.push({k:"close",item:"MP",gateKey:"mp",objTag:"MP",when:function(){return !has;},
-    t:"\u201CBased on what you've shared with me, I'd recommend we turn on Money Pro. It's only "+PRICE.mpY+" for the year, or "+PRICE.mpM+" a month.\u201D"+PAUSE+
+    t:"\u201CBased on what you've shared with me, I'd recommend we turn on Money Pro. It's "+PRICE.mpY+" for the year.\u201D"+PAUSE+
       "\u201CYour twelve-month service starts today and will automatically renew annually on the same date.\u201D"});
+  b.push({k:"say",tag:"Only if cost is the one thing in the way",when:function(){return !has;},t:"\u201CI hear you. If it would help to spread it out, it's also available at "+PRICE.mpM+" a month on a twelve-month commitment. Annual is the better value, but either way you're tracking from today. Which works better for you?\u201D"+
+    cue("only after they've said the value is there and cost is the issue. Never lead with this")});
   b.push({k:"say",tag:"They already have it — activate it",when:function(){return has;},
     t:"\u201CThe important next step is actually connecting your accounts and using it, so the tax conversations are based on clean information instead of guesswork.\u201D"+PAUSE+
     "\u201CWould you like me to walk you through linking your first account right now while we're together? It takes about two minutes.\u201D"+
@@ -2733,23 +2763,29 @@ C.pay=function(){
   b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Word for word</span><h2>Payment authorization</h2></div>'});
   b.push({k:"guide",t:"§ Payment Authorization — used at the end of every close in the guide"});
   b.push({k:"goal",t:"<b>Job of this stage:</b> a clear, recorded yes before anything is processed. Read the authorization as written — this is the part that gets audited."});
+  var amt=n?usd(total):"[the amount]";
   if(!n){
-    b.push({k:"note",tone:"alert",tag:"Nothing in the cart yet",t:"Add what they agreed to with the green button on any close card, or the buttons below. The authorization line fills itself in once something is there."});
-    b.push({k:"html",t:'<div class="lab">Add manually<s></s></div><div class="chips">'+
+    b.push({k:"note",tone:"alert",tag:"Cart is empty — tap what they agreed to",t:"One tap fills in the exact amount below. The script works either way: say the price you quoted."});
+    b.push({k:"html",t:'<div class="lab">Add what they agreed to<s></s></div><div class="chips">'+
       Object.keys(ITEMS).map(function(k){return '<button class="sm" data-addcart="'+k+'">'+ITEMS[k].label+' · '+itemPrice(k)+'</button>';}).join("")+'</div>'});
   }else{
     b.push({k:"html",t:'<div class="lab">Agreed on this call<s></s></div><ul class="cart-l">'+
       S.cart.map(function(c,i){return '<li>'+esc(c.label)+'<b>'+esc(c.price)+'</b><button data-uncart="'+i+'" title="Remove">✕</button></li>';}).join("")+
       '</ul><div class="carttotal"><span class="k">Total to authorize</span><b>'+usd(total)+'</b></div>'});
-    b.push({k:"say",tag:"Confirm the service first",t:"\u201CYou've made a great choice for your business's financial health. I'll get "+
-      esc(S.cart.map(function(c){return c.label;}).join(" and "))+" activated for you now.\u201D"});
-    var recur=S.cart.filter(function(c){return (ITEMS[c.k]||{}).recur!=="one-time";});
-    if(recur.length)b.push({k:"say",tag:"Disclose the renewal",t:"\u201CYour twelve-month service starts today and will automatically renew annually on the same date.\u201D"});
-    b.push({k:"say",tag:"Authorize — say it exactly",t:"\u201CDo I have your permission to process the payment of <b>"+usd(total)+"</b> with the card on file ending in {{cardLast4}}?\u201D"+
-      cue("wait for a clear yes. Total silence until they speak")});
-    if(isSold("BUNDLEM")||isSold("DIFYM")||isSold("QTPM")||isSold("MPM"))
-      b.push({k:"note",tone:"alert",tag:"Monthly plan",t:"Confirm out loud that it's a <b>twelve-month commitment</b>, state the exact monthly amount and the renewal date, and make sure they say yes to those terms specifically."});
   }
+    if(raAttach()){
+      b.push({k:"ask",tag:"One last protection — before you authorize",t:"\u201CBefore I process this, one quick thing so the setup is complete. On your state paperwork, {{raName}} is listed as the Registered Agent — so official legal and state notices for {{businessName}} have to be physically received at {{raAddress}}"+(S.f.homeBased==="y"?", and that address shows up publicly on the state's website":"")+".\u201D"+PAUSE+
+        "\u201CFor "+PRICE.ra+" a year, we take that on — documents come to us, go straight to your dashboard, and we let you know the moment something arrives. Would you like me to include that, so it's all handled in one authorization?\u201D"+cue("one offer. If they pass, process exactly what they already agreed to")});
+      b.push({k:"html",t:'<div class="chips"><button class="sm" data-addcart="RA">They said yes — add Registered Agent · '+PRICE.ra+'</button></div>'});
+      b.push({k:"note",tone:"stop",tag:"Never risk the main sale for the attach",t:"If they hesitate, drop it: \u201CNo problem — we can always do that later.\u201D Then authorize the original amount. You can set the agent as the purpose of the follow-up."});
+    }
+  b.push({k:"say",tag:"Confirm the service first",t:"\u201CYou've made a great choice for your business's financial health. I'll get "+
+    (n?esc(S.cart.map(function(c){return c.label;}).join(" and ")):"that")+" activated for you now.\u201D"});
+  var recur=S.cart.filter(function(c){return (ITEMS[c.k]||{}).recur!=="one-time";});
+  b.push({k:"say",tag:"Disclose the renewal"+(n&&!recur.length?" — skip, one-time only":""),t:"\u201CYour twelve-month service starts today and will automatically renew annually on the same date.\u201D"});
+  b.push({k:"say",tag:"Authorize — say it exactly",t:"\u201CDo I have your permission to process the payment of <b>"+amt+"</b> with the card on file ending in {{cardLast4}}?\u201D"+
+    cue("wait for a clear yes. Total silence until they speak")});
+  b.push({k:"note",tone:"alert",tag:"If it's a monthly plan",t:"Say out loud that it's a <b>twelve-month commitment</b>, the exact monthly amount and the renewal date, and get a yes to those terms specifically."});
   b.push({k:"say",tag:"If the yes was vague",t:"\u201CI just need your verbal authorization before I process it. Are you authorizing ZenBusiness to charge "+
     (n?usd(total):"the amount")+" to the card ending in {{cardLast4}}?\u201D"+PAUSE+
     "<b>After the yes:</b> \u201CThank you — I'll process that now.\u201D"+PAUSE+"\u201CGreat, that's complete.\u201D"});
@@ -2787,6 +2823,9 @@ C.sched=function(){
     ["sch8","Fill in name, email, phone and the basic questions"],
     ["sch9","Add any documents they want to include"],
     ["sch10","Confirm the consultation — watch for the confirmation email"]]});
+  b.push({k:"ask",tag:"Write their first-session agenda together",t:"\u201CLet's make that first session count. From what you told me, I'd bring "+((S.n.classConcern||"").trim()?"{{classConcern}}":"the classification question")+" and "+((S.n.quarterlyConcern||"").trim()?"{{quarterlyConcern}}":"how much to set aside each quarter")+". What's the third thing you'd want answered?\u201D"+
+    cue("have them paste these into the booking's questions box. A customer who walks in with their own agenda gets value in week one — and keeps the service")});
+  b.push({k:"field",n:"sessionQs",label:"Their first-session questions",ph:"S-Corp or not, quarterly amount, the truck purchase"});
   b.push({k:"say",tag:"If they can't log in right now",t:"\u201CNo problem — I'll email you the steps. But I'd still like to put a time on it so it actually happens. Would later today or tomorrow be better?\u201D"+
     cue("then set it in the next stage so it gets recorded properly")});
   b.push({k:"say",tag:"Confirm it's booked",t:"\u201CPerfect — you're booked. You'll get a confirmation email, and that first conversation is where the classification and quarterly questions get answered specifically for {{businessName}}.\u201D"});
@@ -2801,15 +2840,15 @@ C.sne=function(){
   b.push({k:"html",t:'<div class="shead"><span class="eyebrow">Last two minutes</span><h2>Next event &amp; closing remarks</h2></div>'});
   b.push({k:"guide",t:"§ Set SNE · Closing Remarks"});
   b.push({k:"goal",t:"<b>Job of this stage:</b> no call ends with \u201Ccall me whenever.\u201D Every call ends with a <b>day</b>, a <b>time</b> and a <b>purpose</b>."});
-  if(sold){
-    b.push({k:"say",tag:"They bought — closing remarks",t:"\u201CWhat questions do you have for me?\u201D"+PAUSE+
+  {
+    b.push({k:"say",tag:"If they bought — closing remarks",t:"\u201CWhat questions do you have for me?\u201D"+PAUSE+
       "\u201CIs there anything else I can help you with today?\u201D"+PAUSE+
-      "\u201CYou're really set up for success now — we set up "+esc(S.cart.map(function(c){return c.label;}).join(" and "))+", because you told me {{qualifyReason}}.\u201D"+PAUSE+
+      "\u201CYou're really set up for success now — we set up "+(sold?esc(S.cart.map(function(c){return c.label;}).join(" and ")):"everything we just activated")+", because you told me {{qualifyReason}}.\u201D"+PAUSE+
       "\u201CYou'll see all of it in your ZenBusiness dashboard, and your next step is {{nextEvent}}.\u201D"+PAUSE+
       "\u201CWe're here for you, so please reach out if you ever need anything. Thank you for choosing ZenBusiness, and again — congratulations on starting your new business with us.\u201D"});
     b.push({k:"note",tone:"alert",tag:"Do not skip",t:"If they bought anything tax-related and the <b>first session isn't booked</b>, go back to the scheduling stage and book it now."});
   }
-  b.push({k:"say",tag:"No sale — set the next event",t:"\u201COkay, no problem"+ELL+"I know you weren't expecting my call, so that's okay.\u201D"+PAUSE+
+  b.push({k:"say",tag:"If no sale — set the next event",t:"\u201COkay, no problem"+ELL+"I know you weren't expecting my call, so that's okay.\u201D"+PAUSE+
     "\u201CSo let's do this — let's set up a time when you have fifteen minutes where you can be focused, or in front of a computer.\u201D"+PAUSE+
     "\u201CWith a little more time, we'll discuss more about your business and how to be prepared for tax season, make sure you have the right plan to maximize deductions, and ensure you have the resources you need to save as much money as possible. That will give us time to review the account properly.\u201D"});
   b.push({k:"ask",tag:"Get the exact time",t:"\u201CWhat time works best for you to connect — either later today or tomorrow?\u201D"+
@@ -2844,7 +2883,11 @@ C.sne=function(){
     ["sc6","I recommended one plan, not a menu"],
     ["sc7","I led with the annual price and did not volunteer monthly"],
     ["sc8","I stayed silent after the ask instead of filling the gap"],
-    ["sc9","I booked the first session, or set a next event with a day, time and purpose"]
+    ["sc9","I booked the first session, or set a next event with a day, time and purpose"],
+    ["sc10","I set the upfront agreement in the opener"],
+    ["sc11","I asked who else weighs in on money decisions during discovery"],
+    ["sc12","I ran the one-to-ten temperature check before naming a price"],
+    ["sc13","If the agent gap was open, I made one clean RA offer — and only one"]
   ]});
   b.push({k:"html",t:'<div style="display:flex;gap:8px;margin:14px 0 10px;flex-wrap:wrap">'+
     '<button class="abtn go" id="btnGen">Build the recap</button>'+
@@ -2886,6 +2929,15 @@ C.ref=function(){
     "<p style='margin-top:8px'>"+(daysSince()===null?"Enter days since purchase in setup to see which applies to this account."
       :(scorpFree()?"<b style='color:var(--zb-ink)'>Day "+daysSince()+" — free window.</b>":"<b style='color:var(--amber-ink)'>Day "+daysSince()+" — "+PRICE.scorp+" applies.</b>"))+"</p>"});
 
+  b.push({k:"ref",title:"What the top closers do differently",t:
+    "<ul><li><b>They talk less.</b> Aim for the customer speaking more than half the call. Every question is followed by silence.</li>"+
+    "<li><b>They set the rules up front.</b> The opener's upfront agreement makes a yes-or-no at the end normal.</li>"+
+    "<li><b>They find every objection before the price.</b> Decision-maker in discovery, the one-to-ten check and the trial close in the close.</li>"+
+    "<li><b>They prescribe one package.</b> Complete Tax Bundle by default; Do-It-For-You when Money Pro is already on the account. Step down one rung only after a real no.</li>"+
+    "<li><b>They stack yeses in the right order.</b> Agent first while the filing is open, then tax. Agent attached at payment when tax led.</li>"+
+    "<li><b>They sell with the customer's words.</b> The close is their worry, their timeline, their mileage number read back to them.</li>"+
+    "<li><b>They make the sale stick.</b> First session booked with the customer's own agenda before hanging up. A refund erases the deal.</li>"+
+    "<li><b>They never lose a file.</b> No buy means a day, a time and a purpose — with every decision-maker on the next call.</li></ul>"});
   b.push({k:"ref",title:"Customer support — give them this number",t:
     "<p class='big'>"+PRICE.support+"</p>"+
     "<ul><li>Call and chat: Monday to Friday, 8am – 8pm CT</li>"+
@@ -2992,7 +3044,7 @@ function OBJ(){
    h:"Add one piece of information, then find out what's actually on their mind.",
    r:"\u201CI can relate to that. It's a lot of new information to take in and digest.\u201D"+PAUSE+
      "\u201CYou're our customer — if you're successful, then so are we. Which is why we offer a solution like this, and it's something I personally believe will make a difference for you. We're not saying you have to use us"+ELL+"but we highly recommend you address this, because I owe it to you to tell you that most business owners regret <b>not</b> having these systems in place.\u201D",
-   x:"\u201CBut please tell me — what's on your mind?\u201D"+cue("open question, then total silence")},
+   x:"\u201CUsually when someone wants to think it over, it comes down to one of three things — whether it will really help, the price, or the timing. Which one is it for you?\u201D"+cue("three choices, then total silence. Their pick tells you which rebuttal to use — and 'none of them' usually means they're ready")},
 
   {c:"Tax",l:"\u201CI already have an accountant for my personal taxes.\u201D",q:1,
    h:"Never position against their accountant. Complement, don't replace.",
@@ -3193,7 +3245,7 @@ function nextBest(){
   if(st==="gains")return ["Gains first, then the responsibility","This is what earns you the right to recommend anything.","Out of curiosity — are any of those reasons why you started this LLC in the first place?"];
   if(st==="ra"){
     if(!S.gates.ra_role)return ["Explain what the role commits them to","They almost certainly don't know.","Are you planning to physically be available at that address during all normal business hours each weekday?"];
-    if(!S.gates.ra_avail)return ["Ask the twelve-month question","One crack in \u201Calways there\u201D is the whole conversation.","Over the next twelve months, is there a chance you're away, traveling, or out running the business?"];
+    if(!S.gates.ra_avail)return ["Find their reason","Availability, privacy of a home address, or one less responsibility — it has to be theirs.","Over the next twelve months, is there a chance you're away, traveling, or out running the business?"];
     if(!S.gates.ra_value)return ["Confirm the value out loud","Never close on a silent nod.","Do you see how all of that would be valuable for your specific situation? Why, for you?"];
     return ["Ask for the decision","Short sentence, then silence.","Would you gain more peace of mind and flexibility if we got your Registered Agent switched over to us?"];
   }
@@ -3224,7 +3276,7 @@ function nextBest(){
   }
   if(st==="close"){
     if(!S.checks.taxValue)return ["Run the four questions","Let them say what's most beneficial and why now.","Out of curiosity, what aspects would you find most beneficial?"];
-    if(!gatesClear("tax"))return ["Tick the buy-in gates","The close stays locked until you've actually heard these.","(Tick each gate only when the customer said it — not when you did.)"];
+    if(!(S.n.tempScore||"").trim())return ["Take the temperature","Surface the real objection before the price, not after.","On a scale of one to ten, how important is it to you to get the tax side set up right this year?"];
     if(!S.checks.taxAsked)return ["Ask once, then stop","Name one plan and the annual price.","Based on our conversation and your business needs, I recommend we set this up now. How does that sound?"];
     if(S.objType)return ["Work the actual objection","Don't step down or offer monthly until it's isolated.",plain(isolatePrompt()).replace(/[\u201C\u201D]/g,"")];
     return ["Move to authorization","A yes ends the pitch. Confirm, authorize, then book the session.","Your twelve-month service starts today and renews annually on the same date."];
@@ -3550,6 +3602,9 @@ function genRecap(){
   L.push("  Support around them: "+(S.supportList.join(", ")||"—"));
   L.push("  Industry notes: "+N("indNotes"));
   L.push("  Phrase to reopen with: "+N("triggerWords"));
+  L.push("  Who else decides on money: "+N("decider"));
+  L.push("  Importance (1–10): "+N("tempScore")+" · what would make it a ten: "+N("tempGap"));
+  L.push("  First-session questions: "+N("sessionQs"));
   L.push("");
   L.push("ACCOUNT AT TIME OF CALL");
   L.push("  Agent: "+(S.f.raStatus||"—")+" · WFC: "+(S.f.wfc||"—")+" · EIN: "+(S.f.ein||"—")+
@@ -3717,17 +3772,10 @@ function paintGates(key,gid,on){
   if(box){
     box.classList.toggle("clear",clear);
     var sub=box.querySelector("p.sub");
-    if(sub)sub.textContent=clear?"All confirmed. Proceed to the close."
-      :"Tick these only when you actually hear them. "+left+" to go before the close unlocks.";
+    if(sub)sub.textContent=clear?"All confirmed — they're ready."
+      :"Optional quick read — nothing is locked. Tap an item when you hear it, or just use it as a mental check.";
   }
-  var lw=document.querySelector('.lockwrap[data-lock="'+key+'"]');
-  if(lw){
-    var was=lw.classList.contains("locked");
-    lw.classList.toggle("locked",!clear);
-    var em=lw.querySelector(".lockbadge em"); if(em)em.textContent=left+" left above";
-    if(was&&clear){lw.classList.add("justopened");toast("Buy-in earned — the close is unlocked");
-      setTimeout(function(){lw.classList.remove("justopened");},700);}
-  }
+
 }
 function paintCheck(id,on){
   var els=document.querySelectorAll('[data-ck="'+id+'"]');
@@ -3784,7 +3832,8 @@ document.addEventListener("click",function(e){
     var id=a("data-ck"); S.checks[id]=!S.checks[id]; save();
     paintCheck(id,!!S.checks[id]); renderRight(); return;
   }
-  if(a("data-branch")){var p=a("data-branch").split("|");S.branch[p[0]]=parseInt(p[1],10);save();renderCenter();return;}
+  if(a("data-branch")){var p=a("data-branch").split("|"),pj=parseInt(p[1],10);
+    if(S.branch[p[0]]===pj)delete S.branch[p[0]];else S.branch[p[0]]=pj;save();renderCenter();return;}
   if(a("data-fbranch")){var pf=a("data-fbranch").split("|");S.branch[pf[0]]=parseInt(pf[1],10);save();renderFocus();return;}
   if(a("data-won")){var w=a("data-won").split("|");
     if((S.stage==="close")&&(w[0]==="BUNDLE"||w[0]==="BUNDLEM"))S.checks.taxAsked=true;
@@ -4516,3 +4565,5 @@ onCenter(); paintRailTimes(); paintRing(); tick();
 revenue-desk (3).html
 
 Displaying revenue-desk (3).html.
+salescallguidenew (2).html
+Displaying salescallguidenew (2).html.
