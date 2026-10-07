@@ -1,0 +1,43 @@
+'use strict';
+// Integration tests exercise the real application event handlers in a minimal DOM
+// harness. These complement domain tests; they are not visual browser tests.
+const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),path=require('node:path');
+const KEY='revdesk:v3:workspace',DK='revdesk:v3:practice';
+function harness(storage=new Map(),bundle=false){
+ const listeners={},nodes=new Map();
+ class Node{constructor(){this.innerHTML='';this.textContent='';this.value='';this.hidden=false;this.open=false;this.dataset={};this.classList={add(){},remove(){},toggle(){}};}focus(){}select(){}setSelectionRange(){}showModal(){this.open=true;}close(){this.open=false;}querySelector(selector){if(!this.children)this.children=new Map();if(!this.children.has(selector))this.children.set(selector,new Node());return this.children.get(selector);}addEventListener(){}appendChild(){}remove(){}}
+ const doc={documentElement:{dataset:{theme:'dark'}},activeElement:null,title:'',getElementById(id){if(!nodes.has(id))nodes.set(id,new Node());return nodes.get(id);},querySelectorAll(){return[];},addEventListener(k,fn){(listeners[k]??=[]).push(fn);},createElement(){return new Node();},body:new Node()};
+ const localStorage={getItem:k=>storage.has(k)?storage.get(k):null,setItem:(k,v)=>storage.set(k,String(v))};
+ const sandbox={document:doc,localStorage,Intl,Date,Math,JSON,console,Blob,URL,crypto:require('node:crypto').webcrypto,FormData:class{constructor(el){this.values=el.values;}entries(){return Object.entries(this.values);}},navigator:{clipboard:{writeText:async()=>{}}},setTimeout:()=>1,clearTimeout(){},setInterval:()=>1,addEventListener(){}};
+ sandbox.window=sandbox;vm.createContext(sandbox);
+ const sources=bundle?[...fs.readFileSync(path.join(__dirname,'../revdesk-preview.html'),'utf8').matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m,i)=>['bundle-'+i,m[1]]):['core.js','data.js','app.js'].map(file=>[file,fs.readFileSync(path.join(__dirname,'../revdesk',file),'utf8')]);
+ for(const [file,source] of sources)vm.runInContext(source,sandbox,{filename:file});
+ async function click(action,extra={}){const b={dataset:{action,...extra}};for(const fn of listeners.click||[])fn({target:{closest:()=>b},preventDefault(){}});await new Promise(setImmediate);}
+ async function submit(kind,values={},extra={}){const el={dataset:{form:kind,...extra},values,querySelector:()=>doc.getElementById('form-error'),closest(){return this;}};for(const fn of listeners.submit||[])fn({target:el,preventDefault(){}});await new Promise(setImmediate);}
+ return{storage,doc,nodes,click,submit,html:()=>doc.getElementById('app').innerHTML,state:(key=KEY)=>JSON.parse(storage.get(key)),error:()=>doc.getElementById('form-error').textContent,sandbox};
+}
+async function prepared(){const ui=harness();await ui.click('new-deal');assert.match(ui.doc.getElementById('dialog').innerHTML,/Customer name/);await ui.submit('deal',{name:'Sample Buyer',business:'Sample Studio',email:'buyer@example.test',phone:'',industry:'Design studio',entity:'single',source:'Test lead',cohort:'adaptive'});await ui.click('start-call');await ui.click('permission',{value:'yes'});for(const[key,answer]of Object.entries({need:'Help with planning',impact:'Focus on clients',timing:'This month',decision:'I decide'}))await ui.submit('answer',{answer,decisionType:'solo'},{key});await ui.submit('coverage',{planning:'gap',filing:'gap',books:'gap',agent:'covered',ein:'covered',agreement:'covered',licenses:'na',website:'covered'});return ui;}
+test('the app boots into a real empty workspace without synthetic revenue',()=>{const ui=harness();assert.match(ui.html(),/Your next great conversation starts here/);assert.equal(ui.state().events.length,0);assert.equal(ui.state().deals.length,0);assert.doesNotMatch(ui.html(),/Northline Studio/);});
+test('real UI handlers run discovery, verify, accept, authorize, collect, refund, and persist',async()=>{
+ const ui=await prepared();assert.match(ui.html(),/Build one relevant recommendation/);assert.equal(ui.state().sessions.length,1);
+ await ui.click('pane',{pane:'offer'});assert.match(ui.html(),/Complete Tax Bundle/);assert.match(ui.html(),/Needs price verification/);
+ const expires=new Date(Date.now()+7*86400000).toISOString().slice(0,10);
+ await ui.submit('quote',{productId:'bundle',billing:'monthly',amount:'199.00',months:'12',expires,scope:'Verified test scope',terms:'Twelve monthly payments. Verified renewal terms.',source:'TEST-ORDER',verified:'on'});
+ assert.equal(ui.error(),'');assert.equal(ui.state().events.length,0);assert.equal(ui.state().deals[0].quote.lines[0].amount,19900);
+ await ui.submit('evidence',{need:'Help with planning',impact:'Focus on clients',timing:'This month',decision:'I decide',fit:'This is the help I want',criterion:'Terms are clear',decisionType:'solo'});
+ await ui.submit('accept',{confirmed:'on'});assert.equal(ui.error(),'');await ui.submit('authorize',{confirmed:'on'});assert.equal(ui.error(),'');
+ await ui.submit('payment',{amount:'199.00',reference:'UI-TX-1',confirmed:'on'});assert.equal(ui.error(),'');assert.equal(ui.state().events.length,1);assert.match(ui.html(),/UI-TX-1/);
+ await ui.submit('payment',{amount:'199.00',reference:'UI-TX-1',confirmed:'on'});assert.match(ui.error(),/already recorded/);assert.equal(ui.state().events.length,1);
+ await ui.submit('refund',{amount:'50.00',paymentId:ui.state().events[0].id,reference:'UI-RF-1',confirmed:'on'});assert.equal(ui.error(),'');assert.equal(ui.state().events.length,2);assert.match(ui.html(),/\$149/);
+ await ui.submit('activation',{detail:'Confirmed first consultation',confirmed:'on'});assert.ok(ui.state().deals[0].activatedAt);
+ await ui.submit('end-call',{outcome:'connected'});assert.equal(ui.error(),'');assert.match(ui.html(),/Salesforce recap/);assert.match(ui.html(),/No CRM update has been sent/);assert.ok(ui.state().sessions[0].endedAt);
+ const reloaded=harness(ui.storage);assert.equal(reloaded.state().deals[0].name,'Sample Buyer');assert.equal(reloaded.state().events.length,2);
+});
+test('practice and real workspaces remain isolated when switching',async()=>{const ui=harness();await ui.submit('deal',{name:'Real workspace customer',business:'Actual business',entity:'single',source:'Manual',cohort:'adaptive'});const id=ui.state().deals[0].id;await ui.click('toggle-practice');assert.match(ui.html(),/Practice workspace/);assert.equal(ui.state(DK).deals.length,5);assert.equal(ui.state().deals.length,1);await ui.click('toggle-practice');assert.equal(ui.state().deals[0].id,id);assert.equal(ui.state().events.length,0);assert.doesNotMatch(ui.html(),/Northline Studio/);});
+test('declines record a reason, remove queue work, and preserve the deal',async()=>{const ui=await prepared();await ui.submit('decline',{reason:'No current need',detail:'Customer chose to stop',doNotContact:'on'});assert.equal(ui.state().deals[0].doNotContact,true);assert.equal(ui.state().deals[0].disposition,'declined');await ui.click('end-call');await ui.submit('end-call',{outcome:'connected'});await ui.click('nav',{view:'today'});assert.match(ui.html(),/Your queue is clear/);await ui.click('filter',{filter:'all'});assert.match(ui.html(),/Sample Buyer/);});
+test('a malformed saved workspace is never silently overwritten',()=>{const storage=new Map([[KEY,'{broken']]);const ui=harness(storage);assert.equal(storage.get(KEY),'{broken');assert.match(ui.doc.getElementById('storage-warning').innerHTML,/left untouched/);});
+test('a stale tab cannot overwrite a newer saved revision',async()=>{const ui=harness();const newer=ui.state();newer.revision+=5;newer.settings.repName='Another tab';ui.storage.set(KEY,JSON.stringify(newer));await ui.submit('deal',{name:'Unsaved draft',entity:'single',source:'Manual',cohort:'adaptive'});assert.equal(ui.state().settings.repName,'Another tab');assert.equal(ui.state().deals.length,0);assert.match(ui.doc.getElementById('storage-warning').innerHTML,/Another tab changed/);});
+test('customer supplied markup is escaped in the live interface',async()=>{const ui=harness();await ui.submit('deal',{name:'<img src=x onerror=alert(1)>',business:'<script>bad()</script>',entity:'single',source:'Manual',cohort:'adaptive'});assert.ok(!ui.html().includes('<img src=x'));assert.match(ui.html(),/&lt;img/);assert.ok(!ui.html().includes('<script>bad()'));
+});
+
+test('standalone preview boots its inline scripts in practice mode without writing real records',()=>{const ui=harness(new Map(),true);assert.match(ui.html(),/Practice workspace/);assert.match(ui.html(),/Northline Studio/);assert.equal(ui.storage.has(KEY),false);assert.equal(ui.state(DK).deals.length,5);});
