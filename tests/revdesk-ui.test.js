@@ -5,16 +5,18 @@ const test=require('node:test'),assert=require('node:assert/strict'),vm=require(
 const KEY='revdesk:v3:workspace',DK='revdesk:v3:practice';
 function harness(storage=new Map(),bundle=false){
  const listeners={},nodes=new Map();
- class Node{constructor(){this.innerHTML='';this.textContent='';this.value='';this.hidden=false;this.open=false;this.dataset={};this.classList={add(){},remove(){},toggle(){}};}focus(){}select(){}setSelectionRange(){}showModal(){this.open=true;}close(){this.open=false;}querySelector(selector){if(!this.children)this.children=new Map();if(!this.children.has(selector))this.children.set(selector,new Node());return this.children.get(selector);}addEventListener(){}appendChild(){}remove(){}}
+ class Node{constructor(){this.innerHTML='';this.textContent='';this.value='';this.hidden=false;this.open=false;this.dataset={};this.classList={add(){},remove(){},toggle(){}};}focus(){}select(){}setSelectionRange(){}scrollIntoView(){this.scrolled=true;}showModal(){this.open=true;}close(){this.open=false;}querySelector(selector){if(!this.children)this.children=new Map();if(!this.children.has(selector))this.children.set(selector,new Node());return this.children.get(selector);}addEventListener(){}appendChild(){}remove(){}}
  const doc={documentElement:{dataset:{theme:'dark'}},activeElement:null,title:'',getElementById(id){if(!nodes.has(id))nodes.set(id,new Node());return nodes.get(id);},querySelectorAll(){return[];},addEventListener(k,fn){(listeners[k]??=[]).push(fn);},createElement(){return new Node();},body:new Node()};
  const localStorage={getItem:k=>storage.has(k)?storage.get(k):null,setItem:(k,v)=>storage.set(k,String(v))};
  const sandbox={document:doc,localStorage,Intl,Date,Math,JSON,console,Blob,URL,crypto:require('node:crypto').webcrypto,FormData:class{constructor(el){this.values=el.values;}entries(){return Object.entries(this.values);}},navigator:{clipboard:{writeText:async()=>{}}},setTimeout:()=>1,clearTimeout(){},setInterval:()=>1,addEventListener(){}};
  sandbox.window=sandbox;vm.createContext(sandbox);
- const sources=bundle?[...fs.readFileSync(path.join(__dirname,'../revdesk-preview.html'),'utf8').matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m,i)=>['bundle-'+i,m[1]]):['core.js','data.js','app.js'].map(file=>[file,fs.readFileSync(path.join(__dirname,'../revdesk',file),'utf8')]);
+ const sources=bundle?[...fs.readFileSync(path.join(__dirname,'../revdesk-preview.html'),'utf8').matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m,i)=>['bundle-'+i,m[1]]):['core.js','data.js','desk.js','app.js'].map(file=>[file,fs.readFileSync(path.join(__dirname,'../revdesk',file),'utf8')]);
  for(const [file,source] of sources)vm.runInContext(source,sandbox,{filename:file});
  async function click(action,extra={}){const b={dataset:{action,...extra}};for(const fn of listeners.click||[])fn({target:{closest:()=>b},preventDefault(){}});await new Promise(setImmediate);}
  async function submit(kind,values={},extra={}){const el={dataset:{form:kind,...extra},values,querySelector:()=>doc.getElementById('form-error'),closest(){return this;}};for(const fn of listeners.submit||[])fn({target:el,preventDefault(){}});await new Promise(setImmediate);}
- return{storage,doc,nodes,click,submit,html:()=>doc.getElementById('app').innerHTML,state:(key=KEY)=>JSON.parse(storage.get(key)),error:()=>doc.getElementById('form-error').textContent,sandbox};
+ async function input(id,value){for(const fn of listeners.input||[])fn({target:{id,value}});await new Promise(setImmediate);}
+ async function key(key,options={}){for(const fn of listeners.keydown||[])fn({key,preventDefault(){},target:{id:options.id||'',closest:()=>options.typing?{}:null},...options});await new Promise(setImmediate);}
+ return{storage,doc,nodes,click,submit,input,key,html:()=>doc.getElementById('app').innerHTML,state:(key=KEY)=>JSON.parse(storage.get(key)),error:()=>doc.getElementById('form-error').textContent,sandbox};
 }
 async function prepared(){const ui=harness();await ui.click('new-deal');assert.match(ui.doc.getElementById('dialog').innerHTML,/Customer name/);await ui.submit('deal',{name:'Sample Buyer',business:'Sample Studio',email:'buyer@example.test',phone:'',industry:'Design studio',entity:'single',source:'Test lead',cohort:'adaptive'});await ui.click('start-call');await ui.click('permission',{value:'yes'});for(const[key,answer]of Object.entries({need:'Help with planning',impact:'Focus on clients',timing:'This month',decision:'I decide'}))await ui.submit('answer',{answer,decisionType:'solo'},{key});await ui.submit('coverage',{planning:'gap',filing:'gap',books:'gap',agent:'covered',ein:'covered',agreement:'covered',licenses:'na',website:'covered'});return ui;}
 test('the app boots into a real empty workspace without synthetic revenue',()=>{const ui=harness();assert.match(ui.html(),/Your next great conversation starts here/);assert.equal(ui.state().events.length,0);assert.equal(ui.state().deals.length,0);assert.doesNotMatch(ui.html(),/Northline Studio/);});
@@ -41,3 +43,74 @@ test('customer supplied markup is escaped in the live interface',async()=>{const
 });
 
 test('standalone preview boots its inline scripts in practice mode without writing real records',()=>{const ui=harness(new Map(),true);assert.match(ui.html(),/Practice workspace/);assert.match(ui.html(),/Northline Studio/);assert.equal(ui.storage.has(KEY),false);assert.equal(ui.state(DK).deals.length,5);});
+
+test('all scripts and products can be browsed without creating a customer or starting a call',async()=>{
+ const ui=harness();await ui.click('nav',{view:'desk'});
+ assert.equal((ui.html().match(/data-desk-section=/g)||[]).length,19);
+ assert.match(ui.html(),/Every option, always available/);
+ for(const section of ['payment','tax','objections','offers','open','recap']){
+  await ui.click('desk-jump',{section});
+  assert.equal(ui.doc.getElementById('desk-'+section).scrolled,true);
+  assert.equal(ui.doc.getElementById('dialog').open,false);
+ }
+ assert.equal(ui.state().deals.length,0);assert.equal(ui.state().sessions.length,0);assert.equal(ui.state().events.length,0);
+});
+
+test('focus mode can jump directly to payment, products, and discovery before any evidence exists',async()=>{
+ const ui=harness();await ui.submit('deal',{name:'Free navigation',entity:'single'});
+ await ui.click('desk-focus-section',{section:'payment'});
+ assert.equal((ui.html().match(/data-desk-section=/g)||[]).length,1);
+ assert.match(ui.html(),/data-desk-section="payment"/);
+ await ui.click('desk-jump',{section:'offers'});assert.match(ui.html(),/data-desk-section="offers"/);assert.match(ui.html(),/Complete Tax Bundle/);
+ await ui.click('desk-jump',{section:'discovery'});assert.match(ui.html(),/data-desk-section="discovery"/);
+ await ui.click('desk-mode',{mode:'all'});assert.equal((ui.html().match(/data-desk-section=/g)||[]).length,19);
+ assert.equal(ui.state().deals[0].permission,false);assert.equal(ui.state().events.length,0);
+});
+
+test('notes survive rapid navigation, focus changes, and switching customers',async()=>{
+ const ui=harness();await ui.submit('deal',{name:'First customer',entity:'single'});const first=ui.state().activeId;
+ await ui.input('call-notes','Asked about an existing provider. Keep these exact words.');
+ await ui.click('desk-jump',{section:'objections'});await ui.click('desk-focus-section',{section:'offers'});
+ assert.match(ui.html(),/Asked about an existing provider/);
+ await ui.submit('deal',{name:'Second customer',entity:'multi'});assert.doesNotMatch(ui.html(),/Keep these exact words/);
+ await ui.input('call-notes','Second customer has a separate concern.');await ui.click('open-deal',{id:first});
+ assert.match(ui.html(),/Keep these exact words/);assert.doesNotMatch(ui.html(),/Second customer has a separate concern/);
+ const reloaded=harness(ui.storage);assert.equal(reloaded.state().deals.find(d=>d.id===first).notes,'Asked about an existing provider. Keep these exact words.');
+});
+
+test('command search filters section titles and synonyms, and closes when navigating',async()=>{
+ const ui=harness();await ui.key('k',{ctrlKey:true});assert.equal(ui.doc.getElementById('dialog').open,true);
+ await ui.input('jump-query','expensive');assert.match(ui.doc.getElementById('jump-results').innerHTML,/Objections/);assert.doesNotMatch(ui.doc.getElementById('jump-results').innerHTML,/Tax discovery/);
+ await ui.click('desk-jump',{section:'objections'});assert.equal(ui.doc.getElementById('dialog').open,false);
+ await ui.click('jump-search');await ui.input('jump-query','no such topic xyz');assert.match(ui.doc.getElementById('jump-results').innerHTML,/No matching section/);
+});
+
+test('keyboard shortcuts respect typing and open sections without an active deal',async()=>{
+ const ui=harness();await ui.click('nav',{view:'desk'});await ui.key('f',{typing:true});assert.equal((ui.html().match(/data-desk-section=/g)||[]).length,19);
+ await ui.key('f');assert.equal((ui.html().match(/data-desk-section=/g)||[]).length,1);
+ await ui.key('o');assert.match(ui.html(),/data-desk-section="objections"/);
+ await ui.key('p');assert.match(ui.html(),/data-desk-section="offers"/);
+ await ui.key('ArrowLeft',{altKey:true});assert.match(ui.html(),/data-desk-section="website"/);
+ assert.equal(ui.state().deals.length,0);
+});
+
+test('open catalog browsing does not relax quote verification or turn a selection into revenue',async()=>{
+ const ui=harness();await ui.submit('deal',{name:'Unqualified customer',entity:'single'});await ui.click('desk-jump',{section:'offers'});
+ await ui.click('quote',{product:'bundle'});assert.equal(ui.doc.getElementById('dialog').open,true);
+ await ui.submit('quote',{productId:'bundle',billing:'annual',amount:'2038',months:'12',expires:new Date(Date.now()+7*86400000).toISOString().slice(0,10),scope:'Example scope',terms:'Example terms',source:'TEST',verified:'on'});
+ assert.match(ui.error(),/confirmed gap/);assert.equal(ui.state().deals[0].quote,null);assert.equal(ui.state().events.length,0);
+});
+
+test('the coach can be hidden without hiding any call sections or changing customer facts',async()=>{
+ const ui=await prepared();const before=JSON.stringify(ui.state().deals[0].facts);
+ await ui.click('toggle-coach');assert.match(ui.html(),/Available whenever you want a prompt/);assert.equal((ui.html().match(/data-desk-section=/g)||[]).length,19);
+ assert.equal(JSON.stringify(ui.state().deals[0].facts),before);
+ await ui.click('toggle-coach');assert.match(ui.html(),/Go to suggestion/);
+});
+
+test('selecting an objection category opens that category and preserves the existing concern until saved',async()=>{
+ const ui=harness(new Map(),true),before=ui.state(DK).deals[0].objection.quote;
+ await ui.click('objection',{category:'authority'});assert.match(ui.doc.getElementById('dialog').innerHTML,/value="authority" selected/);
+ assert.equal(ui.state(DK).deals[0].objection.quote,before);
+ await ui.click('dismiss');assert.equal(ui.state(DK).deals[0].objection.quote,before);
+});

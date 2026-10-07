@@ -6,19 +6,32 @@
 
 - `revdesk/core.js`: testable rules for evidence, coverage, recommendations, quote verification, milestones, payments, refunds, queue order, migration, and metrics.
 - `revdesk/data.js`: centrally maintained reference catalog, playbook, and isolated practice data.
+- `revdesk/desk.js`: open call map, all-section workspace, service scripts, visible product catalog, objection library, and customer support panels.
 - `revdesk/app.js`: UI, dialogs, local persistence, copy/export handoffs, and backup restore.
 - `revdesk/styles.css`: responsive dark/light interface.
 - `tests/revdesk.test.js`: financial and workflow regression tests, using Node’s built-in test runner.
 
 Run `node --test tests/revdesk*.test.js`. Application event handlers are also exercised in a minimal DOM harness; these tests do not substitute for visual browser QA. For local development, serve the repository with `python -m http.server 8765` and open `/revdesk.html`.
 
-A self-contained review copy is provided as `revdesk-preview.html`; download it and open it in a browser. It starts with isolated practice records. Rebuild it after source changes with `python scripts/build-revdesk-preview.py`. No build step is required for the main app.
+A self-contained review copy is provided as `revdesk-preview.html`; download it and open it in a browser. It opens directly to the revised call desk with isolated practice records. Rebuild it after source changes with `python scripts/build-revdesk-preview.py`. No build step is required for the main app.
+
+## Open navigation
+
+The call desk is a reference workspace, not a mandatory sequence. Its 19-section map remains available throughout the conversation. The default All sections view keeps scripts and tools open in a scrollable center column. Focus shows one selected section while preserving the complete navigation map. Desktop call support keeps notes, buyer evidence, the offer summary, and the next commitment beside the script; smaller screens expose it through a Call support button.
+
+Every section, product, and objection is available before creating a customer or starting a call. Browsing never creates a transaction or changes buyer evidence. The optional coach can be hidden, and its guided prompt is opened explicitly. Coach focus can be changed under Account & coverage without affecting which sections are available.
+
+Jump search accepts section names and synonyms. Use Cmd/Ctrl K or `/` to search, F to toggle focus, O for objections, P for products, M for notes, and Alt Left/Right to move through sections. Letter shortcuts do not run while typing. Working notes remain attached to the customer during jumps, focus changes, and customer switches.
+
+The reference catalog shows every option and both entity pricing views. Selecting a pricing view does not change the customer's entity or verify a quote. Actual saved offers still require confirmed gaps and current account verification; financial outcome checks remain separate from free navigation.
 
 ## Workflow
 
-1. Create a deal or continue one from the queue.
+The following is a useful call pattern, not a navigation requirement:
+
+1. Browse the desk, create a deal, or continue one from the queue.
 2. Start a call to record time. Agree on purpose and available time.
-3. Capture the buyer’s need, impact, timing, decision process, fit, and decision criteria. Short-on-time mode prioritizes need, timing, and decision.
+3. Capture the buyer’s need, impact, timing, decision process, fit, and decision criteria whenever they come up. Short-on-time mode prioritizes the optional coaching suggestions.
 4. Verify coverage. Unknown, already covered, confirmed gap, and not relevant are different states; outside providers count as coverage.
 5. Review a fitting recommendation. All quoted prices, eligibility, scope, and terms require account-level verification. Enter initial price, billing period, full scope, renewal/cancellation terms, source, and expiration.
 6. Record actual customer acceptance and authorization separately. Revenue remains zero until a successful external payment is explicitly recorded with a unique reference.
